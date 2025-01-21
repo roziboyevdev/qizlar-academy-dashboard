@@ -13,7 +13,7 @@ export const usePremiumPlansList = (currentPage: number, limit: number) => {
     queryKey: ['premiumPlans_list', currentPage],
     queryFn: () => GetDatasList(currentPage, limit),
     select: data => ({
-      data: getDatasList(get(data, 'data.data')),
+      data: getDatasList(get(data, 'data.data.data')),
       paginationInfo: get(data, 'data.pagination'),
     }),
   });

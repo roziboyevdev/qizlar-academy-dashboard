@@ -13,7 +13,7 @@ export const useQuizzesList = (lessonId: string, currentPage: number) => {
     queryKey: ['exam_list', lessonId, currentPage],
     queryFn: () => GetQuizzesList(lessonId, currentPage),
     select: data => ({
-      data: getQuizzesList(get(data, 'data.data')),
+      data: getQuizzesList(get(data, 'data.data.data')),
       paginationInfo: get(data, 'data.pagination'),
     }),
   });

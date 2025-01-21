@@ -12,7 +12,7 @@ export const useBannersList = () => {
     queryKey: ['banners_list'],
     queryFn: () => GetDatasList(),
     select: data => ({
-      data: getDatasList(get(data, 'data.data')),
+      data: getDatasList(get(data, 'data.data.data')),
     }),
   });
 

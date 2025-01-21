@@ -12,7 +12,7 @@ export const useNotificationsList = () => {
     queryKey: ['notifications_list'],
     queryFn: () => GetNotificationsList(),
     select: data => ({
-      data: getNotificationsList(get(data, 'data.data')),
+      data: getNotificationsList(get(data, 'data.data.data')),
     }),
   });
 

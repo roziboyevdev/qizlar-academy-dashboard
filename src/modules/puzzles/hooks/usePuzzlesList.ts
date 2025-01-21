@@ -13,7 +13,7 @@ export const usePuzzlesList = (currentPage: number) => {
     queryKey: ['puzzles_list', currentPage],
     queryFn: () => GetPuzzlesList(currentPage),
     select: data => ({
-      data: getPuzzlesList(get(data, 'data.data')),
+      data: getPuzzlesList(get(data, 'data.data.data')),
       paginationInfo: get(data, 'data.pagination_info'),
     }),
   });

@@ -54,8 +54,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
-    mode: "onChange",
-    // errors,
     defaultValues: banner
       ? {
           title: banner?.title,
@@ -81,6 +79,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setState(true);
     try {
       const values = await uploadFile<BannerInputType>(formValues, "photo");
+      
       console.log(values);
 
       if (!values.link) {

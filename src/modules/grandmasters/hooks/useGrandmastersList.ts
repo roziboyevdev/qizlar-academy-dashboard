@@ -13,7 +13,7 @@ export const useGrandmastersList = (currentPage: number) => {
     queryKey: ['grandmasters_list'],
     queryFn: () => GetGrandmastersList(currentPage),
     select: data => ({
-      data: getGrandmastersList(get(data, 'data.data')),
+      data: getGrandmastersList(get(data, 'data.data.data')),
       paginationInfo: get(data, 'data.pagination'),
     }),
   });

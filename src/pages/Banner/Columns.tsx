@@ -29,6 +29,10 @@ export const createDataColumns = ({
       accessorKey: 'type',
       header: 'Banner turi',
     },
+    {
+      accessorKey: 'title',
+      header: 'Title',
+    },
 
   
     {

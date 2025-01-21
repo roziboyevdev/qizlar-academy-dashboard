@@ -13,7 +13,7 @@ export const useDonationsList = (currentPage:number) => {
     queryKey: ['donation_list', currentPage],
     queryFn: () => GetDatasList(currentPage),
     select: data => ({
-      data: getDatasList(get(data, 'data.data')),
+      data: getDatasList(get(data, 'data.data.data')),
       pagenationInfo: get(data, 'data.pagination'),
     }),
   });

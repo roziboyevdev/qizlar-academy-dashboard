@@ -12,7 +12,7 @@ export const useDailyPuzzleSubmission = (
     queryKey: ['daily_puzzle_submission', puzzleType, date],
     queryFn: () => GetDailyPuzzleSubmission(puzzleType, date),
     select: data => ({
-      data: get(data, 'data.data'),
+      data: get(data, 'data.data.data'),
     }),
   });
 

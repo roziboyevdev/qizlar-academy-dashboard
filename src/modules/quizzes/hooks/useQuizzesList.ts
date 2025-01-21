@@ -12,7 +12,7 @@ export const useQuizzesList = (lessonId: string) => {
     queryKey: ['quizzes_list', lessonId],
     queryFn: () => GetQuizzesList(lessonId),
     select: data => ({
-      data: getQuizzesList(get(data, 'data.data')),
+      data: getQuizzesList(get(data, 'data.data.data')),
     }),
   });
 

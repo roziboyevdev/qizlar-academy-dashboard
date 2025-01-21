@@ -12,7 +12,7 @@ export const useTournamentsList = () => {
     queryKey: ['tournaments_list'],
     queryFn: () => GetTournamentsList(),
     select: data => ({
-      data: getTournamentsList(get(data, 'data.data')),
+      data: getTournamentsList(get(data, 'data.data.data')),
     }),
   });
 

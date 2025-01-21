@@ -7,7 +7,7 @@ export const useOverview = () => {
     queryKey: ['overview'],
     queryFn: () => GetOverview(),
     select: data => ({
-      data: get(data, 'data.data'),
+      data: get(data, 'data.data.data'),
     }),
   });
 

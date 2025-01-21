@@ -12,7 +12,7 @@ export const useLiveStreamsList = () => {
     queryKey: ['live-streams_list'],
     queryFn: () => GetLiveStreamsList(),
     select: data => ({
-      data: getLiveStreamsList(get(data, 'data.data')),
+      data: getLiveStreamsList(get(data, 'data.data.data')),
     }),
   });
 

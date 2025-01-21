@@ -12,7 +12,7 @@ export const useInfosList = () => {
     queryKey: ['info_list'],
     queryFn: () => GetInfosList(),
     select: data => ({
-      data: getInfosList(get(data, 'data.data')),
+      data: getInfosList(get(data, 'data.data.data')),
     }),
   });
 

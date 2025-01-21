@@ -1,17 +1,17 @@
 export enum BannerLocationType {
-  HOME = 'home',
-  SHOP = 'shop',
+  HOME = "HOME",
+  SHOP = "SHOP",
 }
 
 export enum BannerType {
-  COURSE = 'course',
-  LEADERBOARD = 'leaderboard',
-  PROFILE = 'profile',
-  MY_COURSES = 'my-courses',
-  SHOP = 'shop',
-  LINK = 'link',
-  CONTENT = 'content',
-  NONE = 'none',
+  COURSE = "COURSE",
+  LEADERBOARD = "LEADERBOARD",
+  PROFILE = "PROFILE",
+  MY_COURSES = "MY_COURSES",
+  SHOP = "SHOP",
+  LINK = "LINK",
+  CONTENT = "CONTENT",
+  NONE = "NONE",
 }
 export interface Banner {
   id?: string;
@@ -23,10 +23,6 @@ export interface Banner {
   objectId?: string;
   link?: string;
 }
-
-
-
-
 
 export interface BannerInputType {
   title: string;

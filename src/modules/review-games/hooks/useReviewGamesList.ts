@@ -13,7 +13,7 @@ export const useReviewGamesList = (currentPage: number) => {
     queryKey: ['review-games_list'],
     queryFn: () => GetReviewGamesList(currentPage),
     select: data => ({
-      data: getReviewGamesList(get(data, 'data.data')),
+      data: getReviewGamesList(get(data, 'data.data.data')),
       paginationInfo: get(data, 'data.pagination'),
     }),
   });

@@ -12,7 +12,7 @@ export const useExamsList = (id:string) => {
     queryKey: ['exam_list'],
     queryFn: () => GetDatasList(id),
     select: data => ({
-      data: getDatasList(get(data, 'data.data')),
+      data: getDatasList(get(data, 'data.data.data')),
     }),
   });
 

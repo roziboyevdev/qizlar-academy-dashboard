@@ -12,7 +12,7 @@ export const useVacanciesList = () => {
     queryKey: ['vacancies_list'],
     queryFn: () => GetVacanciesList(),
     select: data => ({
-      data: getVacanciesList(get(data, 'data.data')),
+      data: getVacanciesList(get(data, 'data.data.data')),
     }),
   });
 
