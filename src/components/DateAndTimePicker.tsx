@@ -1,0 +1,65 @@
+import React, { useState, useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { FormField } from './ui/form';
+
+interface DateTimePickerProps {
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
+    title: string;
+    defaultValue?: string;
+    errorMessage?: string;
+}
+
+const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, setValue, title, defaultValue, errorMessage }) => {
+
+    const [currentDateTime, setCurrentDateTime] = useState<string>('');
+    // const [value, setValue] = useState<string>('');
+
+
+    useEffect(() => {
+        const now = new Date();
+        const localOffset = now.getTimezoneOffset() * 60000;
+        const utcTime = now.getTime() + localOffset;
+        const uzbekistanTime = new Date(utcTime + 5 * 3600000);
+        const formattedDateTime = uzbekistanTime.toISOString().slice(0, 16);
+        setCurrentDateTime(formattedDateTime);
+        if (defaultValue) {
+            const oldTime = defaultValue?.split(":")[0] + ":" + defaultValue?.split(":")[1]
+            setValue(oldTime);
+        }
+    }, []);
+
+    return (
+        <div>
+            <label htmlFor={"date_time_picker"} className="block text-sm font-medium text-gray-700">
+                {title}
+            </label>
+            <input
+                type="datetime-local"
+                id={"date_time_picker"}
+                className="mt-1 p-2 border border-gray-300  w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                defaultValue={value}
+                min={currentDateTime}
+                value={value}
+                onChange={(evt) => {
+                    let date = evt.target.value
+                    if (date) {
+                        const slectedDate = new Date(date)
+                        const time = slectedDate?.toLocaleTimeString()
+                        date = date.split("T")[0] + "T" + time.split(":")[0] + ":" + time.split(":")[1]
+                        setValue(date)
+                    }
+                }}
+
+            />
+            {errorMessage && (
+                <p className="text-red-500 text-sm">
+                    {String(errorMessage)}
+                </p>
+            )}
+        </div>
+
+    );
+};
+
+export default DateTimePicker;
