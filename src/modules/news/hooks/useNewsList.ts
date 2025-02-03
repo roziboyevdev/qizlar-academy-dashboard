@@ -14,7 +14,7 @@ export const useNewsList = (currentPage: number) => {
     queryFn: () => GetNewsList(currentPage),
     select: data => ({
       data: getNewsList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.meta.pagination'),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

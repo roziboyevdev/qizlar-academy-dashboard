@@ -46,12 +46,12 @@ const LastExam = () => {
       ) : (
         <>
           <DataTable columns={columns} data={quizzesList} />
-          <Pagination
+          {/* <Pagination
             className="justify-end mt-3"
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             paginationInfo={paginationInfo}
-          />
+          /> */}
         </>
       )}
 

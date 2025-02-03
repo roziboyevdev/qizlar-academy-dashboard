@@ -3,11 +3,11 @@ export const getNotification = (item?: Notification) => {
   return {
     id: item?.id ?? '',
     title: item?.title ?? '',
-    body: item?.body ?? '',
-    image: item?.image ?? '',
+    content: item?.content ?? '',
+    photo: item?.photo ?? '',
     type: item?.type,
     entityid: item?.entityid ?? '',
-    date: item?.date ?? '',
+    createdAt: item?.createdAt ?? '',
   };
 };
 

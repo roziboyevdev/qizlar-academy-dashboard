@@ -14,7 +14,7 @@ export const useReviewGamesList = (currentPage: number) => {
     queryFn: () => GetReviewGamesList(currentPage),
     select: data => ({
       data: getReviewGamesList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.pagination'),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

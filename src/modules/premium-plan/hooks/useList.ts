@@ -14,7 +14,7 @@ export const usePremiumPlansList = (currentPage: number, limit: number) => {
     queryFn: () => GetDatasList(currentPage, limit),
     select: data => ({
       data: getDatasList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.pagination'),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

@@ -14,7 +14,7 @@ export const useQuizzesList = (lessonId: string, currentPage: number) => {
     queryFn: () => GetQuizzesList(lessonId, currentPage),
     select: data => ({
       data: getQuizzesList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.pagination'),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

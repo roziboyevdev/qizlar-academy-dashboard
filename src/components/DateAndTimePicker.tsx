@@ -13,7 +13,6 @@ interface DateTimePickerProps {
 const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, setValue, title, defaultValue, errorMessage }) => {
 
     const [currentDateTime, setCurrentDateTime] = useState<string>('');
-    // const [value, setValue] = useState<string>('');
 
 
     useEffect(() => {
@@ -38,15 +37,12 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, setValue, title,
                 type="datetime-local"
                 id={"date_time_picker"}
                 className="mt-1 p-2 border border-gray-300  w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                defaultValue={value}
+                defaultValue={currentDateTime}
                 min={currentDateTime}
                 value={value}
                 onChange={(evt) => {
                     let date = evt.target.value
                     if (date) {
-                        const slectedDate = new Date(date)
-                        const time = slectedDate?.toLocaleTimeString()
-                        date = date.split("T")[0] + "T" + time.split(":")[0] + ":" + time.split(":")[1]
                         setValue(date)
                     }
                 }}

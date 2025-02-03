@@ -14,7 +14,7 @@ export const useAfishaList = (currentPage: number) => {
     queryFn: () => GetAfishaList(currentPage),
     select: data => ({
       data: getAfishaList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.pagination'),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

@@ -2,11 +2,11 @@ import http from 'services/api';
 import { NotificationEditBody, NotificationInput } from './types';
 
 export const GetNotificationsList = async () => {
-  return await http.get(`/notification/all/`);
+  return await http.get(`/notification`);
 };
 
 export const CreateNotification = async (values: NotificationInput) => {
-  return await http.post(`/notification/send`, values);
+  return await http.post(`/notification`, values);
 };
 
 export const EditNotification = async ({

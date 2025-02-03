@@ -12,6 +12,7 @@ export const getCourse = (item?: Course) => {
     degree: item?.degree ?? "",
     teacherId: item?.teacherId ?? "",
     banner: item?.banner ?? "",
+    seoKeywords: item?.seoKeywords ?? [""],
     seo:item?.seo ? item?.seo : null
   };
 };

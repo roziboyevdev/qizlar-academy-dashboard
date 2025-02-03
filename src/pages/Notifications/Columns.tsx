@@ -19,10 +19,10 @@ export const createNotificationColumns = ({
       header: 'Bildirishnoma',
     },
     {
-      accessorKey: 'date',
+      accessorKey: 'createdAt',
       header: 'Vaqti',
       cell: ({ row }) => {
-        return <div>{convertDate(row.getValue('date'))}</div>;
+        return <div>{convertDate(row.getValue('createdAt'))}</div>;
       },
     },
     {

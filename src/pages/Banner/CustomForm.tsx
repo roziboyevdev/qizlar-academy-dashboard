@@ -16,6 +16,7 @@ import { useEditBanner } from "modules/banner/hooks/useEdit";
 import { useCreateBanner } from "modules/banner/hooks/useCreate";
 import { useCoursesList } from "modules/courses/hooks/useCoursesList";
 import { SelectType } from "pages/Certificate/CustomForm";
+import { cleanEmptyStrings } from "utils/clearEmptyKeys";
 
 interface IProps {
   banner?: Banner;
@@ -79,21 +80,12 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setState(true);
     try {
       const values = await uploadFile<BannerInputType>(formValues, "photo");
-      
-      console.log(values);
-
-      if (!values.link) {
-        delete values.link;
-      }
-      // if (!values.content) {
-      //   delete values.content;
-      // }
-
-
+      const payload = cleanEmptyStrings(values)
+   
       if (banner) {
-        triggerEdit(values);
+        triggerEdit(payload);
       } else {
-        triggerCreate(values);
+        triggerCreate(payload);
       }
     } catch (error) {
       setState(false);

@@ -1,8 +1,7 @@
 export interface Seo {
   title: string;
   description: string;
-  image: string;
-  keywords: string;
+  keywords: string | string[] ;
 }
 
 export interface Course {
@@ -17,6 +16,7 @@ export interface Course {
   type: string;
   degree: string;
   teacherId: string;
+  seoKeywords: string | string[] ;
 }
 
 export interface CourseInput {
@@ -24,7 +24,7 @@ export interface CourseInput {
   description: string;
   seoTitle: string;
   seoDescription: string;
-  seoKeywords: string;
+  seoKeywords: string | string[] ;
   banner: string;
   icon: string;
   slug: string;

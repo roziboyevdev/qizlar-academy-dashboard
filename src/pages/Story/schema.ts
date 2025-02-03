@@ -3,7 +3,12 @@ import { z } from 'zod';
 
 export const schema = z.object({
   title: z.string().min(3, { message: 'Hikoya nomi talab qilinadi' }),
-  cover: z
+  button: z.string().min(3, { message: 'Hikoya tugmasining texti talab qilinadi' }),
+  type: z.string().min(3, { message: 'Hikoya turi talab qilinadi' }),
+  content: z.string().optional(),
+  objectId: z.string().optional(),
+  link: z.string().optional(),
+  photo: z
     .union([
       z.custom<File>(file => file instanceof File, {
         message: 'Rasm talab qilinadi',
@@ -11,7 +16,6 @@ export const schema = z.object({
       z.string(),
     ])
     .optional(),
-  link: z.string().min(3, { message: 'Hikoya linki talab qilinadi' }),
   // deadline: z.string({ message: "Hikoya tugash vaqtini kiriting" }),
   video: z
     .union([

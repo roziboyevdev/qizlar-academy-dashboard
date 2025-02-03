@@ -8,7 +8,7 @@ export const getQuiz = (item?: Quiz) => {
   return {
     id: item?.id ?? '',
     question: item?.question ?? "",
-    course: item?.course ?? "",
+    courseId: item?.courseId ?? "",
     options: item?.options?.length
       ? item.options.map(option => getOptionsList(option))
       : [],
@@ -33,7 +33,7 @@ function getQuestionsList(item: Question) {
 function getOptionsList(item: Option) {
   return {
     value: item?.value ?? '',
-    is_correct: item?.is_correct ?? false,
+    isCorrect: item?.isCorrect ?? false,
   };
 }
 

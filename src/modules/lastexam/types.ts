@@ -8,20 +8,20 @@ export interface Question {
 
 export interface Option {
   value: string;
-  is_correct: boolean;
+  isCorrect: boolean;
 }
 
 export interface Quiz {
   id: string;
-  course: string;
+  courseId: string;
   question:string;
   options: Option[];
 }
 
 export interface QuizInput {
-  course: string;
+  courseId: string;
   question: string;
-  options: { value: string; is_correct: boolean }[];
+  options: Option[];
 }
 
 export interface QuizEditBody {

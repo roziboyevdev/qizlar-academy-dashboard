@@ -4,59 +4,59 @@ import { Form } from "components/ui/form";
 import { FileField, SelectField, TextField } from "components/fields";
 import LoadingButton from "components/LoadingButton";
 import useFileUploader from "hooks/useFileUploader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { schema, useFormSchemaType } from "./schema";
 import { StoryInputType, StoryType } from "modules/story/types";
 import { useEditStory } from "modules/story/hooks/useEdit";
 import { useCreateStory } from "modules/story/hooks/useCreate";
 import DateTimePicker from "components/DateAndTimePicker";
+import { BannerType } from "modules/banner/types";
+import { useCoursesList } from "modules/courses/hooks/useCoursesList";
+import { SelectType } from "pages/Certificate/CustomForm";
 import VideoUploadField from "components/fields/VideoUploder";
-import CustomSwitch from "components/SwitchIsDreft";
-
+import { cleanEmptyStrings } from "utils/clearEmptyKeys";
 interface IProps {
-  certificate?: StoryType;
+  story?: StoryType;
   setSheetOpen: (state: boolean) => void;
 }
 const typeData = [
-  { type: "course", name: "Kurslar" },
-  { type: "leaderboard", name: "Peshqadamlar" },
-  { type: "shop", name: "Do'kon" },
-  { type: "link", name: "Havola" },
+  { type: BannerType.COURSE, name: "Kurslar" },
+  { type: BannerType.LEADERBOARD, name: "Peshqadamlar" },
+  { type: BannerType.SHOP, name: "Do'kon" },
+  { type: BannerType.LINK, name: "Havola" },
 ];
-export default function CustomForm({ certificate, setSheetOpen }: IProps) {
-  const initialState =
-    certificate?.title && certificate?.withId ? certificate?.withId : true;
-
-  const [switchState, setSwitchState] = useState<boolean>(initialState);
+export default function CustomForm({ story, setSheetOpen }: IProps) {
+  const [coursesData, setCoursesData] = useState<SelectType[]>([]);
   const [state, setState] = useState(false);
   const { uploadFile } = useFileUploader();
   const { triggerCreate, isPending: isInfoCreatePending } = useCreateStory({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditStory({
-    id: certificate?.id,
+    id: story?.id,
     setSheetOpen,
   });
   const [value, setValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   // get courses
+  const { data: coursesList } = useCoursesList();
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
-    defaultValues: certificate
+    defaultValues: story
       ? {
-          title: certificate?.title,
-          link: certificate?.link,
-          // deadline: certificate?.deadline,
-          cover: certificate?.cover,
-          video: certificate?.video,
+          title: story?.title,
+          link: story?.link,
+          // deadline: story?.deadline,
+          photo: story?.photo,
+          video: story?.video,
         }
       : {
           title: "",
           link: "",
           // deadline: "",
-          cover: "",
+          photo: "",
           video: "",
         },
   });
@@ -66,32 +66,49 @@ export default function CustomForm({ certificate, setSheetOpen }: IProps) {
       if (!value) {
         return setErrorMessage("Hikoya tugash vaqtini kiriting");
       }
-      setState(true);
-      const formattedValues = { ...formValues, deadline: value };
+      // setState(true);
+      const formattedValues = { ...formValues, deadline: new Date(value)};
 
-      const values = await uploadFile<StoryInputType>(formattedValues, "cover");
+      const values = await uploadFile<StoryInputType>(formattedValues, "photo");
       const valuesWithVideo = await uploadFile<StoryInputType>(values, "video");
-      console.log(valuesWithVideo);
-      console.log({ withId: false });
+      const payload = cleanEmptyStrings(valuesWithVideo);
 
-      if (certificate) {
-        triggerEdit({
-          ...valuesWithVideo,
-          withId: valuesWithVideo.type === "course" ? true : false,
-        });
+
+      if (story) {
+        triggerEdit(payload);
       } else {
-        triggerCreate({
-          ...valuesWithVideo,
-          withId: valuesWithVideo.type === "course" ? true : false,
-        });
+        triggerCreate(payload);
       }
     } catch (error) {
-      setState(false);
+      // setState(false);
       alert("Aniqlanmagan hatolik!");
     }
   }
 
-  
+  const type = form.watch("type");
+
+  useEffect(() => {
+    if (type == BannerType.COURSE || story?.type == BannerType.COURSE) {
+      form.register("objectId", { required: "Kursni tanlash talab qilinadi" });
+    }
+    if (type == BannerType.LINK || story?.type == BannerType.LINK) {
+      form.register("link", { required: "Link kiritish talab qilinadi" });
+    }
+    if (type == BannerType.CONTENT || story?.type == BannerType.CONTENT) {
+      form.register("content", { required: "Banner kontenti talab qilinadi" });
+    }
+  }, [type, story]);
+
+  useEffect(() => {
+    let newArr: SelectType[] = [];
+    coursesList.forEach((el) =>
+      newArr.push({
+        name: el.title,
+        type: el.id,
+      })
+    );
+    setCoursesData(newArr);
+  }, [coursesList]);
 
   return (
     <Form {...form}>
@@ -100,41 +117,70 @@ export default function CustomForm({ certificate, setSheetOpen }: IProps) {
         className="flex flex-col gap-2"
       >
         <div className="flex gap-4 flex-col my-4">
-          <TextField name="title" label="Hikoya nomi" required />
-          <TextField name="link" label="Hikoya linki" required />
-
-          <TextField name="content" label="Hikoya  kontenti" required />
-          <SelectField
-            name="type"
-            data={typeData}
-            placeholder="Hikoya  turini tanlang..."
-            label="Hikoya  turini tanglang"
+          {/* <SelectField
+            name="location"
+            data={locationData}
+            placeholder="Locaton turini tanlang..."
+            label="Locaton turini tanglang"
+          /> */}
+          <TextField name="title" key="title" label="Hikoya nomi" required />
+          <TextField
+            name="button"
+            key="button"
+            label="Hikoya tugmasining  nomi"
+            required
+            placeholder="Boshlash, Ko'rish"
           />
-          {/* 
-          <CustomSwitch
-            state={switchState}
-            setState={setSwitchState}
-            labelText={
-              certificate?.withId || switchState
-                ? "Idli bunner"
-                : "Idsiz  bunner"
-            }/> */}
+          <FileField name="photo" label="Hikoya rasmi" />
+
+          <VideoUploadField
+            name="video"
+            label="Hikoya videosi"
+            defaultValue={story?.video}
+          />
           <DateTimePicker
             value={value}
             setValue={setValue}
             title="Hikoyani tugash vaqtini kiriting"
-            defaultValue={certificate?.deadline}
+            defaultValue={story?.deadline}
             errorMessage={errorMessage}
           />
-
-          <FileField name="cover" label="Hikoya rasmi" />
-          <VideoUploadField
-            name="video"
-            label="Hikoya videosi"
-            defaultValue={certificate?.video}
+          <SelectField
+            name="type"
+            data={typeData}
+            placeholder="Hikoya turini tanlang..."
+            label="Hikoya turini tanglang"
           />
+
+          {(type == BannerType.COURSE || (story && story?.objectId)) &&
+            (coursesData?.length ? (
+              <SelectField
+                name="objectId"
+                key="objectId"
+                data={coursesData}
+                placeholder="Kursni  tanlang..."
+                label="Kursni  tanglang"
+              />
+            ) : (
+              "Kurslar yuklanishda hatolik!"
+            ))}
+
+          {(type == BannerType.LINK || (story && story?.link)) && (
+            <TextField name="link" key="link" label="Hikoya linki" required />
+          )}
+
+          {type == BannerType.CONTENT && (
+            <>
+              <TextField
+                name="content"
+                key="content"
+                label="Hikoya kontenti"
+                required
+              />
+            </>
+          )}
         </div>
-        {certificate ? (
+        {story ? (
           <LoadingButton isLoading={isNotificationEditPending}>
             Tahrirlash
           </LoadingButton>

@@ -6,14 +6,14 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from 'components/ui/pagination';
-import { cn } from 'utils/styleUtils';
+} from "components/ui/pagination";
+import { cn } from "utils/styleUtils";
 
 interface PaginationInfo {
-  current_page: number;
+  pageNumber: number;
   next_page: number;
   prev_page: number;
-  total_pages: number;
+  pageCount: number;
   total_records: number;
 }
 
@@ -30,21 +30,30 @@ export const Pagination = ({
   setCurrentPage,
   paginationInfo,
 }: IProps) => {
-  const { total_pages, prev_page, next_page, current_page } = paginationInfo;
+  //   {
+  //     "pageNumber": 0,
+  //     "pageSize": 10,
+  //     "count": 0,
+  //     "pageCount": 0
+  // }
+
+  const { pageCount, prev_page, next_page, pageNumber } = paginationInfo;
+  console.log(paginationInfo);
+
   const handleNextPage = () => {
-    if (currentPage < total_pages) {
-      setCurrentPage(current_page + 1);
+    if (currentPage < pageCount) {
+      setCurrentPage(pageNumber + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(current_page - 1);
+      setCurrentPage(pageNumber - 1);
     }
   };
 
   return (
-    <PaginationRoot className={cn(className, 'dark:text-slate-400')}>
+    <PaginationRoot className={cn(className, "dark:text-slate-400")}>
       <PaginationContent>
         <PaginationItem className="cursor-pointer select-none">
           <PaginationPrevious onClick={handlePrevPage} />

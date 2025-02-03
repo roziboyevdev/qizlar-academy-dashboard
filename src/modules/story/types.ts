@@ -2,22 +2,26 @@ export interface StoryType {
   id: string;
   title: string;
   link: string;
-  cover: string;
+  photo: string;
   deadline: string;
   video: string;
-  withId?:boolean;
   type?: string;
+  content: string,
+  objectId: string,
+  button: string,
 }
 
 
 export interface StoryInputType {
   title: string;
   link: string;
-  cover: string;
+  photo: string;
   deadline: string;
   video: string;
-  withId:boolean;
-  type: string;
+  type?: string;
+  content: string,
+  objectId: string,
+  button: string,
 }
 
 export interface StoryEditBodyType {

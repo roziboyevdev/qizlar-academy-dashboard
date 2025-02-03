@@ -16,13 +16,14 @@ export default function QuizOptions() {
     control,
   });
 
+console.log(optionsFields ,"options");
 
   return (
     <RadioGroup
-      value={`${optionsFields.findIndex(field => field.is_correct)}`}
+      value={`${optionsFields.findIndex(field => field.isCorrect)}`}
       onValueChange={value => {
         optionsFields.forEach((_, index) => {
-          setValue(`options.${index}.is_correct`, index === +value);
+          setValue(`options.${index}.isCorrect`, index === +value);
         });
       }}
       className="flex flex-col gap-5"
@@ -31,7 +32,7 @@ export default function QuizOptions() {
         <FormField
           control={control}
           key={valuesField.id}
-          name={`options.${valuesIndex}.is_correct`}
+          name={`options.${valuesIndex}.isCorrect`}
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center space-x-3">

@@ -4,9 +4,13 @@ export const getData = (item?: StoryType) => {
     id: item?.id ?? '',
     title: item?.title ?? '',
     link: item?.link ?? '',
-    cover: item?.cover ?? '',
+    photo: item?.photo ?? '',
     deadline: item?.deadline ?? '',
     video: item?.video ?? '',
+    type: item?.type ?? '',
+    content: item?.content ?? '',
+    objectId: item?.objectId ?? '',
+    button: item?.button ?? '',
   };
 };
 

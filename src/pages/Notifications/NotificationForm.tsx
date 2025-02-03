@@ -21,8 +21,9 @@ import useFileUploader from 'hooks/useFileUploader';
 
 const notificationSchema = z.object({
   title: z.string().min(3, { message: 'Bilidirishnoma nomi talab qilinadi' }),
+  content: z.string().min(3, { message: 'Bilidirishnoma matni talab qilinadi' }),
   body: z.string().min(3, { message: 'Bilidirishnoma matni talab qilinadi' }),
-  image: z
+  photo: z
     .union([
       z.custom<File>(file => file instanceof File, {
         message: 'Rasm talab qilinadi',
@@ -58,18 +59,22 @@ export default function NotificationForm({
     defaultValues: notification
       ? {
           title: notification.title,
+          content: notification.content,
+          photo: notification.photo,
           body: notification.body,
-          image: notification.image,
           // type: notification.type,
         }
       : {
           title: '',
+          content: '',
           body: '',
+          photo: undefined,
+          // type: undefined,
         },
   });
 
   async function onSubmit(formValues: notificationFormSchema) {
-    const values = await uploadFile<NotificationInput>(formValues, 'image');
+    const values = await uploadFile<NotificationInput>(formValues, 'photo');
 
     if (notification) {
       triggerNotificationEdit(values);
@@ -87,8 +92,8 @@ export default function NotificationForm({
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Bildirishnoma nomi" required />
            <TextAreaField name="body" label="Bildirishnoma matni" required /> 
-          {/* <RichTextEditor name="body" label="Bildirishnoma matni" required /> */}
-          <FileField name="image" label="Bildirishnoma rasmi" />
+          <RichTextEditor name="content" label="Bildirishnoma kontenti(html)" required />
+          <FileField name="photo" label="Bildirishnoma rasmi" />
 
           {/* <SelectField
             name="type"

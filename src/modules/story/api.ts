@@ -2,7 +2,7 @@ import http from 'services/api';
 import { StoryInputType, StoryEditBodyType } from './types';
 
 export const GetDatasList = async () => {
-  return await http.get(`/story/admin`);
+  return await http.get(`/story`);
 };
 
 export const CreateData = async (values: StoryInputType) => {

@@ -1,29 +1,30 @@
-import { z } from 'zod';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from "zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Form, FormDescription, FormMessage } from 'components/ui/form';
-import { Quiz } from 'modules/lastexam/types';
-import { TextAreaField, SelectField } from 'components/fields';
-import LoadingButton from 'components/LoadingButton';
-import { quizSelectType } from 'constants/index';
-import QuizOptions from './QuizOptions';
-import { useParams } from 'react-router-dom';
-import { useCreateQuiz } from 'modules/lastexam/hooks/useCreateQuiz';
-import { useEditQuiz } from 'modules/lastexam/hooks/useEditQuiz';
+import { Form, FormDescription, FormMessage } from "components/ui/form";
+import { Quiz } from "modules/lastexam/types";
+import { RichTextEditor, TextAreaField } from "components/fields";
+import LoadingButton from "components/LoadingButton";
+import QuizOptions from "./QuizOptions";
+import { useParams } from "react-router-dom";
+import { useCreateQuiz } from "modules/lastexam/hooks/useCreateQuiz";
+import { useEditQuiz } from "modules/lastexam/hooks/useEditQuiz";
 
 const quizSchema = z.object({
-  question: z.string().min(9, { message: "Savol minimum 8 ta harifdan iborat bolishi karak" }),
+  question: z
+    .string()
+    .min(9, { message: "Savol minimum 8 ta harifdan iborat bolishi karak" }),
   options: z
     .array(
       z.object({
-        value: z.string().min(1, { message: 'Javobni kiriting' }),
-        is_correct: z.boolean(),
+        value: z.string().min(1, { message: "Javobni kiriting" }),
+        isCorrect: z.boolean(),
       })
     )
-    .refine(data => data.some(option => option.is_correct), {
+    .refine((data) => data.some((option) => option.isCorrect), {
       message: "To'g'ri javobni belgilang",
-      path: ['options'],
+      path: ["options"],
     }),
 });
 
@@ -43,35 +44,36 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     id: quiz?.id,
     setSheetOpen,
   });
+  console.log(quiz, "quiz");
 
   const form = useForm<quizFormSchema>({
     resolver: zodResolver(quizSchema),
     defaultValues: quiz
       ? {
-        question: quiz.question,
-        options: quiz.options,
-      }
+          question: quiz.question,
+          options: quiz.options,
+        }
       : {
-        question: "",
-        options: [
-          {
-            value: "",
-            is_correct: false,
-          },
-          {
-            value: "",
-            is_correct: false,
-          },
-          {
-            value: "",
-            is_correct: false,
-          },
-          {
-            value: "",
-            is_correct: false,
-          },
-        ],
-      },
+          question: "",
+          options: [
+            {
+              value: "",
+              isCorrect: false,
+            },
+            {
+              value: "",
+              isCorrect: false,
+            },
+            {
+              value: "",
+              isCorrect: false,
+            },
+            {
+              value: "",
+              isCorrect: false,
+            },
+          ],
+        },
   });
   const {
     control,
@@ -79,15 +81,15 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     getValues,
   } = form;
   const { fields: questionFields } = useFieldArray({
-    name: 'options',
+    name: "options",
     control,
   });
 
   function onSubmit(formValues: quizFormSchema) {
     if (quiz) {
-      triggerQuizEdit({ ...formValues, course: lessonId! });
+      triggerQuizEdit({ ...formValues, courseId: lessonId! });
     } else {
-      triggerQuizCreate({ ...formValues, course: lessonId! });
+      triggerQuizCreate({ ...formValues, courseId: lessonId! });
     }
   }
 
@@ -95,16 +97,14 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     <Form {...form}>
       <form
         // onSubmit={form.handleSubmit(onSubmit)}
-        onSubmit={form.handleSubmit(onSubmit, (err) => console.log("Validation error: ", err))}
+        onSubmit={form.handleSubmit(onSubmit, (err) =>
+          console.log("Validation error: ", err)
+        )}
         className="flex flex-col gap-2"
       >
         <div className="flex gap-4 flex-col my-4">
-
-          <TextAreaField
-            name={`question`}
-            label="Savol"
-            required
-          />
+          <TextAreaField name={`question`} label="Savol" required />
+          <RichTextEditor name="question" label="Savol" required />
           <hr />
           <FormDescription className="mb-2 text-xs">
             Bitta to'g'ri javobni belgilang

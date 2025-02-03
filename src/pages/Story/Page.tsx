@@ -52,7 +52,7 @@ const StoryPage = () => {
         setSheetOpen={setSheetOpen}
       >
         <CustomForm
-          certificate={data}
+          story={data}
           setSheetOpen={setSheetOpen}
         />
       </Sheet>

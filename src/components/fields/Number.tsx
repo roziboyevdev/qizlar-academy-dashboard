@@ -45,7 +45,9 @@ export default function NumberTextField({
           )}
           <FormControl>
             <Input {...field} placeholder={placeholder} type="text" onChange={(e) => {
-              const value = handleNumericInput(e);
+              const value = +handleNumericInput(e);
+              console.log(value);
+              
               field.onChange(value);
             }}
 

@@ -14,7 +14,7 @@ export const useBooksList = (currentPage: number) => {
     queryFn: () => GetBooksList(currentPage),
     select: data => ({
       data: getBooksList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.pagination'),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 
