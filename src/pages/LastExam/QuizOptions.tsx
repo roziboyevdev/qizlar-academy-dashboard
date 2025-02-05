@@ -8,6 +8,7 @@ import {
 import { RadioGroup, RadioGroupItem } from 'components/ui/radio-group';
 import { TextField } from 'components/fields';
 import { quizFormSchema } from './QuizForm';
+import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
 
 export default function QuizOptions() {
   const { control, setValue } = useFormContext<quizFormSchema>();
@@ -16,7 +17,6 @@ export default function QuizOptions() {
     control,
   });
 
-console.log(optionsFields ,"options");
 
   return (
     <RadioGroup
@@ -42,10 +42,11 @@ console.log(optionsFields ,"options");
                     checked={field.value}
                   />
                 </FormControl>
-                <TextField
+                {/* <TextField
                   name={`options.${valuesIndex}.value`}
                   placeholder="Javob matni..."
-                />
+                /> */}
+                <RichTextEditorForQuiz name={`options.${valuesIndex}.value`} label={`Javob ${valuesIndex +1}`}  />
               </div>
               <FormMessage />
             </FormItem>

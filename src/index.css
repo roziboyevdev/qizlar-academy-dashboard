@@ -92,3 +92,9 @@
   height: 100px;
   object-fit: fill;
 }
+.quiz_quill{
+  width: 100%;
+}
+.quiz_quill .ql-editor{
+  min-height: 70px !important;
+}

@@ -19,18 +19,18 @@ export const createQuizColumns = ({
       header: 'Quiz savoli',
       cell: ({ row }) => {
         return <>
-          <p>{row.getValue("question")}</p>
+          <div className="img_content" dangerouslySetInnerHTML={{ __html: row.getValue("question")}} />
         </>;
       },
     },
-    {
-      accessorKey: 'type',
-      header: 'Savol tipi',
-      cell: ({ row }) => {
+    // {
+    //   accessorKey: 'type',
+    //   header: 'Savol tipi',
+    //   cell: ({ row }) => {
 
-        return <p> salom</p>;
-      },
-    },
+    //     return <p> salom</p>;
+    //   },
+    // },
     {
       accessorKey: 'id',
       header: () => <span className="sr-only">Actions</span>,

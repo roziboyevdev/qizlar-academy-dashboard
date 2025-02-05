@@ -10,6 +10,7 @@ import QuizOptions from "./QuizOptions";
 import { useParams } from "react-router-dom";
 import { useCreateQuiz } from "modules/lastexam/hooks/useCreateQuiz";
 import { useEditQuiz } from "modules/lastexam/hooks/useEditQuiz";
+import RichTextEditorForQuiz from "components/fields/RichTextEditorForQuiz";
 
 const quizSchema = z.object({
   question: z
@@ -54,22 +55,22 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
           options: quiz.options,
         }
       : {
-          question: "",
+          // question: "<p><br></p>",
           options: [
             {
-              value: "",
+              // value: "",
               isCorrect: false,
             },
             {
-              value: "",
+              // value: "",
               isCorrect: false,
             },
             {
-              value: "",
+              // value: "",
               isCorrect: false,
             },
             {
-              value: "",
+              // value: "",
               isCorrect: false,
             },
           ],
@@ -92,6 +93,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
       triggerQuizCreate({ ...formValues, courseId: lessonId! });
     }
   }
+console.log(errors ,"errors");
 
   return (
     <Form {...form}>
@@ -104,7 +106,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
       >
         <div className="flex gap-4 flex-col my-4">
           <TextAreaField name={`question`} label="Savol" required />
-          <RichTextEditor name="question" label="Savol" required />
+          <RichTextEditorForQuiz name="question" label="Savol" required />
           <hr />
           <FormDescription className="mb-2 text-xs">
             Bitta to'g'ri javobni belgilang
@@ -113,7 +115,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
 
           {errors.options && (
             // @ts-ignore
-            <FormMessage>{errors.options?.message}</FormMessage>
+            <FormMessage className="text-red-600">{errors.options?.message}</FormMessage>
           )}
         </div>
         {quiz ? (
