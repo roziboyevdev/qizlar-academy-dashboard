@@ -105,7 +105,7 @@ console.log(errors ,"errors");
         className="flex flex-col gap-2"
       >
         <div className="flex gap-4 flex-col my-4">
-          <TextAreaField name={`question`} label="Savol" required />
+          {/* <TextAreaField name={`question`} label="Savol" required /> */}
           <RichTextEditorForQuiz name="question" label="Savol" required />
           <hr />
           <FormDescription className="mb-2 text-xs">
