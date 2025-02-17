@@ -10,7 +10,6 @@ import HomePage from 'pages/Home';
 import CoursesPage from 'pages/Courses';
 import ModulesPage from 'pages/Modules';
 import LessonsPage from 'pages/Lessons';
-import QuizzesPage from 'pages/Quizzes';
 import GrandmastersPage from 'pages/Grandmasters';
 import NewsPage from 'pages/News';
 import BooksPage from 'pages/Books';
