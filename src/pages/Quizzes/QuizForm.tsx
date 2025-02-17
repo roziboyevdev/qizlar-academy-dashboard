@@ -64,29 +64,29 @@ function replaceH4WithEmptyString(data:Quiz) {
   };
 
   // Replace in question
-  if (data.question) {
-    data.question = data.question.map((q) => {
-      if (q.content) {
-        q.content = removeH4Tags(q.content);
-      }
-      return q;
-    });
-  }
+  // if (data.question) {
+  //   data.question = data.question.map((q) => {
+  //     if (q.content) {
+  //       q.content = removeH4Tags(q.content);
+  //     }
+  //     return q;
+  //   });
+  // }
 
   // Replace in options
-  if (data.options) {
-    data.options = data.options.map((option) => {
-      if (option.value) {
-        option.value = option.value.map((val) => {
-          if (val.content) {
-            val.content = removeH4Tags(val.content);
-          }
-          return val;
-        });
-      }
-      return option;
-    });
-  }
+  // if (data.options) {
+  //   data.options = data.options.map((option) => {
+  //     if (option.value) {
+  //       option.value = option.value.map((val) => {
+  //         if (val.content) {
+  //           val.content = removeH4Tags(val.content);
+  //         }
+  //         return val;
+  //       });
+  //     }
+  //     return option;
+  //   });
+  // }
 
   return data;
 }
@@ -101,7 +101,7 @@ const wrapH4Tag = (content: any) => `<h4>${content} </h4>`;
 export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   const { lessonId } = useParams();
  const [loading ,setLoading]= useState(false)
-  const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({
+  const { triggerQuizCreate} = useCreateQuiz({
     setSheetOpen,
   });
   const { triggerQuizEdit, isPending: isQuizEditPending } = useEditQuiz({
@@ -115,37 +115,37 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   const newData = quiz ? replaceH4WithEmptyString(quiz):null
   const form = useForm<quizFormSchema>({
     resolver: zodResolver(quizSchema),
-    defaultValues: newData
-      ? {
-          type: newData.type,
-          question: newData.question,
-          options: newData.options,
-          photo: newData.question[0].content,
-          content_type:newData.question[0]?.type ==QuizContentType.PHOTO ? QuizContentType.PHOTO:QuizContentType.TEXT
-        }
-      : {
-          type: QuizType.SINGLE_SELECT,
-          question: [{ type: QuizContentType.TEXT, content: "savol" }],
-          content_type:QuizContentType.TEXT,
-          options: [
-            {
-              value: [{ type: QuizContentType.TEXT, content: "" }],
-              is_correct: false,
-            },
-            {
-              value: [{ type: QuizContentType.TEXT, content: "" }],
-              is_correct: false,
-            },
-            {
-              value: [{ type: QuizContentType.TEXT, content: "" }],
-              is_correct: false,
-            },
-            {
-              value: [{ type: QuizContentType.TEXT, content: "" }],
-              is_correct: false,
-            },
-          ],
-        },
+    // defaultValues: newData
+    //   ? {
+    //       type: newData.type,
+    //       question: newData.question,
+    //       options: newData.options,
+    //       photo: newData.question[0].content,
+    //       content_type:newData.question[0]?.type ==QuizContentType.PHOTO ? QuizContentType.PHOTO:QuizContentType.TEXT
+    //     }
+    //   : {
+    //       type: QuizType.SINGLE_SELECT,
+    //       question: [{ type: QuizContentType.TEXT, content: "savol" }],
+    //       content_type:QuizContentType.TEXT,
+    //       options: [
+    //         {
+    //           value: [{ type: QuizContentType.TEXT, content: "" }],
+    //           is_correct: false,
+    //         },
+    //         {
+    //           value: [{ type: QuizContentType.TEXT, content: "" }],
+    //           is_correct: false,
+    //         },
+    //         {
+    //           value: [{ type: QuizContentType.TEXT, content: "" }],
+    //           is_correct: false,
+    //         },
+    //         {
+    //           value: [{ type: QuizContentType.TEXT, content: "" }],
+    //           is_correct: false,
+    //         },
+    //       ],
+    //     },
   });
   const {
     control,

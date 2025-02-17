@@ -5,6 +5,9 @@ export const GetQuizzesList = async (lessonId: string) => {
   return await http.get(`/quiz`, {params:{lessonId}});
 };
 
+export const GetOneQuizz = async (quizId: string) => {
+  return await http.get(`/quiz`, {params:{quizId}});
+};
 export const CreateQuiz = async (values: QuizInput) => {
   return await http.post(`/quiz/`, values);
 };

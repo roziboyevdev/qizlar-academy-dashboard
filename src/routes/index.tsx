@@ -33,6 +33,7 @@ import PremiumPage from 'pages/Premium/Page';
 import UsersCertificatesPage from 'pages/UsersCertificates/Page';
 import VacancyPage from 'pages/Vacancy';
 import TeachersPage from 'pages/Teachers/Page';
+import NewQuizPage from 'pages/NewQuiz';
 
 
 export const Routes = () => {
@@ -65,7 +66,8 @@ export const Routes = () => {
     },
     {
       path: '/courses/:courseId/:moduleId/:lessonId',
-      element: <QuizzesPage />,
+      element: <NewQuizPage />,
+      // element: <QuizzesPage />,
     },
     {
       path: '/grandmasters',

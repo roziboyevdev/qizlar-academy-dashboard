@@ -27,24 +27,31 @@ export interface OptionValue {
   content: string;
 }
 
-export interface Option {
+
+
+export interface Question {
   id: string;
-  value: OptionValue[];
-  is_correct: boolean;
+  value: string;
+}
+
+
+
+export interface Option {
+  value: string;
+  isCorrect: boolean;
 }
 
 export interface Quiz {
   id: string;
-  question: Question[];
-  type: QuizType;
+  courseId: string;
+  question:string;
   options: Option[];
 }
 
 export interface QuizInput {
-  lesson: string;
-  question: Omit<Question, 'id'>[];
-  type: QuizType;
-  options: { value: Omit<OptionValue, 'id'>[]; is_correct: boolean }[];
+  courseId: string;
+  question: string;
+  options: Option[];
 }
 
 export interface QuizEditBody {
