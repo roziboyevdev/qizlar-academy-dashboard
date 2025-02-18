@@ -14,7 +14,8 @@ import {
   BadgeCheck,
   GraduationCap,
   Handshake,
-  User
+  User,
+  TicketPercent,
 } from "lucide-react";
 import { Button } from "components/ui/button";
 import { cn } from "utils/styleUtils";
@@ -82,22 +83,22 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
     },
     {
       title: "Premium",
-      icon: BadgeCheck ,
+      icon: BadgeCheck,
       link: "/premium",
     },
     {
       title: "Talabalar Sertifikatlari",
-      icon: GraduationCap  ,
+      icon: GraduationCap,
       link: "/user-certificate",
     },
     {
       title: "Vakansiyalar",
-      icon: Handshake   ,
+      icon: Handshake,
       link: "/vacancy",
     },
     {
       title: "Promocode",
-      icon: Handshake   ,
+      icon: TicketPercent,
       link: "/promocode",
     },
   ];
