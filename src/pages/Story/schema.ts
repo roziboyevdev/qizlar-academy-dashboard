@@ -16,7 +16,7 @@ export const schema = z.object({
       z.string(),
     ])
     .optional(),
-  // deadline: z.string({ message: "Hikoya tugash vaqtini kiriting" }),
+  deadline: z.string({ message: "Hikoya tugash vaqtini kiriting" }),
   video: z
     .union([
       z.custom<File>(file => file instanceof File, {

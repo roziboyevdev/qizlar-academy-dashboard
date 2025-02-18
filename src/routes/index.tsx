@@ -1,149 +1,153 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import MainLayout from 'layout/MainLayout';
-import AuthLayout from 'layout/AuthLayout';
-import { Routes as DOMRoutes, Route } from 'react-router-dom';
-import { Toaster } from 'components/ui/toaster';
-import { useRefreshToken } from 'modules/auth/hooks/useRefreshToken';
-import AuthPage from 'pages/Auth';
-import HomePage from 'pages/Home';
-import CoursesPage from 'pages/Courses';
-import ModulesPage from 'pages/Modules';
-import LessonsPage from 'pages/Lessons';
-import GrandmastersPage from 'pages/Grandmasters';
-import NewsPage from 'pages/News';
-import BooksPage from 'pages/Books';
-import AfishaPage from 'pages/Afisha';
-import ReviewGamesPage from 'pages/ReviewGames';
-import LiveStreamsPage from 'pages/LiveStreams';
-import PuzzlesPage from 'pages/Puzzles';
-import Info from 'pages/Info';
-import NotificationsPage from 'pages/Notifications';
-import { AuthContext } from 'providers/auth';
-import Certificate from 'pages/Certificate/Page';
-import LastExam from 'pages/LastExam';
-import StoryPage from 'pages/Story/Page';
-import BannerPage from 'pages/Banner/Page';
-import CategoryPage from 'pages/Category/Page';
-import ProductPage from 'pages/Product/Page';
-import DonationPage from 'pages/Donation/Page';
-import PremiumPlanPage from 'pages/PremiumPlans/Page';
-import PremiumPage from 'pages/Premium/Page';
-import UsersCertificatesPage from 'pages/UsersCertificates/Page';
-import VacancyPage from 'pages/Vacancy';
-import TeachersPage from 'pages/Teachers/Page';
-import NewQuizPage from 'pages/NewQuiz';
-
+import MainLayout from "layout/MainLayout";
+import AuthLayout from "layout/AuthLayout";
+import { Routes as DOMRoutes, Route } from "react-router-dom";
+import { Toaster } from "components/ui/toaster";
+import { useRefreshToken } from "modules/auth/hooks/useRefreshToken";
+import AuthPage from "pages/Auth";
+import HomePage from "pages/Home";
+import CoursesPage from "pages/Courses";
+import ModulesPage from "pages/Modules";
+import LessonsPage from "pages/Lessons";
+import GrandmastersPage from "pages/Grandmasters";
+import NewsPage from "pages/News";
+import BooksPage from "pages/Books";
+import AfishaPage from "pages/Afisha";
+import ReviewGamesPage from "pages/ReviewGames";
+import LiveStreamsPage from "pages/LiveStreams";
+import PuzzlesPage from "pages/Puzzles";
+import Info from "pages/Info";
+import NotificationsPage from "pages/Notifications";
+import { AuthContext } from "providers/auth";
+import Certificate from "pages/Certificate/Page";
+import LastExam from "pages/LastExam";
+import StoryPage from "pages/Story/Page";
+import BannerPage from "pages/Banner/Page";
+import CategoryPage from "pages/Category/Page";
+import ProductPage from "pages/Product/Page";
+import DonationPage from "pages/Donation/Page";
+import PremiumPlanPage from "pages/PremiumPlans/Page";
+import PremiumPage from "pages/Premium/Page";
+import UsersCertificatesPage from "pages/UsersCertificates/Page";
+import VacancyPage from "pages/Vacancy";
+import TeachersPage from "pages/Teachers/Page";
+import NewQuizPage from "pages/NewQuiz";
+import PromocodePage from "pages/Promocode";
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
   const { isAuthenticated } = useContext(AuthContext);
   const routes = [
     {
-      path: '/',
+      path: "/",
       element: <HomePage />,
     },
     {
-      path: '/teachers',
+      path: "/teachers",
       element: <TeachersPage />,
     },
     {
-      path: '/courses',
+      path: "/courses",
       element: <CoursesPage />,
     },
     {
-      path: '/courses/:courseId',
+      path: "/courses/:courseId",
       element: <ModulesPage />,
     },
     {
-      path: '/exam/:lessonId',
+      path: "/exam/:lessonId",
       element: <LastExam />,
     },
     {
-      path: '/courses/:courseId/:moduleId',
+      path: "/courses/:courseId/:moduleId",
       element: <LessonsPage />,
     },
     {
-      path: '/courses/:courseId/:moduleId/:lessonId',
+      path: "/courses/:courseId/:moduleId/:lessonId",
       element: <NewQuizPage />,
       // element: <QuizzesPage />,
     },
     {
-      path: '/grandmasters',
+      path: "/grandmasters",
       element: <GrandmastersPage />,
     },
     {
-      path: '/news',
+      path: "/news",
       element: <NewsPage />,
     },
     {
-      path: '/books',
+      path: "/books",
       element: <BooksPage />,
     },
     {
-      path: '/afisha',
+      path: "/afisha",
       element: <AfishaPage />,
     },
     {
-      path: '/review-games',
+      path: "/review-games",
       element: <ReviewGamesPage />,
     },
     {
-      path: '/live-streams',
+      path: "/live-streams",
       element: <LiveStreamsPage />,
     },
     {
-      path: '/puzzles',
+      path: "/puzzles",
       element: <PuzzlesPage />,
     },
     {
-      path: '/notifications',
+      path: "/notifications",
       element: <NotificationsPage />,
     },
     {
-      path: '/info',
+      path: "/info",
       element: <Info />,
     },
     {
-      path: '/certificate',
+      path: "/certificate",
       element: <Certificate />,
     },
     {
       path: "/story",
-      element: <StoryPage />
+      element: <StoryPage />,
     },
     {
       path: "/banner",
-      element: <BannerPage />
+      element: <BannerPage />,
     },
     {
-      path: '/category',
-      element: <CategoryPage />
+      path: "/category",
+      element: <CategoryPage />,
     },
     {
-      path: '/category/:categoryId',
-      element: <ProductPage />
+      path: "/category/:categoryId",
+      element: <ProductPage />,
     },
     {
-      path: '/donation',
-      element: <DonationPage />
+      path: "/donation",
+      element: <DonationPage />,
     },
     {
-      path: '/premium-plan',
-      element: <PremiumPlanPage />
+      path: "/premium-plan",
+      element: <PremiumPlanPage />,
     },
     {
-      path: '/premium',
-      element: <PremiumPage />
+      path: "/premium",
+      element: <PremiumPage />,
     },
     {
-      path: '/user-certificate',
-      element: <UsersCertificatesPage />
+      path: "/user-certificate",
+      element: <UsersCertificatesPage />,
     },
     {
-      path:'/vacancy',
-      element:<VacancyPage/>
-    }
+      path: "/vacancy",
+      element: <VacancyPage />,
+    },
+    {
+      path: "/promocode",
+      element: <PromocodePage />,
+    },
   ];
 
   return (
@@ -151,7 +155,7 @@ export const Routes = () => {
       {isLoading ? null : isAuthenticated ? (
         <MainLayout>
           <DOMRoutes>
-            {routes.map(route => (
+            {routes.map((route) => (
               <Route
                 path={route.path}
                 element={route.element}

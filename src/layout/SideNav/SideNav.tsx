@@ -95,6 +95,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       icon: Handshake   ,
       link: "/vacancy",
     },
+    {
+      title: "Promocode",
+      icon: Handshake   ,
+      link: "/promocode",
+    },
   ];
 
   return (

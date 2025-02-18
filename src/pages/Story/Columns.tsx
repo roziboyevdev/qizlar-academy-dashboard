@@ -17,10 +17,10 @@ export const createDataColumns = ({
   setDialogOpen,
 }: IProps): ColumnDef<StoryType>[] => [
     {
-      accessorKey: 'cover',
-      header: 'Icon',
+      accessorKey: 'photo',
+      header: 'Rasm',
       cell: ({ row }) => {
-        return <img src={`${baseMediaUrl}/${row.getValue('cover')}`} alt="img" width={80} height={60} style={{
+        return <img src={`${baseMediaUrl}/${row.getValue('photo')}`} alt="img" width={80} height={60} style={{
           objectFit: "cover",
           maxHeight:"60px"
         }} loading="lazy" />;

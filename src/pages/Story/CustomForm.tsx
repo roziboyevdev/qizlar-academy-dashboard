@@ -48,14 +48,14 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
       ? {
           title: story?.title,
           link: story?.link,
-          // deadline: story?.deadline,
+          deadline: story?.deadline,
           photo: story?.photo,
           video: story?.video,
         }
       : {
           title: "",
           link: "",
-          // deadline: "",
+          deadline: "",
           photo: "",
           video: "",
         },
@@ -63,24 +63,20 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
 
   async function onSubmit(formValues: useFormSchemaType) {
     try {
-      if (!value) {
-        return setErrorMessage("Hikoya tugash vaqtini kiriting");
-      }
-      // setState(true);
-      const formattedValues = { ...formValues, deadline: new Date(value)};
-
+      setState(true);
+      const formattedValues = { ...formValues ,deadline:formValues.deadline + ':00Z' };
       const values = await uploadFile<StoryInputType>(formattedValues, "photo");
       const valuesWithVideo = await uploadFile<StoryInputType>(values, "video");
       const payload = cleanEmptyStrings(valuesWithVideo);
-
 
       if (story) {
         triggerEdit(payload);
       } else {
         triggerCreate(payload);
       }
+      setState(false);
     } catch (error) {
-      // setState(false);
+      setState(false);
       alert("Aniqlanmagan hatolik!");
     }
   }
@@ -139,12 +135,10 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
             defaultValue={story?.video}
           />
           <DateTimePicker
-            value={value}
-            setValue={setValue}
-            title="Hikoyani tugash vaqtini kiriting"
-            defaultValue={story?.deadline}
-            errorMessage={errorMessage}
+            name="deadline"
+            label="Hikoyani tugash vaqtini kiriting"
           />
+
           <SelectField
             name="type"
             data={typeData}
