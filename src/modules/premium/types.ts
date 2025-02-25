@@ -1,24 +1,24 @@
-
-
 export interface Premium {
   id: string;
   user: {
     id: string;
-    phone_number: string;
+    phone: string;
     email: string | null;
   };
   plan: {
     id: string;
     title: string;
   };
-  is_gift: boolean;
-  from_date: string;
-  to_date: string;
+  isGift: boolean;
+  startDate: string;
+  endDate: string;
   amount: number;
   date: string;
+  promocode: {
+    id: string;
+    code: string;
+  };
 }
-
-
 
 export interface PremiumInputType {
   user: string;
@@ -30,26 +30,25 @@ export interface PremiumEditBodyType {
   values: PremiumInputType;
 }
 
-
 type Address = {
   country: string;
   region: string;
   district: string;
-  [key: string]: any; 
+  [key: string]: any;
 };
 
- export type User = {
+export type User = {
   address: Address | null;
   balance: number;
-  birthday: string; 
+  birthday: string;
   email: string | null;
   first_name: string;
-  gender: string; 
-  image: string | null; 
+  gender: string;
+  image: string | null;
   last_name: string;
-  onlineTime: number; 
-  phone_number: string; 
-  points: number; 
+  onlineTime: number;
+  phone_number: string;
+  points: number;
   source: string;
-  user: string; 
+  user: string;
 };

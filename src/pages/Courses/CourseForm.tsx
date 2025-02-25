@@ -78,8 +78,8 @@ interface IProps {
 }
 
 export default function CourseForm({ course, setSheetOpen }: IProps) {
-    const [teachersData, setTeachersData] = useState<SelectType[]>([]);
-  
+  const [teachersData, setTeachersData] = useState<SelectType[]>([]);
+
   const { uploadFile, isPending: isFileUpload } = useFileUploader();
   const { triggerCourseCreate, isPending: isCourseCreatePending } =
     useCreateCourse({ setSheetOpen });
@@ -88,7 +88,7 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-   const { data: coursesList } = useTeachersList();
+  const { data: coursesList } = useTeachersList();
 
   const form = useForm<courseFormSchema>({
     resolver: zodResolver(courseSchema),
@@ -101,10 +101,9 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
           banner: course.banner,
           seoTitle: course?.seo?.title,
           seoDescription: course?.seo?.description,
-          seoKeywords:
-            typeof course?.seo?.keywords == "string"
-              ? course?.seo?.keywords?.split(",")
-              : course?.seo?.keywords,
+          seoKeywords: Array.isArray(course?.seo?.keywords)
+            ? course?.seo?.keywords
+            : course?.seo?.keywords?.split(",") || [],
           type: course.type,
           degree: course.degree,
           planLessonCount: course?.planLessonCount,
@@ -118,7 +117,7 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
           slug: "",
           seoTitle: "",
           seoDescription: "",
-          seoKeywords: "",
+          seoKeywords: [],
         },
   });
 
@@ -139,16 +138,16 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
     }
   }
 
-    useEffect(() => {
-      let newArr: SelectType[] = [];
-      coursesList.forEach((el) =>
-        newArr.push({
-          name: el.fullname,
-          type: el.id,
-        })
-      );
-      setTeachersData(newArr);
-    }, [coursesList]);
+  useEffect(() => {
+    let newArr: SelectType[] = [];
+    coursesList.forEach((el) =>
+      newArr.push({
+        name: el.fullname,
+        type: el.id,
+      })
+    );
+    setTeachersData(newArr);
+  }, [coursesList]);
   return (
     <Form {...form}>
       <form

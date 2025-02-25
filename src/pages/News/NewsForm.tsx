@@ -1,29 +1,28 @@
-import { useState } from 'react';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { News, NewsInput } from 'modules/news/types';
-import useFileUploader from 'hooks/useFileUploader';
-import { useCreateNews } from 'modules/news/hooks/useCreateNews';
-import { useEditNews } from 'modules/news/hooks/useEditNews';
-import { useCreateNotification } from 'modules/notifications/hooks/useCreateNotification';
-import { Form } from 'components/ui/form';
-import { FileField, TextField } from 'components/fields';
-import LoadingButton from 'components/LoadingButton';
-import { RichTextEditor } from 'components/fields';
-
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { News, NewsInput } from "modules/news/types";
+import useFileUploader from "hooks/useFileUploader";
+import { useCreateNews } from "modules/news/hooks/useCreateNews";
+import { useEditNews } from "modules/news/hooks/useEditNews";
+import { useCreateNotification } from "modules/notifications/hooks/useCreateNotification";
+import { Form } from "components/ui/form";
+import { FileField, TextField } from "components/fields";
+import LoadingButton from "components/LoadingButton";
+import { RichTextEditor } from "components/fields";
 
 const newsSchema = z.object({
-  title: z.string().min(3, { message: 'Yanglik nomi talab qilinadi' }),
-  content: z.string().min(3, { message: 'Tavsif talab qilinadi' }),
+  title: z.string().min(3, { message: "Yanglik nomi talab qilinadi" }),
+  content: z.string().min(3, { message: "Tavsif talab qilinadi" }),
   // short_description: z
   //   .string()
   //   .min(3, { message: 'Qisqacha tavsif talab qilinadi' }),
   photo: z.union([
-    z.custom<File>(file => file instanceof File, {
-      message: 'Rasm talab qilinadi',
+    z.custom<File>((file) => file instanceof File, {
+      message: "Rasm talab qilinadi",
     }),
-    z.string().min(1, { message: 'Rasm talab qilinadi' }),
+    z.string().min(1, { message: "Rasm talab qilinadi" }),
   ]),
 });
 
@@ -35,19 +34,13 @@ interface IProps {
 }
 
 export default function NewsForm({ news, setSheetOpen }: IProps) {
-  const [isDialogOpen, setDialogOpen] = useState(false);
+
   const [loading, setLoding] = useState(false);
-  const { triggerNotificationCreate } = useCreateNotification({
-    setSheetOpen: () => {},
-  });
+
 
   const { uploadFile } = useFileUploader();
-  const {
-    triggerNewsCreate,
-    isPending: isNewsCreatePending,
-    data,
-  } = useCreateNews(setSheetOpen);
-  const { triggerNewsEdit, isPending: isNewsEditPending } = useEditNews({
+  const { triggerNewsCreate } = useCreateNews(setSheetOpen);
+  const { triggerNewsEdit } = useEditNews({
     id: news?.id,
     setSheetOpen,
   });
@@ -61,24 +54,22 @@ export default function NewsForm({ news, setSheetOpen }: IProps) {
           photo: news.photo,
         }
       : {
-          title: '',
-          content: '',
+          title: "",
+          content: "",
           photo: undefined,
         },
   });
 
-
-
   async function onSubmit(formValues: newsFormSchema) {
-    setLoding(true)
-    const values = await uploadFile<NewsInput>(formValues, 'photo');
+    setLoding(true);
+    const values = await uploadFile<NewsInput>(formValues, "photo");
 
     if (news) {
       triggerNewsEdit(values);
     } else {
       await triggerNewsCreate(values);
     }
-    setLoding(false)
+    setLoding(false);
   }
   return (
     <>
@@ -89,23 +80,17 @@ export default function NewsForm({ news, setSheetOpen }: IProps) {
         >
           <div className="flex gap-4 flex-col my-4">
             <TextField name="title" label="Yangilik nomi" required />
-        
+
             <RichTextEditor name="content" label="Yangilik tavsifi" required />
             <FileField name="photo" label="Yangilik rasmi" required />
-
           </div>
           {news ? (
-            <LoadingButton isLoading={loading}>
-              Tahrirlash
-            </LoadingButton>
+            <LoadingButton isLoading={loading}>Tahrirlash</LoadingButton>
           ) : (
-            <LoadingButton isLoading={isNewsCreatePending}>
-              Saqlash
-            </LoadingButton>
+            <LoadingButton isLoading={loading}>Saqlash</LoadingButton>
           )}
         </form>
       </Form>
-    
     </>
   );
 }

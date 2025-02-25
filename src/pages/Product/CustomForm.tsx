@@ -21,10 +21,12 @@ interface IProps {
 export default function CustomForm({ product, setSheetOpen }: IProps) {
   const { categoryId } = useParams();
 
-  const initialState = product?.title ? product?.is_active : true;
+  const initialState = product?.title ? product?.isActive : true;
   const [switchState, setSwitchState] = useState<boolean>(initialState);
   const [state, setState] = useState(false);
-  const initalPhotos = product?.photos ? product.photos.map((el) => el.photo): ["1"];
+  const initalPhotos = product?.photos
+    ? product.photos.map((el) => el.photo)
+    : ["1"];
 
   const [photos, setPhotos] = useState(initalPhotos);
   const { uploadFile } = useFileUploader();
@@ -50,7 +52,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           price: +product?.price,
           count: +product?.count,
           content: product?.content,
-          is_active: product?.is_active,
+          isActive: product?.isActive,
         }
       : {
           title: "",
@@ -62,7 +64,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           price: "",
           count: "",
           content: "",
-          is_active: switchState,
+          isActive: switchState,
         },
   });
 
@@ -89,7 +91,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
         categoryId: categoryId,
         price: +values.price,
         count: +values.count,
-        is_active: switchState,
+        isActive: switchState,
         photos,
         photo,
       };
@@ -130,7 +132,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
             state={switchState}
             setState={setSwitchState}
             labelText={
-              product?.is_active || switchState
+              product?.isActive || switchState
                 ? "Product Ko'rinsin"
                 : "Product Ko'rinmasin "
             }

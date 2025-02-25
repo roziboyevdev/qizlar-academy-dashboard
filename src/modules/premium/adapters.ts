@@ -4,16 +4,20 @@ export const getData = (item?: Premium) => {
     id: item?.id ?? "",
     user: item?.user ?? {
       id: "",
-      phone_number: "",
+      phone: "",
       email: "",
     },
     plan: item?.plan ?? {
       id: "",
       title: "",
     },
-    is_gift: item?.is_gift ?? false,
-    from_date: item?.from_date ?? "",
-    to_date: item?.to_date ?? "",
+    promocode: item?.promocode ?? {
+      id: "",
+      code: "",
+    },
+    isGift: item?.isGift ?? false,
+    startDate: item?.startDate ?? "",
+    endDate: item?.endDate ?? "",
     amount: item?.amount ?? 0,
     date: item?.date ?? "",
   };

@@ -13,10 +13,12 @@ export const usePremiumList = (currentPage: number) => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ["premium_list", currentPage],
     queryFn: () => GetDatasList(currentPage),
-    select: (data) => ({
-      data: getDatasList(get(data, "data.data")),
-      paginationInfo: get(data, "data.pagination"),
-    }),
+    select: (data) => {
+      return ({
+        data: getDatasList(get(data, "data.data.data")),
+        paginationInfo: get(data, "data.data.meta.pagination"),
+      })
+    },
   });
 
   return {

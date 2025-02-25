@@ -2,11 +2,11 @@ import http from 'services/api';
 import {PremiumInputType,PremiumEditBodyType } from './types';
 
 export const GetDatasList = async (currentPage: number) => {
-  return await http.get(`/premium?page=${currentPage}&limit=10`);
+  return await http.get(`/premium?pageNumber=${currentPage}&pageSize=10`);
 };
 
 export const GetUserList = async (currentPage?: number, search?: string) => {
-  return await http.get(`/profile/users?page=${currentPage || 1}&limit=20&search=${search || ''}`).then((res)=>res.data);
+  return await http.get(`/profile/users?pageNumber=${currentPage || 1}&pageSize=20&search=${search || ''}`).then((res)=>res.data);
 };
 
 export const CreateData = async (values:PremiumInputType) => {

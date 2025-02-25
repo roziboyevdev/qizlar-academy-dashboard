@@ -22,13 +22,13 @@ export const createDataColumns = ({
     },
 
     {
-      accessorKey: 'is_active',
+      accessorKey: 'isActive',
       header: 'Status',
       cell: ({ row }) => {
-        const is_active: boolean = row.getValue('is_active') || false
+        const isActive: boolean = row.getValue('isActive') || false
         return <>
-          <CustomSwitch state={is_active}
-            labelText={is_active ? "Ko'rinadigan" : "Ko'rinmaydigan "} />
+          <CustomSwitch state={isActive}
+            labelText={isActive ? "Ko'rinadigan" : "Ko'rinmaydigan "} />
         </>;
       },
     },

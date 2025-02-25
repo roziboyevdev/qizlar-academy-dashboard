@@ -22,6 +22,7 @@ const PremiumPage = () => {
 
   const { data: notificationsList, isLoading, paginationInfo } = usePremiumList(currentPage);
 
+
   const { triggerInfoDelete } = useDeletePremium(data?.id!);
   const getRowData = (info: Premium) => {
     setData(info);

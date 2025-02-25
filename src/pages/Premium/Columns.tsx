@@ -34,7 +34,8 @@ export const createDataColumns = ({
     accessorKey: "user",
     header: "User",
     cell: ({ row }) => {
-      const { phone_number, email }: { phone_number?: string; email?: string } =row.getValue("user");
+      const { phone_number, email }: { phone_number?: string; email?: string } =
+        row.getValue("user");
       const value = phone_number || email;
       const handleClick = () => {
         navigator.clipboard.writeText(value || "");
@@ -53,16 +54,33 @@ export const createDataColumns = ({
     },
   },
   {
-    accessorKey: "from_date",
+    accessorKey: "startDate",
     header: "Muddati",
     cell: ({ row }) => {
-      const from_date: string = row.getValue("from_date") || "";
-      const to_date: string = row.original.to_date || "";
-      console.log( to_date);
-      return <>{formatDateTime(from_date,true)} / {formatDateTime(to_date,true)}</>;
+      const startDate: string = row.getValue("startDate") || "";
+      const endDate: string = row.original.endDate || "";
+      console.log(endDate);
+      return (
+        <>
+          {formatDateTime(startDate, true)} / {formatDateTime(endDate, true)}
+        </>
+      );
     },
   },
-
+  {
+    accessorKey: "promocode",
+    header: "Promo Code",
+    cell: ({ row }) => {
+      return <>{row?.original?.promocode?.code}</>;
+    },
+  },
+  {
+    accessorKey: "isGift",
+    header: "Sovg'a",
+    cell: ({ row }) => {
+      return <>{<CustomSwitch state={row?.original?.isGift} />}</>;
+    },
+  },
   {
     accessorKey: "id",
     header: () => <span className="sr-only">Actions</span>,

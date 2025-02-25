@@ -2,12 +2,10 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "components/ui/form";
-import { SelectField, TextAreaField, TextField } from "components/fields";
+import { SelectField,  TextField } from "components/fields";
 import LoadingButton from "components/LoadingButton";
 import NumberTextField from "components/fields/Number";
-import KeywordField from "components/fields/KeywordField";
 
-import DoubleNumberField from "components/fields/DoubleInput";
 import { DiscountEnum, IPromocode } from "modules/promocode/types";
 import { useCreatePromocode } from "modules/promocode/hooks/useCreate";
 import { useEditPromocode } from "modules/promocode/hooks/useEdit";

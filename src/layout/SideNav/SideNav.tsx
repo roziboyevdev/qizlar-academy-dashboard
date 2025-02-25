@@ -16,6 +16,7 @@ import {
   Handshake,
   User,
   TicketPercent,
+  MailQuestion  
 } from "lucide-react";
 import { Button } from "components/ui/button";
 import { cn } from "utils/styleUtils";
@@ -92,15 +93,21 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: "/user-certificate",
     },
     {
-      title: "Vakansiyalar",
-      icon: Handshake,
-      link: "/vacancy",
-    },
-    {
       title: "Promocode",
       icon: TicketPercent,
       link: "/promocode",
     },
+    {
+      title: "Buyurtmalar",
+      icon: MailQuestion ,
+      link: "/orders",
+    },
+    {
+      title: "Vakansiyalar",
+      icon: Handshake,
+      link: "/vacancy",
+    },
+  
   ];
 
   return (
@@ -122,7 +129,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
           <BrainCircuit />
         </Link>
       </header>
-      <div className="flex flex-col gap-1 p-2">
+      <div className="flex flex-col gap-1 p-2 overflow-y-auto">
         {menuItems.map((item, index) => (
           <NavLink
             to={item.link}

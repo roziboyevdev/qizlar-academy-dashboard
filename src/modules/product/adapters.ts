@@ -15,7 +15,7 @@ export const getData = (item?: ProductType) => {
     price: item?.price ?? 0,
     count: item?.count ?? 0,
     categoryId: item?.categoryId ?? "",
-    is_active: item?.is_active ?? false,
+    isActive: item?.isActive ?? false,
     date: item?.date ?? "",
   };
 };

@@ -21,7 +21,7 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
   const { control, setValue, getValues } = useFormContext();
   
   const [keyword, setKeyword] = useState('');
-  const [keywords, setKeywords] = useState<string[]>(getValues(name)?.split?.(",") || []);
+  const [keywords, setKeywords] = useState<string[]>(getValues(name) || []);
 
   const handleAddKeyword = () => {
     if (keyword.trim() && !keywords.includes(keyword)) {

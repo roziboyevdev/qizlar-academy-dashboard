@@ -5,7 +5,6 @@ import { useDeleteNews } from 'modules/news/hooks/useDeleteNews';
 import { DataTable } from 'components/DataTable';
 import Loader from 'components/Loader';
 import { TableActions } from 'components/TableActions';
-import { Pagination } from 'components/Pagination';
 import { AlertDialog } from 'components/AlertDialog';
 import { Sheet } from 'components/Sheet';
 import NewsForm from './NewsForm';
