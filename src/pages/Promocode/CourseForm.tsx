@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "components/ui/form";
-import { SelectField,  TextField } from "components/fields";
+import { SelectField, TextField } from "components/fields";
 import LoadingButton from "components/LoadingButton";
 import NumberTextField from "components/fields/Number";
 
@@ -22,7 +22,7 @@ const courseSchema = z.object({
     .min(3, { message: "Promocode  kamida 3 ta harfdan iborat bo'lsin" }),
   discountValue: z.union([z.number(), z.string()]),
   discountType: z.nativeEnum(DiscountEnum),
-  maxUses: z.union([z.number(), z.string()]),
+  maxUses: z.union([z.number(), z.string()]).optional(),
   minOrderValue: z.union([z.number(), z.string()]),
   userLimit: z.union([z.number(), z.string()]),
   startDate: z.string().optional(),
@@ -60,14 +60,8 @@ export default function CourseForm({ promocode, setSheetOpen }: IProps) {
           endDate: promocode.endDate,
         }
       : {
-          // title: "",
-          // description: "",
-          // company: "",
-          // salary: 0,
-          // type: '',
-          // from_experience: 0,
-          // to_experience: 0,
-          // tags: [""],
+          code: "",
+          // discountType: '',
         },
   });
 
@@ -77,11 +71,12 @@ export default function CourseForm({ promocode, setSheetOpen }: IProps) {
       startDate: formValues.startDate + ":00Z",
       endDate: formValues.endDate + ":00Z",
       discountValue: +formValues.discountValue,
-      maxUses: +formValues.maxUses,
       minOrderValue: +formValues.minOrderValue,
       userLimit: +formValues.userLimit,
     };
-    console.log(data);
+    if (formValues.maxUses) {
+      data.maxUses = formValues.maxUses;
+    }
 
     if (promocode) {
       triggerVacancyEdit(data);
@@ -115,13 +110,11 @@ export default function CourseForm({ promocode, setSheetOpen }: IProps) {
             name="discountValue"
             placeholder="Chegirma miqdori"
             label="Chegirma miqdori(foiz yoki raqamligi promocode turiga bog'liq 👆 )"
-            required
           />
           <NumberTextField
             name="maxUses"
             placeholder="Procodeni amal qilish miqdori"
             label="Procodeni amal qilish miqdori (masalan: 1000 ta )"
-            required
           />
 
           <NumberTextField

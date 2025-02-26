@@ -19,7 +19,7 @@ export interface IPromocodeInput {
   code: string,
   discountType: DiscountEnum ,
   discountValue: number,
-  maxUses: number,
+  maxUses?: number | string | null,
   userLimit: number,
   minOrderValue: number,
   startDate: string,
