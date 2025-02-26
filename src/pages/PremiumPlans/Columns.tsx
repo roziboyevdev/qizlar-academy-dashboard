@@ -24,17 +24,17 @@ export const createDataColumns = ({
       header: 'Narxi',
     },
     {
-      accessorKey: 'duration_in_days',
+      accessorKey: 'durationInDays',
       header: 'Davomiyligi',
     },
     {
-      accessorKey: 'is_visible',
+      accessorKey: 'isVisible',
       header: 'Status',
       cell: ({ row }) => {
-        const is_visible: boolean = row.getValue('is_visible') || false
+        const isVisible: boolean = row.getValue('isVisible') || false
         return <>
-          <CustomSwitch state={is_visible}
-            labelText={is_visible ? "Ko'rinadigan" : "Ko'rinmaydigan "} />
+          <CustomSwitch state={isVisible}
+            labelText={isVisible ? "Ko'rinadigan" : "Ko'rinmaydigan "} />
         </>;
       },
     },

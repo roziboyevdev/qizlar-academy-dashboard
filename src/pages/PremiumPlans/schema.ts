@@ -9,8 +9,8 @@ export const schema = z.object({
   property4: type.optional(),
   property5: type.optional(),
   price: z.union([z.number(), z.string()]),
-  duration_in_days: z.union([z.number(), z.string()]),
-  is_visible: z.boolean().optional(),
+  durationInDays: z.union([z.number(), z.string()]),
+  isVisible: z.boolean().optional(),
 });
 
 export type useFormSchemaType = z.infer<typeof schema>;

@@ -4,9 +4,9 @@ export const getData = (item?: PremiumPlan) => {
     id: item?.id ?? "",
     title: item?.title ?? "",
     price: item?.price ?? 0,
-    duration_in_days: item?.duration_in_days ?? 0,
+    durationInDays: item?.durationInDays ?? 0,
     properties: item?.properties ?? [],
-    is_visible: item?.is_visible ?? false,
+    isVisible: item?.isVisible ?? false,
     date: item?.date ?? "",
   };
 };

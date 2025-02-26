@@ -21,7 +21,7 @@ interface IProps {
 export default function CustomForm({ product, setSheetOpen }: IProps) {
   const { categoryId } = useParams();
 
-  const initialState = product?.title ? product?.is_visible : true;
+  const initialState = product?.title ? product?.isVisible : true;
   const [switchState, setSwitchState] = useState<boolean>(initialState);
   const [state, setState] = useState(false);
 
@@ -48,7 +48,8 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           property4: product?.properties ? product?.properties[3] : "",
           property5: product?.properties ? product?.properties[4] : "",
           price: +product?.price,
-          is_visible: product?.is_visible,
+          isVisible: product?.isVisible,
+          durationInDays:product?.durationInDays
         }
       : {
           title: "",
@@ -58,7 +59,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           property4: "",
           property5: "",
           price: 0,
-          is_visible: switchState,
+          isVisible: switchState,
         },
   });
 
@@ -72,9 +73,9 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
         property3,
         property4,
         property5,
-        is_visible,
+        isVisible,
         price,
-        duration_in_days,
+        durationInDays,
       } = formValues;
       const properties = [property1];
       if (property2) properties.push(property2);
@@ -82,11 +83,11 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
       if (property4) properties.push(property4);
       if (property5) properties.push(property5);
       const data = {
-        is_visible: switchState,
+        isVisible: switchState,
         properties,
         title,
         price: +price,
-        duration_in_days: +duration_in_days,
+        durationInDays: +durationInDays,
       };
 
       if (product) {
@@ -118,7 +119,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           />
 
           <NumberTextField
-            name="duration_in_days"
+            name="durationInDays"
             placeholder="Davomiyligini kiriting (kun)"
             label="Davomiyligini kiriting (kun)"
             required
@@ -128,7 +129,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
             state={switchState}
             setState={setSwitchState}
             labelText={
-              product?.is_visible || switchState
+              product?.isVisible || switchState
                 ? "Premium plan Ko'rinsin"
                 : "Premium plan Ko'rinmasin "
             }
