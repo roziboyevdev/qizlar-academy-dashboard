@@ -5,11 +5,12 @@ export const getVacancy = (item?: Vacancy) => {
     description: item?.description ?? "",
     title: item?.title ?? "",
     company: item?.company ?? "",
+    address: item?.address ?? "",
     salary: item?.salary ?? 0,
-    from_experience: item?.from_experience ?? 0,
-    to_experience: item?.to_experience ?? 0,
+    fromExperience: item?.fromExperience ?? 0,
+    toExperience: item?.toExperience ?? 0,
     type: item?.type ?? VacancyType.EMPTY,
-    tags: item?.tags ?? [""]
+    skills: item?.skills ?? [""]
   };
 };
 

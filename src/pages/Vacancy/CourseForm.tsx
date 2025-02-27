@@ -11,7 +11,6 @@ import { useCreateVacancy } from "modules/vacancy/hooks/useCreateCourse";
 import { useEditVacancy } from "modules/vacancy/hooks/useEditCourse";
 import DoubleNumberField from "components/fields/DoubleInput";
 
-
 const typeData = [
   { type: VacancyType.FULL_TIME, name: "To'liq vaqt" },
   { type: VacancyType.ONE_TIME, name: "Bir martalik" },
@@ -26,11 +25,12 @@ const courseSchema = z.object({
     message: "description uchun kamida 20 ta harifdan iforat text kirgazing",
   }),
   company: z.string({ message: "Companiya nomi kiritlishi shart" }),
+  address: z.string({ message: "Manzil kiritlishi shart" }),
   salary: z.union([z.number(), z.string()]),
   type: z.nativeEnum(VacancyType),
-  from_experience: z.union([z.number(), z.string()]),
-  to_experience: z.union([z.number(), z.string()]),
-  tags: z
+  fromExperience: z.union([z.number(), z.string()]),
+  toExperience: z.union([z.number(), z.string()]),
+  skills: z
     .array(z.string())
     .min(3, { message: "Kamida 3 ta kalit so'z kiriting" }),
 });
@@ -51,39 +51,52 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
       setSheetOpen,
     }
   );
-  
+
   const form = useForm<courseFormSchema>({
-    resolver: zodResolver(courseSchema),mode:'onChange',
+    resolver: zodResolver(courseSchema),
+    mode: "onSubmit",
     defaultValues: vacancy
       ? {
           title: vacancy.title,
+          address: vacancy.address,
           description: vacancy.description,
           company: vacancy.company,
           salary: vacancy.salary,
           type: vacancy.type,
-          from_experience: vacancy.from_experience,
-          to_experience: vacancy.to_experience,
-          tags: vacancy.tags,
+          fromExperience: vacancy.fromExperience,
+          toExperience: vacancy.toExperience,
+          skills: vacancy.skills,
         }
       : {
           title: "",
+          address: "",
           description: "",
           company: "",
           salary: 0,
           type: VacancyType.EMPTY,
-          from_experience: 0,
-          to_experience: 0,
-          tags: [""],
+          fromExperience: 0,
+          toExperience: 0,
+          skills: [""],
         },
   });
 
   async function onSubmit(formValues: courseFormSchema) {
-    const { from_experience ,to_experience , salary} = formValues
-    
+    const { fromExperience, toExperience, salary } = formValues;
+
     if (vacancy) {
-      triggerVacancyEdit({ ...formValues, from_experience: +from_experience,to_experience:+ to_experience ,salary: + salary});
+      triggerVacancyEdit({
+        ...formValues,
+        fromExperience: +fromExperience,
+        toExperience: +toExperience,
+        salary: +salary,
+      });
     } else {
-      triggerVacancyCreate({ ...formValues, from_experience: +from_experience,to_experience:+ to_experience ,salary: + salary});
+      triggerVacancyCreate({
+        ...formValues,
+        fromExperience: +fromExperience,
+        toExperience: +toExperience,
+        salary: +salary,
+      });
     }
   }
 
@@ -94,7 +107,6 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
         className="flex flex-col gap-2"
       >
         <div className="flex gap-4 flex-col my-4">
-
           <TextField
             name="title"
             label="Vakansiya nomi"
@@ -107,6 +119,13 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
             label="Kompaniya nomi"
             placeholder="Google"
             required
+          />
+
+          <TextField
+            name="address"
+            label="Manzil"
+            required
+            placeholder="Toshkent , Uzbekistan"
           />
 
           <SelectField
@@ -122,11 +141,25 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
             label="Oylik maosh"
             required
           />
-          
-          <DoubleNumberField  name1={"from_experience"} name2={"to_experience"} label1="Boshlang'ich" label2="Maximal" required />
-          <TextAreaField name="description" label="Vakansiya Tarifi " required />
-          <KeywordField name="tags" label="Talab qilinadigan skillar" placeholder="React.js" required />
 
+          <DoubleNumberField
+            name1={"fromExperience"}
+            name2={"toExperience"}
+            label1="Boshlang'ich"
+            label2="Maximal"
+            required
+          />
+          <TextAreaField
+            name="description"
+            label="Vakansiya Tarifi "
+            required
+          />
+          <KeywordField
+            name="skills"
+            label="Talab qilinadigan skillar"
+            placeholder="React.js"
+            required
+          />
         </div>
         {vacancy ? (
           <LoadingButton isLoading={isCourseEditPending}>

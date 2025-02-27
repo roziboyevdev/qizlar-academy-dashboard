@@ -35,11 +35,11 @@ export const createVacancyColumns = ({
     ),
   },
   {
-    accessorKey: "from_experience",
+    accessorKey: "fromExperience",
     header: "Tajriba",
     cell: ({ row }) => (
       <div>
-        {row.getValue("from_experience")} - {row.original.to_experience} yil
+        {row.getValue("fromExperience")} - {row.original.toExperience} yil
       </div>
     ),
   },

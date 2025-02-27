@@ -1,7 +1,7 @@
 export enum VacancyType {
-  ONE_TIME ='one_time',
-  FULL_TIME ='full_time',
-  INTERN ='intern',
+  ONE_TIME ='ONE_TIME',
+  FULL_TIME ='FULL_TIME',
+  INTERN ='INTERNAL',
   EMPTY ='',
 } 
 export interface Vacancy {
@@ -9,22 +9,24 @@ export interface Vacancy {
   title: string;
   description:string;
   company: string;
+  address: string;
   salary: number;
   type?: VacancyType;
-  from_experience: number;
-  to_experience: number;
-  tags:string[];
+  fromExperience: number;
+  toExperience: number;
+  skills:string[];
 }
 
 export interface VacancyInput {
   title: string;
   description:string;
   company: string;
+  address: string;
   salary: number;
   type: VacancyType;
-  from_experience: number;
-  to_experience: number;
-  tags:string[];
+  fromExperience: number;
+  toExperience: number;
+  skills:string[];
 }
 
 export interface VacancyEditBody {
