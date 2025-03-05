@@ -2,7 +2,7 @@ import http from 'services/api';
 import { ExamInputType, ExamEditBodyType } from './types';
 
 export const GetDatasList = async (id: string) => {
-  return await http.get(`/exam/admin?course=${id}&limit=120`);
+  return await http.get(`/exam/admin?course=${id}&pageSize=120`);
 };
 
 export const CreateData = async (values: ExamInputType) => {
