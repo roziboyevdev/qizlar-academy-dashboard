@@ -1,7 +1,7 @@
 export enum VacancyType {
   ONE_TIME ='ONE_TIME',
   FULL_TIME ='FULL_TIME',
-  INTERN ='INTERNAL',
+  INTERN ='INTERN',
   EMPTY ='',
 } 
 export interface Vacancy {

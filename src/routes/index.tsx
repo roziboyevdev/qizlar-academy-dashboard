@@ -35,6 +35,7 @@ import TeachersPage from "pages/Teachers/Page";
 import NewQuizPage from "pages/NewQuiz";
 import PromocodePage from "pages/Promocode";
 import OrdersPage from "pages/Orders/Page";
+import MeetingPage from "pages/Meeting";
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
@@ -152,6 +153,10 @@ export const Routes = () => {
     {
       path: "/vacancy",
       element: <VacancyPage />,
+    },
+    {
+      path: "/meeting",
+      element: <MeetingPage />,
     },
   ];
 

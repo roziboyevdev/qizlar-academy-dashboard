@@ -16,7 +16,8 @@ import {
   Handshake,
   User,
   TicketPercent,
-  MailQuestion  
+  MailQuestion,  
+  CalendarClock
 } from "lucide-react";
 import { Button } from "components/ui/button";
 import { cn } from "utils/styleUtils";
@@ -107,6 +108,12 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       icon: Handshake,
       link: "/vacancy",
     },
+    {
+      title: "Uchrashuvlar",
+      icon: CalendarClock ,
+      link: "/meeting",
+    },
+  
   
   ];
 
