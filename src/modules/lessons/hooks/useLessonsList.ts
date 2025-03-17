@@ -21,7 +21,6 @@ export const useLessonsList = (moduleId: string, currentPage: number) => {
     queryFn: () => GetLessonsList(moduleId, currentPage),
     select: (data) => {
       const lessonsList = getLessonsList(get(data, "data.data.data", []));
-      // const sortedLessonsList = lessonsList.sort((a, b) => a.order - b.order);
 
       return {
         data: lessonsList,
