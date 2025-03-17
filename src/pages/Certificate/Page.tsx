@@ -9,13 +9,15 @@ import CustomForm from './CustomForm';
 import { useDeleteInfo } from 'modules/info/hooks/useDeleteInfo';
 import { useCertificatesList } from 'modules/certificate/hooks/useList';
 import { CertificateType } from 'modules/certificate/types';
+import { Pagination } from 'components/Pagination';
 
 const Certificate = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<CertificateType>();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: notificationsList, isLoading } = useCertificatesList();
+  const { data: notificationsList, isLoading ,paginationInfo } = useCertificatesList();
 
   const { triggerInfoDelete } = useDeleteInfo(
     data?.id!
@@ -40,7 +42,18 @@ const Certificate = () => {
       {isLoading ? (
         <Loader />
       ) : (
+        <>
         <DataTable columns={columns} data={notificationsList} />
+         {paginationInfo && (
+                    <Pagination
+                      className="justify-end mt-3"
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                      paginationInfo={paginationInfo}
+                    />
+                  )}
+        
+        </>
       )}
 
       <Sheet
