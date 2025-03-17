@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { getDatasList } from '../adapters';
 import { GetDatasList } from '../api';
 
-export const useCertificatesList = () => {
+export const useCertificatesList = (currentPage:number) => {
   const initialData = {
     data: getDatasList(),
     paginationInfo: {
@@ -16,8 +16,8 @@ export const useCertificatesList = () => {
     },
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['certificates_list'],
-    queryFn: () => GetDatasList(),
+    queryKey: ['certificates_list',currentPage ],
+    queryFn: () => GetDatasList(currentPage),
     select: data => ({
       data: getDatasList(get(data, 'data.data.data')),
       paginationInfo: get(

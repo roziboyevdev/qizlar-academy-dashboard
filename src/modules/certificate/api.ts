@@ -1,8 +1,8 @@
 import http from 'services/api';
 import { CertificateInputType, CertificateEditBodyType } from './types';
 
-export const GetDatasList = async () => {
-  return await http.get(`/certificate?limit=120`);
+export const GetDatasList = async (currentPage:number) => {
+  return await http.get(`/certificate?pageSize=120`, {params:{pageNumber:currentPage}});
 };
 
 export const CreateData = async (values: CertificateInputType) => {
