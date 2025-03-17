@@ -19,9 +19,10 @@ interface IProps {
 
 export default function KeywordField({ placeholder, required, name, label }: IProps) {
   const { control, setValue, getValues } = useFormContext();
-  
+  const values = getValues(name) || []
+  const data = Array.isArray(values) && typeof values?.[0] == 'object' ? values.map(value => value?.title) : values
   const [keyword, setKeyword] = useState('');
-  const [keywords, setKeywords] = useState<string[]>(getValues(name) || []);
+  const [keywords, setKeywords] = useState<string[]>(data);
 
   const handleAddKeyword = () => {
     if (keyword.trim() && !keywords.includes(keyword)) {

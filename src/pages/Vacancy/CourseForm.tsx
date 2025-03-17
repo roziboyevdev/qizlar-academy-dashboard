@@ -57,15 +57,15 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
     mode: "onSubmit",
     defaultValues: vacancy
       ? {
-          title: vacancy.title,
-          address: vacancy.address,
-          description: vacancy.description,
-          company: vacancy.company,
-          salary: vacancy.salary,
-          type: vacancy.type,
-          fromExperience: vacancy.fromExperience,
-          toExperience: vacancy.toExperience,
-          skills: vacancy.skills,
+          title: vacancy?.title,
+          address: vacancy?.address,
+          description: vacancy?.description,
+          company: vacancy?.company,
+          salary: vacancy?.salary,
+          type: vacancy?.type,
+          fromExperience: vacancy?.fromExperience,
+          toExperience: vacancy?.toExperience,
+          skills: vacancy?.skills,
         }
       : {
           title: "",
