@@ -26,7 +26,7 @@ export const useLessonsList = (moduleId: string, currentPage: number) => {
         data: lessonsList,
         paginationInfo: get(
           data,
-          "data.data.data.meta.pagination",
+          "data.data.meta.pagination",
           initialData.paginationInfo
         ),
       };
