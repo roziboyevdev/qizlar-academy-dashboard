@@ -14,10 +14,10 @@ export const usePremiumList = (currentPage: number) => {
     queryKey: ["premium_list", currentPage],
     queryFn: () => GetDatasList(currentPage),
     select: (data) => {
-      return ({
+      return {
         data: getDatasList(get(data, "data.data.data")),
-        paginationInfo: get(data, "data.data.meta.pagination"),
-      })
+        paginationInfo: get(data, "data.data.data.meta.pagination"),
+      };
     },
   });
 
@@ -28,18 +28,21 @@ export const usePremiumList = (currentPage: number) => {
 };
 
 // user list
-export const useUsersListForPremium = (currentPage: number, searchValue: string) => {
+export const useUsersListForPremium = (
+  currentPage: number,
+  searchValue: string
+) => {
   const initialData = {
     data: getUserDatasList(),
     paginationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ["users_list", currentPage,searchValue],
+    queryKey: ["users_list", currentPage, searchValue],
     queryFn: () => GetUserList(currentPage, searchValue),
     select: (data) => ({
       data: getUserDatasList(get(data, "data")) as User[],
       paginationInfo: get(data, "pagination"),
-    })
+    }),
   });
 
   return {

@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { get } from 'lodash';
+import { useQuery } from "@tanstack/react-query";
+import { get } from "lodash";
 
-import { getReviewGamesList } from '../adapters';
-import { GetReviewGamesList } from '../api';
+import { getReviewGamesList } from "../adapters";
+import { GetReviewGamesList } from "../api";
 
 export const useReviewGamesList = (currentPage: number) => {
   const initialData = {
@@ -10,11 +10,11 @@ export const useReviewGamesList = (currentPage: number) => {
     paginationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['review-games_list'],
+    queryKey: ["review-games_list"],
     queryFn: () => GetReviewGamesList(currentPage),
-    select: data => ({
-      data: getReviewGamesList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.data.meta.pagination'),
+    select: (data) => ({
+      data: getReviewGamesList(get(data, "data.data.data")),
+      paginationInfo: get(data, "data.data.data.meta.pagination"),
     }),
   });
 

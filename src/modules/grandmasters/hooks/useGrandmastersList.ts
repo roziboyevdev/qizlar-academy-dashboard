@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { get } from 'lodash';
+import { useQuery } from "@tanstack/react-query";
+import { get } from "lodash";
 
-import { getGrandmastersList } from '../adapters';
-import { GetGrandmastersList } from '../api';
+import { getGrandmastersList } from "../adapters";
+import { GetGrandmastersList } from "../api";
 
 export const useGrandmastersList = (currentPage: number) => {
   const initialData = {
@@ -10,11 +10,11 @@ export const useGrandmastersList = (currentPage: number) => {
     paginationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['grandmasters_list'],
+    queryKey: ["grandmasters_list"],
     queryFn: () => GetGrandmastersList(currentPage),
-    select: data => ({
-      data: getGrandmastersList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.data.meta.pagination'),
+    select: (data) => ({
+      data: getGrandmastersList(get(data, "data.data.data")),
+      paginationInfo: get(data, "data.data.data.meta.pagination"),
     }),
   });
 

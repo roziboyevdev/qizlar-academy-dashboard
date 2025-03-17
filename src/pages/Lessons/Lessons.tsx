@@ -37,6 +37,8 @@ const Lessons = () => {
     setSheetOpen,
   });
 
+  console.log(paginationInfo);
+  
   return (
     <div>
       <TableActions
