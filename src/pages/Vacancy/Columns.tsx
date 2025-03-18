@@ -32,6 +32,7 @@ export const createVacancyColumns = ({ getRowData, setSheetOpen, setDialogOpen }
       />
     ),
   },
+  
   {
     accessorKey: 'fromExperience',
     header: 'Tajriba',
