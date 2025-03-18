@@ -1,12 +1,7 @@
-import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "components/ui/form";
-import { Input } from "components/ui/input";
+import { useFormContext } from 'react-hook-form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
+import { Input } from 'components/ui/input';
+import NumberTextField from './Number';
 
 interface IProps {
   name1: string;
@@ -17,14 +12,7 @@ interface IProps {
   required?: boolean;
 }
 
-export default function DoubleNumberField({
-  placeholder,
-  required,
-  name1,
-  name2,
-  label1,
-  label2,
-}: IProps) {
+export default function DoubleNumberField({ placeholder, required, name1, name2, label1, label2 }: IProps) {
   const { control } = useFormContext();
 
   return (
@@ -39,9 +27,7 @@ export default function DoubleNumberField({
               {label1 && (
                 <FormLabel>
                   {`${label1} `}
-                  {required && (
-                    <span className="text-red-500 dark:text-red-900">*</span>
-                  )}
+                  {required && <span className="text-red-500 dark:text-red-900">*</span>}
                 </FormLabel>
               )}
               <FormControl>
@@ -51,6 +37,8 @@ export default function DoubleNumberField({
             </FormItem>
           )}
         />
+        <NumberTextField name={name1}  label="Oylik maosh" required />
+
         <FormField
           control={control}
           name={name2}
@@ -59,9 +47,7 @@ export default function DoubleNumberField({
               {label2 && (
                 <FormLabel>
                   {`${label2} `}
-                  {required && (
-                    <span className="text-red-500 dark:text-red-900">*</span>
-                  )}
+                  {required && <span className="text-red-500 dark:text-red-900">*</span>}
                 </FormLabel>
               )}
               <FormControl>

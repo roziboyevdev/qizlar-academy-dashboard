@@ -25,10 +25,10 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
   const [keywords, setKeywords] = useState<string[]>(data);
 
   const handleAddKeyword = () => {
-    if (keyword.trim() && !keywords.includes(keyword)) {
+    if (keyword.trim() && !keywords.includes(keyword) && keywords.length) {
       const updatedKeywords = [...keywords, keyword.trim()];
       setKeywords(updatedKeywords);
-      setValue(name, updatedKeywords); // Update form value
+      setValue(name, updatedKeywords); 
       setKeyword('');
     }
   };
@@ -36,7 +36,7 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
   const handleRemoveKeyword = (removeKeyword: string) => {
     const updatedKeywords = keywords.filter((kw) => kw !== removeKeyword);
     setKeywords(updatedKeywords);
-    setValue(name, updatedKeywords); // Update form value
+    setValue(name, updatedKeywords); 
   };
 
   return (
