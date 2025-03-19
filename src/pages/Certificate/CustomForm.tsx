@@ -18,7 +18,7 @@ interface IProps {
 }
 const degreeData = [{ type: "GOLD", name: "Oltin" }, { type: "SILVER", name: "Kumush" }, { type: "BRONZE", name: "Bronza" }]
 
-export type SelectType = { name: string, type: string }
+export type SelectType = { name: string, type: string ,disabled?: boolean}
 export default function CustomForm({
   certificate,
   setSheetOpen,

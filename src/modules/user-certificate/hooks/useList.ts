@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { get } from "lodash";
+import { useQuery } from '@tanstack/react-query';
+import { get } from 'lodash';
 
-import { getDatasList } from "../adapters";
-import { GetDatasList } from "../api";
+import { getDatasList } from '../adapters';
+import { GetDatasList } from '../api';
 
-export const useUserCertificateList = (currentPage: number) => {
+export const useUserCertificateList = (currentPage: number, courseId?: string , region?:string) => {
   const initialData = {
     data: getDatasList(),
     pagenationInfo: {
@@ -15,11 +15,11 @@ export const useUserCertificateList = (currentPage: number) => {
     },
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ["user_certificate_list", currentPage],
-    queryFn: () => GetDatasList(currentPage),
+    queryKey: ['user_certificate_list', currentPage , courseId,region],
+    queryFn: () => GetDatasList(currentPage, courseId ,region),
     select: (data) => ({
-      data: getDatasList(get(data, "data.data.data")),
-      pagenationInfo: get(data, "data.data.meta.pagination"),
+      data: getDatasList(get(data, 'data.data.data')),
+      pagenationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
   return {
