@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { get } from "lodash";
+import { useQuery } from '@tanstack/react-query';
+import { get } from 'lodash';
 
-import { getAfishaList } from "../adapters";
-import { GetAfishaList } from "../api";
+import { getAfishaList } from '../adapters';
+import { GetAfishaList } from '../api';
 
 export const useAfishaList = (currentPage: number) => {
   const initialData = {
@@ -10,11 +10,11 @@ export const useAfishaList = (currentPage: number) => {
     paginationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ["afisha_list"],
+    queryKey: ['afisha_list'],
     queryFn: () => GetAfishaList(currentPage),
     select: (data) => ({
-      data: getAfishaList(get(data, "data.data.data")),
-      paginationInfo: get(data, "data.data.data.meta.pagination"),
+      data: getAfishaList(get(data, 'data.data.data')),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

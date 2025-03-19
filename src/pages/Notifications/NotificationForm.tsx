@@ -1,21 +1,12 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Notification,
-  NotificationInput,
-  NotificationType,
-} from 'modules/notifications/types';
+import { Notification, NotificationInput, NotificationType } from 'modules/notifications/types';
 
 import { useCreateNotification } from 'modules/notifications/hooks/useCreateNotification';
 import { useEditNotification } from 'modules/notifications/hooks/useEditNotification';
 import { Form } from 'components/ui/form';
-import {
-  FileField,
-  TextField,
-  RichTextEditor,
-  TextAreaField,
-} from 'components/fields';
+import { FileField, TextField, RichTextEditor, TextAreaField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
 
@@ -25,7 +16,7 @@ const notificationSchema = z.object({
   body: z.string().min(3, { message: 'Bilidirishnoma matni talab qilinadi' }),
   photo: z
     .union([
-      z.custom<File>(file => file instanceof File, {
+      z.custom<File>((file) => file instanceof File, {
         message: 'Rasm talab qilinadi',
       }),
       z.string(),
@@ -41,18 +32,13 @@ interface IProps {
   setSheetOpen: (state: boolean) => void;
 }
 
-export default function NotificationForm({
-  notification,
-  setSheetOpen,
-}: IProps) {
+export default function NotificationForm({ notification, setSheetOpen }: IProps) {
   const { uploadFile } = useFileUploader();
-  const { triggerNotificationCreate, isPending: isNotificationCreatePending } =
-    useCreateNotification({ setSheetOpen });
-  const { triggerNotificationEdit, isPending: isNotificationEditPending } =
-    useEditNotification({
-      id: notification?.id,
-      setSheetOpen,
-    });
+  const { triggerNotificationCreate, isPending: isNotificationCreatePending } = useCreateNotification({ setSheetOpen });
+  const { triggerNotificationEdit, isPending: isNotificationEditPending } = useEditNotification({
+    id: notification?.id,
+    setSheetOpen,
+  });
 
   const form = useForm<notificationFormSchema>({
     resolver: zodResolver(notificationSchema),
@@ -85,42 +71,19 @@ export default function NotificationForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Bildirishnoma nomi" required />
-           <TextAreaField name="body" label="Bildirishnoma matni" required /> 
+          <TextAreaField name="body" label="Bildirishnoma matni" required />
           <RichTextEditor name="content" label="Bildirishnoma kontenti(batavsil)" required />
           <FileField name="photo" label="Bildirishnoma rasmi" />
-
-          {/* <SelectField
-            name="type"
-            data={notificationType}
-            placeholder="Bildirishnoma turi..."
-            label="Bildirishnoma turini tanglang"
-          /> */}
         </div>
         {notification ? (
-          <LoadingButton isLoading={isNotificationEditPending}>
-            Tahrirlash
-          </LoadingButton>
+          <LoadingButton isLoading={isNotificationEditPending}>Tahrirlash</LoadingButton>
         ) : (
-          <LoadingButton isLoading={isNotificationCreatePending}>
-            Saqlash
-          </LoadingButton>
+          <LoadingButton isLoading={isNotificationCreatePending}>Saqlash</LoadingButton>
         )}
       </form>
     </Form>
   );
 }
-
-
-
-
-
-
-
-
-

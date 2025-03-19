@@ -1,23 +1,21 @@
-import { useState } from "react";
-import { DataTable } from "components/DataTable";
-import Loader from "components/Loader";
-import { createDataColumns } from "./Columns";
-import { Donation } from "modules/donation/types";
-import { Pagination } from "components/Pagination";
-import { useUserCertificateList } from "modules/user-certificate/hooks/useList";
-import { IUserCertificate } from "modules/user-certificate/types";
+import { useState } from 'react';
+import { DataTable } from 'components/DataTable';
+import Loader from 'components/Loader';
+import { createDataColumns } from './Columns';
+import { Pagination } from 'components/Pagination';
+import { useUserCertificateList } from 'modules/user-certificate/hooks/useList';
+import { IUserCertificate } from 'modules/user-certificate/types';
+import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 
 const UsersCertificatesPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<IUserCertificate>();
   const [currentPage, setCurrentPage] = useState(1);
+  const [course, setCourse] = useState('');
 
-  const {
-    data: categories,
-    isLoading,
-    pagenationInfo,
-  } = useUserCertificateList(currentPage);
+  const { data: categories, isLoading, pagenationInfo } = useUserCertificateList(currentPage);
+  const { data: coursesList } = useCoursesList({ isEnabled: !!categories,});
 
   const getRowData = (info: IUserCertificate) => {
     setData(info);
@@ -42,12 +40,7 @@ const UsersCertificatesPage = () => {
       ) : (
         <>
           <DataTable columns={columns} data={categories} />
-          <Pagination
-            className="justify-end mt-3"
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            paginationInfo={pagenationInfo}
-          />
+          <Pagination className="justify-end mt-3" currentPage={currentPage} setCurrentPage={setCurrentPage} paginationInfo={pagenationInfo} />
         </>
       )}
     </div>

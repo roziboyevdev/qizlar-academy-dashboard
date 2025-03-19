@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { get } from "lodash";
+import { useQuery } from '@tanstack/react-query';
+import { get } from 'lodash';
 
-import { getDatasList } from "../adapters";
-import { GetDatasList } from "../api";
+import { getDatasList } from '../adapters';
+import { GetDatasList } from '../api';
 
 export const usePremiumPlansList = (currentPage: number, limit: number) => {
   const initialData = {
@@ -10,11 +10,11 @@ export const usePremiumPlansList = (currentPage: number, limit: number) => {
     paginationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ["premiumPlans_list", currentPage],
+    queryKey: ['premiumPlans_list', currentPage],
     queryFn: () => GetDatasList(currentPage, limit),
     select: (data) => ({
-      data: getDatasList(get(data, "data.data.data")),
-      paginationInfo: get(data, "data.data.data.meta.pagination"),
+      data: getDatasList(get(data, 'data.data.data')),
+      paginationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 
