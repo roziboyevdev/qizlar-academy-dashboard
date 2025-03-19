@@ -1,31 +1,17 @@
-import { UserCertificate } from './types';
-export const getData = (item?: UserCertificate) => {
-  console.log(item?.profile);
-  
+import { IUserCertificate } from './types';
+export const getData = (item?: IUserCertificate) => {
   return {
     id: item?.id ?? '',
-    profile: item?.profile ? item?.profile : {
-      first_name:'',
-      last_name:'',
-      address:{
-        country:'',
-        region:'',
-        district:'',
-        neighborhood:''
-      }
-    },
-    user: item?.user ? item?.user : {
-      phone_number:'',
-      email:''
-    },
-    course: item?.course ? item?.course : [{name:''}],
+    file: item?.file ?? '',
+    user: item?.user ? item?.user : null,
+    course: item?.course ? item?.course : null,
   };
 };
 
-export const getDatasList = (data?: UserCertificate[]) => {
+export const getDatasList = (data?: IUserCertificate[]) => {
   return data?.length
-    ? data.map(item => {
-      return getData(item);
-    })
+    ? data.map((item) => {
+        return getData(item);
+      })
     : [];
 };

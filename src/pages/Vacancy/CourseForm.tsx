@@ -9,7 +9,6 @@ import KeywordField from 'components/fields/KeywordField';
 import { Vacancy, VacancyType } from 'modules/vacancy/types';
 import { useCreateVacancy } from 'modules/vacancy/hooks/useCreateCourse';
 import { useEditVacancy } from 'modules/vacancy/hooks/useEditCourse';
-import DoubleNumberField from 'components/fields/DoubleInput';
 
 const typeData = [
   { type: VacancyType.FULL_TIME, name: "To'liq vaqt" },

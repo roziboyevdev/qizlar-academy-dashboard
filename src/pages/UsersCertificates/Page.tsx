@@ -5,12 +5,12 @@ import { createDataColumns } from "./Columns";
 import { Donation } from "modules/donation/types";
 import { Pagination } from "components/Pagination";
 import { useUserCertificateList } from "modules/user-certificate/hooks/useList";
-import { UserCertificate } from "modules/user-certificate/types";
+import { IUserCertificate } from "modules/user-certificate/types";
 
 const UsersCertificatesPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
-  const [data, setData] = useState<UserCertificate>();
+  const [data, setData] = useState<IUserCertificate>();
   const [currentPage, setCurrentPage] = useState(1);
 
   const {
@@ -19,7 +19,7 @@ const UsersCertificatesPage = () => {
     pagenationInfo,
   } = useUserCertificateList(currentPage);
 
-  const getRowData = (info: UserCertificate) => {
+  const getRowData = (info: IUserCertificate) => {
     setData(info);
   };
 

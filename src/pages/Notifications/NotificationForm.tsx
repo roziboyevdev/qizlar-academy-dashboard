@@ -92,7 +92,7 @@ export default function NotificationForm({
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Bildirishnoma nomi" required />
            <TextAreaField name="body" label="Bildirishnoma matni" required /> 
-          <RichTextEditor name="content" label="Bildirishnoma kontenti(html)" required />
+          <RichTextEditor name="content" label="Bildirishnoma kontenti(batavsil)" required />
           <FileField name="photo" label="Bildirishnoma rasmi" />
 
           {/* <SelectField

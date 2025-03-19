@@ -1,23 +1,26 @@
 
 
+interface IUser {
+  id?: string;
+  phone?: string;
+  email?: string | null;
+  firstname?: string;
+  lastname?: string;
+  address?: {
+    id?: string;
+    country?: string;
+    region?: string;
+    district?: string;
+    neighborhood?: string;
+  };
+}
 
-export interface UserCertificate {
-  id: string;
-  user: {
-    phone_number: string;
-    email: string | null;
-  };
-  course: {
-    name: string;
-  }[];
-  profile: {
-    first_name: string;
-    last_name: string;
-    address: {
-      country: string;
-      region: string;
-      district: string;
-      neighborhood: string;
-    };
-  };
+export interface IUserCertificate {
+  id?: string;
+  user?: IUser | null;
+  course?: {
+    id?: string;
+    title?: string;
+  } | null;
+  file?: string;
 }

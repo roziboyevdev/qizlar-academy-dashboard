@@ -2,6 +2,6 @@ import http from 'services/api';
 
 
 export const GetDatasList = async (currentPage:number) => {
-  return await http.get(`certificate/users?limit=10&page=${currentPage}`);
+  return await http.get(`certificate/users?pageSize=10&pageNumber=${currentPage}`);
 };
 

@@ -19,7 +19,7 @@ export const useUserCertificateList = (currentPage: number) => {
     queryFn: () => GetDatasList(currentPage),
     select: (data) => ({
       data: getDatasList(get(data, "data.data.data")),
-      pagenationInfo: get(data, "data.data.data.meta.pagination"),
+      pagenationInfo: get(data, "data.data.meta.pagination"),
     }),
   });
   return {

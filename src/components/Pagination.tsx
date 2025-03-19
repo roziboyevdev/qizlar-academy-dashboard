@@ -94,7 +94,6 @@
 //   );
 // };
 
-
 import {
   Pagination as PaginationRoot,
   PaginationContent,
@@ -103,8 +102,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "components/ui/pagination";
-import { cn } from "utils/styleUtils";
+} from 'components/ui/pagination';
+import { cn } from 'utils/styleUtils';
 
 interface PaginationInfo {
   pageNumber: number;
@@ -120,14 +119,9 @@ interface IProps {
   paginationInfo: PaginationInfo;
 }
 
-export const Pagination = ({
-  className,
-  currentPage,
-  setCurrentPage,
-  paginationInfo,
-}: IProps) => {
+export const Pagination = ({ className, currentPage, setCurrentPage, paginationInfo }: IProps) => {
   const { pageNumber, pageCount } = paginationInfo;
-console.log(paginationInfo ,"pagination info");
+  console.log(paginationInfo, 'pagination info');
 
   const handleNextPage = () => {
     if (currentPage < pageCount) {
@@ -142,7 +136,7 @@ console.log(paginationInfo ,"pagination info");
   };
 
   return (
-    <PaginationRoot className={cn(className, "dark:text-slate-400")}>
+    <PaginationRoot className={cn(className, 'dark:text-slate-400')}>
       <PaginationContent>
         {/* Oldingi sahifa tugmasi */}
         <PaginationItem className="cursor-pointer select-none">
@@ -159,9 +153,7 @@ console.log(paginationInfo ,"pagination info");
         {/* Oldingi sahifa raqami */}
         {pageNumber > 1 && (
           <PaginationItem className="cursor-pointer select-none">
-            <PaginationLink onClick={handlePrevPage}>
-              {pageNumber}
-            </PaginationLink>
+            <PaginationLink onClick={handlePrevPage}>{currentPage - 1}</PaginationLink>
           </PaginationItem>
         )}
 
@@ -173,9 +165,7 @@ console.log(paginationInfo ,"pagination info");
         {/* Keyingi sahifa raqami */}
         {pageNumber < pageCount && (
           <PaginationItem className="cursor-pointer select-none">
-            <PaginationLink onClick={handleNextPage}>
-              {pageNumber + 2}
-            </PaginationLink>
+            <PaginationLink onClick={handleNextPage}>{currentPage + 1}</PaginationLink>
           </PaginationItem>
         )}
 
