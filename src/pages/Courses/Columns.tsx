@@ -7,6 +7,7 @@ interface IProps {
   getRowData: (course: Course) => void;
   setSheetOpen: (state: boolean) => void;
   setDialogOpen: (state: boolean) => void;
+  currentPage:number
 }
 
 function stripHtml(html: string): string {
@@ -24,7 +25,13 @@ export const createCourseColumns = ({
   getRowData,
   setSheetOpen,
   setDialogOpen,
+  currentPage
 }: IProps): ColumnDef<Course, unknown>[] => [
+  {
+    accessorKey: 'amount',
+    header: 'T/R',
+    cell: ({ row }) => row.index + 1 + (currentPage - 1) * 10,
+  },
   {
     accessorKey: "title",
     header: "Kurs nomi",

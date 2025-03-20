@@ -28,6 +28,7 @@ const Courses = () => {
     getRowData,
     setDialogOpen,
     setSheetOpen,
+    currentPage
   });
 
   return (
