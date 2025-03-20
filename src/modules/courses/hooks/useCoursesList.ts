@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { getCoursesList } from '../adapters';
 import { GetCoursesList } from '../api';
 
-export const useCoursesList = ({ isEnabled = false }: { isEnabled?: boolean } = {}) => {
+export const useCoursesList = ({ isEnabled = true }: { isEnabled?: boolean } = {}) => {
   const initialData = {
     data: getCoursesList(),
   };
