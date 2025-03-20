@@ -1,8 +1,8 @@
 import http from 'services/api';
 import { CourseEditBody, CourseInput } from './types';
 
-export const GetCoursesList = async () => {
-  return await http.get(`/course/`,{params:{pageSize:200}});
+export const GetCoursesList = async (pageNumber?: number) => {
+  return await http.get(`/course/`, { params: { pageSize: 10, pageNumber } });
 };
 
 export const CreateCourse = async (values: CourseInput) => {

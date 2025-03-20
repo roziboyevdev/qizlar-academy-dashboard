@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from 'components/ui/form';
+import { FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import { Button } from 'components/ui/button';
 
@@ -14,21 +9,20 @@ interface IProps {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  
 }
 
 export default function KeywordField({ placeholder, required, name, label }: IProps) {
   const { control, setValue, getValues } = useFormContext();
-  const values = getValues(name) || []
-  const data = Array.isArray(values) && typeof values?.[0] == 'object' ? values.map(value => value?.title) : values
+  const values = getValues(name) || [];
+  const data = Array.isArray(values) && typeof values?.[0] == 'object' ? values.map((value) => value?.title) : values;
   const [keyword, setKeyword] = useState('');
   const [keywords, setKeywords] = useState<string[]>(data);
 
   const handleAddKeyword = () => {
-    if (keyword.trim() && !keywords.includes(keyword) && keywords.length) {
+    if (keyword.trim() && !keywords.includes(keyword)) {
       const updatedKeywords = [...keywords, keyword.trim()];
       setKeywords(updatedKeywords);
-      setValue(name, updatedKeywords); 
+      setValue(name, updatedKeywords);
       setKeyword('');
     }
   };
@@ -36,7 +30,7 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
   const handleRemoveKeyword = (removeKeyword: string) => {
     const updatedKeywords = keywords.filter((kw) => kw !== removeKeyword);
     setKeywords(updatedKeywords);
-    setValue(name, updatedKeywords); 
+    setValue(name, updatedKeywords);
   };
 
   return (
@@ -68,11 +62,7 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
                 className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-lg flex items-center gap-2"
               >
                 {kw}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveKeyword(kw)}
-                  className="text-red-500 hover:text-red-700"
-                >
+                <button type="button" onClick={() => handleRemoveKeyword(kw)} className="text-red-500 hover:text-red-700">
                   ✕
                 </button>
               </span>

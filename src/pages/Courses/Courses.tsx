@@ -9,20 +9,21 @@ import { AlertDialog } from 'components/AlertDialog';
 import { Sheet } from 'components/Sheet';
 import CourseForm from './CourseForm';
 import { createCourseColumns } from './Columns';
+import { Pagination } from 'components/Pagination';
 
 const Courses = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [course, setCourse] = useState<Course>();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: coursesList, isLoading } = useCoursesList();
+  const { data: coursesList, isLoading, paginationInfo } = useCoursesList({currentPage});
   const { triggerCourseDelete } = useDeleteCourse(course?.id!);
 
   const getRowData = (course: Course) => {
     setCourse(course);
   };
 
-  
   const columns = createCourseColumns({
     getRowData,
     setDialogOpen,
@@ -31,22 +32,24 @@ const Courses = () => {
 
   return (
     <div>
-      <TableActions
-        sheetTriggerTitle="Kurs qo'shish"
-        sheetTitle="Yangi kurs qo'shish."
-        TableForm={CourseForm}
-      />
+      <TableActions sheetTriggerTitle="Kurs qo'shish" sheetTitle="Yangi kurs qo'shish." TableForm={CourseForm} />
       {isLoading ? (
         <Loader />
       ) : (
-        <DataTable columns={columns} data={coursesList} navigateTable />
+        <>
+          <DataTable columns={columns} data={coursesList} navigateTable />
+          {paginationInfo && (
+            <Pagination
+              className="justify-end mt-3"
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              paginationInfo={paginationInfo}
+            />
+          )}
+        </>
       )}
 
-      <Sheet
-        sheetTitle="Kursni tahrirlash"
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
+      <Sheet sheetTitle="Kursni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CourseForm course={course} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog
