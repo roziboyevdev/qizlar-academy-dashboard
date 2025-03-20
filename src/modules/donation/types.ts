@@ -1,16 +1,13 @@
-export interface Profile {
-  first_name: string;
-  last_name: string;
-  source: string;
-}
+import { IUser } from "modules/user-certificate/types";
+
+
 
 export interface Donation {
   id: string;
   amount: number;
-  provider: string;
-  profile: Profile | {};
-  date: string;
+  user: IUser | null;
+  createdAt: string;
+  transaction:{provider:string} | null
 }
-
 
 

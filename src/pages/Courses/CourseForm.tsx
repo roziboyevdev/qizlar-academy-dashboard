@@ -75,7 +75,7 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-  const { data: coursesList } = useTeachersList();
+  const { data: coursesList } = useTeachersList(1,50);
 
   const form = useForm<courseFormSchema>({
     resolver: zodResolver(courseSchema),

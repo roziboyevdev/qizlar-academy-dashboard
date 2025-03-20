@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { getDatasList } from '../adapters';
 import { GetDatasList } from '../api';
 
-export const useUserCertificateList = (currentPage: number, courseId?: string , region?:string) => {
+export const useUserCertificateList = (currentPage: number, courseId?: string , region?:string,district?:string) => {
   const initialData = {
     data: getDatasList(),
     pagenationInfo: {
@@ -15,8 +15,8 @@ export const useUserCertificateList = (currentPage: number, courseId?: string , 
     },
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['user_certificate_list', currentPage , courseId,region],
-    queryFn: () => GetDatasList(currentPage, courseId ,region),
+    queryKey: ['user_certificate_list', currentPage , courseId,region,district],
+    queryFn: () => GetDatasList(currentPage, courseId ,region,district),
     select: (data) => ({
       data: getDatasList(get(data, 'data.data.data')),
       pagenationInfo: get(data, 'data.data.meta.pagination'),

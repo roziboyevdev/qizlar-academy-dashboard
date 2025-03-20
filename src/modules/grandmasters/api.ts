@@ -2,7 +2,7 @@ import http from 'services/api';
 import { Grandmaster, GrandmasterEditBody, GrandmasterInput } from './types';
 
 export const GetGrandmastersList = async (currentPage: number) => {
-  return await http.get(`/grandmasters?page=${currentPage}`);
+  return await http.get(`/grandmasters?pageNumber=${currentPage}`);
 };
 
 export const CreateGrandmaster = async (values: GrandmasterInput) => {

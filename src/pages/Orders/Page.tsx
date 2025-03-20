@@ -34,7 +34,7 @@ const OrdersPage = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2>Jami {pagenationInfo?.total_records || 0} ta </h2>
-        <h1 className="text-2xl font-bold">Donation</h1>
+        <h1 className="text-2xl font-bold">Buyurtmalar</h1>
       </div>
       {isLoading ? (
         <Loader />

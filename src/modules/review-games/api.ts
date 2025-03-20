@@ -2,7 +2,7 @@ import http from 'services/api';
 import { ReviewGame, ReviewGameEditBody, ReviewGameInput } from './types';
 
 export const GetReviewGamesList = async (currentPage: number) => {
-  return await http.get(`/reviews?page=${currentPage}`);
+  return await http.get(`/reviews?pageNumber=${currentPage}`);
 };
 
 export const CreateReviewGame = async (values: ReviewGameInput) => {

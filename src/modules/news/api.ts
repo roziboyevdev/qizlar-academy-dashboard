@@ -2,7 +2,7 @@ import http from 'services/api';
 import { News, NewsEditBody, NewsInput } from './types';
 
 export const GetNewsList = async (currentPage: number) => {
-  return await http.get(`/news?page=${currentPage}`);
+  return await http.get(`/news?pageNumber=${currentPage}`);
 };
 
 export const CreateNews = async (values: NewsInput) => {

@@ -2,7 +2,7 @@ import http from 'services/api';
 import { Book, BookEditBody, BookInput } from './types';
 
 export const GetBooksList = async (currentPage: number) => {
-  return await http.get(`/books?page=${currentPage}`);
+  return await http.get(`/books?pageNumber=${currentPage}`);
 };
 
 export const CreateBook = async (values: BookInput) => {

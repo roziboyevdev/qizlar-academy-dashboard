@@ -1,71 +1,57 @@
 [{
         "id": 4321,
-        "name": "Toshkent shahri",
-        "country_id": 239
+        "name": "Toshkent shahri"
     },
     {
         "id": 4322,
-        "name": "Andijon viloyati",
-        "country_id": 239
+        "name": "Andijon viloyati"
     },
     {
         "id": 4323,
-        "name": "Buxoro viloyati",
-        "country_id": 239
+        "name": "Buxoro viloyati"
     },
     {
         "id": 4324,
-        "name": "Farg'ona viloyati",
-        "country_id": 239
+        "name": "Farg'ona viloyati"
     },
     {
         "id": 4325,
-        "name": "Jizzax viloyati",
-        "country_id": 239
+        "name": "Jizzax viloyati"
     },
     {
         "id": 4326,
-        "name": "Namangan viloyati",
-        "country_id": 239
+        "name": "Namangan viloyati"
     },
     {
         "id": 4327,
-        "name": "Navoiy viloyati",
-        "country_id": 239
+        "name": "Navoiy viloyati"
     },
     {
         "id": 4328,
-        "name": "Qashqadaryo viloyati",
-        "country_id": 239
+        "name": "Qashqadaryo viloyati"
     },
     {
         "id": 4329,
-        "name": "Samarqand viloyati",
-        "country_id": 239
+        "name": "Samarqand viloyati"
     },
     {
         "id": 4330,
-        "name": "Sirdaryo viloyati",
-        "country_id": 239
+        "name": "Sirdaryo viloyati"
     },
     {
         "id": 4331,
-        "name": "Surxondaryo viloyati",
-        "country_id": 239
+        "name": "Surxondaryo viloyati"
     },
     {
         "id": 4332,
-        "name": "Toshkent viloyati",
-        "country_id": 239
+        "name": "Toshkent viloyati"
     },
     {
         "id": 4333,
-        "name": "Xorazm viloyati",
-        "country_id": 239
+        "name": "Xorazm viloyati"
     },
     {
         "id": 4334,
-        "name": "Qoraqalpog'iston Respublikasi",
-        "country_id": 239
+        "name": "Qoraqalpog'iston Respublikasi"
     }
 ]

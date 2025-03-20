@@ -1,8 +1,8 @@
 import http from "services/api";
 import { QuizEditBody, QuizInput } from "./types";
 
-export const GetQuizzesList = async (lessonId: string, currentPage: number) => {
-  return await http.get(`/exam`, { params: { courseId: lessonId ,currentPage } });
+export const GetQuizzesList = async (lessonId: string, pageNumber: number) => {
+  return await http.get(`/exam?pageSize=25`, { params: { courseId: lessonId ,pageNumber } });
 };
 
 export const CreateQuiz = async (values: QuizInput) => {

@@ -9,16 +9,16 @@ import { AlertDialog } from 'components/AlertDialog';
 import Loader from 'components/Loader';
 import { createNotificationColumns } from './Columns';
 import NotificationForm from './NotificationForm';
+import { Pagination } from 'components/Pagination';
 
 const Notifications = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [notification, setNotification] = useState<Notification>();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: notificationsList, isLoading } = useNotificationsList();
-  const { triggerNotificationDelete } = useDeleteNotification(
-    notification?.id!
-  );
+  const { data: notificationsList, isLoading, pagenationInfo } = useNotificationsList(currentPage,10);
+  const { triggerNotificationDelete } = useDeleteNotification(notification?.id!);
 
   const getRowData = (notification: Notification) => {
     setNotification(notification);
@@ -32,26 +32,18 @@ const Notifications = () => {
 
   return (
     <div>
-      <TableActions
-        sheetTriggerTitle="Bildirishnoma qo'shish"
-        sheetTitle="Yangi bildirishnoma qo'shish"
-        TableForm={NotificationForm}
-      />
+      <TableActions sheetTriggerTitle="Bildirishnoma qo'shish" sheetTitle="Yangi bildirishnoma qo'shish" TableForm={NotificationForm} />
       {isLoading ? (
         <Loader />
       ) : (
-        <DataTable columns={columns} data={notificationsList} />
+        <>
+          <DataTable columns={columns} data={notificationsList} />
+          <Pagination className="justify-end mt-3" currentPage={currentPage} setCurrentPage={setCurrentPage} paginationInfo={pagenationInfo} />
+        </>
       )}
 
-      <Sheet
-        sheetTitle="Kursni tahrirlash"
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
-        <NotificationForm
-          notification={notification}
-          setSheetOpen={setSheetOpen}
-        />
+      <Sheet sheetTitle="Kursni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+        <NotificationForm notification={notification} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog
         alertTitle="Ishonchingiz komilmi?"

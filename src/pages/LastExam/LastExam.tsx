@@ -39,27 +39,18 @@ const LastExam = () => {
         sheetTriggerTitle="Yakuniy test qo'shish"
         sheetTitle="Yangi yakuniy test qo'shish."
         TableForm={QuizForm}
-      // isAddButtonHidden={quizzesList.length >= 5}
+        // isAddButtonHidden={quizzesList.length >= 5}
       />
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <DataTable columns={columns} data={quizzesList} />
-          {/* <Pagination
-            className="justify-end mt-3"
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            paginationInfo={paginationInfo}
-          /> */}
+          <Pagination className="justify-end mt-3" currentPage={currentPage} setCurrentPage={setCurrentPage} paginationInfo={paginationInfo} />
         </>
       )}
 
-      <Sheet
-        sheetTitle="Yangi test yaratish"
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
+      <Sheet sheetTitle="Yangi test yaratish" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <QuizForm quiz={quiz} setSheetOpen={setSheetOpen} />
       </Sheet>
 

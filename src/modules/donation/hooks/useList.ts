@@ -7,12 +7,7 @@ import { GetDatasList } from "../api";
 export const useDonationsList = (currentPage: number) => {
   const initialData = {
     data: getDatasList(),
-    pagenationInfo: {
-      total_pages: 0,
-      prev_page: 0,
-      next_page: 0,
-      current_page: 1,
-    },
+    pagenationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
     queryKey: ["donation_list", currentPage],

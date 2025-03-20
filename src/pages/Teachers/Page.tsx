@@ -12,19 +12,17 @@ import { useDeleteStory } from 'modules/story/hooks/useDelete';
 import { TeacherType } from 'modules/teachers/types';
 import { useTeachersList } from 'modules/teachers/hooks/useList';
 import { useDeleteTeacher } from 'modules/teachers/hooks/useDelete';
-
+import { Pagination } from 'components/Pagination';
 
 const TeachersPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<TeacherType>();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: notificationsList, isLoading } = useTeachersList();
+  const { data: notificationsList, isLoading, pagenationInfo } = useTeachersList(currentPage, 20);
 
-  
-  const { triggerInfoDelete } = useDeleteTeacher(
-    data?.id!
-  );
+  const { triggerInfoDelete } = useDeleteTeacher(data?.id!);
   const getRowData = (info: TeacherType) => {
     setData(info);
   };
@@ -37,26 +35,18 @@ const TeachersPage = () => {
 
   return (
     <div>
-      <TableActions
-        sheetTriggerTitle="Ustoz  qo'shish"
-        sheetTitle="Yangi Ustoz  qo'shish"
-        TableForm={CustomForm}
-      />
+      <TableActions sheetTriggerTitle="Ustoz  qo'shish" sheetTitle="Yangi Ustoz  qo'shish" TableForm={CustomForm} />
       {isLoading ? (
         <Loader />
       ) : (
-        <DataTable columns={columns} data={notificationsList} />
+        <>
+          <DataTable columns={columns} data={notificationsList} />
+          <Pagination className="justify-end mt-3" currentPage={currentPage} setCurrentPage={setCurrentPage} paginationInfo={pagenationInfo} />
+        </>
       )}
 
-      <Sheet
-        sheetTitle="Ustoz malumotlarini tahrirlash"
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
-        <CustomForm
-          certificate={data}
-          setSheetOpen={setSheetOpen}
-        />
+      <Sheet sheetTitle="Ustoz malumotlarini tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+        <CustomForm certificate={data} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog
         alertTitle="Ishonchingiz komilmi? "

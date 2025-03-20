@@ -7,6 +7,7 @@ import { useUserCertificateList } from 'modules/user-certificate/hooks/useList';
 import { IUserCertificate } from 'modules/user-certificate/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import regions from '../../db/regions.json';
+import districtData from '../../db/districts.json';
 
 import SelectWithoutForm from 'components/fields/SelectWithoutForm';
 export type CustomSelectType = { name: string; id: string | number; disabled?: boolean; [key: string]: any };
@@ -17,9 +18,11 @@ const UsersCertificatesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [course, setCourse] = useState('');
   const [region, setRegion] = useState('');
+  const [district, setDistrict] = useState('');
+  const [districts, setDistricts] = useState<CustomSelectType[]>([]);
   const [courses, setCourses] = useState<CustomSelectType[]>([]);
 
-  const { data: categories, isLoading, pagenationInfo } = useUserCertificateList(currentPage, course, region);
+  const { data: categories, isLoading, pagenationInfo } = useUserCertificateList(currentPage, course, region,district);
   const { data: coursesList } = useCoursesList({ isEnabled: !!categories });
 
   const getRowData = (info: IUserCertificate) => {
@@ -45,12 +48,22 @@ const UsersCertificatesPage = () => {
     setCourses(newArr);
   }, [coursesList]);
 
+  useEffect(() => {
+  
+    if(region){
+      const filtered = districtData.filter(c => c.region_name === region);
+      setDistricts(filtered);
+    }
+
+  }, [region]);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2>Jami {pagenationInfo?.count || 0} ta </h2>
         <SelectWithoutForm data={courses} placeholder="Kursni  bo'yicha..." onChange={(value) => setCourse(value)} />
         <SelectWithoutForm data={regions} placeholder="Viloyatlar  bo'yicha..." onChange={(value) => setRegion(value)} isTitleKey={true} />
+        <SelectWithoutForm data={districts} placeholder="Tuman/shahar bo'yicha..." onChange={(value) => setDistrict(value)} isTitleKey={true} />
         <h1 className="text-2xl font-bold">Sertifikat olgan talabalar</h1>
       </div>
       {isLoading ? (

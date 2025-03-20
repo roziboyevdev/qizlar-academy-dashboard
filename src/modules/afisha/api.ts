@@ -2,7 +2,7 @@ import http from 'services/api';
 import { Afisha, AfishaEditBody, AfishaInput } from './types';
 
 export const GetAfishaList = async (currentPage: number) => {
-  return await http.get(`/afisha?page=${currentPage}`);
+  return await http.get(`/afisha?pageNumber=${currentPage}`);
 };
 
 export const CreateAfisha = async (values: AfishaInput) => {

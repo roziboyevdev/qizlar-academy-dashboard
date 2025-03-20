@@ -1,18 +1,15 @@
 import http from 'services/api';
-import {PremiumPlanInputType,PremiumPlanEditBodyType } from './types';
+import { PremiumPlanInputType, PremiumPlanEditBodyType } from './types';
 
 export const GetDatasList = async (currentPage: number, limit: number) => {
-  return await http.get(`/premium-plan?page=${currentPage}&limit=${limit}`);
+  return await http.get(`/premium-plan?pageNumber=${currentPage}&pageSize=${limit}`);
 };
 
-export const CreateData = async (values:PremiumPlanInputType) => {
+export const CreateData = async (values: PremiumPlanInputType) => {
   return await http.post(`/premium-plan`, values);
 };
 
-export const EditData = async ({
-  values,
-  id,
-}:PremiumPlanEditBodyType) => {
+export const EditData = async ({ values, id }: PremiumPlanEditBodyType) => {
   return await http.patch(`/premium-plan/${id}`, values);
 };
 

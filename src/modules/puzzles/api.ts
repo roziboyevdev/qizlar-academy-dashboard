@@ -2,7 +2,7 @@ import http from 'services/api';
 import { PuzzleEditBody, PuzzleInput } from './types';
 
 export const GetPuzzlesList = async (currentPage: number) => {
-  return await http.get(`/puzzles/all?sort=created_at&page=${currentPage}`);
+  return await http.get(`/puzzles/all?sort=created_at&pageNumber=${currentPage}`);
 };
 
 export const CreatePuzzle = async (values: PuzzleInput) => {

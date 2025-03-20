@@ -1,8 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTableRowActions } from 'components/DataTableRowActions';
-import { Donation, Profile } from 'modules/donation/types';
 import { IUserCertificate } from 'modules/user-certificate/types';
-import { formatDateTime } from 'utils/formatDateTime';
 import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {

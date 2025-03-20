@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
-import { Donation, Profile } from 'modules/donation/types';
+import { Donation } from 'modules/donation/types';
 import { formatDateTime } from 'utils/formatDateTime';
 
 
@@ -36,20 +36,20 @@ export const createDataColumns = ({
       accessorKey: 'profile',
       header: 'Kim tomonidan',
       cell:({row})=>{
-        const profile = row.getValue<Profile>('profile');
+       
         return  <>
-        {profile ? profile?.first_name  +" "+  profile?.last_name :''}
+        {row.original.user?.firstname + ' ' + row.original.user?.lastname}
       </>
       }
     },
 
     {
-      accessorKey: 'date',
+      accessorKey: 'createdAt',
       header: 'Vaqt',
       cell:({row})=>{
-        const date:string = row.getValue('date') || '';
+        const createdAt:string = row.getValue('createdAt') || '';
         return  <>
-        {formatDateTime(date)}
+        {formatDateTime(createdAt)}
       </>
       }
     },

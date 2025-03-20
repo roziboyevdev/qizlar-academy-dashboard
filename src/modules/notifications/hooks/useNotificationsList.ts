@@ -4,15 +4,17 @@ import { get } from 'lodash';
 import { getNotificationsList } from '../adapters';
 import { GetNotificationsList } from '../api';
 
-export const useNotificationsList = () => {
+export const useNotificationsList = (currentPage: number,pageSize:number) => {
   const initialData = {
     data: getNotificationsList(),
+    pagenationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['notifications_list'],
-    queryFn: () => GetNotificationsList(),
-    select: data => ({
+    queryKey: ['notifications_list', currentPage,pageSize],
+    queryFn: () => GetNotificationsList(currentPage,pageSize),
+    select: (data) => ({
       data: getNotificationsList(get(data, 'data.data.data')),
+      pagenationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 
