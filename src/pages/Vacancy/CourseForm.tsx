@@ -69,7 +69,7 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
           type: VacancyType.EMPTY,
           fromExperience: 0,
           toExperience: 0,
-          skills: [''],
+          // skills: ,
         },
   });
 

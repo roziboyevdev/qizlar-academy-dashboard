@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import { Button } from 'components/ui/button';
+import http from 'services/api';
 
 interface IProps {
   name: string;
@@ -13,8 +14,12 @@ interface IProps {
 
 export default function KeywordField({ placeholder, required, name, label }: IProps) {
   const { control, setValue, getValues } = useFormContext();
-  const values = getValues(name) || [];
-  const data = Array.isArray(values) && typeof values?.[0] == 'object' ? values.map((value) => value?.title) : values;
+  const [values, setValues] = useState([]);
+  const data =
+    Array.isArray(getValues(name)) && typeof getValues(name)?.[0] == 'object'
+      ? getValues(name).map((value: any) => value?.title)
+      : getValues(name);
+  const type = Array.isArray(values) && typeof values?.[0] == 'object' ? 'object' : 'string';
   const [keyword, setKeyword] = useState('');
   const [keywords, setKeywords] = useState<string[]>(data);
 
@@ -26,12 +31,29 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
       setKeyword('');
     }
   };
+  console.log(values, 'values');
+  console.log(data, 'data');
 
-  const handleRemoveKeyword = (removeKeyword: string) => {
+  const handleRemoveKeyword = async (removeKeyword: string) => {
+    if (type == 'object') {
+      const findItem: any = values.find((kw: any) => kw?.title == removeKeyword);
+      console.log(findItem);
+      try {
+        const res = await http.delete(`vacancy/skill/${findItem?.id}`);
+      } catch (error) {
+        alert("O'chihrishda hatolik");
+        return;
+      }
+    }
     const updatedKeywords = keywords.filter((kw) => kw !== removeKeyword);
     setKeywords(updatedKeywords);
     setValue(name, updatedKeywords);
+    console.log(removeKeyword, 'remove');
   };
+
+  useEffect(() => {
+    setValues(getValues(name) || []);
+  }, []);
 
   return (
     <FormField

@@ -56,8 +56,8 @@ export default function CourseForm({ promocode, setSheetOpen }: IProps) {
           maxUses: promocode.maxUses,
           minOrderValue: promocode.minOrderValue,
           userLimit: promocode.userLimit,
-          startDate: promocode.startDate,
-          endDate: promocode.endDate,
+          startDate: promocode.startDate?.replace(':00.000Z' ,''),
+          endDate: promocode.endDate?.replace(':00.000Z' ,''),
         }
       : {
           code: "",
