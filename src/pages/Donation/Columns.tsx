@@ -33,6 +33,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     },
   },
 
+  
   {
     accessorKey: 'createdAt',
     header: 'Vaqt',
