@@ -7,13 +7,7 @@ import { GetLessonsList } from "../api";
 export const useLessonsList = (moduleId: string, currentPage: number) => {
   const initialData = {
     data: [],
-    paginationInfo: {
-      total_pages: 1,
-      prev_page: 0,
-      next_page: 0,
-      current_page: 1,
-      total_records: 0,
-    },
+    paginationInfo: null,
   };
 
   const { data = initialData, ...args } = useQuery({
@@ -24,11 +18,7 @@ export const useLessonsList = (moduleId: string, currentPage: number) => {
 
       return {
         data: lessonsList,
-        paginationInfo: get(
-          data,
-          "data.data.meta.pagination",
-          initialData.paginationInfo
-        ),
+        paginationInfo: get(data,"data.data.meta.pagination",initialData.paginationInfo),
       };
     },
   });
