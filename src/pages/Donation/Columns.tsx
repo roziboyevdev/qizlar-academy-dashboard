@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { Donation } from 'modules/donation/types';
 import { formatDateTime } from 'utils/formatDateTime';
+import { numToSum } from 'utils/numberFormat';
 
 interface IProps {
   getRowData: (notification: Donation) => void;
@@ -19,7 +20,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
   {
     accessorKey: 'amount',
     header: 'Miqdor',
-    cell: ({ row }) => new Intl.NumberFormat('uz-UZ', { style: 'currency', currency: 'UZS' ,maximumFractionDigits: 0}).format(Number(row.original.amount) / 100),
+    cell: ({ row }) => numToSum(row.original.amount, 100),
   },
   {
     accessorKey: 'provider',
@@ -33,7 +34,6 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     },
   },
 
-  
   {
     accessorKey: 'createdAt',
     header: 'Vaqt',

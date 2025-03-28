@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink } from 'react-router-dom';
 import {
   BookAudio,
   Newspaper,
@@ -16,11 +16,12 @@ import {
   Handshake,
   User,
   TicketPercent,
-  MailQuestion,  
-  CalendarClock
-} from "lucide-react";
-import { Button } from "components/ui/button";
-import { cn } from "utils/styleUtils";
+  MailQuestion,
+  CalendarClock,
+  BarChart,
+} from 'lucide-react';
+import { Button } from 'components/ui/button';
+import { cn } from 'utils/styleUtils';
 
 interface IProps {
   isSideNavOpen: boolean;
@@ -29,108 +30,101 @@ interface IProps {
 const SideNav = ({ isSideNavOpen }: IProps) => {
   const menuItems = [
     {
-      title: "Ustozlar",
+      title: 'Statistika',
+      icon: BarChart,
+      link: '/',
+    },
+    {
+      title: 'Ustozlar',
       icon: User,
-      link: "/teachers",
+      link: '/teachers',
     },
     {
-      title: "Kurslar",
+      title: 'Kurslar',
       icon: BookAudio,
-      link: "/courses",
+      link: '/courses',
     },
     {
-      title: "Yangiliklar",
+      title: 'Yangiliklar',
       icon: Newspaper,
-      link: "/news",
+      link: '/news',
     },
     {
-      title: "Bildirishnomalar",
+      title: 'Bildirishnomalar',
       icon: Bell,
-      link: "/notifications",
+      link: '/notifications',
     },
     {
-      title: "Malumotlar",
+      title: 'Malumotlar',
       icon: BadgeInfo,
-      link: "/info",
+      link: '/info',
     },
     {
-      title: "Sertifikatlar",
+      title: 'Sertifikatlar',
       icon: ShieldCheck,
-      link: "/certificate",
+      link: '/certificate',
     },
     {
-      title: "Istoriyalar",
+      title: 'Istoriyalar',
       icon: CircleFadingPlus,
-      link: "/story",
+      link: '/story',
     },
     {
-      title: "Bannerlar",
+      title: 'Bannerlar',
       icon: NotebookPen,
-      link: "/banner",
+      link: '/banner',
     },
     {
       title: "Do'kon",
       icon: ShoppingBag,
-      link: "/category",
+      link: '/category',
     },
     {
-      title: "Donation",
+      title: 'Donation',
       icon: HandCoins,
-      link: "/donation",
+      link: '/donation',
     },
     {
-      title: "PremiumPlan",
+      title: 'PremiumPlan',
       icon: Plane,
-      link: "/premium-plan",
+      link: '/premium-plan',
     },
     {
-      title: "Premium",
+      title: 'Premium',
       icon: BadgeCheck,
-      link: "/premium",
+      link: '/premium',
     },
     {
-      title: "Talabalar Sertifikatlari",
+      title: 'Talabalar Sertifikatlari',
       icon: GraduationCap,
-      link: "/user-certificate",
+      link: '/user-certificate',
     },
     {
-      title: "Promocode",
+      title: 'Promocode',
       icon: TicketPercent,
-      link: "/promocode",
+      link: '/promocode',
     },
     {
-      title: "Buyurtmalar",
-      icon: MailQuestion ,
-      link: "/orders",
+      title: 'Buyurtmalar',
+      icon: MailQuestion,
+      link: '/orders',
     },
     {
-      title: "Vakansiyalar",
+      title: 'Vakansiyalar',
       icon: Handshake,
-      link: "/vacancy",
+      link: '/vacancy',
     },
     {
-      title: "Uchrashuvlar",
-      icon: CalendarClock ,
-      link: "/meeting",
+      title: 'Uchrashuvlar',
+      icon: CalendarClock,
+      link: '/meeting',
     },
-  
-  
   ];
 
   return (
-    <aside
-      className={cn(
-        { "w-full": isSideNavOpen },
-        "sticky top-0 max-w-72 flex flex-col border-solid border-r-2 h-screen"
-      )}
-    >
+    <aside className={cn({ 'w-full': isSideNavOpen }, 'sticky top-0 max-w-72 flex flex-col border-solid border-r-2 h-screen')}>
       <header className="z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 p-2">
-        <Link
-          to="/"
-          className={`flex h-10 items-center gap-2 px-4 dark:text-white ${
-            isSideNavOpen ? "justify-start" : "justify-center"
-          }`}
-        >
+        <Link to="/" className={`flex h-10 items-center gap-2 px-4 dark:text-white ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}>
           {isSideNavOpen && <h1 className="font-semibold">UstozAI</h1>}
           {/* <Dices /> */}
           <BrainCircuit />
@@ -138,19 +132,8 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       </header>
       <div className="flex flex-col gap-1 p-2 overflow-y-auto">
         {menuItems.map((item, index) => (
-          <NavLink
-            to={item.link}
-            key={index}
-            className={({ isActive }) =>
-              cn({ "bg-secondary": isActive }, "dark:text-white rounded block")
-            }
-          >
-            <Button
-              variant="ghost"
-              className={`w-full ${
-                isSideNavOpen ? "justify-start" : "justify-center"
-              }`}
-            >
+          <NavLink to={item.link} key={index} className={({ isActive }) => cn({ 'bg-secondary': isActive }, 'dark:text-white rounded block')}>
+            <Button variant="ghost" className={`w-full ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}>
               <item.icon className="size-5 stroke-[1.3px]" />
               {isSideNavOpen && <span className="ml-3">{item.title}</span>}
             </Button>

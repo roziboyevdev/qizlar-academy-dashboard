@@ -8,7 +8,7 @@ export const useNewUsers = (date?: DateRange) => {
     queryKey: ['new_users_count', date],
     queryFn: () => GetNewUsers(date),
     select: data => ({
-      data: get(data, 'data.data.data'),
+      data: get(data, 'data.data'),
     }),
   });
 

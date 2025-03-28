@@ -5,10 +5,12 @@ import { DailyData } from 'modules/statistics/types';
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card';
 import { DateRangePicker } from 'components/DataRangePicker';
 import Chart from './Chart';
+import { getDefaultDateRange } from 'utils/defaultDateRange';
 
 export default function NewUsersChart() {
-  const [date, setDate] = useState<DateRange>();
-  const validDate = date?.from && date.to ? date : undefined;
+
+  const [date, setDate] = useState<DateRange | undefined>(getDefaultDateRange());
+  const validDate = date?.from && date.to ? date : getDefaultDateRange();
   const { data: newUsers } = useNewUsers(validDate);
 
   const options = useMemo(() => {
@@ -73,6 +75,7 @@ export default function NewUsersChart() {
       },
     };
   }, [newUsers]);
+
 
   return (
     <Card className="col-span-4">
