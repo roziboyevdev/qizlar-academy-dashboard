@@ -17,3 +17,9 @@ export const GetDalyDonation = async (date?: DateRange) => {
   const endDate = date?.to ? date.to?.toISOString() : '';
   return await http.get(`/statistics/donation/daily`, { params: { startDate, endDate } });
 };
+
+
+export const GetMonthlyOverview = async () => {
+  const date = new Date().toISOString()
+  return await http.get(`/statistics/main/monthly`, {params:{date}});
+};
