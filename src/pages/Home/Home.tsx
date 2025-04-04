@@ -10,7 +10,6 @@ const Home = () => {
 
       <Overview />
 
-      <h2 className="font-semibold text-center">Oylik malumotlar</h2>
       <MonthlyOverview />
       <NewUsersChart />
       <DonationStatistics />

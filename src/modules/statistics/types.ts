@@ -14,15 +14,51 @@ export interface IOwerviewData {
   donationAmount: number;
 }
 
+// export interface IMonthlyOwerviewData {
+//   users: number;
+//   lessons: number;
+//   courses: number;
+//   views: number;
+//   quizes: number;
+//   certificates: number;
+//   gender: {
+//     Ayol: number;
+//     Erkak: number;
+//   };
+// }
 export interface IMonthlyOwerviewData {
-  users: number;
-  lessons: number;
-  courses: number;
-  views: number;
-  quizes: number;
-  certificates: number;
-  gender: {
-    Ayol: number;
-    Erkak: number;
+  users: {
+    all: number;
+    monthly: number;
   };
-}
+  lessons: {
+    all: number;
+    monthly: number;
+  };
+  certificates: {
+    all: number;
+    monthly: number;
+  };
+  quizes: {
+    all: number;
+    monthly: number;
+  };
+  views: {
+    all: number;
+    monthly: number;
+  };
+  courses: {
+    all: number;
+    monthly: number;
+  };
+  gender: {
+    Ayol: {
+      all: number;
+      monthly: number;
+    };
+    Erkak: {
+      all: number;
+      monthly: number;
+    };
+  };
+};
