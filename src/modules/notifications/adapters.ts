@@ -6,7 +6,8 @@ export const getNotification = (item?: Notification) => {
     content: item?.content ?? '',
     photo: item?.photo ?? '',
     type: item?.type,
-    entityid: item?.entityid ?? '',
+    objectId: item?.objectId ?? null,
+    link: item?.link ??  null,
     createdAt: item?.createdAt ?? '',
   };
 };

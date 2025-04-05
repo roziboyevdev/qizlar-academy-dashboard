@@ -4,13 +4,13 @@ import { Form } from 'components/ui/form';
 import { FileField, SelectField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
-import { notificationType } from 'constants/index';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { useEffect, useState } from 'react';
 import { CertificateInputType, CertificateType } from 'modules/certificate/types';
 import { useEditCertificate } from 'modules/certificate/hooks/useEdit';
 import { useCreateCertificate } from 'modules/certificate/hooks/useCreate';
 import { schema, useFormSchemaType } from './schema';
+import { bannerTypeData } from 'constants/banner';
 
 interface IProps {
   certificate?: CertificateType;
@@ -96,7 +96,7 @@ export default function CustomForm({
           {
             loadingCourses && !certificate ? (<SelectField
               name="courseId"
-              data={notificationType}
+              data={bannerTypeData}
               placeholder="Kurslar hali yuklanmagan..."
               label="Kurslar hali yuklanmagan"
             />) : (<SelectField

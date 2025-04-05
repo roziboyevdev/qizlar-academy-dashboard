@@ -4,15 +4,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 
 import { Form } from 'components/ui/form';
-import { FileField, TextAreaField, SelectField, TextField } from 'components/fields';
+import { FileField, SelectField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
-import { notificationType } from 'constants/index';
+
 import { InfoType, InfoInput } from 'modules/info/types';
 import { useEditInfo } from 'modules/info/hooks/useEditInfo';
 import { useCreateInfo } from 'modules/info/hooks/useCreateInfo';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { useEffect, useState } from 'react';
+import { bannerTypeData } from 'constants/banner';
 
 const infoSchema = z.object({
   title: z.string().min(3, { message: 'Malumot nomi talab qilinadi' }),
@@ -107,7 +108,7 @@ export default function InfoForm({
           {
             loadingCourses && !notification ? (<SelectField
               name="courseId"
-              data={notificationType}
+              data={bannerTypeData}
               placeholder="Kurslar hali yuklanmagan..."
               label="Kurslar hali yuklanmagan"
             />) : (<SelectField

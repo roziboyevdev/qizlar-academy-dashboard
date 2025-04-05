@@ -1,4 +1,4 @@
-import { NotificationType } from 'modules/notifications/types';
+
 import { PuzzleDifficulty } from 'modules/puzzles/types';
 import { QuizContentType, QuizType } from 'modules/quizzes/types';
 
@@ -11,10 +11,7 @@ export const quizSelectType = [
     name: "Ko'p tanlovli",
     type: QuizType.MULTI_SELECT,
   },
-  // {
-  //   name: 'Rasmli',
-  //   type: QuizType.IMG,
-  // },
+
   {
     name: 'Qisqa matn tanlovli',
     type: QuizType.SHORT_TEXT,
@@ -80,37 +77,3 @@ export const puzzleDifficulties = [
   },
 ];
 
-export const notificationType = [
-  {
-    name: 'Kurs',
-    type: NotificationType.COURSE,
-  },
-  {
-    name: "Bo'lim",
-    type: NotificationType.MODULE,
-  },
-  {
-    name: 'Afisha',
-    type: NotificationType.AFISHA,
-  },
-  {
-    name: 'Kitob',
-    type: NotificationType.BOOK,
-  },
-  {
-    name: 'Grandmaster',
-    type: NotificationType.GRANDMASTER,
-  },
-  {
-    name: 'Jonli efir',
-    type: NotificationType.LIVE,
-  },
-  {
-    name: 'Yangilik',
-    type: NotificationType.NEWS,
-  },
-  {
-    name: 'Tahlil',
-    type: NotificationType.REVIEW,
-  },
-];

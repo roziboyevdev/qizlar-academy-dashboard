@@ -17,22 +17,16 @@ import { useCreateBanner } from "modules/banner/hooks/useCreate";
 import { useCoursesList } from "modules/courses/hooks/useCoursesList";
 import { SelectType } from "pages/Certificate/CustomForm";
 import { cleanEmptyStrings } from "utils/clearEmptyKeys";
+import { bannerTypeData } from "constants/banner";
+
+
 
 interface IProps {
   banner?: Banner;
   setSheetOpen: (state: boolean) => void;
 }
 
-const typeData = [
-  { type: BannerType.COURSE, name: "Kurslar" },
-  { type: BannerType.CONTENT, name: "Contentli" },
-  { type: BannerType.LEADERBOARD, name: "Peshqadamlar" },
-  { type: BannerType.SHOP, name: "Do'kon" },
-  { type: BannerType.LINK, name: "Havola" },
-  { type: BannerType.MY_COURSES, name: "Mening kurslarim" },
-  { type: BannerType.PROFILE, name: "Profil" },
-  { type: BannerType.NONE, name: "None" },
-];
+
 
 const locationData = [
   { type: BannerLocationType.HOME, name: "Home" },
@@ -141,7 +135,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           <FileField name="photo" label="Banner rasmi" />
           <SelectField
             name="type"
-            data={typeData}
+            data={bannerTypeData}
             placeholder="Banner turini tanlang..."
             label="Banner turini tanglang"
           />
