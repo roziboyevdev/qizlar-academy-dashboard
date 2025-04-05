@@ -1,36 +1,20 @@
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'components/ui/form';
-import { RichTextEditor, SelectField, TextAreaField, TextField } from 'components/fields';
+import { RichTextEditor, SelectField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import NumberTextField from 'components/fields/Number';
 import KeywordField from 'components/fields/KeywordField';
 import { Vacancy, VacancyType } from 'modules/vacancy/types';
 import { useCreateVacancy } from 'modules/vacancy/hooks/useCreateCourse';
 import { useEditVacancy } from 'modules/vacancy/hooks/useEditCourse';
+import { vacancyFormSchema, vacancySchema } from './schema';
 
 const typeData = [
   { type: VacancyType.FULL_TIME, name: "To'liq vaqt" },
   { type: VacancyType.ONE_TIME, name: 'Bir martalik' },
   { type: VacancyType.INTERN, name: 'Amalyot' },
 ];
-
-const courseSchema = z.object({
-  title: z.string().min(6, { message: "Title eng kamida 6 ta harfdan iborat bo'lsin" }),
-  description: z.string().min(20, {
-    message: 'description uchun kamida 20 ta harifdan iforat text kirgazing',
-  }),
-  company: z.string({ message: 'Companiya nomi kiritlishi shart' }),
-  address: z.string({ message: 'Manzil kiritlishi shart' }),
-  salary: z.union([z.number(), z.string()]),
-  type: z.nativeEnum(VacancyType),
-  fromExperience: z.union([z.number(), z.string()]),
-  toExperience: z.union([z.number(), z.string()]),
-  skills: z.array(z.string()).min(3, { message: "Kamida 3 ta kalit so'z kiriting" }),
-});
-
-type courseFormSchema = z.infer<typeof courseSchema>;
 
 interface IProps {
   vacancy?: Vacancy;
@@ -44,8 +28,8 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-  const form = useForm<courseFormSchema>({
-    resolver: zodResolver(courseSchema),
+  const form = useForm<vacancyFormSchema>({
+    resolver: zodResolver(vacancySchema),
     mode: 'onSubmit',
     defaultValues: vacancy
       ? {
@@ -73,15 +57,17 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
         },
   });
 
-  async function onSubmit(formValues: courseFormSchema) {
-    const { fromExperience, toExperience, salary } = formValues;
+  async function onSubmit(formValues: vacancyFormSchema) {
+    const { fromExperience, toExperience, salary, skills } = formValues;
 
     if (vacancy) {
+      const normalizedSkills = skills.map((skill) => (typeof skill === 'string' ? skill : skill.title));
       triggerVacancyEdit({
         ...formValues,
         fromExperience: +fromExperience,
         toExperience: +toExperience,
         salary: +salary,
+        skills: normalizedSkills,
       });
     } else {
       triggerVacancyCreate({
@@ -92,6 +78,8 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
       });
     }
   }
+
+  console.log(form.watch('skills'));
 
   return (
     <Form {...form}>
@@ -107,13 +95,11 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
 
           <NumberTextField name="salary" placeholder="Oylik maosh" label="Oylik maosh" required />
 
-          {/* <DoubleNumberField name1={'fromExperience'} name2={'toExperience'} label1="Boshlang'ich" label2="Maximal" required /> */}
-
           <div>
             <h2 className="font-medium">Talab etadigan tajriba</h2>
             <div className="flex items-end gap-2">
-              <NumberTextField name={'fromExperience'} label="Boshlang'ich"  required />
-              <NumberTextField name={'toExperience'} label="Maximal"  required />
+              <NumberTextField name={'fromExperience'} label="Boshlang'ich" required />
+              <NumberTextField name={'toExperience'} label="Maximal" required />
             </div>
           </div>
 
