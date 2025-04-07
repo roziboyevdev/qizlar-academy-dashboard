@@ -23,6 +23,7 @@ const quizSchema = z.object({
       z.object({
         value: z.string().min(1, { message: "Javobni kiriting" }),
         isCorrect: z.boolean(),
+        id: z.string().optional(),
       })
     )
     .refine((data) => data.some((option) => option.isCorrect), {
@@ -54,6 +55,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     if (res.status == 200) {
       const data = res?.data?.data;
       form.setValue("options", data?.quizOptions);
+      console.log(data, "data");
       setEditQuiz(data);
     }
   };
@@ -106,6 +108,8 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
 
   function onSubmit(formValues: quizFormSchema) {
     if (quiz) {
+      console.log(formValues, "formValues");
+      
       triggerQuizEdit({ ...formValues, lessonId: lessonId! });
     } else {
       triggerQuizCreate({ ...formValues, lessonId: lessonId! });
