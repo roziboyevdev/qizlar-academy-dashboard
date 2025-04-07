@@ -1,34 +1,32 @@
-import { z } from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Form, FormDescription, FormMessage } from "components/ui/form";
-import LoadingButton from "components/LoadingButton";
-import QuizOptions from "./QuizOptions";
-import { useParams } from "react-router-dom";
+import { Form, FormDescription, FormMessage } from 'components/ui/form';
+import LoadingButton from 'components/LoadingButton';
+import QuizOptions from './QuizOptions';
+import { useParams } from 'react-router-dom';
 
-import RichTextEditorForQuiz from "components/fields/RichTextEditorForQuiz";
-import { useCreateQuiz } from "modules/quizzes/hooks/useCreateQuiz";
-import { useEditQuiz } from "modules/quizzes/hooks/useEditQuiz";
-import { Quiz } from "modules/quizzes/types";
-import { useEffect, useState } from "react";
-import http from "services/api";
+import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
+import { useCreateQuiz } from 'modules/quizzes/hooks/useCreateQuiz';
+import { useEditQuiz } from 'modules/quizzes/hooks/useEditQuiz';
+import { Quiz } from 'modules/quizzes/types';
+import { useEffect, useState } from 'react';
+import http from 'services/api';
 
 const quizSchema = z.object({
-  question: z
-    .string()
-    .min(9, { message: "Savol minimum 8 ta harifdan iborat bolishi karak" }),
+  question: z.string().min(9, { message: 'Savol minimum 8 ta harifdan iborat bolishi karak' }),
   options: z
     .array(
       z.object({
-        value: z.string().min(1, { message: "Javobni kiriting" }),
+        value: z.string().min(1, { message: 'Javobni kiriting' }),
         isCorrect: z.boolean(),
         id: z.string().optional(),
       })
     )
     .refine((data) => data.some((option) => option.isCorrect), {
       message: "To'g'ri javobni belgilang",
-      path: ["options"],
+      path: ['options'],
     }),
 });
 
@@ -54,8 +52,8 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     const res = await http.get(`quiz/${id}`);
     if (res.status == 200) {
       const data = res?.data?.data;
-      form.setValue("options", data?.quizOptions);
-      console.log(data, "data");
+      form.setValue('options', data?.quizOptions);
+      console.log(data, 'data');
       setEditQuiz(data);
     }
   };
@@ -65,7 +63,6 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
       getOneQuiz(quiz.id);
     }
   }, []);
-
 
   const form = useForm<quizFormSchema>({
     resolver: zodResolver(quizSchema),
@@ -102,49 +99,41 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     getValues,
   } = form;
   const { fields: questionFields } = useFieldArray({
-    name: "options",
+    name: 'options',
     control,
   });
 
   function onSubmit(formValues: quizFormSchema) {
+    console.log(formValues, 'formValues');
     if (quiz) {
-      console.log(formValues, "formValues");
-      
       triggerQuizEdit({ ...formValues, lessonId: lessonId! });
     } else {
       triggerQuizCreate({ ...formValues, lessonId: lessonId! });
     }
   }
+  console.log(errors, 'errors');
 
   return (
     <Form {...form}>
       <form
         // onSubmit={form.handleSubmit(onSubmit)}
-        onSubmit={form.handleSubmit(onSubmit, (err) =>
-          console.log("Validation error: ", err)
-        )}
+        onSubmit={form.handleSubmit(onSubmit, (err) => console.log('Validation error: ', err))}
         className="flex flex-col gap-2"
       >
         <div className="flex gap-4 flex-col my-4">
           {/* <TextAreaField name={`question`} label="Savol" required /> */}
           <RichTextEditorForQuiz name="question" label="Savol" required />
           <hr />
-          <FormDescription className="mb-2 text-xs">
-            Bitta to'g'ri javobni belgilang
-          </FormDescription>
+          <FormDescription className="mb-2 text-xs">Bitta to'g'ri javobni belgilang</FormDescription>
           <QuizOptions />
 
           {errors.options && (
             // @ts-ignore
-            <FormMessage className="text-red-600">
-              {errors.options?.message}
-            </FormMessage>
+            <FormMessage className="text-red-600">{errors.options?.message}</FormMessage>
           )}
         </div>
         {quiz ? (
-          <LoadingButton isLoading={isQuizEditPending}>
-            Tahrirlash
-          </LoadingButton>
+          <LoadingButton isLoading={isQuizEditPending}>Tahrirlash</LoadingButton>
         ) : (
           <LoadingButton isLoading={isQuizCreatePending}>Saqlash</LoadingButton>
         )}
