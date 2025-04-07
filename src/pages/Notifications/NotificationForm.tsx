@@ -83,19 +83,10 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
 
   useEffect(() => {
     if (type == BannerType.COURSE || notification?.type == BannerType.COURSE) {
-      console.log('objectid');
-
       form.register('objectId', { required: 'Kursni tanlash talab qilinadi' });
     }
     if (type == BannerType.LINK || notification?.type == BannerType.LINK) {
-      console.log('link');
-
       form.register('link', { required: 'Link kiritish talab qilinadi' });
-    }
-    if (type == BannerType.CONTENT || notification?.type == BannerType.CONTENT) {
-      console.log('content');
-
-      form.register('content', { required: 'Banner kontenti talab qilinadi' });
     }
   }, [type, form, notification]);
 
@@ -119,7 +110,7 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
           <RichTextEditor name="content" label="Bildirishnoma kontenti(batavsil)" required />
           <FileField name="photo" label="Bildirishnoma rasmi" />
 
-          <SelectField name="type" data={bannerTypeData} placeholder="Notification turini tanlang..." label="Banner turini tanglang" />
+          <SelectField name="type" data={bannerTypeData} placeholder="Notification turini tanlang..." label="Notification turini tanlang" />
 
           {(type == BannerType.COURSE || (notification && notification?.objectId)) &&
             (coursesData?.length ? (
@@ -129,7 +120,7 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
             ))}
 
           {(type == BannerType.LINK || (notification && notification?.link)) && (
-            <TextField name="link" key="link" label="Banner linki" required />
+            <TextField name="link" key="link" label="Notification linki" required />
           )}
         </div>
         {notification ? (

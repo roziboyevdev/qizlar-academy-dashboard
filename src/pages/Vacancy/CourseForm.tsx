@@ -79,7 +79,6 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
     }
   }
 
-  console.log(form.watch('skills'));
 
   return (
     <Form {...form}>
