@@ -2,11 +2,11 @@ import http from 'services/api';
 import { QuizEditBody, QuizInput } from './types';
 
 export const GetQuizzesList = async (lessonId: string) => {
-  return await http.get(`/quiz`, {params:{lessonId}});
+  return await http.get(`/quiz/lesson/${lessonId}`);
 };
 
 export const GetOneQuizz = async (quizId: string) => {
-  return await http.get(`/quiz`, {params:{quizId}});
+  return await http.get(`/quiz`, { params: { quizId } });
 };
 export const CreateQuiz = async (values: QuizInput) => {
   return await http.post(`/quiz/`, values);

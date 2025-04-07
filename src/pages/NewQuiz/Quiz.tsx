@@ -19,6 +19,8 @@ const NewQuizPage = () => {
   const [quiz, setQuiz] = useState<Quiz>();
 
   const { lessonId } = useParams();
+
+  console.log('lessonId', lessonId);
   const { data: quizzesList, isLoading } = useQuizzesList(lessonId!);
   const { triggerQuizDelete } = useDeleteQuiz(quiz?.id!);
 
@@ -31,6 +33,7 @@ const NewQuizPage = () => {
     setDialogOpen,
     setSheetOpen,
   });
+console.log(quizzesList, 'quizzesList');
 
   return (
     <div>
