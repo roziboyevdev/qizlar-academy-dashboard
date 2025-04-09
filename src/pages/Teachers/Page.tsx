@@ -6,9 +6,6 @@ import { AlertDialog } from 'components/AlertDialog';
 import Loader from 'components/Loader';
 import { createDataColumns } from './Columns';
 import CustomForm from './CustomForm';
-
-import { useStoriesList } from 'modules/story/hooks/useList';
-import { useDeleteStory } from 'modules/story/hooks/useDelete';
 import { TeacherType } from 'modules/teachers/types';
 import { useTeachersList } from 'modules/teachers/hooks/useList';
 import { useDeleteTeacher } from 'modules/teachers/hooks/useDelete';

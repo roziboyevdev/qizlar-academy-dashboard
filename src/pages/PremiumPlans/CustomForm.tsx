@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "components/ui/form";
-import { FileField, TextField } from "components/fields";
+import {  TextField } from "components/fields";
 import LoadingButton from "components/LoadingButton";
 import useFileUploader from "hooks/useFileUploader";
 import { useState } from "react";

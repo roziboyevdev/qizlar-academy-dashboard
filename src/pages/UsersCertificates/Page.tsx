@@ -8,8 +8,8 @@ import { IUserCertificate } from 'modules/user-certificate/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import regions from '../../db/regions.json';
 import districtData from '../../db/districts.json';
-
 import SelectWithoutForm from 'components/fields/SelectWithoutForm';
+
 export type CustomSelectType = { name: string; id: string | number; disabled?: boolean; [key: string]: any };
 const UsersCertificatesPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);

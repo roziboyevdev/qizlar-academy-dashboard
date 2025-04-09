@@ -15,7 +15,6 @@ import { Quiz } from 'modules/quizzes/types';
 const NewQuizPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [quiz, setQuiz] = useState<Quiz>();
 
   const { lessonId } = useParams();

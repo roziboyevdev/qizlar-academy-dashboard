@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import CustomSwitch from 'components/SwitchIsDreft';
-import { Course } from 'modules/courses/types';
 import { ProductType } from 'modules/product/types';
 
 interface IProps {
