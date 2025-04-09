@@ -39,7 +39,6 @@ interface IProps {
 
 export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   const { lessonId } = useParams();
-  const [editQuiz, setEditQuiz] = useState<Quiz>();
   const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({
     setSheetOpen,
   });
@@ -49,12 +48,15 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   });
 
   const getOneQuiz = async (id: string) => {
-    const res = await http.get(`quiz/${id}`);
-    if (res.status == 200) {
-      const data = res?.data?.data;
-      form.setValue('options', data?.quizOptions);
-      console.log(data, 'data');
-      setEditQuiz(data);
+    try {
+      const res = await http.get(`exam/${id}`);
+      if (res.status == 200) {
+        const data = res?.data?.data;
+
+        form.setValue('options', data?.examOptions);
+      }
+    } catch (error) {
+      alert('Savollarni olishda hatolik');
     }
   };
 
@@ -62,7 +64,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     if (quiz) {
       getOneQuiz(quiz.id);
     }
-  }, []);
+  }, [quiz]);
 
   const form = useForm<quizFormSchema>({
     resolver: zodResolver(quizSchema),
@@ -94,14 +96,8 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
         },
   });
   const {
-    control,
     formState: { errors },
-    getValues,
   } = form;
-  const { fields: questionFields } = useFieldArray({
-    name: 'options',
-    control,
-  });
 
   function onSubmit(formValues: quizFormSchema) {
     console.log(formValues, 'formValues');
@@ -111,7 +107,6 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
       triggerQuizCreate({ ...formValues, lessonId: lessonId! });
     }
   }
-  console.log(errors, 'errors');
 
   return (
     <Form {...form}>
