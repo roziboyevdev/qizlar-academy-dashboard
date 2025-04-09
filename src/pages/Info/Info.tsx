@@ -9,7 +9,7 @@ import InfoForm from './InfoForm';
 import { InfoType } from 'modules/info/types';
 import { useInfosList } from 'modules/info/hooks/useInfosList';
 import { useDeleteInfo } from 'modules/info/hooks/useDeleteInfo';
-import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
+
 
 const Info = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);

@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Form, FormDescription, FormMessage } from 'components/ui/form';
 import { Quiz } from 'modules/lastexam/types';
-import { RichTextEditor, TextAreaField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import QuizOptions from './QuizOptions';
 import { useParams } from 'react-router-dom';
@@ -12,7 +11,7 @@ import { useCreateQuiz } from 'modules/lastexam/hooks/useCreateQuiz';
 import { useEditQuiz } from 'modules/lastexam/hooks/useEditQuiz';
 import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
 import http from 'services/api';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const quizSchema = z.object({
   question: z.string().min(9, { message: 'Savol minimum 8 ta harifdan iborat bolishi karak' }),

@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { InfoType } from 'modules/info/types';
-import normalizeImgUrl from "../../utils/normalizeFileUrl"
+
 interface IProps {
   getRowData: (notification: InfoType) => void;
   setSheetOpen: (state: boolean) => void;

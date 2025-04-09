@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import {  useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Form, FormDescription, FormMessage } from 'components/ui/form';
@@ -11,7 +11,7 @@ import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
 import { useCreateQuiz } from 'modules/quizzes/hooks/useCreateQuiz';
 import { useEditQuiz } from 'modules/quizzes/hooks/useEditQuiz';
 import { Quiz } from 'modules/quizzes/types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import http from 'services/api';
 
 const quizSchema = z.object({

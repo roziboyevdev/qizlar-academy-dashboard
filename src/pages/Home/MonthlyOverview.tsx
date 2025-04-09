@@ -1,7 +1,6 @@
 import { BadgeCheck, Crown, Puzzle, Users, Video, View } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card';
 import { Skeleton } from 'components/ui/skeleton';
-
 import { useMonthlyOverview } from 'modules/statistics/hooks/useMonthlyOverview';
 const monthNames = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
 

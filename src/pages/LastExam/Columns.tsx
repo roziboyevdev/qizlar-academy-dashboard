@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { Question, Quiz } from 'modules/lastexam/types';
+import {  Quiz } from 'modules/lastexam/types';
 import { DataTableRowActions } from 'components/DataTableRowActions';
-import { quizSelectType } from 'constants/index';
+
 
 interface IProps {
   getRowData: (quiz: Quiz) => void;
