@@ -58,7 +58,7 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
           content: notification.content,
           photo: notification.photo,
           body: notification.body,
-          // type: notification.type,
+          type: notification.type,
         }
       : {
           title: '',
