@@ -83,7 +83,7 @@ export default function DonationStatistics() {
     <Card className="col-span-4">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Yangi foydalanuvchilar</CardTitle>
+          <CardTitle>Donate  qilgan foydalanuvchilar</CardTitle>
           <DateRangePicker date={date} setDate={setDate} />
         </div>
       </CardHeader>
