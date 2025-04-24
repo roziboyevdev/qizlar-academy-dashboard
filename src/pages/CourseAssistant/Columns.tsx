@@ -23,7 +23,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     accessorKey: 'staticAnimation',
     header: 'Default animation',
     cell: ({ row }) => {
-      return (
+      return row.getValue('staticAnimation') ? (
         <Link
           to={row.getValue('staticAnimation') ? normalizeImgUrl(row.getValue('staticAnimation')) : '#'}
           className="text-blue-600"
@@ -31,14 +31,16 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
         >
           file
         </Link>
+      ) : (
+        "yuklanmagan"
       );
     },
   },
   {
     accessorKey: 'thinkingAnimation',
-    header: "O'ylangal holatdagi animation",
+    header: 'Default animation',
     cell: ({ row }) => {
-      return (
+      return row.getValue('thinkingAnimation') ? (
         <Link
           to={row.getValue('thinkingAnimation') ? normalizeImgUrl(row.getValue('thinkingAnimation')) : '#'}
           className="text-blue-600"
@@ -46,9 +48,12 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
         >
           file
         </Link>
+      ) : (
+        "yuklanmagan"
       );
     },
   },
+ 
 
   {
     accessorKey: 'id',

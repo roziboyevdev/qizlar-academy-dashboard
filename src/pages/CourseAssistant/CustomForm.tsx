@@ -67,12 +67,7 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
   }
 
   useEffect(() => {
-    let newArr: SelectType[] = [
-      {
-        name: 'All',
-        type: 'all',
-      },
-    ];
+    let newArr: SelectType[] = [];
     coursesList.forEach((el) =>
       newArr.push({
         name: el.title,
