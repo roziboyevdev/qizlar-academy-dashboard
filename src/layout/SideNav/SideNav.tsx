@@ -19,6 +19,7 @@ import {
   MailQuestion,
   CalendarClock,
   BarChart,
+  Bot,
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
@@ -43,6 +44,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       title: 'Kurslar',
       icon: BookAudio,
       link: '/courses',
+    },
+    {
+      title: 'Kurs Assistant',
+      icon: Bot,
+      link: '/course-assistants',
     },
     {
       title: 'Yangiliklar',

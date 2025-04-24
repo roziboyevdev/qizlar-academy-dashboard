@@ -11,7 +11,6 @@ import CoursesPage from 'pages/Courses';
 import ModulesPage from 'pages/Modules';
 import LessonsPage from 'pages/Lessons';
 import NewsPage from 'pages/News';
-
 import PuzzlesPage from 'pages/Puzzles';
 import Info from 'pages/Info';
 import NotificationsPage from 'pages/Notifications';
@@ -32,6 +31,7 @@ import NewQuizPage from 'pages/NewQuiz';
 import PromocodePage from 'pages/Promocode';
 import OrdersPage from 'pages/Orders/Page';
 import MeetingPage from 'pages/Meeting';
+import CourseAssistantPage from 'pages/CourseAssistant/Page';
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
@@ -48,6 +48,10 @@ export const Routes = () => {
     {
       path: '/courses',
       element: <CoursesPage />,
+    },
+    {
+      path: '/course-assistants',
+      element: <CourseAssistantPage />,
     },
     {
       path: '/courses/:courseId',
