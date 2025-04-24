@@ -11,41 +11,44 @@ interface IProps {
   setDialogOpen: (state: boolean) => void;
 }
 
-export const createDataColumns = ({
-  getRowData,
-  setSheetOpen,
-  setDialogOpen,
-}: IProps): ColumnDef<Banner>[] => [
-    {
-      accessorKey: 'photo',
-      header: 'Rasm',
-      cell: ({ row }) => {
-        return <Link to={normalizeImgUrl(row.getValue('photo'))}  target="_blank" className='text-blue-600'>
-        file
-        </Link>;
-      },
+export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<Banner>[] => [
+  {
+    accessorKey: 'photo',
+    header: 'Rasm',
+    cell: ({ row }) => {
+      return (
+        <Link to={normalizeImgUrl(row.getValue('photo'))} target="_blank" className="text-blue-600">
+          file
+        </Link>
+      );
     },
-    {
-      accessorKey: 'type',
-      header: 'Banner turi',
+  },
+  {
+    accessorKey: 'mobilePhoto',
+    header: 'Rasm',
+    cell: ({ row }) => {
+      return row.original.mobilePhoto ? (
+        <Link to={normalizeImgUrl(row.getValue('mobilePhoto'))} target="_blank" className="text-blue-600">
+          file
+        </Link>
+      ) : (
+        'yuklanmagan'
+      );
     },
-    {
-      accessorKey: 'title',
-      header: 'Title',
-    },
+  },
+  {
+    accessorKey: 'type',
+    header: 'Banner turi',
+  },
+  {
+    accessorKey: 'title',
+    header: 'Title',
+  },
 
-  
-    {
-      accessorKey: 'id',
-      header: () => <span className="sr-only">Actions</span>,
-      size: 50,
-      cell: ({ row }) => (
-        <DataTableRowActions
-          row={row}
-          getRowData={getRowData}
-          setDialogOpen={setDialogOpen}
-          setSheetOpen={setSheetOpen}
-        />
-      ),
-    },
-  ];
+  {
+    accessorKey: 'id',
+    header: () => <span className="sr-only">Actions</span>,
+    size: 50,
+    cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} />,
+  },
+];
