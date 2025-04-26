@@ -89,8 +89,18 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
 
           <TextField name="assistantId" label="Assistant Id" required placeholder="Assistant Id" />
 
-          <VideoUploadField name="staticAnimation" label="Oddiy holatdagi gif" defaultValue={selectedData?.staticAnimation} />
-          <VideoUploadField name="thinkingAnimation" label="O'ylangan holatdagi gif" defaultValue={selectedData?.thinkingAnimation} />
+          <VideoUploadField
+            name="staticAnimation"
+            label="Oddiy holatdagi gif"
+            defaultValue={selectedData?.staticAnimation}
+            types={['JPG', 'PNG', 'GIF']}
+          />
+          <VideoUploadField
+            name="thinkingAnimation"
+            label="O'ylangan holatdagi gif"
+            defaultValue={selectedData?.thinkingAnimation}
+            types={['JPG', 'PNG', 'GIF']}
+          />
         </div>
         {selectedData ? <LoadingButton isLoading={state}>Tahrirlash</LoadingButton> : <LoadingButton isLoading={state}>Saqlash</LoadingButton>}
       </form>

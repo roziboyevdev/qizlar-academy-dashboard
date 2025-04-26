@@ -1,12 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import { FileUploader } from 'react-drag-drop-files';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from 'components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
 import { X as CloseIcon } from 'lucide-react';
 import { useState } from 'react';
 import { baseMediaUrl } from 'services/api';
@@ -16,9 +10,10 @@ interface IProps {
   label?: string;
   required?: boolean;
   defaultValue?: string;
+  types?: string[];
 }
 
-export default function MediaUploadField({ name, label, required, defaultValue }: IProps) {
+export default function MediaUploadField({ name, label, required, defaultValue, types }: IProps) {
   const { control } = useFormContext();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileType, setFileType] = useState<string | null>(null);
@@ -30,7 +25,7 @@ export default function MediaUploadField({ name, label, required, defaultValue }
     }
   };
 
-  const mediaUrl = defaultValue ? `${baseMediaUrl}/${defaultValue}` : "";
+  const mediaUrl = defaultValue ? `${baseMediaUrl}/${defaultValue}` : '';
 
   return (
     <FormField
@@ -41,27 +36,21 @@ export default function MediaUploadField({ name, label, required, defaultValue }
           {label && (
             <FormLabel>
               {`${label} `}
-              {required && (
-                <span className="text-red-500 dark:text-red-900">*</span>
-              )}
+              {required && <span className="text-red-500 dark:text-red-900">*</span>}
             </FormLabel>
           )}
           <FormControl>
-            {(value || mediaUrl) ? (
+            {value || mediaUrl ? (
               <div className="relative p-1 border rounded-md max-w-fit">
                 {fileType === 'video' ? (
                   <video
-                    src={
-                      mediaUrl ? mediaUrl : (previewUrl || (value instanceof File ? URL.createObjectURL(value) : ""))
-                    }
+                    src={mediaUrl ? mediaUrl : previewUrl || (value instanceof File ? URL.createObjectURL(value) : '')}
                     controls
                     className="max-w-full min-w-[80%] max-h-64"
                   />
                 ) : (
                   <img
-                    src={
-                      mediaUrl ? mediaUrl : (previewUrl || (value instanceof File ? URL.createObjectURL(value) : ""))
-                    }
+                    src={mediaUrl ? mediaUrl : previewUrl || (value instanceof File ? URL.createObjectURL(value) : '')}
                     alt="Preview"
                     className="max-w-full min-w-[80%] max-h-64"
                   />
@@ -84,7 +73,7 @@ export default function MediaUploadField({ name, label, required, defaultValue }
                   handleFileChange(file);
                 }}
                 name="media"
-                types={['MP4', 'AVI', 'MOV', 'WEBM', 'JPG', 'PNG', 'GIF']}
+                types={types ? types : ['MP4', 'AVI', 'MOV', 'WEBM', 'JPG', 'PNG', 'GIF']}
               />
             )}
           </FormControl>
@@ -94,5 +83,3 @@ export default function MediaUploadField({ name, label, required, defaultValue }
     />
   );
 }
-
-

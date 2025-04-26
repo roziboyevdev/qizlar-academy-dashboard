@@ -2,7 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { Banner } from 'modules/banner/types';
 import { Link } from 'react-router-dom';
-import { baseMediaUrl } from 'services/api';
 import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {
