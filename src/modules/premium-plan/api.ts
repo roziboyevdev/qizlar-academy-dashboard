@@ -14,5 +14,5 @@ export const EditData = async ({ values, id }: PremiumPlanEditBodyType) => {
 };
 
 export const DeleteData = async (id: string) => {
-  return await http.delete(`/premium-plan/visibility/${id}`);
+  return await http.delete(`/premium-plan/${id}`);
 };
