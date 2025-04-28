@@ -15,7 +15,7 @@ export const useOredersList = (currentPage: number) => {
     },
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['donation_list', currentPage],
+    queryKey: ['order_list', currentPage],
     queryFn: () => GetDatasList(currentPage),
     select: (data) => ({
       data: getDatasList(get(data, 'data.data.data')),

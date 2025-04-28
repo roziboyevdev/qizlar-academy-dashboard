@@ -1,21 +1,21 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "components/ui/form";
-import {  SelectField } from "components/fields";
-import LoadingButton from "components/LoadingButton";
-import useFileUploader from "hooks/useFileUploader";
-import { useEffect, useState } from "react";
-import { schema, useFormSchemaType } from "./schema";
-import { useParams } from "react-router-dom";
-import { Premium } from "modules/premium/types";
-import { usePremiumPlansList } from "modules/premium-plan/hooks/useList";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form } from 'components/ui/form';
+import { SelectField } from 'components/fields';
+import LoadingButton from 'components/LoadingButton';
+import useFileUploader from 'hooks/useFileUploader';
+import { useEffect, useState } from 'react';
+import { schema, useFormSchemaType } from './schema';
+import { useParams } from 'react-router-dom';
+import { Premium } from 'modules/premium/types';
+import { usePremiumPlansList } from 'modules/premium-plan/hooks/useList';
 
-import SelectWithInput from "components/fields/SelectWithInput";
-import { useDebounce } from "hooks/useDebounce";
-import { useCreatePremium } from "modules/premium/hooks/useCreate";
-import { useEditPremium } from "modules/premium/hooks/useEdit";
-import { SelectType } from "pages/Certificate/CustomForm";
-import { useUsersListForPremium } from "modules/premium/hooks/useList";
+import SelectWithInput from 'components/fields/SelectWithInput';
+import { useDebounce } from 'hooks/useDebounce';
+import { useCreatePremium } from 'modules/premium/hooks/useCreate';
+import { useEditPremium } from 'modules/premium/hooks/useEdit';
+import { SelectType } from 'pages/Certificate/CustomForm';
+import { useUsersListForPremium } from 'modules/premium/hooks/useList';
 
 interface IProps {
   premium?: Premium;
@@ -27,32 +27,23 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
   const [state, setState] = useState(false);
   const [properties, setProperties] = useState([1]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const debouncedSearchValue = useDebounce(searchValue, 300);
   const [planesData, setplanesData] = useState<SelectType[]>([]);
   const [usersData, setUsersData] = useState<SelectType[]>([]);
 
   const { uploadFile } = useFileUploader();
-  const {
-    data: planList,
-    isLoading,
-    paginationInfo,
-  } = usePremiumPlansList(currentPage, 10);
+  const { data: planList, isLoading, paginationInfo } = usePremiumPlansList(currentPage, 10);
 
-  const { triggerCreate, isPending: isInfoCreatePending } =
-    useCreatePremium({
-      setSheetOpen,
-    });
-  const { triggerEdit, isPending: isNotificationEditPending } =
-    useEditPremium({
-      id: premium?.id,
-      setSheetOpen,
-    });
+  const { triggerCreate, isPending: isInfoCreatePending } = useCreatePremium({
+    setSheetOpen,
+  });
+  const { triggerEdit, isPending: isNotificationEditPending } = useEditPremium({
+    id: premium?.id,
+    setSheetOpen,
+  });
 
-  const { data: usersList ,isLoading:isUsersLoading } = useUsersListForPremium(
-    currentPage,
-    debouncedSearchValue
-  );
+  const { data: usersList, isLoading: isUsersLoading } = useUsersListForPremium(currentPage, debouncedSearchValue);
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
@@ -74,12 +65,10 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
         },
   });
 
-
   async function onSubmit(formValues: useFormSchemaType) {
     console.log(formValues);
     setState(true);
     try {
-
       if (premium) {
         triggerEdit(formValues);
       } else {
@@ -87,7 +76,7 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
       }
     } catch (error) {
       setState(false);
-      alert("Aniqlanmagan hatolik!");
+      alert('Aniqlanmagan hatolik!');
     }
   }
 
@@ -104,9 +93,7 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
     if (usersList?.length) {
       setUsersData(
         usersList.map((user) => ({
-          name: `${user.first_name} ${user.last_name} ${
-            user.phone_number || user.email
-          }`,
+          name: `${user.first_name} ${user.last_name} ${user.phone_number || user.email}`,
           type: user.user,
         }))
       );
@@ -115,19 +102,12 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <SelectField
             name="plan"
             data={planesData}
-            placeholder={`${
-              isLoading && !planList
-                ? "Planlar hali yuklanmagan..."
-                : "Planni tanlang..."
-            }`}
+            placeholder={`${isLoading && !planList ? 'Planlar hali yuklanmagan...' : 'Planni tanlang...'}`}
             label="Planni tanglang"
           />
 
@@ -142,9 +122,7 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
           />
         </div>
         {premium ? (
-          <LoadingButton isLoading={isNotificationEditPending}>
-            Tahrirlash
-          </LoadingButton>
+          <LoadingButton isLoading={isNotificationEditPending}>Tahrirlash</LoadingButton>
         ) : (
           <LoadingButton isLoading={state}>Saqlash</LoadingButton>
         )}

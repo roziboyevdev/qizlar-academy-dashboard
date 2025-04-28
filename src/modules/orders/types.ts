@@ -1,4 +1,3 @@
-
 export enum DonationStatus {
   NEW = 'NEW',
   PENDING = 'PENDING',
@@ -7,13 +6,15 @@ export enum DonationStatus {
 
 export interface IOrder {
   id: string;
-  orderId: number,
-  price: number,
-  comment: string,
-  status: DonationStatus,
-  updatedAt?: string,
-  createdAt?: string
+  orderId: number;
+  price: number;
+  comment: string;
+  status: DonationStatus;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
-
-
+export interface IOrderInput {
+  id: string;
+  status: DonationStatus;
+}

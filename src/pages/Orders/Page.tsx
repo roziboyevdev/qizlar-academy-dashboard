@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { DataTable } from "components/DataTable";
-import Loader from "components/Loader";
-import { createDataColumns } from "./Columns";
-import { Pagination } from "components/Pagination";
-import { useOredersList } from "modules/orders/hooks/useList";
-import { IOrder } from "modules/orders/types";
+import { useState } from 'react';
+import { DataTable } from 'components/DataTable';
+import Loader from 'components/Loader';
+import { createDataColumns } from './Columns';
+import { Pagination } from 'components/Pagination';
+import { useOredersList } from 'modules/orders/hooks/useList';
+import { IOrder } from 'modules/orders/types';
+import { useEditOrder } from 'modules/orders/hooks/useEdit';
 
 const OrdersPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -12,11 +13,8 @@ const OrdersPage = () => {
   const [data, setData] = useState<IOrder>();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const {
-    data: categories,
-    isLoading,
-    pagenationInfo,
-  } = useOredersList(currentPage);
+  const { data: categories, isLoading, pagenationInfo } = useOredersList(currentPage);
+
 
   const getRowData = (info: IOrder) => {
     setData(info);
@@ -41,12 +39,7 @@ const OrdersPage = () => {
       ) : (
         <>
           <DataTable columns={columns} data={categories} />
-          <Pagination
-            className="justify-end mt-3"
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            paginationInfo={pagenationInfo}
-          />
+          <Pagination className="justify-end mt-3" currentPage={currentPage} setCurrentPage={setCurrentPage} paginationInfo={pagenationInfo} />
         </>
       )}
     </div>
