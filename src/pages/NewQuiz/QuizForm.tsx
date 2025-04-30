@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import {  useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Form, FormDescription, FormMessage } from 'components/ui/form';
@@ -11,7 +11,7 @@ import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
 import { useCreateQuiz } from 'modules/quizzes/hooks/useCreateQuiz';
 import { useEditQuiz } from 'modules/quizzes/hooks/useEditQuiz';
 import { Quiz } from 'modules/quizzes/types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import http from 'services/api';
 
 const quizSchema = z.object({
@@ -38,6 +38,7 @@ interface IProps {
 }
 
 export default function QuizForm({ quiz, setSheetOpen }: IProps) {
+  const [loading, setLoading] = useState(false);
   const { lessonId } = useParams();
   const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({
     setSheetOpen,
@@ -48,15 +49,18 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   });
 
   const getOneQuiz = async (id: string) => {
+    setLoading(true);
     try {
-      const res = await http.get(`exam/${id}`);
+      const res = await http.get(`quiz/${id}`);
       if (res.status == 200) {
         const data = res?.data?.data;
 
-        form.setValue('options', data?.examOptions);
+        form.setValue('options', data?.quizOptions);
       }
     } catch (error) {
       alert('Savollarni olishda hatolik');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,6 +124,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
           <RichTextEditorForQuiz name="question" label="Savol" required />
           <hr />
           <FormDescription className="mb-2 text-xs">Bitta to'g'ri javobni belgilang</FormDescription>
+          {loading && <h3>Javoblar yuklanmoqda... </h3>}
           <QuizOptions />
 
           {errors.options && (
