@@ -11,7 +11,7 @@ import { useCreateQuiz } from 'modules/lastexam/hooks/useCreateQuiz';
 import { useEditQuiz } from 'modules/lastexam/hooks/useEditQuiz';
 import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
 import http from 'services/api';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const quizSchema = z.object({
   question: z.string().min(9, { message: 'Savol minimum 8 ta harifdan iborat bolishi karak' }),
@@ -20,6 +20,7 @@ const quizSchema = z.object({
       z.object({
         value: z.string().min(1, { message: 'Javobni kiriting' }),
         isCorrect: z.boolean(),
+        id: z.string().optional(),
       })
     )
     .refine((data) => data.some((option) => option.isCorrect), {
@@ -37,6 +38,7 @@ interface IProps {
 
 export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   const { lessonId } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({
     setSheetOpen,
@@ -47,6 +49,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   });
 
   const getOneQuiz = async (id: string) => {
+    setLoading(true);
     try {
       const res = await http.get(`exam/${id}`);
       if (res.status == 200) {
@@ -57,6 +60,8 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
       }
     } catch (error) {
       alert('Savollarni olishda hatolik');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,6 +131,8 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
           <RichTextEditorForQuiz name="question" label="Savol" required />
           <hr />
           <FormDescription className="mb-2 text-xs">Bitta to'g'ri javobni belgilang</FormDescription>
+          {loading && <h3>Javoblar yuklanmoqda... </h3>}
+
           <QuizOptions />
 
           {errors.options && (

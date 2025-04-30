@@ -19,7 +19,7 @@ export const useCreateQuiz = ({ setSheetOpen }: IHook) => {
       toast({
         variant: 'success',
         title: 'Muvaffaqiyat!',
-        description: 'Quiz muvaffaqiyatli yaratildi.',
+        description: 'Exam test muvaffaqiyatli yaratildi.',
       });
       queryClient.invalidateQueries({ queryKey: ['exam_list'] });
       setSheetOpen(false);

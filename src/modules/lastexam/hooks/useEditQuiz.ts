@@ -20,7 +20,7 @@ export const useEditQuiz = ({ id = '', setSheetOpen }: IHook) => {
       toast({
         variant: 'success',
         title: 'Muvaffaqiyat!',
-        description: 'Quiz muvaffaqiyatli tahrirlandi.',
+        description: 'Exam test muvaffaqiyatli tahrirlandi.',
       });
       queryClient.invalidateQueries({ queryKey: ['exam_list'] });
       setSheetOpen(false);
