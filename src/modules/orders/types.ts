@@ -11,6 +11,7 @@ interface User {
 }
 interface IProduct {
   title: string;
+  count:number;
 }
 export interface IOrder {
   id: string;

@@ -22,7 +22,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     accessorKey: 'product',
     header: 'Maxsulot',
     cell: ({ row }) => {
-      return <> {row.original?.product ? row.original.product?.title : 'No'} </>;
+      return <> {row.original?.product ? row.original.product?.title + ' - ' + `${row.original.product?.count} ta` : 'No'} </>;
     },
   },
   {
