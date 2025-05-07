@@ -9,7 +9,9 @@ interface User {
   lastname: string;
   phone: string;
 }
-
+interface IProduct {
+  title: string;
+}
 export interface IOrder {
   id: string;
   orderId: number;
@@ -17,6 +19,7 @@ export interface IOrder {
   comment: string;
   status: DonationStatus;
   user?: User | null;
+  product?: IProduct | null;
   updatedAt?: string;
   createdAt?: string;
 }

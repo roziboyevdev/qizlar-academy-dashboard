@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { OrderStatusButton } from 'components/OrderStatusButton';
+import { CopyIcon } from 'lucide-react';
 import { DonationStatus, IOrder } from 'modules/orders/types';
 import { formatDateTime } from 'utils/formatDateTime';
 
@@ -18,8 +19,11 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     cell: ({ row }) => row.index + 1 + (currentPage - 1) * 10,
   },
   {
-    accessorKey: 'orderId',
-    header: 'Buyurtma raqami',
+    accessorKey: 'product',
+    header: 'Maxsulot',
+    cell: ({ row }) => {
+      return <> {row.original?.product ? row.original.product?.title : 'No'} </>;
+    },
   },
   {
     accessorKey: 'price',
@@ -38,7 +42,18 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     accessorKey: 'user',
     header: 'User',
     cell: ({ row }) => {
-      return <> {row.original?.user ? row.original?.user?.phone : 'No'} </>;
+      const phone = row.original?.user?.phone;
+      const handleClick = () => {
+        navigator.clipboard.writeText(phone || '');
+      };
+      return (
+        <>
+          <div className=" p-1 rounded transition-colors flex items-center gap-2" title="Click to copy">
+            {phone}
+            <CopyIcon onClick={handleClick} className="cursor-pointer" />
+          </div>
+        </>
+      );
     },
   },
   {
