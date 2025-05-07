@@ -13,8 +13,7 @@ const OrdersPage = () => {
   const [data, setData] = useState<IOrder>();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: categories, isLoading, pagenationInfo } = useOredersList(currentPage);
-
+  const { data: orders, isLoading, pagenationInfo } = useOredersList(currentPage);
 
   const getRowData = (info: IOrder) => {
     setData(info);
@@ -28,17 +27,19 @@ const OrdersPage = () => {
     currentPage,
   });
 
+  console.log(pagenationInfo, 'or');
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2>Jami {pagenationInfo?.total_records || 0} ta </h2>
+        <h2>Jami {pagenationInfo?.count || 0} ta </h2>
         <h1 className="text-2xl font-bold">Buyurtmalar</h1>
       </div>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <DataTable columns={columns} data={categories} />
+          <DataTable columns={columns} data={orders} />
           <Pagination className="justify-end mt-3" currentPage={currentPage} setCurrentPage={setCurrentPage} paginationInfo={pagenationInfo} />
         </>
       )}
