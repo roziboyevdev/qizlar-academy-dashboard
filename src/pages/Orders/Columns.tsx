@@ -25,7 +25,22 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     accessorKey: 'price',
     header: 'Narxi',
   },
-
+  {
+    accessorKey: 'user',
+    header: 'User',
+    cell: ({ row }) => {
+      const fName = row?.original?.user?.firstname;
+      const lName = row?.original?.user?.lastname;
+      return <> {fName ? fName + ' ' + lName : 'No'} </>;
+    },
+  },
+  {
+    accessorKey: 'user',
+    header: 'User',
+    cell: ({ row }) => {
+      return <> {row.original?.user ? row.original?.user?.phone : 'No'} </>;
+    },
+  },
   {
     accessorKey: 'status',
     header: 'Status',
@@ -46,5 +61,5 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     cell: ({ row }) => {
       return <>{formatDateTime(row.getValue('createdAt'))}</>;
     },
-  }
+  },
 ];

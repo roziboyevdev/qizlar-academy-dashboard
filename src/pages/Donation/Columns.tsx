@@ -22,9 +22,13 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     header: 'Miqdor',
     cell: ({ row }) => numToSum(row.original.amount, 100),
   },
+
   {
     accessorKey: 'provider',
     header: 'Tolov usuli',
+    cell: ({ row }) => {
+      return <>{row.original.transaction?.provider || "no" }</>;
+    },
   },
   {
     accessorKey: 'profile',

@@ -23,16 +23,16 @@ interface IProps {
 }
 
 export default function CustomForm({ premium, setSheetOpen }: IProps) {
-  const { categoryId } = useParams();
+  // const { categoryId } = useParams();
   const [state, setState] = useState(false);
-  const [properties, setProperties] = useState([1]);
+  // const [properties, setProperties] = useState([1]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearchValue = useDebounce(searchValue, 300);
   const [planesData, setplanesData] = useState<SelectType[]>([]);
   const [usersData, setUsersData] = useState<SelectType[]>([]);
 
-  const { uploadFile } = useFileUploader();
+  // const { uploadFile } = useFileUploader();
   const { data: planList, isLoading, paginationInfo } = usePremiumPlansList(currentPage, 10);
 
   const { triggerCreate, isPending: isInfoCreatePending } = useCreatePremium({
@@ -99,6 +99,8 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
       );
     }
   }, [usersList]);
+
+  console.log(premium ,"premium")
 
   return (
     <Form {...form}>

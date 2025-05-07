@@ -6,6 +6,7 @@ export const getData = (item?: IOrder) => {
     orderId: item?.orderId ?? 0,
     price: item?.price ?? 0,
     comment: item?.comment ?? '',
+    user: item?.user ?? null,
     status: item?.status ?? DonationStatus.PENDING,
     createdAt: item?.createdAt ?? '',
   };

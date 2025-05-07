@@ -1,7 +1,6 @@
 export interface Premium {
   id: string;
   user: {
-    id: string;
     phone: string;
     email: string | null;
   };
