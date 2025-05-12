@@ -31,8 +31,8 @@ const MeetingPage = () => {
   return (
     <div>
       <TableActions
-        sheetTriggerTitle="Vakansiya qo'shish"
-        sheetTitle="Yangi Vakansiya qo'shish."
+        sheetTriggerTitle="Vebinar qo'shish"
+        sheetTitle="Yangi Vebinar qo'shish."
         TableForm={CourseForm}
       />
       {isLoading ? (
@@ -42,7 +42,7 @@ const MeetingPage = () => {
       )}
 
       <Sheet
-        sheetTitle="Vakansiyani tahrirlash"
+        sheetTitle="Vebinarni tahrirlash"
         isOpen={isSheetOpen}
         setSheetOpen={setSheetOpen}
       >
