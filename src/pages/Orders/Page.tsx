@@ -42,7 +42,7 @@ const OrdersPage = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2>Jami {pagenationInfo?.count || 0} ta </h2>
-        <SelectWithoutForm data={typeData} placeholder="Kursni  bo'yicha..." onChange={(value) => setOrderType(value)} />
+        <SelectWithoutForm data={typeData} placeholder="Holat bo'yicha..." onChange={(value) => setOrderType(value)} />
 
         <h1 className="text-2xl font-bold">Buyurtmalar</h1>
       </div>
