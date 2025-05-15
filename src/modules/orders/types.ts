@@ -2,6 +2,7 @@ export enum DonationStatus {
   NEW = 'NEW',
   PENDING = 'PENDING',
   DONE = 'DONE',
+  CANCELED = 'CANCELED',
 }
 
 export enum OrderType {

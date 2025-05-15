@@ -12,3 +12,7 @@ export const EditData = async ({ status, id }: IOrderInput) => {
 export const DeleteData = async (id: string) => {
   return await http.delete(`/order/${id}`);
 };
+
+export const CancelData = async (id: string) => {
+  return await http.delete(`/order/cancel/${id}`);
+};
