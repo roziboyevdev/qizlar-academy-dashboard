@@ -36,8 +36,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
     id: story?.id,
     setSheetOpen,
   });
-  const [value, setValue] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
+
 
   // get courses
   const { data: coursesList } = useCoursesList();
@@ -48,7 +47,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
       ? {
           title: story?.title,
           link: story?.link,
-          deadline: story?.deadline,
+          deadline: story?.deadline?.replace(':00.000Z' ,''),
           photo: story?.photo,
           video: story?.video,
         }

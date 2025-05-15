@@ -1,7 +1,7 @@
 export enum MeetingType {
-  ONLINE = "ONLINE",
-  OFFLINE  = "OFFLINE ",
-  EMPTY = "",
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE ',
+  EMPTY = '',
 }
 export interface IMeeting {
   id: string;
@@ -10,6 +10,7 @@ export interface IMeeting {
   banner: string;
   link: string;
   type: MeetingType;
+  startsAt: string;
 }
 
 export interface IMeetingInput {
@@ -18,6 +19,7 @@ export interface IMeetingInput {
   banner: string;
   link: string;
   type: MeetingType;
+  startsAt: string;
 }
 
 export interface IMeetingEditBody {

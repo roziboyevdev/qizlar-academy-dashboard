@@ -9,6 +9,7 @@ import { useCreateMeeting } from 'modules/meeting/hooks/useCreate';
 import { IMeeting, IMeetingInput, MeetingType } from 'modules/meeting/types';
 import useFileUploader from 'hooks/useFileUploader';
 import { useState } from 'react';
+import DateTimePicker from 'components/DateAndTimePicker';
 
 const typeData = [
   { type: MeetingType.ONLINE, name: 'Online' },
@@ -28,6 +29,7 @@ const courseSchema = z.object({
   ]),
   link: z.string({ message: 'Link kiritlishi shart' }),
   type: z.nativeEnum(MeetingType),
+  startsAt: z.string({ message: 'boshlanish sanani kiritish shart' }),
 });
 
 type courseFormSchema = z.infer<typeof courseSchema>;
@@ -58,6 +60,7 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
           banner: vacancy.banner,
           link: vacancy.link,
           type: vacancy.type,
+          startsAt: vacancy.startsAt?.replace(':00.000Z', ''),
         }
       : {
           title: '',
@@ -65,6 +68,7 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
           banner: '',
           link: '',
           type: MeetingType.EMPTY,
+          startsAt: '',
         },
   });
 
@@ -88,6 +92,8 @@ export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
           <TextField name="link" label="Uchrashuv linki(youtube)" placeholder="Link" required />
 
           <FileField name="banner" label="Uchrashuv rasmi" />
+
+          <DateTimePicker name="startsAt" label="Uchrashuv boshlanish vaqtini kiriting" />
 
           <SelectField name="type" data={typeData} placeholder="Vebinar turi..." label="Vebinar turi" />
 

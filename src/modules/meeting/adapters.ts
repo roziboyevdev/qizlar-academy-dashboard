@@ -1,13 +1,13 @@
-import { IMeeting, MeetingType } from "./types";
+import { IMeeting, MeetingType } from './types';
 export const getMeeting = (item?: IMeeting) => {
   return {
-    id: item?.id ?? "",
-    title: item?.title ?? "",
-    description: item?.description ?? "",
-    banner: item?.banner ?? "",
+    id: item?.id ?? '',
+    title: item?.title ?? '',
+    description: item?.description ?? '',
+    banner: item?.banner ?? '',
     link: item?.link ?? '',
     type: item?.type ?? MeetingType.EMPTY,
- 
+    startsAt: item?.startsAt ?? '',
   };
 };
 
