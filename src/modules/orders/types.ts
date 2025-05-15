@@ -4,6 +4,12 @@ export enum DonationStatus {
   DONE = 'DONE',
 }
 
+export enum OrderType {
+  ALL = 'ALL',
+  DELETED = 'DELETED',
+  ACTIVE = 'ACTIVE',
+}
+
 interface User {
   firstname: string;
   lastname: string;
@@ -11,7 +17,7 @@ interface User {
 }
 interface IProduct {
   title: string;
-  count:number;
+  count: number;
 }
 export interface IOrder {
   id: string;

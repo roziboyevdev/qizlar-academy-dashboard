@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { OrderStatusButton } from 'components/OrderStatusButton';
 import { CopyIcon } from 'lucide-react';
-import { DonationStatus, IOrder } from 'modules/orders/types';
+import { IOrder } from 'modules/orders/types';
 import { formatDateTime } from 'utils/formatDateTime';
 
 interface IProps {
@@ -76,5 +76,12 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     cell: ({ row }) => {
       return <>{formatDateTime(row.getValue('createdAt'))}</>;
     },
+  },
+
+  {
+    accessorKey: 'id',
+    header: () => <span className="sr-only">Actions</span>,
+    size: 50,
+    cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} />,
   },
 ];

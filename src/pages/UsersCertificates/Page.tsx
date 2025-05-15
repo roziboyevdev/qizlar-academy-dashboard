@@ -11,6 +11,7 @@ import districtData from '../../db/districts.json';
 import SelectWithoutForm from 'components/fields/SelectWithoutForm';
 
 export type CustomSelectType = { name: string; id: string | number; disabled?: boolean; [key: string]: any };
+
 const UsersCertificatesPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
