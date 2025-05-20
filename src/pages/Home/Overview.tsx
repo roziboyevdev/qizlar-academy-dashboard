@@ -77,7 +77,7 @@ export default function Overview() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Premiumlar: to'langan / tekin </CardTitle>
+          <CardTitle className="text-sm font-medium">Premium: to'langan / tekin </CardTitle>
           <View className="size-4" />
         </CardHeader>
         <CardContent>
