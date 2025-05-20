@@ -12,6 +12,8 @@ export interface IOwerviewData {
   certificates: number;
   premiumAmount: number;
   donationAmount: number;
+  freePremiums: number;
+  payedPremiums: number;
 }
 
 // export interface IMonthlyOwerviewData {
@@ -61,4 +63,4 @@ export interface IMonthlyOwerviewData {
       monthly: number;
     };
   };
-};
+}

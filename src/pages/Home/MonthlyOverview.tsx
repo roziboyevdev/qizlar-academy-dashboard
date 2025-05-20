@@ -10,7 +10,7 @@ export default function MonthlyOverview() {
   const currentMonth = new Date().getMonth();
   const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
 
-  console.log(monthNames[prevMonth]);
+  // console.log(monthNames[prevMonth]);
 
   return (
     <>

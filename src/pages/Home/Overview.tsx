@@ -1,4 +1,4 @@
-import { BadgeCheck,  Crown, HandCoins, Puzzle, Users, Video, View } from 'lucide-react';
+import { BadgeCheck, Crown, HandCoins, Puzzle, Users, Video, View } from 'lucide-react';
 import { useOverview } from 'modules/statistics/hooks/useOverview';
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card';
 import { Skeleton } from 'components/ui/skeleton';
@@ -6,7 +6,6 @@ import { numToSum } from 'utils/numberFormat';
 
 export default function Overview() {
   const { data: overview, isLoading } = useOverview();
-  console.log(overview);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -72,7 +71,19 @@ export default function Overview() {
           <HandCoins className="size-4" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : numToSum(overview?.donationAmount) }</div>
+          <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : numToSum(overview?.donationAmount)}</div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Premiumlar: to'langan / tekin </CardTitle>
+          <View className="size-4" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">
+            {isLoading ? <Skeleton className="h-8 w-20" /> : `${overview?.payedPremiums} / ${overview?.freePremiums}`}
+          </div>
         </CardContent>
       </Card>
     </div>
