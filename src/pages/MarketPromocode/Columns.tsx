@@ -1,8 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTableRowActions } from 'components/DataTableRowActions';
 import { IMarketPromocode } from 'modules/market-promocode/types';
-import { Link } from 'react-router-dom';
-import normalizeImgUrl from 'utils/normalizeFileUrl';
+
 
 interface IProps {
   getRowData: (notification: IMarketPromocode) => void;
