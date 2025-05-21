@@ -111,6 +111,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/promocode',
     },
     {
+      title: 'Market Promocode',
+      icon: TicketPercent,
+      link: '/market-promocode',
+    },
+    {
       title: 'Buyurtmalar',
       icon: MailQuestion,
       link: '/orders',

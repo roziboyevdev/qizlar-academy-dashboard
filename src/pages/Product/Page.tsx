@@ -15,17 +15,14 @@ const ProductPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<ProductType>();
-  const { categoryId } = useParams()
+  const { categoryId } = useParams();
+  const { data: notificationsList, isLoading } = useProductsList(20, categoryId ? categoryId : '');
+  const { triggerInfoDelete } = useDeleteProduct(data?.id!);
 
-
-  const { data: notificationsList, isLoading } = useProductsList(categoryId ? categoryId : "");
-
-  const { triggerInfoDelete } = useDeleteProduct(
-    data?.id!
-  );
   const getRowData = (info: ProductType) => {
     setData(info);
   };
+  
   // demo
   const columns = createDataColumns({
     getRowData,
@@ -35,26 +32,11 @@ const ProductPage = () => {
 
   return (
     <div>
-      <TableActions
-        sheetTriggerTitle="Product qo'shish"
-        sheetTitle="Yangi product qo'shish"
-        TableForm={CustomForm}
-      />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <DataTable columns={columns} data={notificationsList} />
-      )}
+      <TableActions sheetTriggerTitle="Product qo'shish" sheetTitle="Yangi product qo'shish" TableForm={CustomForm} />
+      {isLoading ? <Loader /> : <DataTable columns={columns} data={notificationsList} />}
 
-      <Sheet
-        sheetTitle="Productni tahrirlash"
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
-        <CustomForm
-          product={data}
-          setSheetOpen={setSheetOpen}
-        />
+      <Sheet sheetTitle="Productni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+        <CustomForm product={data} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog
         alertTitle="Ishonchingiz komilmi?"

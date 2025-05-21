@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { IUserCertificate } from 'modules/user-certificate/types';
+import { calculateAge } from 'utils/calculateAge';
 import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {
@@ -32,6 +33,14 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     },
   },
   {
+    accessorKey: 'user',
+    header: 'Yosh',
+    cell: ({ row }) => {
+      const age = calculateAge(row.original.user?.birthday || '');
+      return <>{age || 'kitilmagan'}</>;
+    },
+  },
+  {
     accessorKey: 'course',
     header: 'Kurs',
     cell: ({ row }) => <>{row.original?.course?.title} </>,
@@ -41,7 +50,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     accessorKey: 'file',
     header: 'Sertifikat',
     cell: ({ row }) => (
-      <a href={normalizeImgUrl(row.original?.file || '')} target="_blank" className='text-blue-700'>
+      <a href={normalizeImgUrl(row.original?.file || '')} target="_blank" className="text-blue-700">
         File
       </a>
     ),

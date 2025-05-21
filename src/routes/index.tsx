@@ -32,6 +32,7 @@ import PromocodePage from 'pages/Promocode';
 import OrdersPage from 'pages/Orders/Page';
 import MeetingPage from 'pages/Meeting';
 import CourseAssistantPage from 'pages/CourseAssistant/Page';
+import MarketPromocodePage from 'pages/MarketPromocode/Page';
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
@@ -127,6 +128,10 @@ export const Routes = () => {
     {
       path: '/promocode',
       element: <PromocodePage />,
+    },
+      {
+      path: '/market-promocode',
+      element: <MarketPromocodePage />,
     },
     {
       path: '/orders',

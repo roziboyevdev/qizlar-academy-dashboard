@@ -1,15 +1,15 @@
 import http from 'services/api';
 import { ProductInputType, ProductEditBodyType } from './types';
 
-export const GetDatasList = async (categoryId: string) => {
-  return await http.get(`/product`, {params:{categoryId}});
+export const GetDatasList = async (pageSize:number , categoryId: string) => {
+  return await http.get(`/product?pageSize=${pageSize}`, { params: categoryId ? { categoryId } : null });
 };
 
 export const CreateData = async (values: ProductInputType) => {
   return await http.post(`/product`, values);
 };
 
-export const EditData = async ({values,id}: ProductEditBodyType) => {
+export const EditData = async ({ values, id }: ProductEditBodyType) => {
   return await http.patch(`/product/${id}`, values);
 };
 
