@@ -21,13 +21,16 @@ const MarketPromocodePage = () => {
   const getRowData = (info: IMarketPromocode) => {
     setData(info);
   };
-  
+
   // demo
   const columns = createDataColumns({
     getRowData,
     setDialogOpen,
     setSheetOpen,
   });
+
+
+  console.log('marketPromocodes', marketPromocodes);
 
   return (
     <div>

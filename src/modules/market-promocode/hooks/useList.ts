@@ -12,7 +12,7 @@ export const useMarketPromocodesList = () => {
     queryKey: ['market_promocode_list'],
     queryFn: () => GetDatasList(),
     select: (data) => ({
-      data: getDatasList(get(data, 'data.data.data')),
+      data: getDatasList(get(data, 'data.data')),
     }),
   });
 

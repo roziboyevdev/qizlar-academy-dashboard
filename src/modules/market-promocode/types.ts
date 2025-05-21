@@ -1,7 +1,10 @@
 export interface IMarketPromocode {
   id?: string;
-  file: string;
-  productId: string;
+  file?: string;
+  productId?: string;
+  title?: string;
+  total?: number;
+  unused?: number;
 }
 
 export interface IMarketPromocodeInput {

@@ -12,30 +12,23 @@ interface IProps {
 
 export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<IMarketPromocode>[] => [
   {
-    accessorKey: 'photo',
-    header: 'Rasm',
-    cell: ({ row }) => {
-      return (
-        <Link to={normalizeImgUrl(row.getValue('photo'))} target="_blank" className="text-blue-600">
-          file
-        </Link>
-      );
-    },
+    accessorKey: 'title',
+    header: 'Maxsulot',
   },
 
   {
-    accessorKey: 'type',
-    header: 'Banner turi',
+    accessorKey: 'total',
+    header: 'Umumiy soni',
   },
   {
-    accessorKey: 'productId',
-    header: 'Title',
+    accessorKey: 'unused',
+    header: 'Qolganlari',
   },
 
-  {
-    accessorKey: 'id',
-    header: () => <span className="sr-only">Actions</span>,
-    size: 50,
-    cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} />,
-  },
+  // {
+  //   accessorKey: 'id',
+  //   header: () => <span className="sr-only">Actions</span>,
+  //   size: 50,
+  //   cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} />,
+  // },
 ];

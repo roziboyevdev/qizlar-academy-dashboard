@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'components/ui/form';
-import { FileField, SelectField } from 'components/fields';
+import { SelectField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import { useEffect, useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
@@ -72,8 +72,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     );
     setCoursesData(newArr);
   }, [productList]);
-
-  console.log('productList', productList);
 
   return (
     <Form {...form}>
