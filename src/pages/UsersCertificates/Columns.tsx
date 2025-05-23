@@ -37,7 +37,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     header: 'Yosh',
     cell: ({ row }) => {
       const age = calculateAge(row.original.user?.birthday || '');
-      return <>{age || 'kitilmagan'}</>;
+      return <>{age || 'kiritilmagan'}</>;
     },
   },
   {
