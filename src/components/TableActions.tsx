@@ -10,15 +10,10 @@ interface IProps {
   lastDataOrder?: number;
   TableForm?: any;
   isAddButtonHidden?: boolean;
+  children?: React.ReactNode;
 }
 
-export const TableActions = ({
-  sheetTriggerTitle,
-  sheetTitle,
-  lastDataOrder,
-  TableForm,
-  isAddButtonHidden,
-}: IProps) => {
+export const TableActions = ({ sheetTriggerTitle, sheetTitle, lastDataOrder, TableForm, isAddButtonHidden, children }: IProps) => {
   const [isSheetOpen, setSheetOpen] = useState(false);
 
   return (
@@ -36,12 +31,9 @@ export const TableActions = ({
           {sheetTriggerTitle}
         </Button>
       )}
+      {children}
 
-      <Sheet
-        sheetTitle={sheetTitle}
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
+      <Sheet sheetTitle={sheetTitle} isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <TableForm lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen} />
       </Sheet>
     </div>

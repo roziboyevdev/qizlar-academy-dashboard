@@ -9,10 +9,14 @@ import CustomForm from './CustomForm';
 import { IMarketPromocode } from 'modules/market-promocode/types';
 import { useMarketPromocodesList } from 'modules/market-promocode/hooks/useList';
 import { useDeleteMarketPromocode } from 'modules/market-promocode/hooks/useDelete';
+import PromocodeGenerateForm from './PromocodeGenerateForm';
+import { Button } from 'components/ui/button';
+import { Plus } from 'lucide-react';
 
 const MarketPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
+  const [isGenerateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [data, setData] = useState<IMarketPromocode>();
 
   const { data: marketPromocodes, isLoading } = useMarketPromocodesList();
@@ -29,7 +33,6 @@ const MarketPromocodePage = () => {
     setSheetOpen,
   });
 
-
   console.log('marketPromocodes', marketPromocodes);
 
   return (
@@ -38,11 +41,21 @@ const MarketPromocodePage = () => {
         sheetTriggerTitle="Do'kon uchun promocode qo'shish"
         sheetTitle="Yangi Do'kon uchun promocode qo'shish"
         TableForm={CustomForm}
-      />
+      >
+        <Button onClick={() => setGenerateSheetOpen(true)}>
+          <Plus className="size-4 mr-2" />
+          Auto generate
+        </Button>
+      </TableActions>
+
       {isLoading ? <Loader /> : <DataTable columns={columns} data={marketPromocodes} />}
 
       <Sheet sheetTitle="Do'kon uchun promocodeni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CustomForm banner={data} setSheetOpen={setSheetOpen} />
+      </Sheet>
+
+      <Sheet sheetTitle="Auto generate" isOpen={isGenerateSheetOpen} setSheetOpen={setGenerateSheetOpen}>
+        <PromocodeGenerateForm setSheetOpen={setGenerateSheetOpen} />
       </Sheet>
 
       <AlertDialog

@@ -8,6 +8,9 @@ export const GetDatasList = async () => {
 export const CreateData = async (values: IMarketPromocodeInput) => {
   return await http.post(`/market-promocode`, values);
 };
+export const GenerateData = async (count: number) => {
+  return await http.post(`/promocode/generate/${count}`);
+};
 
 export const EditData = async ({ values, id }: IMarketPromocodeEditBody) => {
   return await http.patch(`/banner/${id}`, values);

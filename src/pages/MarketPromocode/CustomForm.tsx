@@ -11,20 +11,34 @@ import { IMarketPromocode } from 'modules/market-promocode/types';
 import { useCreateMarketPromocode } from 'modules/market-promocode/hooks/useCreate';
 import { useEditMarketPromocode } from 'modules/market-promocode/hooks/useEdit';
 import MediaUploadField from 'components/fields/VideoUploder';
+import { useAutoGeneratePromocode } from 'modules/market-promocode/hooks/useAutoGenerate';
 
 interface IProps {
   banner?: IMarketPromocode;
   setSheetOpen: (state: boolean) => void;
 }
+const createMethods = [
+  {
+    name: 'File',
+    type: 'file',
+  },
+  {
+    name: 'Auto Genenatsiya(ustoz ai uchun)  ',
+    type: 'auto',
+  },
+];
 
 export default function CustomForm({ banner, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
 
   const [state, setState] = useState(false);
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateMarketPromocode({
+  const { triggerCreate } = useCreateMarketPromocode({
     setSheetOpen,
   });
-  const { triggerEdit, isPending: isNotificationEditPending } = useEditMarketPromocode({
+  const { generatePromocode } = useAutoGeneratePromocode({
+    setSheetOpen,
+  });
+  const { triggerEdit } = useEditMarketPromocode({
     id: banner?.id,
     setSheetOpen,
   });
@@ -35,8 +49,8 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     resolver: zodResolver(schema),
     defaultValues: banner
       ? {
-          productId: banner?.productId,
-          file: banner?.file,
+          productId: banner.productId,
+          file: banner.file,
         }
       : {
           productId: '',
@@ -44,12 +58,13 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
         },
   });
 
+
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);
     try {
       const formData = new FormData();
-      formData.append('file', formValues.file);
-      formData.append('productId', formValues.productId);
+      formData.append('file', formValues.file || '');
+      formData.append('productId', formValues?.productId || '');
 
       if (banner) {
         triggerEdit(formData);
@@ -73,6 +88,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setCoursesData(newArr);
   }, [productList]);
 
+  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -87,11 +103,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
             label="Maxsulotni tanlash  tanglang"
           />
         </div>
-        {banner ? (
-          <LoadingButton isLoading={isNotificationEditPending}>Tahrirlash</LoadingButton>
-        ) : (
-          <LoadingButton isLoading={state}>Saqlash</LoadingButton>
-        )}
+        {banner ? <LoadingButton isLoading={state}>Tahrirlash</LoadingButton> : <LoadingButton isLoading={state}>Saqlash</LoadingButton>}
       </form>
     </Form>
   );

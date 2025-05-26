@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
-import { CreateData } from '../api';
+import { CreateData, GenerateData } from '../api';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 import { IMarketPromocodeInput } from '../types';
@@ -9,12 +9,12 @@ interface IHook {
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useCreateMarketPromocode = ({ setSheetOpen }: IHook) => {
+export const useAutoGeneratePromocode = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutateAsync, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: any) => {
-      return CreateData(values);
+    mutationFn: (count: number) => {
+      return GenerateData(count);
     },
     onSuccess: () => {
       toast({
@@ -30,7 +30,7 @@ export const useCreateMarketPromocode = ({ setSheetOpen }: IHook) => {
     },
   });
   return {
-    triggerCreate: mutateAsync,
+    generatePromocode: mutateAsync,
     isPending,
     isSuccess,
     isError,
