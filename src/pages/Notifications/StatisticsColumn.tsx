@@ -24,7 +24,7 @@ export const createStatisticsNotificationColumns = ({ getRowData, setSheetOpen, 
     header: "O'qilganlar",
   },
   {
-    accessorKey: 'openedCount',
+    accessorKey: 'test',
     header: 'Foiz hisobda',
     cell: ({ row }) => {
       return <div>{calculateOpenRate(row.original?.deliveredCount, row.original?.openedCount)}%</div>;
