@@ -25,13 +25,15 @@ export const TableActions = ({ sheetTriggerTitle, sheetTitle, lastDataOrder, Tab
         </Button>
       </div>
 
-      {!isAddButtonHidden && (
-        <Button onClick={() => setSheetOpen(true)}>
-          <Plus className="size-4 mr-2" />
-          {sheetTriggerTitle}
-        </Button>
-      )}
-      {children}
+      <div className="flex   items-center gap-2">
+        {!isAddButtonHidden && (
+          <Button onClick={() => setSheetOpen(true)}>
+            <Plus className="size-4 mr-2" />
+            {sheetTriggerTitle}
+          </Button>
+        )}
+        {children}
+      </div>
 
       <Sheet sheetTitle={sheetTitle} isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <TableForm lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen} />

@@ -5,6 +5,10 @@ export const GetNotificationsList = async (pageNumber: number, pageSize: number)
   return await http.get(`/notification`, { params: { pageNumber, pageSize } });
 };
 
+export const GetNotificationsStatisticList = async (pageNumber: number, pageSize: number) => {
+  return await http.get(`/notification/all/statistics`, { params: { pageNumber, pageSize } });
+};
+
 export const CreateNotification = async (values: NotificationInput) => {
   return await http.post(`/notification`, values);
 };

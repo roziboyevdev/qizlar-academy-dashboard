@@ -1,4 +1,4 @@
-import { BannerType } from "modules/banner/types";
+import { BannerType } from 'modules/banner/types';
 
 export interface Notification {
   id: string;
@@ -10,6 +10,8 @@ export interface Notification {
   link?: string | null;
   objectId?: string | null;
   createdAt: string;
+  deliveredCount?: number;
+  openedCount?: number;
 }
 
 export interface NotificationInput {
