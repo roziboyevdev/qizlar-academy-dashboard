@@ -122,12 +122,12 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
             const values = await uploadFile<IStoryMedia>(media, 'mediaUrl');
             uploadedMediaUrl = values.mediaUrl;
           }
-          return {
+          return cleanEmptyStrings({
             ...media,
             mediaUrl: uploadedMediaUrl,
             deadline: media.deadline + ':00Z',
             sortId: index,
-          };
+          });
         })
       );
 
