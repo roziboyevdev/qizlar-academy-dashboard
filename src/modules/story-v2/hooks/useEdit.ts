@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
 
-import { BannerInputType } from '../types';
+import { StoryV2InputType } from '../types';
 import { EditData } from '../api';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
@@ -11,18 +11,18 @@ interface IHook {
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useEditBanner= ({ id = '', setSheetOpen }: IHook) => {
+export const useEditStory = ({ id = '', setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: BannerInputType) => EditData({ values, id }),
+    mutationFn: (values: StoryV2InputType) => EditData({ values, id }),
     onSuccess: () => {
       toast({
         variant: 'success',
         title: 'Tasdiqlandi!',
         description: 'Malumot muvaffaqiyatli tahrirlandi.',
       });
-      queryClient.invalidateQueries({ queryKey: ['banners_list'] });
+      queryClient.invalidateQueries({ queryKey: ['stories_list'] });
       setSheetOpen(false);
     },
     onError: (error: any) => showErrorToast(error),

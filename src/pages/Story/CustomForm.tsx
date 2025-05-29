@@ -29,9 +29,11 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
   const [state, setState] = useState(false);
   const { uploadFile } = useFileUploader();
+
   const { triggerCreate, isPending: isInfoCreatePending } = useCreateStory({
     setSheetOpen,
   });
+  
   const { triggerEdit, isPending: isNotificationEditPending } = useEditStory({
     id: story?.id,
     setSheetOpen,

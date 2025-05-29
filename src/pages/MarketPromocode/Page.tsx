@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { DataTable } from 'components/DataTable';
-import { TableActions } from 'components/TableActions';
 import { Sheet } from 'components/Sheet';
 import { AlertDialog } from 'components/AlertDialog';
 import Loader from 'components/Loader';
@@ -12,7 +11,6 @@ import { useDeleteMarketPromocode } from 'modules/market-promocode/hooks/useDele
 import PromocodeGenerateForm from './PromocodeGenerateForm';
 import { Button } from 'components/ui/button';
 import { Plus } from 'lucide-react';
-import { Input } from 'components/ui/input';
 
 const MarketPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -34,7 +32,6 @@ const MarketPromocodePage = () => {
     setSheetOpen,
   });
 
-  console.log('marketPromocodes', marketPromocodes);
 
   return (
     <div>

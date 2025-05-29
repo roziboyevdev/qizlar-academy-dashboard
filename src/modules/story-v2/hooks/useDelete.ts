@@ -4,7 +4,7 @@ import { DeleteData } from '../api';
 import { useToast } from 'components/ui/use-toast';
 import { showErrorToast } from 'utils/showErrorToast';
 
-export const useDeleteBanner= (id: string) => {
+export const useDeleteStory = (id: string) => {
   const { toast } = useToast();
 
   const { mutate, isSuccess, isError } = useMutation({
@@ -14,7 +14,7 @@ export const useDeleteBanner= (id: string) => {
         variant: 'success',
         title: "Muvaffaqiyatli o'chirildi!",
       });
-      queryClient.invalidateQueries({ queryKey: ['banners_list'] });
+      queryClient.invalidateQueries({ queryKey: ['stories_list'] });
     },
     onError: (error: any) => showErrorToast(error),
   });

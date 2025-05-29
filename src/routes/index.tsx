@@ -17,7 +17,7 @@ import NotificationsPage from 'pages/Notifications';
 import { AuthContext } from 'providers/auth';
 import Certificate from 'pages/Certificate/Page';
 import LastExam from 'pages/LastExam';
-import StoryPage from 'pages/Story/Page';
+// import StoryPage from 'pages/Story/Page';
 import BannerPage from 'pages/Banner/Page';
 import CategoryPage from 'pages/Category/Page';
 import ProductPage from 'pages/Product/Page';
@@ -33,6 +33,7 @@ import OrdersPage from 'pages/Orders/Page';
 import MeetingPage from 'pages/Meeting';
 import CourseAssistantPage from 'pages/CourseAssistant/Page';
 import MarketPromocodePage from 'pages/MarketPromocode/Page';
+import StoryV2Page from 'pages/StoryV2/Page';
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
@@ -95,7 +96,7 @@ export const Routes = () => {
     },
     {
       path: '/story',
-      element: <StoryPage />,
+      element: <StoryV2Page />,
     },
     {
       path: '/banner',

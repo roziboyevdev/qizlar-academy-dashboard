@@ -1,6 +1,5 @@
 // import React, { useState, useEffect } from 'react';
 
-
 // interface DateTimePickerProps {
 //     value: string;
 //     setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -12,7 +11,6 @@
 // const DateTimePicker: React.FC<DateTimePickerProps> = ({ value, setValue, title, defaultValue, errorMessage }) => {
 
 //     const [currentDateTime, setCurrentDateTime] = useState<string>('');
-
 
 //     useEffect(() => {
 //         const now = new Date();
@@ -59,16 +57,9 @@
 
 // export default DateTimePicker;
 
-
-import { useFormContext } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "components/ui/form";
-import { Input } from "components/ui/input";
+import { useFormContext } from 'react-hook-form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
+import { Input } from 'components/ui/input';
 
 interface DateTimePickerProps {
   name: string;
@@ -78,6 +69,14 @@ interface DateTimePickerProps {
 
 export default function DateTimePicker({ name, label, required }: DateTimePickerProps) {
   const { control } = useFormContext();
+
+  // Function to format the datetime value (removes :00Z)
+  const formatDateTime = (value: string | undefined) => {
+    console.log(value, 'value');
+    if (!value) return '';
+
+    return value.replace(':00.000Z', '');
+  };
 
   return (
     <FormField
@@ -92,7 +91,14 @@ export default function DateTimePicker({ name, label, required }: DateTimePicker
             </FormLabel>
           )}
           <FormControl>
-            <Input {...field} type="datetime-local"  id={"date_time_picker"}  className="mt-1 p-2 border border-gray-300  w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md" />
+            <Input
+              {...field}
+              type="datetime-local"
+              id="date_time_picker"
+              value={formatDateTime(field.value)} // Format the value
+              onChange={(e) => field.onChange(e.target.value)} // Pass the raw value back to react-hook-form
+              className="mt-1 p-2 border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md"
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -100,4 +106,3 @@ export default function DateTimePicker({ name, label, required }: DateTimePicker
     />
   );
 }
-
