@@ -12,6 +12,7 @@ import { useDeleteMarketPromocode } from 'modules/market-promocode/hooks/useDele
 import PromocodeGenerateForm from './PromocodeGenerateForm';
 import { Button } from 'components/ui/button';
 import { Plus } from 'lucide-react';
+import { Input } from 'components/ui/input';
 
 const MarketPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -37,16 +38,17 @@ const MarketPromocodePage = () => {
 
   return (
     <div>
-      <TableActions
-        sheetTriggerTitle="Do'kon uchun promocode qo'shish"
-        sheetTitle="Yangi Do'kon uchun promocode qo'shish"
-        TableForm={CustomForm}
-      >
+      <div className="flex items-center justify-between mb-4">
         <Button onClick={() => setGenerateSheetOpen(true)}>
           <Plus className="size-4 mr-2" />
           Auto generate
         </Button>
-      </TableActions>
+
+        <Button onClick={() => setSheetOpen(true)}>
+          <Plus className="size-4 mr-2" />
+          Do'kon uchun promocode qo'shish
+        </Button>
+      </div>
 
       {isLoading ? <Loader /> : <DataTable columns={columns} data={marketPromocodes} />}
 

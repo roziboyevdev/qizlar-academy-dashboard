@@ -13,7 +13,8 @@ export const schema = z.object({
 export type useFormSchemaType = z.infer<typeof schema>;
 
 export const generateSchema = z.object({
-  count: z.union([z.number(), z.string()]).optional(),
+  number: z.union([z.number(), z.string()]).optional(),
+  percent: z.union([z.number(), z.string()]).optional(),
 });
 
 export type useGenerateSchemaType = z.infer<typeof generateSchema>;

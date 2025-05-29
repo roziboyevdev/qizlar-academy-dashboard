@@ -88,7 +88,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setCoursesData(newArr);
   }, [productList]);
 
-  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
