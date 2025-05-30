@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {  SelectField, TextField } from 'components/fields';
+import { SelectField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
 import DateTimePicker from 'components/DateAndTimePicker';
@@ -10,7 +10,7 @@ import { BannerType } from 'modules/banner/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { SelectType } from 'pages/Certificate/CustomForm';
 import { cleanEmptyStrings } from 'utils/clearEmptyKeys';
-import {  StoryV2Type, MediaType, IStoryMedia } from 'modules/story-v2/types';
+import { StoryV2Type, MediaType, IStoryMedia } from 'modules/story-v2/types';
 import { useCreateStory } from 'modules/story-v2/hooks/useCreate';
 import { useEditStory } from 'modules/story-v2/hooks/useEdit';
 import { imageTypes, videoTypes } from 'constants/file';
@@ -112,7 +112,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
           return cleanEmptyStrings({
             ...media,
             mediaUrl: uploadedMediaUrl,
-            deadline: media.deadline + ':00Z',
+            deadline: media.deadline.includes('00.000Z') ? media.deadline : media.deadline + ':00Z',
             sortId: index,
           });
         })
@@ -137,8 +137,6 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
     }
   }
 
-  console.log(form.formState.errors);
-  console.log(story);
 
   return (
     <FormProvider {...form}>
@@ -194,7 +192,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
                 ))}
 
               {form.watch(`media.${index}.type`) === BannerType.LINK && (
-                <TextField name={`media.${index}.link`} label="Hikoya linki"  required={form.watch(`media.${index}.type`) === BannerType.LINK} />
+                <TextField name={`media.${index}.link`} label="Hikoya linki" required={form.watch(`media.${index}.type`) === BannerType.LINK} />
               )}
             </div>
           ))}
