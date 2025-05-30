@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from 'components/ui/form';
-import { FileField, SelectField, TextField } from 'components/fields';
+import {  SelectField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
 import DateTimePicker from 'components/DateAndTimePicker';
@@ -11,7 +10,7 @@ import { BannerType } from 'modules/banner/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { SelectType } from 'pages/Certificate/CustomForm';
 import { cleanEmptyStrings } from 'utils/clearEmptyKeys';
-import { StoryV2InputType, StoryV2Type, MediaType, IStoryMedia } from 'modules/story-v2/types';
+import {  StoryV2Type, MediaType, IStoryMedia } from 'modules/story-v2/types';
 import { useCreateStory } from 'modules/story-v2/hooks/useCreate';
 import { useEditStory } from 'modules/story-v2/hooks/useEdit';
 import { imageTypes, videoTypes } from 'constants/file';
@@ -30,6 +29,19 @@ interface IProps {
   setSheetOpen: (state: boolean) => void;
 }
 
+const initialMediaData = [
+  {
+    mediaType: MediaType.IMAGE,
+    mediaUrl: '',
+    sortId: 1,
+    title: '',
+    button: '',
+    link: '',
+    type: '',
+    deadline: '',
+    objectId: '',
+  },
+];
 export default function CustomForm({ story, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
   const [state, setState] = useState(false);
@@ -47,36 +59,12 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
       ? {
           title: story?.title,
           thumbnailUrl: story?.thumbnailUrl,
-          media: story?.media || [
-            {
-              mediaType: MediaType.IMAGE,
-              mediaUrl: '',
-              sortId: 1,
-              title: '',
-              button: '',
-              link: '',
-              type: '',
-              deadline: '',
-              objectId: '',
-            },
-          ],
+          media: story?.media || initialMediaData,
         }
       : {
           title: '',
           thumbnailUrl: '',
-          media: [
-            {
-              mediaType: MediaType.IMAGE,
-              mediaUrl: '',
-              sortId: 1,
-              title: '',
-              button: '',
-              link: '',
-              type: '',
-              deadline: '',
-              objectId: '',
-            },
-          ],
+          media: initialMediaData,
         },
   });
 
@@ -112,7 +100,6 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
   async function onSubmit(formValues: useFormSchemaType) {
     try {
       setState(true);
-      // Har bir media elementining mediaUrl ni alohida yuklash
       const valuesWithImg = await uploadFile<StoryV2Type>(formValues, 'thumbnailUrl');
 
       const formattedMedia = await Promise.all(
@@ -151,6 +138,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
   }
 
   console.log(form.formState.errors);
+  console.log(story);
 
   return (
     <FormProvider {...form}>
@@ -206,7 +194,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
                 ))}
 
               {form.watch(`media.${index}.type`) === BannerType.LINK && (
-                <TextField name={`media.${index}.link`} label="Hikoya linki" required />
+                <TextField name={`media.${index}.link`} label="Hikoya linki"  required={form.watch(`media.${index}.type`) === BannerType.LINK} />
               )}
             </div>
           ))}

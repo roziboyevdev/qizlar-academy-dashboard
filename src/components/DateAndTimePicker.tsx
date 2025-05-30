@@ -72,7 +72,6 @@ export default function DateTimePicker({ name, label, required }: DateTimePicker
 
   // Function to format the datetime value (removes :00Z)
   const formatDateTime = (value: string | undefined) => {
-    console.log(value, 'value');
     if (!value) return '';
 
     return value.replace(':00.000Z', '');
