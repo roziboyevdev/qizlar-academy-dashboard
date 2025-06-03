@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "components/ui/form";
-import { FileField, TextField } from "components/fields";
+import { FileField, RichTextEditor, TextField } from "components/fields";
 import LoadingButton from "components/LoadingButton";
 import useFileUploader from "hooks/useFileUploader";
 import { useState } from "react";
@@ -114,7 +114,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
       >
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Product nomi" required />
-          <TextField name="content" label="Product tarifi" required />
+          <RichTextEditor name="content" label="Product tarifi" required />
           <NumberTextField
             name="price"
             placeholder="Narxni kiriting"

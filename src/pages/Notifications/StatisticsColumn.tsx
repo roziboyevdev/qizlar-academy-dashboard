@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { Notification } from 'modules/notifications/types';
 import { calculateOpenRate } from 'utils/calculateOpenRate';
+import { formatDateTime } from 'utils/formatDateTime';
 import { convertDate } from 'utils/time';
 
 interface IProps {
@@ -28,6 +29,13 @@ export const createStatisticsNotificationColumns = ({ getRowData, setSheetOpen, 
     header: 'Foiz hisobda',
     cell: ({ row }) => {
       return <div>{calculateOpenRate(row.original?.deliveredCount, row.original?.openedCount)}%</div>;
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Vaqti',
+    cell: ({ row }) => {
+      return <>{formatDateTime(row.original?.createdAt)}</>;
     },
   },
   {
