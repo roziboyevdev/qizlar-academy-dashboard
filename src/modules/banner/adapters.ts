@@ -5,7 +5,6 @@ export const getData = (item?: Banner) => {
     title: item?.title ?? '',
     content: item?.content ?? '',
     photo: item?.photo ?? '',
-    mobilePhoto: item?.mobilePhoto ?? '',
     link: item?.link ?? '',
     objectId: item?.objectId ?? '',
     type: item?.type ?? undefined,

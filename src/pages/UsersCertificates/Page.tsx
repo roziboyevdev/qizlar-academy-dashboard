@@ -58,6 +58,7 @@ const UsersCertificatesPage = () => {
       setDistricts(filtered);
     }
   }, [region]);
+  
 
   async function handleDownload(apiUrl: string) {
     setPanding(true);

@@ -45,7 +45,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           title: banner?.title,
           content: banner?.content,
           photo: banner?.photo,
-          mobilePhoto: banner?.mobilePhoto,
           type: banner?.type,
           location: banner?.location,
           link: banner?.link,
@@ -55,7 +54,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           title: '',
           content: '',
           photo: '',
-          mobilePhoto: '',
           type: '',
           location: '',
           link: '',
@@ -86,8 +84,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
 
   useEffect(() => {
     if (type == BannerType.COURSE || banner?.type == BannerType.COURSE) {
-      console.log('objectid');
-
       form.register('objectId', { required: 'Kursni tanlash talab qilinadi' });
     }
     if (type == BannerType.LINK || banner?.type == BannerType.LINK) {
@@ -96,8 +92,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
       form.register('link', { required: 'Link kiritish talab qilinadi' });
     }
     if (type == BannerType.CONTENT || banner?.type == BannerType.CONTENT) {
-      console.log('content');
-
       form.register('content', { required: 'Banner kontenti talab qilinadi' });
     }
   }, [type, form, banner]);
@@ -113,13 +107,14 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setCoursesData(newArr);
   }, [coursesList]);
 
+
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <SelectField name="location" data={locationData} placeholder="Locaton turini tanlang..." label="Locaton turini tanglang" />
           <FileField name="photo" label="Banner rasmi" />
-          <FileField name="mobilePhoto" label="Mobile uchun banner rasmi" />
           <SelectField name="type" data={bannerTypeData} placeholder="Banner turini tanlang..." label="Banner turini tanglang" />
 
           {(type == BannerType.COURSE || (banner && banner?.objectId)) &&

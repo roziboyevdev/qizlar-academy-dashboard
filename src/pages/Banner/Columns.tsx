@@ -22,19 +22,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
       );
     },
   },
-  {
-    accessorKey: 'mobilePhoto',
-    header: 'Rasm',
-    cell: ({ row }) => {
-      return row.original.mobilePhoto ? (
-        <Link to={normalizeImgUrl(row.getValue('mobilePhoto'))} target="_blank" className="text-blue-600">
-          file
-        </Link>
-      ) : (
-        'yuklanmagan'
-      );
-    },
-  },
+
   {
     accessorKey: 'type',
     header: 'Banner turi',

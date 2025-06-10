@@ -75,7 +75,7 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-  const { data: coursesList } = useTeachersList(1,50);
+  const { data: coursesList } = useTeachersList(1, 50);
 
   const form = useForm<courseFormSchema>({
     resolver: zodResolver(courseSchema),
@@ -85,6 +85,7 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
           description: course.description,
           slug: course.slug,
           icon: course.icon,
+          teacherId: course.teacherId,
           banner: course.banner,
           seoTitle: course?.seo?.title,
           seoDescription: course?.seo?.description,
@@ -133,6 +134,8 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
     );
     setTeachersData(newArr);
   }, [coursesList]);
+
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

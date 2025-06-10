@@ -12,13 +12,17 @@ export enum BannerType {
   LINK = 'LINK',
   CONTENT = 'CONTENT',
   NONE = 'NONE',
+  REFERRAL = 'REFERRAL',
+  VACANCY = 'VACANCY',
+  PREMIUM = 'PREMIUM',
+  VEBINAR = 'VEBINAR',
 }
+
 export interface Banner {
   id?: string;
   title: string;
   content: string;
   photo: string;
-  mobilePhoto: string;
   type?: BannerType;
   location?: BannerLocationType;
   objectId?: string;

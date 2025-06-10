@@ -11,12 +11,7 @@ export const schema = z.object({
     }),
     z.string().min(2, { message: "Banner  type talab qilinadi" }),
   ]),
-  mobilePhoto: z.union([
-    z.custom<File>((file) => file instanceof File, {
-      message: "Rasm talab qilinadi",
-    }),
-    z.string().min(2, { message: "Banner  type talab qilinadi" }),
-  ]),
+
   type: z.string().min(2, { message: "Banner  type talab qilinadi" }),
   location: z.string().min(2, {
     message: "Yaroqli location type bo'lishi kerak",
