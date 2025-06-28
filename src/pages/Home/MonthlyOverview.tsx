@@ -16,7 +16,7 @@ export default function MonthlyOverview() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <Users className="size-4" />
+            <Users className="size-5" />
             <CardTitle className="text-sm font-medium">Foydalanuvchilar </CardTitle>
           </CardHeader>
           <CardContent>
@@ -27,7 +27,7 @@ export default function MonthlyOverview() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <Video className="size-4" />
+            <Video className="size-5" />
             <CardTitle className="text-sm font-medium">Video darslar</CardTitle>
           </CardHeader>
           <CardContent>
@@ -38,7 +38,7 @@ export default function MonthlyOverview() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <Puzzle className="size-4" />
+            <Puzzle className="size-5" />
             <CardTitle className="text-sm font-medium">Kurslar</CardTitle>
           </CardHeader>
           <CardContent>
@@ -49,7 +49,7 @@ export default function MonthlyOverview() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <Crown className="size-4" />
+            <Crown className="size-5" />
             <CardTitle className="text-sm font-medium">Sertifikat olganlar</CardTitle>
           </CardHeader>
           <CardContent>
@@ -60,7 +60,7 @@ export default function MonthlyOverview() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <View className="size-4" />
+            <View className="size-5" />
             <CardTitle className="text-sm font-medium">Ko'rishlar soni</CardTitle>
           </CardHeader>
           <CardContent>
@@ -72,7 +72,7 @@ export default function MonthlyOverview() {
 
         <Card>
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <BadgeCheck className="size-4" />
+            <BadgeCheck className="size-5" />
             <CardTitle className="text-sm font-medium">Testlar</CardTitle>
           </CardHeader>
           <CardContent>
@@ -84,7 +84,7 @@ export default function MonthlyOverview() {
 
         <Card className="grid-cols-2">
           <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <Users className="size-4" />
+            <Users className="size-5" />
             <CardTitle className="text-sm font-medium">Jins boyicha</CardTitle>
           </CardHeader>
           <CardContent className="">
