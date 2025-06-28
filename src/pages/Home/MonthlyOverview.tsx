@@ -10,16 +10,14 @@ export default function MonthlyOverview() {
   const currentMonth = new Date().getMonth();
   const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
 
-  // console.log(monthNames[prevMonth]);
-
   return (
     <>
       <h2 className="font-semibold text-center">{monthNames[prevMonth]} oyi uchun oylik malumotlar</h2>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Foydalanuvchilar </CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <Users className="size-4" />
+            <CardTitle className="text-sm font-medium">Foydalanuvchilar </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -28,9 +26,9 @@ export default function MonthlyOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Video darslar</CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <Video className="size-4" />
+            <CardTitle className="text-sm font-medium">Video darslar</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -39,9 +37,9 @@ export default function MonthlyOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Kurslar</CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <Puzzle className="size-4" />
+            <CardTitle className="text-sm font-medium">Kurslar</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -50,9 +48,9 @@ export default function MonthlyOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sertifikat olganlar</CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <Crown className="size-4" />
+            <CardTitle className="text-sm font-medium">Sertifikat olganlar</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -61,9 +59,9 @@ export default function MonthlyOverview() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Ko'rishlar soni</CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <View className="size-4" />
+            <CardTitle className="text-sm font-medium">Ko'rishlar soni</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -73,9 +71,9 @@ export default function MonthlyOverview() {
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Testlar</CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <BadgeCheck className="size-4" />
+            <CardTitle className="text-sm font-medium">Testlar</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -85,9 +83,9 @@ export default function MonthlyOverview() {
         </Card>
 
         <Card className="grid-cols-2">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Jins boyicha</CardTitle>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
             <Users className="size-4" />
+            <CardTitle className="text-sm font-medium">Jins boyicha</CardTitle>
           </CardHeader>
           <CardContent className="">
             <div className="text-xl  flex gap-1 font-bold">

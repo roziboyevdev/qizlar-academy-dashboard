@@ -10,45 +10,45 @@ export default function Overview() {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Foydalanuvchilar</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <Users className="size-4" />
+          <CardTitle className="text-sm font-medium">Foydalanuvchilar</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.users}</div>
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Video darslar</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <Video className="size-4" />
+          <CardTitle className="text-sm font-medium">Video darslar</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.lessons}</div>
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Kurslar</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <Puzzle className="size-4" />
+          <CardTitle className="text-sm font-medium">Kurslar</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.courses}</div>
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Sertifikat olganlar</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <Crown className="size-4" />
+          <CardTitle className="text-sm font-medium">Sertifikat olganlar</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.certificates}</div>
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Ko'rishlar soni</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <View className="size-4" />
+          <CardTitle className="text-sm font-medium">Ko'rishlar soni</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.courseViews}</div>
@@ -56,9 +56,9 @@ export default function Overview() {
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Premium</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <BadgeCheck className="size-4" />
+          <CardTitle className="text-sm font-medium">Premium</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : numToSum(overview?.premiumAmount)}</div>
@@ -66,9 +66,9 @@ export default function Overview() {
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Umumiy ehson</CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <HandCoins className="size-4" />
+          <CardTitle className="text-sm font-medium">Umumiy ehson</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : numToSum(overview?.donationAmount)}</div>
@@ -76,9 +76,9 @@ export default function Overview() {
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Premium: to'langan / tekin </CardTitle>
+        <CardHeader className="flex flex-row items-center gap-2     space-y-0 pb-2">
           <View className="size-4" />
+          <CardTitle className="text-sm font-medium">Premium: to'langan / tekin </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
