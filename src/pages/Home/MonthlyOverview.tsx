@@ -2,7 +2,7 @@ import { BadgeCheck, Calendar, Crown, Puzzle, Users, Video, View } from 'lucide-
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card';
 import { Skeleton } from 'components/ui/skeleton';
 import { useMonthlyOverview } from 'modules/statistics/hooks/useMonthlyOverview';
-import MonthlyStatsDownloader from 'components/DauMauStatistics';
+import DauMauStatisticsTable from 'components/DauMauStatistics';
 
 const monthNames = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
 
@@ -113,36 +113,8 @@ export default function MonthlyOverview() {
             </div>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center gap-2 space-y-0 pb-2">
-            <Calendar className="size-5" />
-            <CardTitle className="text-sm font-medium">Dau / Mau </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl flex gap-1 font-bold">
-              Dau:
-              <span>{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.dau.dau }</span>
-            </div>
-            <div className="text-xl flex gap-1 font-bold">
-              Mau:
-              <span>{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.dau.mau}</span>
-            </div>
-            <div className="text-xl flex gap-1 font-bold">
-              Dau/Mau rate:
-              <span>{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.dau.dauMauRate + '%'}</span>
-            </div>
-
-            <div className="text-xl flex gap-1 font-bold">
-              Churn rate:
-              <span>
-                <span>{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.dau.churnRate + '%'}</span>
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-        <MonthlyStatsDownloader />
       </div>
+      <DauMauStatisticsTable />
     </>
   );
 }
