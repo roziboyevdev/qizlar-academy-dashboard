@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { BarChart, Loader2, TrendingUp, Download } from 'lucide-react';
-import  { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import http from 'services/api';
 
 // Types
@@ -120,8 +120,6 @@ const DauMauStatisticsTable: React.FC = () => {
         responseType: 'blob',
         headers: {
           'Content-Type': 'application/json',
-          // Add authorization if needed:
-          // 'Authorization': `Bearer ${your_token}`
         },
       });
 
@@ -133,7 +131,8 @@ const DauMauStatisticsTable: React.FC = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `dau-mau-statistika-${selectedMonth}-oy-${amount}.xlsx`;
+      console.log(url, 'url');
+      a.download = `dau-mau-statistika-${selectedMonth}-oy.xlsx`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
