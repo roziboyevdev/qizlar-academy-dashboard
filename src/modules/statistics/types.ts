@@ -63,4 +63,10 @@ export interface IMonthlyOwerviewData {
       monthly: number;
     };
   };
+  dau: {
+    dau: number;
+    mau: number;
+    dauMauRate: number;
+    churnRate: number;
+  };
 }
