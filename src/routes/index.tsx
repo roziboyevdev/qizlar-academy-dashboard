@@ -34,6 +34,7 @@ import MeetingPage from 'pages/Meeting';
 import CourseAssistantPage from 'pages/CourseAssistant/Page';
 import MarketPromocodePage from 'pages/MarketPromocode/Page';
 import StoryV2Page from 'pages/StoryV2/Page';
+import BattleQuestionPage from 'pages/BattleQuestion';
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
@@ -62,6 +63,10 @@ export const Routes = () => {
     {
       path: '/exam/:lessonId',
       element: <LastExam />,
+    },
+    {
+      path: '/battle-question/:lessonId',
+      element: <BattleQuestionPage />,
     },
     {
       path: '/courses/:courseId/:moduleId',
@@ -130,7 +135,7 @@ export const Routes = () => {
       path: '/promocode',
       element: <PromocodePage />,
     },
-      {
+    {
       path: '/market-promocode',
       element: <MarketPromocodePage />,
     },
