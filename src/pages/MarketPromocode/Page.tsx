@@ -11,11 +11,19 @@ import { useDeleteMarketPromocode } from 'modules/market-promocode/hooks/useDele
 import PromocodeGenerateForm from './PromocodeGenerateForm';
 import { Button } from 'components/ui/button';
 import { Plus } from 'lucide-react';
+import MediaUploadField from 'components/fields/VideoUploder';
+import { Form } from 'components/ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { checkFileSchema, useCheckFileSchemaType } from './schema';
+import CheckFileForm from './CheckFileForm';
 
 const MarketPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isGenerateSheetOpen, setGenerateSheetOpen] = useState(false);
+  const [isCheckSheetOpen, setCheckSheetOpen] = useState(false);
   const [data, setData] = useState<IMarketPromocode>();
 
   const { data: marketPromocodes, isLoading } = useMarketPromocodesList();
@@ -32,14 +40,16 @@ const MarketPromocodePage = () => {
     setSheetOpen,
   });
 
-
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <Button onClick={() => setGenerateSheetOpen(true)}>
-          <Plus className="size-4 mr-2" />
-          Auto generate
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setGenerateSheetOpen(true)}>
+            <Plus className="size-4 mr-2" />
+            Auto generate
+          </Button>
+          <Button onClick={() => setCheckSheetOpen(true)}>File ni tekshirish</Button>
+        </div>
 
         <Button onClick={() => setSheetOpen(true)}>
           <Plus className="size-4 mr-2" />
@@ -51,6 +61,10 @@ const MarketPromocodePage = () => {
 
       <Sheet sheetTitle="Do'kon uchun promocodeni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CustomForm banner={data} setSheetOpen={setSheetOpen} />
+      </Sheet>
+
+      <Sheet sheetTitle="Promocode fileni tekshirish " isOpen={isCheckSheetOpen} setSheetOpen={setCheckSheetOpen}>
+        <CheckFileForm setSheetOpen={setCheckSheetOpen} />
       </Sheet>
 
       <Sheet sheetTitle="Auto generate" isOpen={isGenerateSheetOpen} setSheetOpen={setGenerateSheetOpen}>

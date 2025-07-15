@@ -172,7 +172,6 @@ const DauMauStatisticsTable: React.FC = () => {
     { title: 'Retention Rate (Ushlab turish darajasi)', value: (data?.retentionRate || 0) + ' %' },
   ];
 
-  console.log(data, 'dau');
   const handleMonthChange = (value: string): void => {
     setSelectedMonth(value);
   };

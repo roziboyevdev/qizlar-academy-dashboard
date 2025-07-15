@@ -16,6 +16,11 @@ export interface IOwerviewData {
   payedPremiums: number;
 }
 
+export enum AuthType {
+  GOOGLE = 'GOOGLE',
+  APPLE = 'APPLE',
+  EMAIL = 'EMAIL',
+}
 // export interface IMonthlyOwerviewData {
 //   users: number;
 //   lessons: number;

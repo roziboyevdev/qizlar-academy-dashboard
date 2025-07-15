@@ -18,3 +18,14 @@ export const generateSchema = z.object({
 });
 
 export type useGenerateSchemaType = z.infer<typeof generateSchema>;
+
+export const checkFileSchema = z.object({
+  file: z.union([
+    z.custom<File>((file) => file instanceof File, {
+      message: 'File talab qilinadi',
+    }),
+    z.string().min(2, { message: 'File talab qilinadi' }),
+  ]),
+});
+
+export type useCheckFileSchemaType = z.infer<typeof checkFileSchema>;
