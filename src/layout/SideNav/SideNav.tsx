@@ -23,12 +23,41 @@ import {
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
+import { useContext } from 'react';
+import { UserContext } from 'providers/UserProvider';
+import { UserRole } from 'modules/auth/types';
 
 interface IProps {
   isSideNavOpen: boolean;
 }
 
+const routePermissions: { [key: string]: UserRole[] } = {
+  '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
+  '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/course-assistants': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/news': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/puzzles': [UserRole.SUPER_ADMIN],
+  '/notifications': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/info': [UserRole.SUPER_ADMIN],
+  '/certificate': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/story': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/banner': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/category': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
+  '/donation': [UserRole.SUPER_ADMIN],
+  '/premium-plan': [UserRole.SUPER_ADMIN],
+  '/premium': [UserRole.SUPER_ADMIN],
+  '/user-certificate': [UserRole.SUPER_ADMIN],
+  '/promocode': [UserRole.SUPER_ADMIN],
+  '/market-promocode': [UserRole.SUPER_ADMIN],
+  '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
+  '/vacancy': [UserRole.SUPER_ADMIN],
+  '/meeting': [UserRole.SUPER_ADMIN],
+};
+
 const SideNav = ({ isSideNavOpen }: IProps) => {
+  const { userData } = useContext(UserContext);
+
   const menuItems = [
     {
       title: 'Statistika',
@@ -132,17 +161,26 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
     },
   ];
 
+  // Foydalanuvchi roliga asoslangan menyularni filtrlash
+  const filteredMenuItems = userData?.role
+    ? menuItems.filter((item) => {
+        // SUPER_ADMIN barcha menyularga kirishi mumkin
+        if (userData.role === UserRole.SUPER_ADMIN) return true;
+        // Boshqa rollar uchun faqat ruxsat berilgan menyular
+        return routePermissions[item.link]?.includes(userData.role);
+      })
+    : [];
+
   return (
     <aside className={cn({ 'w-full': isSideNavOpen }, 'sticky top-0 max-w-72 flex flex-col border-solid border-r-2 h-screen')}>
       <header className="z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 p-2">
         <Link to="/" className={`flex h-10 items-center gap-2 px-4 dark:text-white ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}>
-          {isSideNavOpen && <h1 className="font-semibold">UstozAI</h1>}
-          {/* <Dices /> */}
+          {isSideNavOpen && <h1 className="font-semibold">UstozAI </h1>}
           <BrainCircuit />
         </Link>
       </header>
       <div className="flex flex-col gap-1 p-2 overflow-y-auto">
-        {menuItems.map((item, index) => (
+        {filteredMenuItems.map((item, index) => (
           <NavLink to={item.link} key={index} className={({ isActive }) => cn({ 'bg-secondary': isActive }, 'dark:text-white rounded block')}>
             <Button variant="ghost" className={`w-full ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}>
               <item.icon className="size-5 stroke-[1.3px]" />

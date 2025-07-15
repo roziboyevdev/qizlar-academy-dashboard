@@ -20,3 +20,17 @@ export declare namespace IApi {
     credentials: string;
   }
 }
+
+export enum UserRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  COURSE_ADMIN = 'COURSE_ADMIN',
+  SHOP_ADMIN = 'SHOP_ADMIN',
+  NOTIFICATION_ADMIN = 'NOTIFICATION_ADMIN',
+  STATISTICS_ADMIN = 'STATISTICS_ADMIN',
+}
+
+export interface IAuthData {
+  accessToken: string;
+  refreshToken: string;
+  role: UserRole;
+}
