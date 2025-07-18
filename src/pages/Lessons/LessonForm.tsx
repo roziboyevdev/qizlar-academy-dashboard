@@ -1,17 +1,18 @@
-import { z } from "zod";
-import { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useCreateLesson } from "modules/lessons/hooks/useCreateLesson";
-import { useEditLesson } from "modules/lessons/hooks/useEditLesson";
-import { Form } from "components/ui/form";
-import { Lesson } from "modules/lessons/types";
-import { RichTextEditor, TextField, TimePickerField } from "components/fields";
-import LoadingButton from "components/LoadingButton";
-import { convertSecondsToHMS } from "utils/timeConverter";
-import CustomSwitch from "components/SwitchIsDreft";
+import { useCreateLesson } from 'modules/lessons/hooks/useCreateLesson';
+import { useEditLesson } from 'modules/lessons/hooks/useEditLesson';
+import { Form } from 'components/ui/form';
+import { Lesson } from 'modules/lessons/types';
+import { RichTextEditor, TextField, TimePickerField } from 'components/fields';
+import LoadingButton from 'components/LoadingButton';
+import { convertSecondsToHMS } from 'utils/timeConverter';
+import CustomSwitch from 'components/SwitchIsDreft';
+import NumberTextField from 'components/fields/Number';
 
 const lessonSchema = z.object({
   title: z.string().min(3),
@@ -21,6 +22,7 @@ const lessonSchema = z.object({
   _duration: z.date().optional(),
   isSoon: z.boolean().optional(),
   isActive: z.boolean().optional(),
+  orderId: z.number().optional(),
 });
 
 type lessonFormSchema = z.infer<typeof lessonSchema>;
@@ -34,17 +36,12 @@ interface IProps {
 const initialDate = new Date();
 initialDate.setHours(0, 0, 0);
 
-export default function LessonForm({
-  lesson,
-  lastDataOrder: lastLessonOrder,
-  setSheetOpen,
-}: IProps) {
+export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, setSheetOpen }: IProps) {
   const { moduleId } = useParams();
   const initialState = lesson?.title ? lesson.isSoon ?? true : false;
   const [isSoon, setIsSoon] = useState<boolean>(initialState);
   const initialActive = lesson?.title ? lesson.isActive : true;
   const [isActive, setIsActive] = useState<boolean>(initialActive);
-
 
   const { triggerLessonCreate, isPending: isLessonCreatePending } = useCreateLesson({ setSheetOpen });
   const { triggerLessonEdit, isPending: isLessonEditPending } = useEditLesson({
@@ -73,11 +70,12 @@ export default function LessonForm({
           _duration,
           isSoon: lesson.isSoon,
           isActive: lesson.isActive,
+          orderId: lesson.orderId || 0,
         }
       : {
-          title: "",
-          description: "",
-          link: "",
+          title: '',
+          description: '',
+          link: '',
           duration: 0,
           _duration,
           isSoon: false,
@@ -86,13 +84,8 @@ export default function LessonForm({
   });
 
   function onSubmit(formValues: lessonFormSchema) {
-    const duration = Math.trunc(
-      formValues._duration
-        ? (formValues._duration.getTime() - new Date(initialDate).getTime()) /
-            1000
-        : 0
-    ) 
-    formValues.duration = duration ;
+    const duration = Math.trunc(formValues._duration ? (formValues._duration.getTime() - new Date(initialDate).getTime()) / 1000 : 0);
+    formValues.duration = duration;
     delete formValues._duration;
 
     const payload = {
@@ -110,54 +103,33 @@ export default function LessonForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Dars nomi" required />
           <TextField name="link" label="Havolasi" required />
 
           <div className="flex items-center justify-start">
-            <TimePickerField
-              name="_duration"
-              label="Darsning davomiyligi"
-              required
-            />
+            <TimePickerField name="_duration" label="Darsning davomiyligi" required />
+            {lesson?.orderId && <NumberTextField name="orderId" placeholder="Darsni tartib raqami" label="Darsni tartib raqami" />}
           </div>
 
           <div className="flex items-center justify-start gap-8">
-
             <div>
-              <h4 className="mb-1">Tayyor yoki tez kunda  </h4>
-              <CustomSwitch
-                state={isSoon}
-                setState={setIsSoon}
-                labelText={isSoon ? "Tez kunda" : "Tayyor"}
-              />
+              <h4 className="mb-1">Tayyor yoki tez kunda </h4>
+              <CustomSwitch state={isSoon} setState={setIsSoon} labelText={isSoon ? 'Tez kunda' : 'Tayyor'} />
             </div>
             <div>
               <h4 className="mb-1">Dars chiqarilishga tayyor yoki yo'q</h4>
-              <CustomSwitch
-                state={isActive}
-                setState={setIsActive}
-                labelText={
-                  isActive ? "Ko'rinadigan dars" : "Ko'rinmaydigan Dars"
-                }
-              />
+              <CustomSwitch state={isActive} setState={setIsActive} labelText={isActive ? "Ko'rinadigan dars" : "Ko'rinmaydigan Dars"} />
             </div>
           </div>
 
           <RichTextEditor name="description" label="Dars tavsifi" required />
         </div>
         {lesson ? (
-          <LoadingButton isLoading={isLessonEditPending}>
-            Tahrirlash
-          </LoadingButton>
+          <LoadingButton isLoading={isLessonEditPending}>Tahrirlash</LoadingButton>
         ) : (
-          <LoadingButton isLoading={isLessonCreatePending}>
-            Saqlash
-          </LoadingButton>
+          <LoadingButton isLoading={isLessonCreatePending}>Saqlash</LoadingButton>
         )}
       </form>
     </Form>

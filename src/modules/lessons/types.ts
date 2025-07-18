@@ -3,31 +3,31 @@ export interface Lesson {
   title: string;
   description: string;
   link: string;
-  moduleId:string;
+  moduleId: string;
   duration: number;
-  isSoon: boolean,
-  isActive: boolean,
+  isSoon: boolean;
+  isActive: boolean;
+  orderId: number;
 }
 
 export interface LessonCreateInput {
   title: string;
   description: string;
   link: string;
-  moduleId:string;
+  moduleId: string;
   duration?: number;
-  isSoon: boolean,
-  isActive: boolean,
-
+  isSoon: boolean;
+  isActive: boolean;
 }
 
 export interface LessonEditInput {
   title: string;
   description: string;
   link: string;
-  moduleId:string;
+  moduleId: string;
   duration?: number;
-  isSoon: boolean,
-  isActive: boolean,
+  isSoon: boolean;
+  isActive: boolean;
 }
 
 export interface LessonEditBody {

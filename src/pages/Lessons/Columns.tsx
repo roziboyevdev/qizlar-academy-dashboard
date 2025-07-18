@@ -9,51 +9,36 @@ interface IProps {
   setDialogOpen: (state: boolean) => void;
 }
 
-export const createLessonColumns = ({
-  getRowData,
-  setSheetOpen,
-  setDialogOpen,
-}: IProps): ColumnDef<Lesson>[] => [
-    {
-      accessorKey: 'title',
-      header: 'Dars nomi',
+export const createLessonColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<Lesson>[] => [
+  {
+    accessorKey: 'orderId',
+    header: 'N',
+  },
+  
+  {
+    accessorKey: 'title',
+    header: 'Dars nomi',
+  },
+  {
+    accessorKey: 'link',
+    header: 'Dars havolasi',
+    cell: ({ row }) => (
+      <Link to={row.getValue('link')} className="hover:underline text-blue-500" target="_blank" onClick={(e) => e.stopPropagation()}>
+        Havola
+      </Link>
+    ),
+  },
+  {
+    accessorKey: 'isActive',
+    header: 'Dars holati',
+    cell: ({ row }) => {
+      return <>{row.getValue('isActive') ? 'Faol' : 'No Faol'}</>;
     },
-    {
-      accessorKey: 'link',
-      header: 'Dars havolasi',
-      cell: ({ row }) => (
-        <Link
-          to={row.getValue('link')}
-          className="hover:underline text-blue-500"
-          target="_blank"
-          onClick={e => e.stopPropagation()}
-        >
-          Havola
-        </Link>
-      ),
-    },
-    {
-      accessorKey: 'isActive',
-      header: 'Dars holati',
-      cell: ({ row }) => {
-        return (
-          <>
-            {row.getValue("isActive") ? "Faol" : "No Faol" }
-          </>
-        )
-      },
-    },
-    {
-      accessorKey: 'id',
-      header: () => <span className="sr-only">Actions</span>,
-      size: 50,
-      cell: ({ row }) => (
-        <DataTableRowActions
-          row={row}
-          getRowData={getRowData}
-          setDialogOpen={setDialogOpen}
-          setSheetOpen={setSheetOpen}
-        />
-      ),
-    },
-  ];
+  },
+  {
+    accessorKey: 'id',
+    header: () => <span className="sr-only">Actions</span>,
+    size: 50,
+    cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} />,
+  },
+];

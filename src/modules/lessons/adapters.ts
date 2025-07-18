@@ -7,6 +7,7 @@ export const getLesson = (item?: Lesson) => {
     link: item?.link ?? '',
     moduleId: item?.moduleId ?? '',
     duration: item?.duration ?? 0,
+    orderId: item?.orderId ?? 0,
     isSoon: item?.isSoon ?? false,
     isActive: item?.isActive ?? false,
   };
