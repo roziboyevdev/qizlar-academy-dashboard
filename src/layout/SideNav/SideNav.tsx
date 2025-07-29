@@ -20,6 +20,7 @@ import {
   CalendarClock,
   BarChart,
   Bot,
+  Gift,
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
@@ -158,6 +159,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       title: 'Uchrashuvlar',
       icon: CalendarClock,
       link: '/meeting',
+    },
+    {
+      title: "Baraban sovg'alar",
+      icon: Gift ,
+      link: '/fortuna-product',
     },
   ];
 

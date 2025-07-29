@@ -32,7 +32,7 @@ export function useEasyFileUploader() {
 
     if (file instanceof File) {
       const { data } = await triggerFileUpload(formData);
-      return data?.data?.data;
+      return data?.data?.data as string;
     }
     return '';
   }

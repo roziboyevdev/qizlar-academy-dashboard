@@ -35,6 +35,7 @@ import StoryV2Page from 'pages/StoryV2/Page';
 import BattleQuestionPage from 'pages/BattleQuestion';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
+import FortunaProductPage from 'pages/FortunaProduct/Page';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -64,6 +65,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/vacancy': [UserRole.SUPER_ADMIN],
   '/meeting': [UserRole.SUPER_ADMIN],
+  '/fortuna-product': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
 };
 
 const routes = [
@@ -78,6 +80,7 @@ const routes = [
   { path: '/courses/:courseId/:moduleId/:lessonId', element: <NewQuizPage /> },
   { path: '/news', element: <NewsPage /> },
   { path: '/puzzles', element: <PuzzlesPage /> },
+  { path: '/fortuna-product', element: <FortunaProductPage /> },
   { path: '/notifications', element: <NotificationsPage /> },
   { path: '/info', element: <Info /> },
   { path: '/certificate', element: <Certificate /> },
@@ -104,7 +107,7 @@ export const Routes = () => {
   // Foydalanuvchi roliga asoslangan sahifalarni filtrlash
   const getFilteredRoutes = () => {
     if (!userData?.role) return [];
-    if (userData.role === UserRole.SUPER_ADMIN) return routes; 
+    if (userData.role === UserRole.SUPER_ADMIN) return routes;
     return routes.filter((route) => routePermissions[route.path]?.includes(userData.role));
   };
 
