@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { DataTableRowActions } from 'components/DataTableRowActions';
 import { IMarketPromocode } from 'modules/market-promocode/types';
-
 
 interface IProps {
   getRowData: (notification: IMarketPromocode) => void;
@@ -23,10 +23,10 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     header: 'Qolganlari',
   },
 
-  // {
-  //   accessorKey: 'id',
-  //   header: () => <span className="sr-only">Actions</span>,
-  //   size: 50,
-  //   cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} />,
-  // },
+  {
+    accessorKey: 'id',
+    header: () => <span className="sr-only">Actions</span>,
+    size: 50,
+    cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} showDelete={false} />,
+  },
 ];

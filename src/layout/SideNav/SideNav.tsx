@@ -162,8 +162,13 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
     },
     {
       title: "Baraban sovg'alar",
-      icon: Gift ,
+      icon: Gift,
       link: '/fortuna-product',
+    },
+    {
+      title: 'Baraban promocode',
+      icon: TicketPercent,
+      link: '/fortuna-promocode',
     },
   ];
 

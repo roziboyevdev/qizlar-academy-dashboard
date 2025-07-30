@@ -51,6 +51,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           count: +product?.count,
           content: product?.content,
           isActive: product?.isActive,
+          type: product.type,
         }
       : {
           title: '',

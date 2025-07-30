@@ -6,12 +6,12 @@ import Loader from 'components/Loader';
 import { createDataColumns } from './Columns';
 import CustomForm from './CustomForm';
 import { IMarketPromocode } from 'modules/market-promocode/types';
-import { useMarketPromocodesList } from 'modules/market-promocode/hooks/useList';
-import { useDeleteMarketPromocode } from 'modules/market-promocode/hooks/useDelete';
 import PromocodeGenerateForm from './PromocodeGenerateForm';
 import { Button } from 'components/ui/button';
 import { Plus } from 'lucide-react';
 import CheckFileForm from './CheckFileForm';
+import { useFortunaPromocodesList } from 'modules/fortuna-promocode/hooks/useList';
+import { useDeleteFortunaPromocode } from 'modules/fortuna-promocode/hooks/useDelete';
 
 const FortunaPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -21,9 +21,9 @@ const FortunaPromocodePage = () => {
   const [isCheckSheetOpen, setCheckSheetOpen] = useState(false);
   const [data, setData] = useState<IMarketPromocode>();
 
-  const { data: marketPromocodes, isLoading } = useMarketPromocodesList();
+  const { data: marketPromocodes, isLoading } = useFortunaPromocodesList();
 
-  const { triggerInfoDelete } = useDeleteMarketPromocode(data?.id!);
+  const { triggerInfoDelete } = useDeleteFortunaPromocode(data?.id!);
   const getRowData = (info: IMarketPromocode) => {
     setData(info);
   };
@@ -39,22 +39,22 @@ const FortunaPromocodePage = () => {
     <div>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Button onClick={() => setGenerateSheetOpen(true)}>
+          {/* <Button onClick={() => setGenerateSheetOpen(true)}>
             <Plus className="size-4 mr-2" />
             Auto generate
           </Button>
-          <Button onClick={() => setCheckSheetOpen(true)}>File ni tekshirish</Button>
+          <Button onClick={() => setCheckSheetOpen(true)}>File ni tekshirish</Button> */}
         </div>
 
         <Button onClick={() => setSheetOpen(true)}>
           <Plus className="size-4 mr-2" />
-          Do'kon uchun promocode qo'shish
+          Baraban uchun promocode qo'shish
         </Button>
       </div>
 
       {isLoading ? <Loader /> : <DataTable columns={columns} data={marketPromocodes} />}
 
-      <Sheet sheetTitle="Do'kon uchun promocodeni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+      <Sheet sheetTitle="Baraban uchun promocodeni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CustomForm banner={data} setSheetOpen={setSheetOpen} />
       </Sheet>
 

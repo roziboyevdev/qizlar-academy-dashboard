@@ -36,6 +36,7 @@ import BattleQuestionPage from 'pages/BattleQuestion';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
 import FortunaProductPage from 'pages/FortunaProduct/Page';
+import FortunaPromocodePage from 'pages/FortunaPromocode/Page';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -66,6 +67,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/vacancy': [UserRole.SUPER_ADMIN],
   '/meeting': [UserRole.SUPER_ADMIN],
   '/fortuna-product': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
+  '/fortuna-promocode': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
 };
 
 const routes = [
@@ -80,7 +82,6 @@ const routes = [
   { path: '/courses/:courseId/:moduleId/:lessonId', element: <NewQuizPage /> },
   { path: '/news', element: <NewsPage /> },
   { path: '/puzzles', element: <PuzzlesPage /> },
-  { path: '/fortuna-product', element: <FortunaProductPage /> },
   { path: '/notifications', element: <NotificationsPage /> },
   { path: '/info', element: <Info /> },
   { path: '/certificate', element: <Certificate /> },
@@ -97,6 +98,8 @@ const routes = [
   { path: '/orders', element: <OrdersPage /> },
   { path: '/vacancy', element: <VacancyPage /> },
   { path: '/meeting', element: <MeetingPage /> },
+  { path: '/fortuna-product', element: <FortunaProductPage /> },
+  { path: '/fortuna-promocode', element: <FortunaPromocodePage /> },
 ];
 
 export const Routes = () => {

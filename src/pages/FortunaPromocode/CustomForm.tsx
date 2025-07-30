@@ -6,35 +6,36 @@ import LoadingButton from 'components/LoadingButton';
 import { useEffect, useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
 import { SelectType } from 'pages/Certificate/CustomForm';
-import { useProductsList } from 'modules/product/hooks/useList';
 import { IMarketPromocode } from 'modules/market-promocode/types';
-import { useCreateMarketPromocode } from 'modules/market-promocode/hooks/useCreate';
-import { useEditMarketPromocode } from 'modules/market-promocode/hooks/useEdit';
+
 import MediaUploadField from 'components/fields/VideoUploder';
 import { useAutoGeneratePromocode } from 'modules/market-promocode/hooks/useAutoGenerate';
+import { useEditFortunaPromocode } from 'modules/fortuna-promocode/hooks/useEdit';
+import { useCreateFortunaPromocode } from 'modules/fortuna-promocode/hooks/useCreate';
+import { useProductFortunaList } from 'modules/fortuna-product/hooks/useList';
+import { usePromocodeProductsList } from 'modules/fortuna-promocode/hooks/usePromocodeProductsList';
 
 interface IProps {
   banner?: IMarketPromocode;
   setSheetOpen: (state: boolean) => void;
 }
 
-
 export default function CustomForm({ banner, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
 
   const [state, setState] = useState(false);
-  const { triggerCreate } = useCreateMarketPromocode({
+  const { triggerCreate } = useCreateFortunaPromocode({
     setSheetOpen,
   });
   const { generatePromocode } = useAutoGeneratePromocode({
     setSheetOpen,
   });
-  const { triggerEdit } = useEditMarketPromocode({
+  const { triggerEdit } = useEditFortunaPromocode({
     id: banner?.id,
     setSheetOpen,
   });
 
-  const { data: productList } = useProductsList(30, '');
+  const { data: productList } = usePromocodeProductsList();
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
@@ -48,7 +49,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           file: '',
         },
   });
-
 
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);
@@ -73,11 +73,15 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     productList.forEach((el) =>
       newArr.push({
         name: el.title,
-        type: el.id,
+        type: el.id || el.productId,
       })
     );
     setCoursesData(newArr);
   }, [productList]);
+
+  console.log(productList, 'list');
+  console.log(banner, 'banner');
+  console.log(coursesData, 'coursesData');
 
   return (
     <Form {...form}>
@@ -89,8 +93,8 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
             name="productId"
             key="productId"
             data={coursesData}
-            placeholder="Maxsulotni tanlash  tanlang..."
-            label="Maxsulotni tanlash  tanglang"
+            placeholder="Sovg'ani tanlash  tanlang..."
+            label="Sovg'ani tanlash  tanglang"
           />
         </div>
         {banner ? <LoadingButton isLoading={state}>Tahrirlash</LoadingButton> : <LoadingButton isLoading={state}>Saqlash</LoadingButton>}

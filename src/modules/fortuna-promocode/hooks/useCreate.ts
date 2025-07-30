@@ -9,7 +9,7 @@ interface IHook {
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useCreateMarketPromocode = ({ setSheetOpen }: IHook) => {
+export const useCreateFortunaPromocode = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutateAsync, isPending, isSuccess, isError } = useMutation({
@@ -28,6 +28,7 @@ export const useCreateMarketPromocode = ({ setSheetOpen }: IHook) => {
     onError: (error: any) => {
       showErrorToast(error);
     },
+
   });
   return {
     triggerCreate: mutateAsync,

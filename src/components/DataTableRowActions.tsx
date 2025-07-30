@@ -11,6 +11,7 @@ interface IProps<TData> {
   showAddTest?: boolean;
   addTestEl?: React.ReactNode;
   showBattle?: boolean;
+  showDelete?: boolean;
   addBattleEl?: React.ReactNode;
 }
 
@@ -23,6 +24,7 @@ export const DataTableRowActions = <TData,>({
   addTestEl,
   showBattle,
   addBattleEl,
+  showDelete = true,
 }: IProps<TData>) => {
   return (
     <DropdownMenu>
@@ -42,16 +44,18 @@ export const DataTableRowActions = <TData,>({
         >
           Tahrirlash
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="text-red-500 focus:text-red-600 dark:focus:text-red-600"
-          onClick={(e) => {
-            e.stopPropagation();
-            setDialogOpen(true);
-            getRowData(row.original);
-          }}
-        >
-          O'chirish
-        </DropdownMenuItem>
+        {showDelete && (
+          <DropdownMenuItem
+            className="text-red-500 focus:text-red-600 dark:focus:text-red-600"
+            onClick={(e) => {
+              e.stopPropagation();
+              setDialogOpen(true);
+              getRowData(row.original);
+            }}
+          >
+            O'chirish
+          </DropdownMenuItem>
+        )}
 
         {showAddTest && (
           <DropdownMenuItem
