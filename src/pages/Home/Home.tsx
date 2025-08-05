@@ -3,6 +3,7 @@ import NewUsersChart from 'components/charts/NewUsers';
 import DonationStatistics from 'components/charts/DonationStatistics';
 import MonthlyOverview from './MonthlyOverview';
 import NewUsersByAuthMethod from 'components/charts/NewUsersByAuthMethod';
+import SertificateStatistics from 'components/charts/CertificateStatistics';
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <MonthlyOverview />
       <NewUsersChart />
       <DonationStatistics />
+      <SertificateStatistics />
       <NewUsersByAuthMethod />
     </div>
   );
