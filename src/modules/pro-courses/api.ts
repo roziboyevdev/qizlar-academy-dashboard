@@ -1,18 +1,16 @@
 import http from 'services/api';
-import type { CourseEditBody, CourseInput } from './types';
+import { CourseEditBody, CourseInput } from './types';
 
 export const GetCoursesList = async (pageNumber?: number) => {
   return await http.get(`/course/`, { params: { pageSize: 30, pageNumber } });
 };
 
 export const CreateCourse = async (values: CourseInput) => {
-  const endpoint = values.pricingType === 'PAID' ? '/course/pro' : '/course/';
-  return await http.post(endpoint, values);
+  return await http.post(`/course/`, values);
 };
 
 export const EditCourse = async ({ values, id }: CourseEditBody) => {
-  const endpoint = values.pricingType === 'PAID' ? `/course/pro/${id}` : `/course/${id}`;
-  return await http.patch(endpoint, values);
+  return await http.patch(`/course/${id}`, values);
 };
 
 export const DeleteCourse = async (id: string) => {

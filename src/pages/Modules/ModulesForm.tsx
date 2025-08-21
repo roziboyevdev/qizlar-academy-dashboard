@@ -4,21 +4,31 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Module } from 'modules/modules/types';
 
 import { Form } from 'components/ui/form';
-import { TextAreaField, TextField } from 'components/fields';
+import { SelectField, TextAreaField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useCreateModule } from 'modules/modules/hooks/useCreateModule';
 import { useEditModule } from 'modules/modules/hooks/useEditModule';
 import CustomSwitch from 'components/SwitchIsDreft';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const moduleSchema = z.object({
-  title: z.string().min(3),
-  isActive: z.boolean().optional(),
+const createModuleSchema = (type: string | null) => {
+  const baseSchema = z.object({
+    title: z.string().min(3),
+    isActive: z.boolean().optional(),
+  });
 
-});
+  if (type === 'PAID') {
+    return baseSchema.extend({
+      degree: z.string().min(1, "Daraja tanlanishi shart"),
+    });
+  }
 
-type moduleFormSchema = z.infer<typeof moduleSchema>;
+  return baseSchema.extend({
+    degree: z.string().optional(),
+  });
+};
+
 
 interface IProps {
   module?: Module;
@@ -26,19 +36,22 @@ interface IProps {
   setSheetOpen: (state: boolean) => void;
 }
 
+const levelData = [
+  { type: 'EASY', name: 'Oson' },
+  { type: 'MEDIUM', name: "O'rtacha" },
+  { type: 'HARD', name: 'Qiyin' },
+];
 
-
-export default function ModuleForm({
-  module,
-  lastDataOrder: lastModuleOrder,
-  setSheetOpen,
-}: IProps) {
+export default function ModuleForm({ module, lastDataOrder: lastModuleOrder, setSheetOpen }: IProps) {
   const { courseId } = useParams();
-  const initialState = module?.title ? module?.isActive : true
+  const [params] = useSearchParams();
+  const type = params.get('type');
+  const initialState = module?.title ? module?.isActive : true;
 
-  const [switchState, setSwitchState] = useState<boolean>(initialState)
-  const { triggerModuleCreate, isPending: isModuleCreatePending } =
-    useCreateModule({ setSheetOpen });
+ const moduleSchema = createModuleSchema(type);
+  type moduleFormSchema = z.infer<typeof moduleSchema>;
+  const [switchState, setSwitchState] = useState<boolean>(initialState);
+  const { triggerModuleCreate, isPending: isModuleCreatePending } = useCreateModule({ setSheetOpen });
 
   const { triggerModuleEdit, isPending: isModuleEditPending } = useEditModule({
     id: module?.id,
@@ -46,19 +59,22 @@ export default function ModuleForm({
   });
 
   const form = useForm<moduleFormSchema>({
-    resolver: zodResolver(moduleSchema),
+    resolver: zodResolver(createModuleSchema(type)),
     defaultValues: module
-      ? {
-        title: module.title,
-      }
+     ? {
+          title: module.title,
+          degree: module?.degree || '', 
+        }
       : {
-        title: '',
-      },
+          title: '',
+          degree: '', 
+        },
   });
 
 
+
   async function onSubmit(formValues: moduleFormSchema) {
-    const payload  = { ...formValues, isActive: switchState,courseId: courseId ? courseId.toString() : ""}
+    const payload = { ...formValues, isActive: switchState, courseId: courseId ? courseId.toString() : '' };
     if (module) {
       triggerModuleEdit(payload);
     } else {
@@ -68,23 +84,20 @@ export default function ModuleForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Bo'lim nomi" required />
-
-          <CustomSwitch state={switchState} setState={setSwitchState} labelText={switchState ? "Ko'rinadigan bo'lim" : "Ko'rinmaydigan bo'lim"} />
+          {type == 'PAID' && <SelectField name="degree" data={levelData} placeholder="Module darajasini tanlang..." label="Module darajasi" />}
+          <CustomSwitch
+            state={switchState}
+            setState={setSwitchState}
+            labelText={switchState ? "Ko'rinadigan bo'lim" : "Ko'rinmaydigan bo'lim"}
+          />
         </div>
         {module ? (
-          <LoadingButton isLoading={isModuleEditPending}>
-            Tahrirlash
-          </LoadingButton>
+          <LoadingButton isLoading={isModuleEditPending}>Tahrirlash</LoadingButton>
         ) : (
-          <LoadingButton isLoading={isModuleCreatePending}>
-            Saqlash
-          </LoadingButton>
+          <LoadingButton isLoading={isModuleCreatePending}>Saqlash</LoadingButton>
         )}
       </form>
     </Form>

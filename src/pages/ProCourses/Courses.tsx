@@ -1,7 +1,6 @@
-'use client';
 
 import { useState } from 'react';
-import type { Course } from 'modules/courses/types';
+import { Course } from 'modules/courses/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { useDeleteCourse } from 'modules/courses/hooks/useDeleteCourse';
 import { DataTable } from 'components/DataTable';
@@ -13,13 +12,13 @@ import CourseForm from './CourseForm';
 import { createCourseColumns } from './Columns';
 import { Pagination } from 'components/Pagination';
 
-const Courses = () => {
+const ProCourses = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [course, setCourse] = useState<Course>();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: coursesList, isLoading, paginationInfo } = useCoursesList({ currentPage });
+  const { data: coursesList, isLoading, paginationInfo } = useCoursesList({currentPage});
   const { triggerCourseDelete } = useDeleteCourse(course?.id!);
 
   const getRowData = (course: Course) => {
@@ -30,27 +29,17 @@ const Courses = () => {
     getRowData,
     setDialogOpen,
     setSheetOpen,
-    currentPage,
+    currentPage
   });
 
   return (
     <div>
-      <TableActions sheetTriggerTitle="Kurs qo'shish" sheetTitle="Yangi kurs qo'shish." TableForm={CourseForm} />
+      <TableActions sheetTriggerTitle="Pro Kurs qo'shish" sheetTitle="Yangi pro kurs qo'shish." TableForm={CourseForm} />
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <DataTable
-            columns={columns}
-            data={coursesList}
-            navigateTable
-            customNavigationUrl={(row) => {
-              const baseUrl = `/courses/${row.id}`;
-              const params = new URLSearchParams();
-              params.append('type', row.pricingType);
-              return `${baseUrl}?${params.toString()}`;
-            }}
-          />
+          <DataTable columns={columns} data={coursesList} navigateTable />
           {paginationInfo && (
             <Pagination
               className="justify-end mt-3"
@@ -62,7 +51,7 @@ const Courses = () => {
         </>
       )}
 
-      <Sheet sheetTitle="Kursni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+      <Sheet sheetTitle="Pro Kursni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CourseForm course={course} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog
@@ -78,4 +67,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default ProCourses;

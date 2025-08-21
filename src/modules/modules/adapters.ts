@@ -6,6 +6,7 @@ export const getModule = (item?: Module) => {
     id: item?.id ?? '',
     title: item?.title ?? '',
     courseId: item?.courseId ?? '',
+    degree: item?.degree ?? '',
     isActive: item?.isActive ?? false,
   };
 };
