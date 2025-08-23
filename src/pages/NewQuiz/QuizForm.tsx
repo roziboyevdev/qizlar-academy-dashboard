@@ -41,8 +41,8 @@ const quizSchema = z.object({
     .array(
       z.object({
         value: z.string().optional(),
-        audioLink: z.union([z.string(), z.instanceof(File)]).optional(),
-        imageLink: z.union([z.string(), z.instanceof(File)]).optional(),
+        link: z.union([z.string(), z.instanceof(File)]).optional(),
+        // imageLink: z.union([z.string(), z.instanceof(File)]).optional(),
         isCorrect: z.boolean(),
         id: z.string().optional(),
       }),
@@ -135,24 +135,13 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
         const processedOption = { ...option }
 
         // Upload audio file if it's a File object
-        if (option.audioLink && typeof option.audioLink === "object") {
+        if (option.link && typeof option.link === "object") {
           try {
-            const audioUrl = await easyUpload(option.audioLink as File)
-            processedOption.audioLink = audioUrl
+            const audioUrl = await easyUpload(option.link as File)
+            processedOption.link = audioUrl
           } catch (error) {
             console.error("Audio upload failed:", error)
             throw new Error("Audio fayl yuklashda xatolik")
-          }
-        }
-
-        // Upload image file if it's a File object
-        if (option.imageLink && typeof option.imageLink === "object") {
-          try {
-            const imageUrl = await easyUpload(option.imageLink as File)
-            processedOption.imageLink = imageUrl
-          } catch (error) {
-            console.error("Image upload failed:", error)
-            throw new Error("Rasm yuklashda xatolik")
           }
         }
 

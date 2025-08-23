@@ -15,6 +15,8 @@ export default function QuizOptions() {
 
   const quizType = watch('type');
 
+  console.log(optionsFields ,"test")
+
   return (
     <RadioGroup
       value={`${optionsFields.findIndex((field) => field.isCorrect)}`}
@@ -49,11 +51,11 @@ export default function QuizOptions() {
             {quizType === QuizOptionType.AUDIO && (
               <FormField
                 control={control}
-                name={`options.${valuesIndex}.audioLink`}
+                name={`options.${valuesIndex}.link`}
                 render={({ field }) => (
                   <FormItem>
                     <MediaUploadField
-                      name={`options.${valuesIndex}.audioLink`}
+                      name={`options.${valuesIndex}.link`}
                       label="Audio fayl"
                       types={['MP3', 'WAV', 'M4A', 'AAC', 'OGG', 'FLAC']}
                       required
@@ -74,11 +76,11 @@ export default function QuizOptions() {
             {quizType === QuizOptionType.IMAGE && (
               <FormField
                 control={control}
-                name={`options.${valuesIndex}.imageLink`}
+                name={`options.${valuesIndex}.link`}
                 render={({ field }) => (
                   <FormItem>
                     <MediaUploadField
-                      name={`options.${valuesIndex}.imageLink`}
+                      name={`options.${valuesIndex}.link`}
                       label="Rasm fayli"
                       types={['JPG', 'JPEG', 'PNG', 'GIF', 'WEBP', 'SVG']}
                       required
