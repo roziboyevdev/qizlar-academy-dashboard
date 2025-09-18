@@ -38,7 +38,6 @@ export default function CoinStatistics() {
     setAppliedTo(undefined);
   };
 
-  console.log('rangeData:', rangeData);
 
   // Chart uchun options
   const chartOptions = useMemo(() => {
@@ -131,18 +130,7 @@ export default function CoinStatistics() {
     };
   }, [rangeData, appliedFrom, appliedTo]);
 
-  if (!rangeData || rangeData.length === 0) {
-    return (
-      <Card className="col-span-4">
-        <CardHeader>
-          <CardTitle>Oraliq statistikasi</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>{isLoading ? 'Ma\'lumotlar yuklanmoqda...' : 'Ma\'lumotlar topilmadi'}</p>
-        </CardContent>
-      </Card>
-    );
-  }
+
 
   return (
     <Card className="col-span-4">
