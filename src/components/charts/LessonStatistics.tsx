@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AuthType } from 'modules/statistics/types';
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card';
 import Chart from './Chart';
 
@@ -22,7 +21,6 @@ export default function LessonStatistics() {
   const [selectedLessonIndex, setSelectedLessonIndex] = useState<number>(0);
 
   const { data: coursesData } = useLessonStatistics();
-
   const currentCourse = coursesData?.[selectedCourseIndex] as LessonStopStatResDto;
   const currentLesson = currentCourse?.stats?.[selectedLessonIndex] as LessonStat;
 

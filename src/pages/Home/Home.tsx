@@ -5,6 +5,7 @@ import MonthlyOverview from './MonthlyOverview';
 import NewUsersByAuthMethod from 'components/charts/NewUsersByAuthMethod';
 import SertificateStatistics from 'components/charts/CertificateStatistics';
 import LessonStatistics from 'components/charts/LessonStatistics';
+import CoinStatistics from 'components/charts/CoinStatistics';
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Overview />
       <MonthlyOverview />
       <LessonStatistics />
+      <CoinStatistics />
       <NewUsersChart />
       <DonationStatistics />
       <SertificateStatistics />

@@ -38,3 +38,7 @@ export const GetUsersByAuthMethod = async (type: AuthType, date?: DateRange) => 
 export const GetLessonStatistics = async () => {
   return await http.get(`/statistics/by/lesson`);
 };
+
+export const GetCoinStatistics = async (from?: number, to?: number) => {
+  return await http.get(`/statistics/by/coin`, { params: { from, to } });
+};
