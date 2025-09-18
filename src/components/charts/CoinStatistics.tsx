@@ -136,7 +136,7 @@ export default function CoinStatistics() {
     <Card className="col-span-4">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Oraliq statistikasi</CardTitle>
+          <CardTitle>Coinlar soni bo'yicha statistika</CardTitle>
           
           {/* Filter controls */}
           <div className="flex items-end gap-4">
@@ -184,8 +184,6 @@ export default function CoinStatistics() {
       
       <CardContent className="pb-0 min-h-[400px]">
         {chartOptions && <Chart options={chartOptions} />}
-        
-       
       </CardContent>
     </Card>
   );
