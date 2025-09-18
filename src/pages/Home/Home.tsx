@@ -4,6 +4,7 @@ import DonationStatistics from 'components/charts/DonationStatistics';
 import MonthlyOverview from './MonthlyOverview';
 import NewUsersByAuthMethod from 'components/charts/NewUsersByAuthMethod';
 import SertificateStatistics from 'components/charts/CertificateStatistics';
+import LessonStatistics from 'components/charts/LessonStatistics';
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <h2 className="font-semibold text-center">Umumiy malumotlar</h2>
       <Overview />
       <MonthlyOverview />
+      <LessonStatistics />
       <NewUsersChart />
       <DonationStatistics />
       <SertificateStatistics />

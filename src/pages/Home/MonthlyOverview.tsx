@@ -24,9 +24,7 @@ export default function MonthlyOverview() {
             <CardTitle className="text-sm font-medium">Foydalanuvchilar </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.users?.all + ' / ' + overview?.users?.monthly}
-            </div>
+            <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.users?.monthly}</div>
           </CardContent>
         </Card>
 
@@ -36,9 +34,7 @@ export default function MonthlyOverview() {
             <CardTitle className="text-sm font-medium">Video darslar</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.lessons?.all + ' / ' + overview?.lessons?.monthly}
-            </div>
+            <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.lessons?.monthly}</div>
           </CardContent>
         </Card>
 
@@ -48,9 +44,7 @@ export default function MonthlyOverview() {
             <CardTitle className="text-sm font-medium">Kurslar</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.courses?.all + ' / ' + overview?.courses?.monthly}
-            </div>
+            <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.courses?.monthly}</div>
           </CardContent>
         </Card>
 
@@ -60,9 +54,7 @@ export default function MonthlyOverview() {
             <CardTitle className="text-sm font-medium">Sertifikat olganlar</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.certificates?.all + ' / ' + overview?.certificates?.monthly}
-            </div>
+            <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.certificates?.monthly}</div>
           </CardContent>
         </Card>
 
@@ -72,9 +64,7 @@ export default function MonthlyOverview() {
             <CardTitle className="text-sm font-medium">Ko'rishlar soni</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.views?.all + ' / ' + overview?.views?.monthly}
-            </div>
+            <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.views?.monthly}</div>
           </CardContent>
         </Card>
 
@@ -84,9 +74,7 @@ export default function MonthlyOverview() {
             <CardTitle className="text-sm font-medium">Testlar</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.quizes?.all + ' / ' + overview?.quizes?.monthly}
-            </div>
+            <div className="text-2xl font-bold">{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.quizes?.monthly}</div>
           </CardContent>
         </Card>
 
@@ -99,17 +87,12 @@ export default function MonthlyOverview() {
           <CardContent>
             <div className="text-xl flex gap-1 font-bold">
               Ayol:
-              <span>
-                {' '}
-                {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.gender?.Ayol?.all + ' / ' + overview?.gender?.Ayol?.monthly}
-              </span>
+              <span> {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.gender?.Ayol?.monthly}</span>
             </div>
 
             <div className="text-xl flex gap-1 font-bold">
               Erkak:
-              <span>
-                {isLoading ? <Skeleton className="h-8 w-20" /> : overview?.gender?.Erkak?.all + ' / ' + overview?.gender?.Erkak?.monthly}
-              </span>
+              <span>{isLoading ? <Skeleton className="h-8 w-20" /> : overview?.gender?.Erkak?.monthly}</span>
             </div>
           </CardContent>
         </Card>
