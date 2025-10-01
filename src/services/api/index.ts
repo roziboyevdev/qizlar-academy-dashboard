@@ -5,6 +5,7 @@ const ENV = process.env;
 const http = axios.create({
   baseURL: ENV.REACT_APP_API_BASE_URL,
 });
+
 export const baseMediaUrl = 'https://upload.ustozai-app.uz';
 
 http.interceptors.request.use(
