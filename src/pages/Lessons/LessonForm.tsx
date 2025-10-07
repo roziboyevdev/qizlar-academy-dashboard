@@ -51,7 +51,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
   const [isLoading, setIsLoading] = useState(false);
   const initialActive = lesson?.title ? lesson.isActive ?? true : true;
   const [isActive, setIsActive] = useState<boolean>(initialActive);
-  const { uploadFile } = useFileUploader();
+  const { uploadFile } = useFileUploader('/file/bunny/stream');
 
   const { triggerLessonCreate, isPending: isLessonCreatePending } = useCreateLesson({ setSheetOpen });
   const { triggerLessonEdit, isPending: isLessonEditPending } = useEditLesson({
