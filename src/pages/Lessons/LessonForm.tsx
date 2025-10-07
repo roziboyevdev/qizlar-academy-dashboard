@@ -131,9 +131,9 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       };
 
       if (lesson) {
-        await triggerLessonEdit(payload);
+         triggerLessonEdit(payload);
       } else {
-        await triggerLessonCreate(payload);
+         triggerLessonCreate(payload);
       }
     } catch (error) {
       console.error('Form submission error:', error);
