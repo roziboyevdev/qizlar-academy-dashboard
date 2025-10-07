@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from 'components/ui/use-toast';
 import { CreateLesson } from '../api';
-import { LessonCreateInput } from '../types';
+import { LessonInput } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
@@ -14,7 +14,7 @@ export const useCreateLesson = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: LessonCreateInput) => CreateLesson(values),
+    mutationFn: (values: LessonInput) => CreateLesson(values),
     onSuccess: () => {
       toast({
         variant: 'success',

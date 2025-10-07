@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,20 +7,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateLesson } from 'modules/lessons/hooks/useCreateLesson';
 import { useEditLesson } from 'modules/lessons/hooks/useEditLesson';
 import { Form } from 'components/ui/form';
-import { Lesson } from 'modules/lessons/types';
-import { RichTextEditor, TextField, TimePickerField } from 'components/fields';
+import { Lesson, LessonInput, LessonLinkType } from 'modules/lessons/types';
+import { RichTextEditor, SelectField, TextField, TimePickerField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import { convertSecondsToHMS } from 'utils/timeConverter';
 import CustomSwitch from 'components/SwitchIsDreft';
 import NumberTextField from 'components/fields/Number';
+import MediaUploadField from 'components/fields/VideoUploder';
+import useFileUploader from 'hooks/useFileUploader';
 
 const lessonSchema = z.object({
-  title: z.string().min(3),
-  description: z.string().min(20),
-  link: z.string().url(),
+  title: z.string().min(3, "Dars nomi kamida 3 ta belgidan iborat bo'lishi kerak"),
+  description: z.string().min(20, "Dars tavsifi kamida 20 ta belgidan iborat bo'lishi kerak"),
+  link: z.union([z.string().min(1, 'Link yoki fayl talab qilinadi'), z.instanceof(File)]),
   duration: z.number().optional(),
   _duration: z.date().optional(),
   isSoon: z.boolean().optional(),
+  linkType: z.nativeEnum(LessonLinkType, { message: 'Iltimos video turini tanlang' }),
   isActive: z.boolean().optional(),
   orderId: z.number().optional(),
 });
@@ -36,12 +39,19 @@ interface IProps {
 const initialDate = new Date();
 initialDate.setHours(0, 0, 0);
 
+const typeData = [
+  { type: LessonLinkType.YOU_TUBE, name: 'You tube link' },
+  { type: LessonLinkType.VIDEO, name: 'Yuklanadigan dars(file)' },
+];
+
 export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, setSheetOpen }: IProps) {
   const { moduleId } = useParams();
-  const initialState = lesson?.title ? lesson.isSoon ?? true : false;
+  const initialState = lesson?.title ? lesson.isSoon ?? false : false;
   const [isSoon, setIsSoon] = useState<boolean>(initialState);
-  const initialActive = lesson?.title ? lesson.isActive : true;
+  const [isLoading, setIsLoading] = useState(false);
+  const initialActive = lesson?.title ? lesson.isActive ?? true : true;
   const [isActive, setIsActive] = useState<boolean>(initialActive);
+  const { uploadFile } = useFileUploader();
 
   const { triggerLessonCreate, isPending: isLessonCreatePending } = useCreateLesson({ setSheetOpen });
   const { triggerLessonEdit, isPending: isLessonEditPending } = useEditLesson({
@@ -67,9 +77,10 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
           description: lesson.description,
           link: lesson.link,
           duration: lesson.duration,
+          linkType: lesson.linkType,
           _duration,
-          isSoon: lesson.isSoon,
-          isActive: lesson.isActive,
+          isSoon: lesson.isSoon ?? false,
+          isActive: lesson.isActive ?? true,
           orderId: lesson.orderId || 0,
         }
       : {
@@ -77,27 +88,57 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
           description: '',
           link: '',
           duration: 0,
-          _duration,
+          linkType: LessonLinkType.YOU_TUBE,
+          _duration: initialDate,
           isSoon: false,
-          isActive: false,
+          isActive: true,
+          orderId: lastLessonOrder ? lastLessonOrder + 1 : 1,
         },
   });
 
-  function onSubmit(formValues: lessonFormSchema) {
-    const duration = Math.trunc(formValues._duration ? (formValues._duration.getTime() - new Date(initialDate).getTime()) / 1000 : 0);
-    formValues.duration = duration;
-    delete formValues._duration;
+  const type = form.watch('linkType');
 
-    const payload = {
-      ...formValues,
-      moduleId: moduleId as string,
-      isActive: isActive,
-      isSoon: isSoon,
-    };
-    if (lesson) {
-      triggerLessonEdit(payload);
-    } else {
-      triggerLessonCreate(payload);
+  useEffect(() => {
+    if (!lesson) {
+      if (type === LessonLinkType.VIDEO) {
+        form.setValue('link', '' as any);
+      } else if (type === LessonLinkType.YOU_TUBE) {
+        form.setValue('link', '');
+      }
+    }
+  }, [type, form, lesson]);
+
+  async function onSubmit(formValues: lessonFormSchema) {
+    try {
+      setIsLoading(true);
+
+      const duration = Math.trunc(formValues._duration ? (formValues._duration.getTime() - new Date(initialDate).getTime()) / 1000 : 0);
+
+      const formData = { ...formValues };
+      formData.duration = duration;
+      delete formData._duration;
+
+      const values =
+        formData.linkType === LessonLinkType.VIDEO && formData.link instanceof File
+          ? await uploadFile<LessonInput>(formData, 'link')
+          : formData;
+
+      const payload = {
+        ...values,
+        moduleId: moduleId as string,
+        isActive: isActive,
+        isSoon: isSoon,
+      };
+
+      if (lesson) {
+        await triggerLessonEdit(payload);
+      } else {
+        await triggerLessonCreate(payload);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -106,31 +147,35 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Dars nomi" required />
-          <TextField name="link" label="Havolasi" required />
 
-          <div className="flex items-center justify-start">
+          <SelectField name="linkType" data={typeData} placeholder="Video turini tanlang..." label="Video turini tanlang" />
+
+          {type === LessonLinkType.VIDEO ? (
+            <MediaUploadField name="link" label="Dars videosi" defaultValue={lesson?.link || ''} />
+          ) : (
+            <TextField name="link" label="YouTube havolasi" required />
+          )}
+
+          <div className="flex items-center justify-start gap-4">
             <TimePickerField name="_duration" label="Darsning davomiyligi" required />
-            {lesson?.orderId && <NumberTextField name="orderId" placeholder="Darsni tartib raqami" label="Darsni tartib raqami" />}
+            <NumberTextField name="orderId" placeholder="Tartib raqami" label="Tartib raqami" />
           </div>
 
           <div className="flex items-center justify-start gap-8">
             <div>
-              <h4 className="mb-1">Tayyor yoki tez kunda </h4>
+              <h4 className="mb-1">Tayyor yoki tez kunda</h4>
               <CustomSwitch state={isSoon} setState={setIsSoon} labelText={isSoon ? 'Tez kunda' : 'Tayyor'} />
             </div>
             <div>
               <h4 className="mb-1">Dars chiqarilishga tayyor yoki yo'q</h4>
-              <CustomSwitch state={isActive} setState={setIsActive} labelText={isActive ? "Ko'rinadigan dars" : "Ko'rinmaydigan Dars"} />
+              <CustomSwitch state={isActive} setState={setIsActive} labelText={isActive ? "Ko'rinadigan dars" : "Ko'rinmaydigan dars"} />
             </div>
           </div>
 
           <RichTextEditor name="description" label="Dars tavsifi" required />
         </div>
-        {lesson ? (
-          <LoadingButton isLoading={isLessonEditPending}>Tahrirlash</LoadingButton>
-        ) : (
-          <LoadingButton isLoading={isLessonCreatePending}>Saqlash</LoadingButton>
-        )}
+
+        <LoadingButton isLoading={isLoading || isLessonCreatePending || isLessonEditPending}>{lesson ? 'Tahrirlash' : 'Saqlash'}</LoadingButton>
       </form>
     </Form>
   );

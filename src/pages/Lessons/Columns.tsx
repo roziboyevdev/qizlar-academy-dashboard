@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
-import { Lesson } from 'modules/lessons/types';
+import { Lesson, LessonLinkType } from 'modules/lessons/types';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 
 interface IProps {
@@ -14,7 +14,7 @@ export const createLessonColumns = ({ getRowData, setSheetOpen, setDialogOpen }:
     accessorKey: 'orderId',
     header: 'N',
   },
-  
+
   {
     accessorKey: 'title',
     header: 'Dars nomi',
@@ -22,11 +22,22 @@ export const createLessonColumns = ({ getRowData, setSheetOpen, setDialogOpen }:
   {
     accessorKey: 'link',
     header: 'Dars havolasi',
-    cell: ({ row }) => (
-      <Link to={row.getValue('link')} className="hover:underline text-blue-500" target="_blank" onClick={(e) => e.stopPropagation()}>
-        Havola
-      </Link>
-    ),
+    cell: ({ row }) => {
+      return (
+        <a
+          href={
+            row.original.linkType == LessonLinkType.VIDEO
+              ? `https://iframe.mediadelivery.net/embed/504451/${row.getValue('link')}`
+              : row.getValue('link')
+          }
+          className="hover:underline text-blue-500"
+          target="_blank"
+          onClick={(e) => e.stopPropagation()}
+        >
+          Havola
+        </a>
+      );
+    },
   },
   {
     accessorKey: 'isActive',

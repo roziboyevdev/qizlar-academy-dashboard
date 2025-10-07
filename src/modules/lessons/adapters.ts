@@ -1,4 +1,4 @@
-import { Lesson } from './types';
+import { Lesson, LessonLinkType } from './types';
 export const getLesson = (item?: Lesson) => {
   return {
     id: item?.id ?? '',
@@ -7,6 +7,7 @@ export const getLesson = (item?: Lesson) => {
     link: item?.link ?? '',
     moduleId: item?.moduleId ?? '',
     duration: item?.duration ?? 0,
+    linkType: item?.linkType ?? LessonLinkType.YOU_TUBE,
     orderId: item?.orderId ?? 0,
     isSoon: item?.isSoon ?? false,
     isActive: item?.isActive ?? false,
@@ -15,8 +16,8 @@ export const getLesson = (item?: Lesson) => {
 
 export const getLessonsList = (data?: Lesson[]) => {
   return data?.length
-    ? data.map(item => {
-      return getLesson(item);
-    })
+    ? data.map((item) => {
+        return getLesson(item);
+      })
     : [];
 };

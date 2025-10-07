@@ -16,13 +16,13 @@ const ProductPage = () => {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<ProductType>();
   const { categoryId } = useParams();
-  const { data: notificationsList, isLoading } = useProductsList(20, categoryId ? categoryId : '');
+  const { data: notificationsList, isLoading } = useProductsList(200, categoryId ? categoryId : '');
   const { triggerInfoDelete } = useDeleteProduct(data?.id!);
 
   const getRowData = (info: ProductType) => {
     setData(info);
   };
-  
+
   // demo
   const columns = createDataColumns({
     getRowData,

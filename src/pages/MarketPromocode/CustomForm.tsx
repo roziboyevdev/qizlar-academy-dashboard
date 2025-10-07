@@ -43,7 +43,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-  const { data: productList } = useProductsList(30, '');
+  const { data: productList } = useProductsList(200, '');
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
@@ -57,7 +57,6 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           file: '',
         },
   });
-
 
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);

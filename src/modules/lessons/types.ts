@@ -5,25 +5,16 @@ export interface Lesson {
   link: string;
   moduleId: string;
   duration: number;
+  linkType: LessonLinkType;
   isSoon: boolean;
   isActive: boolean;
   orderId: number;
 }
 
-export interface LessonCreateInput {
+export interface LessonInput {
   title: string;
   description: string;
-  link: string;
-  moduleId: string;
-  duration?: number;
-  isSoon: boolean;
-  isActive: boolean;
-}
-
-export interface LessonEditInput {
-  title: string;
-  description: string;
-  link: string;
+  link: string | File;
   moduleId: string;
   duration?: number;
   isSoon: boolean;
@@ -32,5 +23,10 @@ export interface LessonEditInput {
 
 export interface LessonEditBody {
   id: string;
-  values: LessonEditInput;
+  values: LessonInput;
+}
+
+export enum LessonLinkType {
+  YOU_TUBE = 'YOU_TUBE',
+  VIDEO = 'VIDEO',
 }

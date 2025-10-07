@@ -1,12 +1,9 @@
 import { useFileUpload } from 'modules/file-upload/hooks/useFileUpload';
 
-export default function useFileUploader() {
-  const { triggerFileUpload, isPending } = useFileUpload();
+export default function useFileUploader(url = '/file') {
+  const { triggerFileUpload, isPending } = useFileUpload(url);
 
-  async function uploadFile<TData>(
-    values: Record<string, any>,
-    key: keyof TData & string
-  ): Promise<TData> {
+  async function uploadFile<TData>(values: Record<string, any>, key: keyof TData & string): Promise<TData> {
     const formData = new FormData();
     formData.append('file', values[key]);
 
@@ -21,10 +18,8 @@ export default function useFileUploader() {
   return { uploadFile, isPending };
 }
 
-
-
-export function useEasyFileUploader() {
-  const { triggerFileUpload, isPending } = useFileUpload();
+export function useEasyFileUploader(url = '/file') {
+  const { triggerFileUpload, isPending } = useFileUpload(url);
 
   async function uploadFile(file: any) {
     const formData = new FormData();

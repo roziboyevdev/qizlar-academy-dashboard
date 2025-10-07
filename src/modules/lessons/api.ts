@@ -1,11 +1,11 @@
 import http from "services/api";
-import { LessonCreateInput, LessonEditBody } from "./types";
+import { LessonInput, LessonEditBody } from "./types";
 
 export const GetLessonsList = async (moduleId: string, currentPage: number) => {
   return await http.get(`/lesson`, { params: { moduleId: moduleId,pageNumber:currentPage } });
 };
 
-export const CreateLesson = async (values: LessonCreateInput) => {
+export const CreateLesson = async (values: LessonInput) => {
   return await http.post(`/lesson/`, values);
 };
 
