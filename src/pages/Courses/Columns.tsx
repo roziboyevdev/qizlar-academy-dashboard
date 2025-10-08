@@ -3,26 +3,17 @@ import type { Course } from 'modules/courses/types';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { Link } from 'react-router-dom';
 import { Badge } from 'components/ui/badge';
+import CustomSwitch from 'components/SwitchIsDreft';
 
 interface IProps {
   getRowData: (course: Course) => void;
   setSheetOpen: (state: boolean) => void;
   setDialogOpen: (state: boolean) => void;
   currentPage: number;
+  toggleActive: (isActive: boolean) => void;
 }
 
-function stripHtml(html: string): string {
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
-  return tempDiv.textContent || tempDiv.innerText || '';
-}
-
-function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-}
-
-export const createCourseColumns = ({ getRowData, setSheetOpen, setDialogOpen, currentPage }: IProps): ColumnDef<Course, unknown>[] => [
+export const createCourseColumns = ({ getRowData, setSheetOpen, setDialogOpen, currentPage, toggleActive }: IProps): ColumnDef<Course, unknown>[] => [
   {
     accessorKey: 'amount',
     header: 'T/R',
@@ -32,15 +23,27 @@ export const createCourseColumns = ({ getRowData, setSheetOpen, setDialogOpen, c
     accessorKey: 'title',
     header: 'Kurs nomi',
   },
-  {
-    accessorKey: 'description',
-    header: 'Davomiyligi',
-    cell: ({ row }) => {
-      const rawHtml: string = row.getValue('description');
-      const plainText = stripHtml(rawHtml);
-      const truncatedText = truncateText(plainText, 70);
+  // {
+  //   accessorKey: 'description',
+  //   header: 'Davomiyligi',
+  //   cell: ({ row }) => {
+  //     const rawHtml: string = row.getValue('description');
+  //     const plainText = stripHtml(rawHtml);
+  //     const truncatedText = truncateText(plainText, 70);
 
-      return <div title={plainText}>{truncatedText}</div>;
+  //     return <div title={plainText}>{truncatedText}</div>;
+  //   },
+  // },
+  {
+    accessorKey: 'isActive',
+    header: 'Status',
+    cell: ({ row }) => {
+      const isActive: boolean = row.getValue('isActive') || false;
+      return (
+        <>
+          <CustomSwitch state={isActive} labelText={isActive ? "Ko'rinadigan" : "Ko'rinmaydigan "}     />
+        </>
+      );
     },
   },
   {

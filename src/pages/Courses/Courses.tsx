@@ -12,6 +12,7 @@ import { Sheet } from 'components/Sheet';
 import CourseForm from './CourseForm';
 import { createCourseColumns } from './Columns';
 import { Pagination } from 'components/Pagination';
+import { useEditCourse } from 'modules/courses/hooks/useEditCourse';
 
 const Courses = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -20,6 +21,15 @@ const Courses = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: coursesList, isLoading, paginationInfo } = useCoursesList({ currentPage });
+  const { triggerCourseEdit, isPending: isCourseEditPending } = useEditCourse({
+    id: course?.id,
+    setSheetOpen,
+  });
+
+  const toggleActive = (isActive: boolean) => {
+    triggerCourseEdit({ isActive });
+  };
+
   const { triggerCourseDelete } = useDeleteCourse(course?.id!);
 
   const getRowData = (course: Course) => {
@@ -31,6 +41,7 @@ const Courses = () => {
     setDialogOpen,
     setSheetOpen,
     currentPage,
+    toggleActive,
   });
 
   return (

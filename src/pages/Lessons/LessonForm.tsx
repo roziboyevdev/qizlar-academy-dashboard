@@ -15,17 +15,19 @@ import CustomSwitch from 'components/SwitchIsDreft';
 import NumberTextField from 'components/fields/Number';
 import MediaUploadField from 'components/fields/VideoUploder';
 import useFileUploader from 'hooks/useFileUploader';
+import { isYouTubeUrl } from 'utils/common';
 
 const lessonSchema = z.object({
   title: z.string().min(3, "Dars nomi kamida 3 ta belgidan iborat bo'lishi kerak"),
   description: z.string().min(20, "Dars tavsifi kamida 20 ta belgidan iborat bo'lishi kerak"),
-  link: z.union([z.string().min(1, 'Link yoki fayl talab qilinadi'), z.instanceof(File)]),
+  link: z.union([z.string(), z.instanceof(File)]),
   duration: z.number().optional(),
   _duration: z.date().optional(),
   isSoon: z.boolean().optional(),
   linkType: z.nativeEnum(LessonLinkType, { message: 'Iltimos video turini tanlang' }),
   isActive: z.boolean().optional(),
   orderId: z.number().optional(),
+  videoId: z.string().optional(),
 });
 
 type lessonFormSchema = z.infer<typeof lessonSchema>;
@@ -75,7 +77,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       ? {
           title: lesson.title,
           description: lesson.description,
-          link: lesson.link,
+          link: isYouTubeUrl(lesson.link) ? lesson.link : `https://iframe.mediadelivery.net/embed/504451/${lesson.link}`,
           duration: lesson.duration,
           linkType: lesson.linkType,
           _duration,
@@ -114,12 +116,12 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
 
       const duration = Math.trunc(formValues._duration ? (formValues._duration.getTime() - new Date(initialDate).getTime()) / 1000 : 0);
 
-      const formData = { ...formValues };
+      const formData = formValues.videoId ? { ...formValues, link: formValues.videoId } : { ...formValues };
       formData.duration = duration;
       delete formData._duration;
 
       const values =
-        formData.linkType === LessonLinkType.VIDEO && formData.link instanceof File
+        formData.linkType === LessonLinkType.VIDEO && formData.link instanceof File && !formData.videoId
           ? await uploadFile<LessonInput>(formData, 'link')
           : formData;
 
@@ -131,9 +133,9 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       };
 
       if (lesson) {
-         triggerLessonEdit(payload);
+        triggerLessonEdit(payload);
       } else {
-         triggerLessonCreate(payload);
+        triggerLessonCreate(payload);
       }
     } catch (error) {
       console.error('Form submission error:', error);
@@ -151,7 +153,10 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
           <SelectField name="linkType" data={typeData} placeholder="Video turini tanlang..." label="Video turini tanlang" />
 
           {type === LessonLinkType.VIDEO ? (
-            <MediaUploadField name="link" label="Dars videosi" defaultValue={lesson?.link || ''} />
+            <div className="flex justify-between gap-3 items-center">
+              <MediaUploadField name="link" label="Dars videosi" defaultValue={lesson?.link || ''} />
+              <TextField name="videoId" label="Video Id kiriting" placeholder="124bd1da-6fba-4633-bdf0-f6738af91f6c" required />
+            </div>
           ) : (
             <TextField name="link" label="YouTube havolasi" required />
           )}

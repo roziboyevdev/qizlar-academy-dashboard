@@ -4,7 +4,7 @@ export interface Seo {
   keywords: string | string[];
 }
 
-export type PricingType = 'FREE' | 'PAID' | 'TOURISM'
+export type PricingType = 'FREE' | 'PAID' | 'TOURISM';
 
 export interface Course {
   id: string;
@@ -15,6 +15,7 @@ export interface Course {
   icon: string;
   slug: string;
   pricingType: PricingType;
+  isActive: boolean;
   planLessonCount?: number;
   type?: string;
   degree?: string;
@@ -25,21 +26,22 @@ export interface Course {
 }
 
 export interface CourseInput {
-  title: string;
-  description: string;
-  seoTitle: string;
-  seoDescription: string;
-  seoKeywords: string | string[];
-  banner: string;
-  icon: string;
-  slug: string;
-  pricingType: PricingType;
+  title?: string;
+  description?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string | string[];
+  banner?: string;
+  icon?: string;
+  slug?: string;
+  pricingType?: PricingType;
+  isActive?: boolean;
   planLessonCount?: number;
   type?: string;
   degree?: string;
   price?: number;
   audioLink?: string;
-  teacherId: string;
+  teacherId?: string;
   seo?: Seo | null;
 }
 
