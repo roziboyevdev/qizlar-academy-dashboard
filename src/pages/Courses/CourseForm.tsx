@@ -228,52 +228,11 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
   const pricingType = form.watch('pricingType');
 
   async function onSubmit(formValues: courseFormSchema) {
-    const value = await uploadFile<CourseInput>(formValues, 'icon');
-    const withBanner = await uploadFile<CourseInput>(value, 'banner');
+    try {
+      const withIcon = await uploadFile<CourseInput>(formValues, 'icon');
+      const withBanner = await uploadFile<CourseInput>(withIcon, 'banner');
 
-    let finalPayload: any;
-
-    if (formValues.pricingType === 'PAID') {
-      // PAID course payload with price
-      finalPayload = {
-        title: withBanner.title,
-        description: withBanner.description,
-        seoTitle: withBanner.seoTitle,
-        seoDescription: withBanner.seoDescription,
-        seoKeywords: formValues.seoKeywords?.toString(),
-        banner: withBanner.banner,
-        icon: withBanner.icon,
-        pricingType: withBanner.pricingType,
-        slug: withBanner.slug,
-        price: withBanner.price,
-        teacherId: withBanner.teacherId,
-        type: withBanner.type,
-        degree: withBanner.degree,
-        planLessonCount: withBanner.planLessonCount,
-      };
-    } else if (formValues.pricingType === 'TOURISM') {
-      // TOURISM course payload with audioLink
-      const withAudio = await uploadFile<CourseInput>(withBanner, 'audioLink');
-
-      finalPayload = {
-        title: withAudio.title,
-        description: withAudio.description,
-        seoTitle: withAudio.seoTitle,
-        seoDescription: withAudio.seoDescription,
-        seoKeywords: formValues.seoKeywords?.toString(),
-        banner: withAudio.banner,
-        icon: withAudio.icon,
-        pricingType: withAudio.pricingType,
-        slug: withAudio.slug,
-        teacherId: withAudio.teacherId,
-        audioLink: withAudio.audioLink,
-        type: withAudio.type,
-        degree: withAudio.degree,
-        planLessonCount: withAudio.planLessonCount,
-      };
-    } else {
-      // FREE course payload
-      finalPayload = {
+      const basePayload = {
         title: withBanner.title,
         description: withBanner.description,
         seoTitle: withBanner.seoTitle,
@@ -282,19 +241,44 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
         banner: withBanner.banner,
         icon: withBanner.icon,
         slug: withBanner.slug,
-        planLessonCount: withBanner.planLessonCount,
+        teacherId: withBanner.teacherId,
         pricingType: withBanner.pricingType,
         type: withBanner.type,
         degree: withBanner.degree,
-        teacherId: withBanner.teacherId,
-        isActive: isActive,
+        planLessonCount: withBanner.planLessonCount,
+        isActive, // 🔥 har doim mavjud
       };
-    }
 
-    if (course) {
-      triggerCourseEdit(finalPayload);
-    } else {
-      triggerCourseCreate(finalPayload);
+      let finalPayload: any = { ...basePayload };
+
+      switch (formValues.pricingType) {
+        case 'PAID':
+          finalPayload = {
+            ...basePayload,
+            price: withBanner.price,
+          };
+          break;
+
+        case 'TOURISM': {
+          const withAudio = await uploadFile<CourseInput>(withBanner, 'audioLink');
+          finalPayload = {
+            ...basePayload,
+            audioLink: withAudio.audioLink,
+          };
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      if (course) {
+        triggerCourseEdit(finalPayload);
+      } else {
+        triggerCourseCreate(finalPayload);
+      }
+    } catch (err) {
+      console.error('❌ onSubmit error:', err);
     }
   }
 
