@@ -54,6 +54,10 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/vacancy': [UserRole.SUPER_ADMIN],
   '/meeting': [UserRole.SUPER_ADMIN],
+  '/fortuna-product': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
+  '/fortuna-promocode': [UserRole.SUPER_ADMIN],
+  '/lesson-reward': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
 };
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
@@ -170,14 +174,21 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       icon: TicketPercent,
       link: '/fortuna-promocode',
     },
+    {
+      title: "Darslar sovg'alar",
+      icon: Gift,
+      link: '/lesson-reward',
+    },
+    {
+      title: 'Darslar promocode',
+      icon: TicketPercent,
+      link: '/lesson-reward-promocode',
+    },
   ];
 
-  // Foydalanuvchi roliga asoslangan menyularni filtrlash
   const filteredMenuItems = userData?.role
     ? menuItems.filter((item) => {
-        // SUPER_ADMIN barcha menyularga kirishi mumkin
         if (userData.role === UserRole.SUPER_ADMIN) return true;
-        // Boshqa rollar uchun faqat ruxsat berilgan menyular
         return routePermissions[item.link]?.includes(userData.role);
       })
     : [];

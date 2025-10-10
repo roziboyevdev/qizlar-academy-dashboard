@@ -37,6 +37,8 @@ import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
 import FortunaProductPage from 'pages/FortunaProduct/Page';
 import FortunaPromocodePage from 'pages/FortunaPromocode/Page';
+import LessonRewardPage from 'pages/CourseReward/Page';
+import LessonRewardPromocodePage from 'pages/CourseRewardPromocode/Page';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -68,6 +70,8 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/meeting': [UserRole.SUPER_ADMIN],
   '/fortuna-product': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/fortuna-promocode': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
+  '/lesson-reward': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
 };
 
 const routes = [
@@ -100,6 +104,8 @@ const routes = [
   { path: '/meeting', element: <MeetingPage /> },
   { path: '/fortuna-product', element: <FortunaProductPage /> },
   { path: '/fortuna-promocode', element: <FortunaPromocodePage /> },
+  { path: '/lesson-reward', element: <LessonRewardPage /> },
+  { path: '/lesson-reward-promocode', element: <LessonRewardPromocodePage /> },
 ];
 
 export const Routes = () => {

@@ -6,16 +6,16 @@ import LoadingButton from 'components/LoadingButton';
 import { useEffect, useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
 import { SelectType } from 'pages/Certificate/CustomForm';
-import { IMarketPromocode } from 'modules/market-promocode/types';
 
 import MediaUploadField from 'components/fields/VideoUploder';
 import { useAutoGeneratePromocode } from 'modules/market-promocode/hooks/useAutoGenerate';
-import { useEditFortunaPromocode } from 'modules/fortuna-promocode/hooks/useEdit';
-import { useCreateFortunaPromocode } from 'modules/fortuna-promocode/hooks/useCreate';
-import { usePromocodeProductsList } from 'modules/fortuna-promocode/hooks/usePromocodeProductsList';
+import { useEditFortunaPromocode } from 'modules/course-reward-promocode/hooks/useEdit';
+import { useCreateFortunaPromocode } from 'modules/course-reward-promocode/hooks/useCreate';
+import { usePromocodeProductsList } from 'modules/course-reward-promocode/hooks/usePromocodeProductsList';
+import { IRewardPromocode } from 'modules/course-reward-promocode/types';
 
 interface IProps {
-  banner?: IMarketPromocode;
+  banner?: IRewardPromocode;
   setSheetOpen: (state: boolean) => void;
 }
 
@@ -29,6 +29,8 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
   const { generatePromocode } = useAutoGeneratePromocode({
     setSheetOpen,
   });
+
+  
   const { triggerEdit } = useEditFortunaPromocode({
     id: banner?.id,
     setSheetOpen,
@@ -40,11 +42,11 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     resolver: zodResolver(schema),
     defaultValues: banner
       ? {
-          productId: banner.productId,
+          rewardId: banner.rewardId,
           file: banner.file,
         }
       : {
-          productId: '',
+          rewardId: '',
           file: '',
         },
   });
@@ -54,7 +56,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     try {
       const formData = new FormData();
       formData.append('file', formValues.file || '');
-      formData.append('productId', formValues?.productId || '');
+      formData.append('rewardId', formValues?.rewardId || '');
 
       if (banner) {
         triggerEdit(formData);
@@ -72,15 +74,13 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     productList.forEach((el) =>
       newArr.push({
         name: el.title,
-        type: el.id || el.productId,
+        type: el.id || el.rewardId,
       })
     );
     setCoursesData(newArr);
   }, [productList]);
 
-  console.log(productList, 'list');
-  console.log(banner, 'banner');
-  console.log(coursesData, 'coursesData');
+
 
   return (
     <Form {...form}>
@@ -89,8 +89,8 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           <MediaUploadField name="file" label="Promocodlar file(exel)" types={['XLS', 'XLSX']} />
 
           <SelectField
-            name="productId"
-            key="productId"
+            name="rewardId"
+            key="rewardId"
             data={coursesData}
             placeholder="Sovg'ani tanlash  tanlang..."
             label="Sovg'ani tanlash  tanglang"
