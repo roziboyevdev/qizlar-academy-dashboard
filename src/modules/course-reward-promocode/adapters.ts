@@ -4,8 +4,7 @@ export const getData = (item?: IRewardPromocode) => {
     id: item?.id ?? '',
     rewardId: item?.rewardId ?? '',
     title: item?.title ?? '',
-    total: item?.total ?? 0,
-    unused: item?.unused ?? 0,
+    count: item?.count ?? 0,
   };
 };
 

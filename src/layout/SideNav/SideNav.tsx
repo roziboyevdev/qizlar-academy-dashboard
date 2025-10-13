@@ -58,6 +58,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/fortuna-promocode': [UserRole.SUPER_ADMIN],
   '/lesson-reward': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
 };
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
@@ -183,6 +184,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       title: 'Darslar promocode',
       icon: TicketPercent,
       link: '/lesson-reward-promocode',
+    },
+    {
+      title: "Darslarga sovg'a qo'shish",
+      icon: TicketPercent,
+      link: '/add-reward-to-lessons',
     },
   ];
 

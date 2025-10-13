@@ -30,14 +30,14 @@ const LessonRewardPage = () => {
     setSheetOpen,
   });
 
-  console.log(rewards, "rewards");
-  
+  console.log(rewards, 'rewards');
+
   return (
     <div>
-      <TableActions sheetTriggerTitle="Product qo'shish" sheetTitle="Yangi product qo'shish" TableForm={CustomForm} />
+      <TableActions sheetTriggerTitle="Darslar uchun sovg'a qo'shish" sheetTitle="Yangi sovg'a qo'shish" TableForm={CustomForm} />
       {isLoading ? <Loader /> : <DataTable columns={columns} data={rewards} />}
 
-      <Sheet sheetTitle="Sovg'a tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+      <Sheet sheetTitle="Darslar uchun  sovg'ani tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CustomForm product={data} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog

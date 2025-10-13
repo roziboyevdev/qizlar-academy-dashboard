@@ -47,13 +47,13 @@ const LessonRewardPromocodePage = () => {
 
         <Button onClick={() => setSheetOpen(true)}>
           <Plus className="size-4 mr-2" />
-          Baraban uchun promocode qo'shish
+          Darslar uchun promocode qo'shish
         </Button>
       </div>
 
       {isLoading ? <Loader /> : <DataTable columns={columns} data={marketPromocodes} />}
 
-      <Sheet sheetTitle="Baraban uchun promocodeni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+      <Sheet sheetTitle="Darslar uchun promocodeni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CustomForm banner={data} setSheetOpen={setSheetOpen} />
       </Sheet>
 

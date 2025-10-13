@@ -39,6 +39,7 @@ import FortunaProductPage from 'pages/FortunaProduct/Page';
 import FortunaPromocodePage from 'pages/FortunaPromocode/Page';
 import LessonRewardPage from 'pages/CourseReward/Page';
 import LessonRewardPromocodePage from 'pages/CourseRewardPromocode/Page';
+import AddRewardToLessons from 'pages/AddRewardToLessons/Page';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -72,6 +73,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/fortuna-promocode': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/lesson-reward': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
 };
 
 const routes = [
@@ -106,6 +108,7 @@ const routes = [
   { path: '/fortuna-promocode', element: <FortunaPromocodePage /> },
   { path: '/lesson-reward', element: <LessonRewardPage /> },
   { path: '/lesson-reward-promocode', element: <LessonRewardPromocodePage /> },
+  { path: '/add-reward-to-lessons', element: <AddRewardToLessons /> },
 ];
 
 export const Routes = () => {

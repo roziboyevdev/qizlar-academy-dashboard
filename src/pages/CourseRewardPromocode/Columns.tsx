@@ -2,7 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { IRewardPromocode } from 'modules/course-reward-promocode/types';
 
-
 interface IProps {
   getRowData: (notification: IRewardPromocode) => void;
   setSheetOpen: (state: boolean) => void;
@@ -12,15 +11,11 @@ interface IProps {
 export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<IRewardPromocode>[] => [
   {
     accessorKey: 'title',
-    header: 'Maxsulot',
+    header: 'Promocode',
   },
 
   {
-    accessorKey: 'total',
-    header: 'Umumiy soni',
-  },
-  {
-    accessorKey: 'unused',
+    accessorKey: 'count',
     header: 'Qolganlari',
   },
 
@@ -28,6 +23,8 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     accessorKey: 'id',
     header: () => <span className="sr-only">Actions</span>,
     size: 50,
-    cell: ({ row }) => <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} showDelete={false} />,
+    cell: ({ row }) => (
+      <DataTableRowActions row={row} getRowData={getRowData} setDialogOpen={setDialogOpen} setSheetOpen={setSheetOpen} showDelete={false} />
+    ),
   },
 ];

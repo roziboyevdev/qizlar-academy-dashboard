@@ -6,7 +6,7 @@ export const GetDatasList = async () => {
 };
 
 export const GetFortunaPromocodeDatasList = async () => {
-  return await http.get(`/course/reward/promocode/product`);
+  return await http.get(`/course/reward/templates`, { params: { type: 'PROMOCODE' }   });
 };
 
 export const CreateData = async (values: IRewardPromocodeInput) => {

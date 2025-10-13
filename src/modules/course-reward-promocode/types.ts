@@ -3,8 +3,8 @@ export interface IRewardPromocode {
   file?: string;
   rewardId?: string;
   title?: string;
-  total?: number;
-  unused?: number;
+
+  count?: number;
 }
 
 export interface IRewardPromocodeInput {

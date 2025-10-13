@@ -30,13 +30,14 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-  
   const { triggerEdit } = useEditFortunaPromocode({
     id: banner?.id,
     setSheetOpen,
   });
 
   const { data: productList } = usePromocodeProductsList();
+
+  console.log(productList, 'productList');
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
@@ -70,17 +71,15 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
   }
 
   useEffect(() => {
-    let newArr: SelectType[] = [];
-    productList.forEach((el) =>
-      newArr.push({
+    if (productList && productList.length > 0) {
+      const newArr: SelectType[] = productList.map((el) => ({
         name: el.title,
         type: el.id || el.rewardId,
-      })
-    );
-    setCoursesData(newArr);
+      }));
+      console.log(newArr, 'newArr');
+      setCoursesData(newArr);
+    }
   }, [productList]);
-
-
 
   return (
     <Form {...form}>
