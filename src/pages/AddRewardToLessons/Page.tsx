@@ -19,6 +19,7 @@ const AddRewardToLessons = () => {
 
   const { data: couseAssitants, isLoading, paginationInfo } = useCourseRewardList(currentPage, '04e06c75-f402-4e53-a220-4f9a1f7c0b4d');
 
+  
   const { triggerInfoDelete } = useDeleteCourseReward(data?.id!);
   const getRowData = (info: ICourseReward) => {
     setData(info);
