@@ -13,6 +13,7 @@ import { useCourseLessonsList } from 'modules/lessons/hooks/useCourseLessonsList
 import { useCreateCourseReward } from 'modules/add-reward-to-lessons/hooks/useCreate';
 import { useEditCourseReward } from 'modules/add-reward-to-lessons/hooks/useEdit';
 import { useLessonRewardList } from 'modules/course-reward-product/hooks/useList';
+import { useSearchParams } from 'react-router-dom';
 
 interface IProps {
   selectedData?: ICourseReward;
@@ -22,10 +23,12 @@ interface IProps {
 export type SelectType = { name: string; type: string; disabled?: boolean };
 
 export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
   const [lessonsData, setLessonsData] = useState<SelectType[]>([]);
   const [rewardsData, setRewardsData] = useState<SelectType[]>([]);
-  const [selectedCourseId, setSelectedCourseId] = useState<string>(selectedData?.courseId || '');
+  const [selectedCourseId, setSelectedCourseId] = useState<string>('');
   const [state, setState] = useState(false);
 
   const { uploadFile } = useFileUploader();
@@ -44,8 +47,8 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
     resolver: zodResolver(schema),
     defaultValues: selectedData
       ? {
-          courseId: selectedData.courseId,
-          lessonId: selectedData.lessonId,
+          courseId: selectedData ? searchParams.get('courseId') || '' : '',
+          lessonId: selectedData.lessonId || '',
           rewardId: selectedData.rewardId || '',
           file: selectedData.file || '',
         }
@@ -73,6 +76,7 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
       // Agar file File tipida bo'lsa, uni yuklash
       if (formValues.file && formValues.file instanceof File) {
         payload = await uploadFile<ICourseRewardInput>(formValues, 'file');
+        delete payload.rewardId;
       }
 
       if (selectedData) {
@@ -103,9 +107,9 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
     if (watchedCourseId) {
       setSelectedCourseId(watchedCourseId);
       // Reset lessonId when course changes
-      if (watchedCourseId !== selectedData?.courseId) {
-        form.setValue('lessonId', '');
-      }
+      // if (watchedCourseId !== selectedData?.courseId) {
+      //   form.setValue('lessonId', '');
+      // }
     }
   }, [watchedCourseId, form, selectedData]);
 
@@ -151,7 +155,7 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
             <SelectField
               name="lessonId"
               data={lessonsData}
-              placeholder={selectedCourseId ? 'Darsni tanlang...' : 'Avval kursni tanlang'}
+              placeholder={!lessonsData?.length ? 'Darslar yoq' : selectedCourseId ? 'Darsni tanlang...' : 'Avval kursni tanlang'}
               label="Darsni tanlang"
             />
           )}

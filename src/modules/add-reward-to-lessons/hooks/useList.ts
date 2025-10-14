@@ -12,7 +12,7 @@ export const useCourseRewardList = (currentPage: number, courseId: string) => {
     queryKey: ['course_rewards_list', currentPage, courseId],
     queryFn: () => GetDatasList(currentPage, courseId),
     select: (data) => ({
-      data: getDatasList(get(data, 'data.data.data')),
+      data: getDatasList(get(data, 'data.data')),
       paginationInfo: get(data, 'data.data.meta.pagination', initialData.paginationInfo),
     }),
   });

@@ -2,9 +2,11 @@ import { ICourseReward } from './types';
 export const getData = (item?: ICourseReward) => {
   return {
     id: item?.id ?? '',
-    courseId: item?.courseId ?? '',
-    lessonId: item?.lessonId ?? '',
+    title: item?.title ?? '',
+    orderId: item?.orderId ?? 0,
+    reward: item?.reward ?? '',
     rewardId: item?.rewardId ?? '',
+    lessonId: item?.lessonId ?? '',
     file: item?.file ?? '',
   };
 };

@@ -13,12 +13,14 @@ export const useCourseLessonsList = (courseId: string) => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ['course_lessons_list', courseId],
     queryFn: () => GetCourseLessonsList(courseId),
+    enabled: !!courseId,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     select: (data) => {
-      const lessonsList = getLessonsList(get(data, 'data.data.data', []));
+      const lessonsList = getLessonsList(get(data, 'data.data', []));
 
       return {
         data: lessonsList,
-        paginationInfo: get(data, 'data.data.meta.pagination', initialData.paginationInfo),
       };
     },
   });

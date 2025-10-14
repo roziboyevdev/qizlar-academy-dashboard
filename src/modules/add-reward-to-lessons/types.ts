@@ -1,8 +1,10 @@
 export interface ICourseReward {
   id: string;
-  courseId: string;
+  title: string;
+  orderId: number;
+  reward: string;
+  rewardId: string;
   lessonId: string;
-  rewardId?: string;
   file: string | File;
 }
 

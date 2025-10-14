@@ -6,7 +6,7 @@ export const GetLessonsList = async (moduleId: string, currentPage: number) => {
 };
 // for rewards
 export const GetCourseLessonsList = async (courseId: string) => {
-  return await http.get(`/lesson/reward`, { params: { courseId: courseId } });
+  return await http.get(`/lesson/reward/${courseId}`);
 };
 
 export const CreateLesson = async (values: LessonInput) => {
