@@ -88,9 +88,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
           {type == LessonRewardType.COIN && <NumberTextField name="value" placeholder="Coin miqdori" label="Coin miqdori" required />}
 
-          {(type == LessonRewardType.PROMOCODE || type == LessonRewardType.PRODUCT) && (
-            <NumberTextField name="count" placeholder="Promocode soni" label="Promocode soni" required />
-          )}
+          {type == LessonRewardType.PROMOCODE && <NumberTextField name="count" placeholder="Promocode soni" label="Promocode soni" required />}
 
           {type == LessonRewardType.PRODUCT && <FileField name={`photo`} label={`Mahsulot rasmi `} />}
 
