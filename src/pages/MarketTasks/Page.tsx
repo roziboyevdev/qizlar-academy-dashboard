@@ -9,12 +9,15 @@ import CustomForm from './CustomForm';
 import { useMarketTaskList } from 'modules/market-taskts/hooks/useList';
 import { useDeleteMarketTask } from 'modules/market-taskts/hooks/useDelete';
 import { IMarketTask } from 'modules/market-taskts/types';
+import { Pagination } from 'components/Pagination';
 
 const MarketTasksPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<IMarketTask>();
-  const { data: rewards, isLoading } = useMarketTaskList(20);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data: rewards, isLoading, paginationInfo } = useMarketTaskList(20);
   const { triggerInfoDelete } = useDeleteMarketTask(data?.id!);
 
   const getRowData = (info: IMarketTask) => {
@@ -28,12 +31,26 @@ const MarketTasksPage = () => {
     setSheetOpen,
   });
 
-  console.log(rewards, 'rewards');
+  console.log(paginationInfo, 'paginationInfo');
 
   return (
     <div>
       <TableActions sheetTriggerTitle="Market uchun topshiriq qo'shish" sheetTitle="Yangi topshiriq qo'shish" TableForm={CustomForm} />
-      {isLoading ? <Loader /> : <DataTable columns={columns} data={rewards} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <DataTable columns={columns} data={rewards} />
+          {paginationInfo && (
+            <Pagination
+              className="justify-end mt-3"
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              paginationInfo={paginationInfo}
+            />
+          )}
+        </>
+      )}
 
       <Sheet sheetTitle="Market uchun topshiriqni tahrirlash" isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <CustomForm product={data} setSheetOpen={setSheetOpen} />

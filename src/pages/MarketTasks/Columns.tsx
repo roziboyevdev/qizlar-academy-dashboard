@@ -1,6 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { IMarketTask } from 'modules/market-taskts/types';
+import { Link } from 'react-router-dom';
+import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {
   getRowData: (notification: IMarketTask) => void;
@@ -17,6 +19,18 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
   {
     accessorKey: 'points',
     header: 'Points',
+  },
+
+  {
+    accessorKey: 'photo',
+    header: 'Rasm',
+    cell: ({ row }) => {
+      return (
+        <Link to={normalizeImgUrl(row.getValue('photo'))} className="text-blue-600" target="_blank">
+          file
+        </Link>
+      );
+    },
   },
 
   {

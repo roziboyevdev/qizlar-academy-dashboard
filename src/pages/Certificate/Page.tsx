@@ -16,7 +16,6 @@ const Certificate = () => {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<CertificateType>();
   const [currentPage, setCurrentPage] = useState(1);
-
   const { data: notificationsList, isLoading ,paginationInfo } = useCertificatesList(currentPage);
 
   const { triggerInfoDelete } = useDeleteInfo(

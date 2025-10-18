@@ -22,10 +22,11 @@ import {
   Bot,
   Gift,
   ListChecks,
+  ChevronDown,
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
 
@@ -51,7 +52,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/premium': [UserRole.SUPER_ADMIN],
   '/user-certificate': [UserRole.SUPER_ADMIN],
   '/promocode': [UserRole.SUPER_ADMIN],
-  '/market-promocode': [UserRole.SUPER_ADMIN],
+  '/market-promocode': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/market-tasks': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/vacancy': [UserRole.SUPER_ADMIN],
@@ -65,6 +66,14 @@ const routePermissions: { [key: string]: UserRole[] } = {
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
   const { userData } = useContext(UserContext);
+  const [expandedGroups, setExpandedGroups] = useState<{ [key: string]: boolean }>({});
+
+  const toggleGroup = (groupId: string) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [groupId]: !prev[groupId]
+    }));
+  };
 
   const menuItems = [
     {
@@ -73,19 +82,14 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/',
     },
     {
-      title: 'Ustozlar',
-      icon: User,
-      link: '/teachers',
-    },
-    {
+      groupId: 'courses',
       title: 'Kurslar',
       icon: BookAudio,
-      link: '/courses',
-    },
-    {
-      title: 'Kurs Assistant',
-      icon: Bot,
-      link: '/course-assistants',
+      items: [
+        { title: 'Ustozlar', link: '/teachers' },
+        { title: 'Kurslar', link: '/courses' },
+        { title: 'Kurs Assistant', link: '/course-assistants' },
+      ]
     },
     {
       title: 'Yangiliklar',
@@ -103,9 +107,13 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/info',
     },
     {
+      groupId: 'certificates',
       title: 'Sertifikatlar',
       icon: ShieldCheck,
-      link: '/certificate',
+      items: [
+        { title: 'Sertifikatlar', link: '/certificate' },
+        { title: 'Talabalar Sertifikatlari', link: '/user-certificate' },
+      ]
     },
     {
       title: 'Istoriyalar',
@@ -118,9 +126,15 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/banner',
     },
     {
+      groupId: 'shop',
       title: "Do'kon",
       icon: ShoppingBag,
-      link: '/category',
+      items: [
+        { title: 'Kategoriyalar', link: '/category' },
+        { title: 'Market Vazifalari', link: '/market-tasks' },
+        { title: 'Market Promocode', link: '/market-promocode' },
+        { title: 'Buyurtmalar', link: '/orders' },
+      ]
     },
     {
       title: 'Donation',
@@ -128,39 +142,25 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/donation',
     },
     {
-      title: 'PremiumPlan',
-      icon: Plane,
-      link: '/premium-plan',
-    },
-    {
+      groupId: 'premium',
       title: 'Premium',
       icon: BadgeCheck,
-      link: '/premium',
+      items: [
+        { title: 'Premium Plan', link: '/premium-plan' },
+        { title: 'Premium', link: '/premium' },
+      ]
     },
+
     {
-      title: 'Talabalar Sertifikatlari',
-      icon: GraduationCap,
-      link: '/user-certificate',
-    },
-    {
-      title: 'Promocode',
+      groupId: 'promocodes',
+      title: 'Promocodlar',
       icon: TicketPercent,
-      link: '/promocode',
-    },
-    {
-      title: 'Market Promocode',
-      icon: TicketPercent,
-      link: '/market-promocode',
-    },
-    {
-      title: 'Market Vazifalari',
-      icon: ListChecks,
-      link: '/market-tasks',
-    },
-    {
-      title: 'Buyurtmalar',
-      icon: MailQuestion,
-      link: '/orders',
+      items: [
+        { title: 'Promocode', link: '/promocode' },
+        { title: 'Market Promocode', link: '/market-promocode' },
+        { title: 'Baraban promocode', link: '/fortuna-promocode' },
+        { title: 'Darslar promocode', link: '/lesson-reward-promocode' },
+      ]
     },
     {
       title: 'Vakansiyalar',
@@ -173,38 +173,35 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/meeting',
     },
     {
-      title: "Baraban sovg'alar",
+      groupId: 'gifts',
+      title: "Sovg'alar",
       icon: Gift,
-      link: '/fortuna-product',
-    },
-    {
-      title: 'Baraban promocode',
-      icon: TicketPercent,
-      link: '/fortuna-promocode',
-    },
-    {
-      title: "Darslar sovg'alar",
-      icon: Gift,
-      link: '/lesson-reward',
-    },
-    {
-      title: 'Darslar promocode',
-      icon: TicketPercent,
-      link: '/lesson-reward-promocode',
-    },
-    {
-      title: "Darslarga sovg'a qo'shish",
-      icon: TicketPercent,
-      link: '/add-reward-to-lessons',
+      items: [
+        { title: "Baraban sovg'alari", link: '/fortuna-product' },
+        { title: "Darslar sovg'alari", link: '/lesson-reward' },
+        { title: "Darslarga sovg'a qo'shish", link: '/add-reward-to-lessons' },
+      ]
     },
   ];
 
-  const filteredMenuItems = userData?.role
-    ? menuItems.filter((item) => {
-        if (userData.role === UserRole.SUPER_ADMIN) return true;
-        return routePermissions[item.link]?.includes(userData.role);
-      })
-    : [];
+  const hasPermission = (item: any): boolean => {
+    if (!userData?.role) return false;
+    if (userData.role === UserRole.SUPER_ADMIN) return true;
+    
+    if (item.link) {
+      return routePermissions[item.link]?.includes(userData.role) || false;
+    }
+    
+    if (item.items) {
+      return item.items.some((subItem: any) => 
+        routePermissions[subItem.link]?.includes(userData.role)
+      );
+    }
+    
+    return false;
+  };
+
+  const filteredMenuItems = menuItems.filter(hasPermission);
 
   return (
     <aside className={cn({ 'w-full': isSideNavOpen }, 'sticky top-0 max-w-72 flex flex-col border-solid border-r-2 h-screen')}>
@@ -216,12 +213,64 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       </header>
       <div className="flex flex-col gap-1 p-2 overflow-y-auto">
         {filteredMenuItems.map((item, index) => (
-          <NavLink to={item.link} key={index} className={({ isActive }) => cn({ 'bg-secondary': isActive }, 'dark:text-white rounded block')}>
-            <Button variant="ghost" className={`w-full ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}>
-              <item.icon className="size-5 stroke-[1.3px]" />
-              {isSideNavOpen && <span className="ml-3">{item.title}</span>}
-            </Button>
-          </NavLink>
+          <div key={index}>
+            {item.items ? (
+              <div>
+                <Button
+                  variant="ghost"
+                  onClick={() => toggleGroup(item.groupId)}
+                  className={`w-full ${isSideNavOpen ? 'justify-between' : 'justify-center'} dark:text-white rounded`}
+                >
+                  <div className="flex items-center">
+                    <item.icon className="size-5 stroke-[1.3px]" />
+                    {isSideNavOpen && <span className="ml-3">{item.title}</span>}
+                  </div>
+                  {isSideNavOpen && (
+                    <ChevronDown
+                      className={`size-4 transition-transform ${
+                        expandedGroups[item.groupId] ? 'rotate-180' : ''
+                      }`}
+                    />
+                  )}
+                </Button>
+                {expandedGroups[item.groupId] && isSideNavOpen && (
+                  <div className="pl-4 flex flex-col gap-1">
+                    {item.items.map((subItem: any, subIndex: number) => (
+                      <NavLink
+                        to={subItem.link}
+                        key={subIndex}
+                        className={({ isActive }) =>
+                          cn(
+                            { 'bg-secondary': isActive },
+                            'dark:text-white rounded block text-sm'
+                          )
+                        }
+                      >
+                        <Button variant="ghost" className="w-full justify-start py-1 h-8">
+                          <span>{subItem.title}</span>
+                        </Button>
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <NavLink
+                to={item.link}
+                className={({ isActive }) =>
+                  cn({ 'bg-secondary': isActive }, 'dark:text-white rounded block')
+                }
+              >
+                <Button
+                  variant="ghost"
+                  className={`w-full ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}
+                >
+                  <item.icon className="size-5 stroke-[1.3px]" />
+                  {isSideNavOpen && <span className="ml-3">{item.title}</span>}
+                </Button>
+              </NavLink>
+            )}
+          </div>
         ))}
       </div>
     </aside>
