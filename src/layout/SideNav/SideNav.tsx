@@ -21,6 +21,7 @@ import {
   BarChart,
   Bot,
   Gift,
+  ListChecks,
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
@@ -51,6 +52,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/user-certificate': [UserRole.SUPER_ADMIN],
   '/promocode': [UserRole.SUPER_ADMIN],
   '/market-promocode': [UserRole.SUPER_ADMIN],
+  '/market-tasks': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/vacancy': [UserRole.SUPER_ADMIN],
   '/meeting': [UserRole.SUPER_ADMIN],
@@ -149,6 +151,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       title: 'Market Promocode',
       icon: TicketPercent,
       link: '/market-promocode',
+    },
+    {
+      title: 'Market Vazifalari',
+      icon: ListChecks,
+      link: '/market-tasks',
     },
     {
       title: 'Buyurtmalar',

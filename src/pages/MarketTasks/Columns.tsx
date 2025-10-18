@@ -1,25 +1,23 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
-import { LessonReward } from 'modules/course-reward-product/types';
-
+import { IMarketTask } from 'modules/market-taskts/types';
 
 interface IProps {
-  getRowData: (notification: LessonReward) => void;
+  getRowData: (notification: IMarketTask) => void;
   setSheetOpen: (state: boolean) => void;
   setDialogOpen: (state: boolean) => void;
 }
 
-export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<LessonReward>[] => [
+export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<IMarketTask>[] => [
   {
     accessorKey: 'title',
     header: 'Nomi',
   },
 
   {
-    accessorKey: 'type',
-    header: 'Turi',
+    accessorKey: 'points',
+    header: 'Points',
   },
-
 
   {
     accessorKey: 'id',

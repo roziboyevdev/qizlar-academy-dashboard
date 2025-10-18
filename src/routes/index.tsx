@@ -40,6 +40,7 @@ import FortunaPromocodePage from 'pages/FortunaPromocode/Page';
 import LessonRewardPage from 'pages/CourseReward/Page';
 import LessonRewardPromocodePage from 'pages/CourseRewardPromocode/Page';
 import AddRewardToLessons from 'pages/AddRewardToLessons/Page';
+import MarketTasksPage from 'pages/MarketTasks/Page';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -66,6 +67,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/user-certificate': [UserRole.SUPER_ADMIN],
   '/promocode': [UserRole.SUPER_ADMIN],
   '/market-promocode': [UserRole.SUPER_ADMIN],
+  '/market-tasks': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/vacancy': [UserRole.SUPER_ADMIN],
   '/meeting': [UserRole.SUPER_ADMIN],
@@ -101,6 +103,7 @@ const routes = [
   { path: '/user-certificate', element: <UsersCertificatesPage /> },
   { path: '/promocode', element: <PromocodePage /> },
   { path: '/market-promocode', element: <MarketPromocodePage /> },
+  { path: '/market-tasks', element: <MarketTasksPage /> },
   { path: '/orders', element: <OrdersPage /> },
   { path: '/vacancy', element: <VacancyPage /> },
   { path: '/meeting', element: <MeetingPage /> },
