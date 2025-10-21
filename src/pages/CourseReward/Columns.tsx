@@ -1,7 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { LessonReward } from 'modules/course-reward-product/types';
-
+import { Link } from 'react-router-dom';
+import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {
   getRowData: (notification: LessonReward) => void;
@@ -20,6 +21,23 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     header: 'Turi',
   },
 
+  {
+    accessorKey: 'reward',
+    header: 'File',
+    cell: ({ row }) => {
+      return row.original.file ? (
+        <Link to={row.original.file ? normalizeImgUrl(row.original.file as string) : '#'} className="text-blue-600" target="_blank">
+          file
+        </Link>
+      ) : row.original.photo ? (
+        <Link to={row.original.photo ? normalizeImgUrl(row.original.photo as string) : '#'} className="text-blue-600" target="_blank">
+          maxsulot rasmi
+        </Link>
+      ) : (
+        'not file'
+      );
+    },
+  },
 
   {
     accessorKey: 'id',

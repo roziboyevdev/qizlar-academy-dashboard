@@ -19,6 +19,7 @@ export const schema = z.object({
   type: z.nativeEnum(LessonRewardType, {
     errorMap: () => ({ message: "Sovg'a  type talab qilinadi" }),
   }),
+  file: z.union([z.custom<File>((file) => file instanceof File), z.string()]).optional(),
 });
 
 export type useFormSchemaType = z.infer<typeof schema>;

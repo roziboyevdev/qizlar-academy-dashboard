@@ -19,19 +19,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     accessorKey: 'orderId',
     header: 'Dars raqami',
   },
-  {
-    accessorKey: 'reward',
-    header: "sovg'a",
-    cell: ({ row }) => {
-      return row.original.file ? (
-        <Link to={row.original.file ? normalizeImgUrl(row.original.file as string) : '#'} className="text-blue-600" target="_blank">
-          file
-        </Link>
-      ) : (
-        row.original.reward
-      );
-    },
-  },
+
 
   {
     accessorKey: 'id',

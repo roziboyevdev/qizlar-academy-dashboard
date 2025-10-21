@@ -14,7 +14,6 @@ import { useCreateCourseReward } from 'modules/add-reward-to-lessons/hooks/useCr
 import { useEditCourseReward } from 'modules/add-reward-to-lessons/hooks/useEdit';
 import { useLessonRewardList } from 'modules/course-reward-product/hooks/useList';
 import { useSearchParams } from 'react-router-dom';
-
 interface IProps {
   selectedData?: ICourseReward;
   setSheetOpen: (state: boolean) => void;
@@ -50,13 +49,11 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
           courseId: selectedData ? searchParams.get('courseId') || '' : '',
           lessonId: selectedData.lessonId || '',
           rewardId: selectedData.rewardId || '',
-          file: selectedData.file || '',
         }
       : {
           courseId: '',
           lessonId: '',
           rewardId: '',
-          file: '',
         },
   });
 
@@ -66,23 +63,10 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);
     try {
-      let payload: ICourseRewardInput = {
-        courseId: formValues.courseId,
-        lessonId: formValues.lessonId,
-        rewardId: formValues.rewardId,
-        file: formValues.file || '',
-      };
-
-      // Agar file File tipida bo'lsa, uni yuklash
-      if (formValues.file && formValues.file instanceof File) {
-        payload = await uploadFile<ICourseRewardInput>(formValues, 'file');
-        delete payload.rewardId;
-      }
-
       if (selectedData) {
-        triggerEdit(payload);
+        triggerEdit(formValues);
       } else {
-        triggerCreate(payload);
+        triggerCreate(formValues);
       }
     } catch (error) {
       alert('Aniqlanmagan hatolik!');
@@ -160,25 +144,12 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
             />
           )}
 
-          {/* Mukofot ID yoki Fayl (kamida bittasi majburiy) */}
-          <div className="p-3 bg-gray-50 rounded-md border border-gray-200">
-            <p className="text-sm text-gray-600 mb-2">* Mukofot ID yoki fayl yuklash majburiy (kamida bittasi)</p>
-          </div>
-
           {/* Mukofot ID tanlash */}
           {loadingRewards ? (
-            <SelectField name="rewardId" data={[]} placeholder="Mukofotlar yuklanmoqda..." label="Mukofot ID (ixtiyoriy)" />
+            <SelectField name="rewardId" data={[]} placeholder="Mukofotlar yuklanmoqda..." label="Mukofot " />
           ) : (
-            <SelectField name="rewardId" data={rewardsData} placeholder="Mukofotni tanlang..." label="Mukofot ID (ixtiyoriy)" />
+            <SelectField name="rewardId" data={rewardsData} placeholder="Mukofotni tanlang..." label="Mukofot " />
           )}
-
-          {/* Fayl yuklash */}
-          <VideoUploadField
-            name="file"
-            label="Mukofot fayli (ixtiyoriy)"
-            defaultValue={typeof selectedData?.file === 'string' ? selectedData.file : undefined}
-            types={['JPG', 'PNG', 'GIF', 'MP4']}
-          />
         </div>
 
         <LoadingButton isLoading={state || isInfoCreatePending || isNotificationEditPending}>

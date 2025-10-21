@@ -9,7 +9,7 @@ import { schema, useFormSchemaType } from './schema';
 import NumberTextField from 'components/fields/Number';
 import { useCreateLessonReward } from 'modules/course-reward-product/hooks/useCreate';
 import { useEditLessonReward } from 'modules/course-reward-product/hooks/useEdit';
-import { LessonReward, LessonRewardType } from 'modules/course-reward-product/types';
+import { LessonReward, LessonRewardInputType, LessonRewardType } from 'modules/course-reward-product/types';
 
 interface IProps {
   product?: LessonReward;
@@ -20,7 +20,7 @@ const typeData = [
   { type: LessonRewardType.COIN, name: 'Coin' },
   { type: LessonRewardType.PRODUCT, name: 'Mahsulot' },
   { type: LessonRewardType.PROMOCODE, name: 'Promocode' },
-  { type: LessonRewardType.EMPTY, name: "Bo'sh bo'lim" },
+  { type: LessonRewardType.FILE, name: 'File' },
 ];
 
 export default function CustomForm({ product, setSheetOpen }: IProps) {
@@ -42,15 +42,17 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
       ? {
           title: product?.title,
           photo: product?.photo,
-          value: +product?.value,
-          count: +product?.count,
+          value: product?.value ? +product?.value : undefined,
+          count: product?.count ? +product?.count : undefined,
           description: product?.description,
           type: product.type,
+          file: product.file || '',
         }
       : {
           title: '',
           photo: '',
           description: '',
+          file: '',
         },
   });
 
@@ -58,15 +60,19 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
     setState(true);
     try {
       const firstValue = await uploadFile<LessonReward>(formValues, 'photo');
-      const data = {
-        ...firstValue,
-        count: +firstValue.count,
-        value: +firstValue.value,
+      let payload: LessonRewardInputType = {
+        ...formValues,
+        photo: firstValue.photo,
       };
+      // Agar file File tipida bo'lsa, uni yuklash
+      if (formValues.file && formValues.file instanceof File) {
+        payload = await uploadFile<LessonRewardInputType>(formValues, 'file');
+      }
+
       if (product) {
-        triggerEdit(data);
+        triggerEdit(payload);
       } else {
-        triggerCreate(data);
+        triggerCreate(payload);
       }
     } catch (error) {
       alert('Aniqlanmagan hatolik!');
@@ -91,6 +97,8 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           {type == LessonRewardType.PROMOCODE && <NumberTextField name="count" placeholder="Promocode soni" label="Promocode soni" required />}
 
           {type == LessonRewardType.PRODUCT && <FileField name={`photo`} label={`Mahsulot rasmi `} />}
+
+          {type == LessonRewardType.FILE && <FileField name={`file`} label={`Mukofot fayli`} />}
 
           <RichTextEditor name="description" label="Product tarifi" />
         </div>

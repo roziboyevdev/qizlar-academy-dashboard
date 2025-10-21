@@ -9,6 +9,8 @@ export const getData = (item?: LessonReward) => {
     description: item?.description ?? '',
     count: item?.count ?? 0,
     type: item?.type ?? LessonRewardType.EMPTY,
+    file: item?.file ?? '',
+
   };
 };
 
