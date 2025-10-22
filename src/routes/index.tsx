@@ -41,6 +41,7 @@ import LessonRewardPage from 'pages/CourseReward/Page';
 import LessonRewardPromocodePage from 'pages/CourseRewardPromocode/Page';
 import AddRewardToLessons from 'pages/AddRewardToLessons/Page';
 import MarketTasksPage from 'pages/MarketTasks/Page';
+import UsersHalfComplitedCoursesPage from 'pages/StatisticsHalfCompleteCourse/Page';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -112,6 +113,7 @@ const routes = [
   { path: '/lesson-reward', element: <LessonRewardPage /> },
   { path: '/lesson-reward-promocode', element: <LessonRewardPromocodePage /> },
   { path: '/add-reward-to-lessons', element: <AddRewardToLessons /> },
+  { path: '/half-completed-course-users', element: <UsersHalfComplitedCoursesPage /> },
 ];
 
 export const Routes = () => {

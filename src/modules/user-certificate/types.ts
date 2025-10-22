@@ -22,4 +22,5 @@ export interface IUserCertificate {
     title?: string;
   } | null;
   file?: string;
+
 }

@@ -25,6 +25,11 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     },
   },
   {
+    accessorKey: 'course',
+    header: 'Kurs',
+    cell: ({ row }) => <>{row.original?.course?.title} </>,
+  },
+  {
     accessorKey: 'user',
     header: 'Tel/Email',
     cell: ({ row }) => {
@@ -41,9 +46,9 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     },
   },
   {
-    accessorKey: 'course',
-    header: 'Kurs',
-    cell: ({ row }) => <>{row.original?.course?.title} </>,
+    accessorKey: 'adress',
+    header: 'Manzil',
+    cell: ({ row }) => <>{row.original?.user?.address?.region + ', ' + row.original?.user?.address?.district} </>,
   },
 
   {

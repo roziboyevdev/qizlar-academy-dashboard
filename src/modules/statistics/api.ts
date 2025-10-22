@@ -35,6 +35,12 @@ export const GetUsersByAuthMethod = async (type: AuthType, date?: DateRange) => 
   return await http.get(`/statistics/users/authMethod`, { params: { startDate, endDate, type } });
 };
 
+export const GetUsersByHalfCompletedCourses = async (type: AuthType, date?: DateRange) => {
+  const startDate = date?.from ? date.from?.toISOString() : '';
+  const endDate = date?.to ? date.to?.toISOString() : '';
+  return await http.get(`/statistics/users/with/half/complete/course`, { params: { startDate, endDate, type } });
+};
+
 export const GetLessonStatistics = async () => {
   return await http.get(`/statistics/by/lesson`);
 };

@@ -6,6 +6,7 @@ import NewUsersByAuthMethod from 'components/charts/NewUsersByAuthMethod';
 import SertificateStatistics from 'components/charts/CertificateStatistics';
 import LessonStatistics from 'components/charts/LessonStatistics';
 import CoinStatistics from 'components/charts/CoinStatistics';
+import StatisticHalfCompliteCourse from 'components/charts/StatisticHalfCompliteCourse';
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <DonationStatistics />
       <SertificateStatistics />
       <NewUsersByAuthMethod />
+      {/* <StatisticHalfCompliteCourse /> */}
     </div>
   );
 };
