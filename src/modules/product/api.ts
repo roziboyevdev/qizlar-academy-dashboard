@@ -1,8 +1,8 @@
 import http from 'services/api';
 import { ProductInputType, ProductEditBodyType } from './types';
 
-export const GetDatasList = async (pageSize:number , categoryId: string) => {
-  return await http.get(`/product?pageSize=${pageSize}`, { params: categoryId ? { categoryId } : null });
+export const GetDatasList = async (pageSize: number, pageNumber: number, categoryId: string) => {
+  return await http.get(`/product?pageSize=${pageSize}&pageNumber=${pageNumber}`, { params: categoryId ? { categoryId } : null });
 };
 
 export const CreateData = async (values: ProductInputType) => {

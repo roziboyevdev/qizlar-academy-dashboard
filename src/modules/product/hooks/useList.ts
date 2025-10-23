@@ -4,15 +4,17 @@ import { get } from 'lodash';
 import { getDatasList } from '../adapters';
 import { GetDatasList } from '../api';
 
-export const useProductsList = (pageSize: number, id: string) => {
+export const useProductsList = (pageSize: number, page: number, id: string) => {
   const initialData = {
     data: getDatasList(),
+    pagenationInfo: null,
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['products_list'],
-    queryFn: () => GetDatasList(pageSize, id),
+    queryKey: ['products_list', pageSize, page, id],
+    queryFn: () => GetDatasList(pageSize, page, id),
     select: (data) => ({
       data: getDatasList(get(data, 'data.data.data')),
+      pagenationInfo: get(data, 'data.data.meta.pagination'),
     }),
   });
 

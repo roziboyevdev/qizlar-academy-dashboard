@@ -30,6 +30,7 @@ const createMethods = [
 
 export default function CustomForm({ banner, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [state, setState] = useState(false);
   const { triggerCreate } = useCreateMarketPromocode({
@@ -43,7 +44,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
     setSheetOpen,
   });
 
-  const { data: productList } = useProductsList(200, '');
+  const { data: productList } = useProductsList(200, currentPage, '');
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),

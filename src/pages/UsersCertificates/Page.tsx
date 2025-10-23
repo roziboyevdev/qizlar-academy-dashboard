@@ -28,7 +28,7 @@ const UsersCertificatesPage = () => {
 
   const { data: categories, isLoading, pagenationInfo } = useUserCertificateList(currentPage, course, region, district);
   const { data: coursesList } = useCoursesList({ isEnabled: !!categories });
-console.log('categories', categories);
+
   const getRowData = (info: IUserCertificate) => {
     setData(info);
   };
