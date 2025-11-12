@@ -64,7 +64,17 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "warn",
+      "react-hooks/exhaustive-deps": "warn",
+      "eqeqeq": "warn",
+      "no-useless-escape": "warn",
+      "jsx-a11y/anchor-has-content": "warn",
+      "jsx-a11y/heading-has-content": "warn",
+      "react/jsx-no-target-blank": "warn",
+      "no-useless-concat": "warn"
+    }
   },
   "browserslist": {
     "production": [
