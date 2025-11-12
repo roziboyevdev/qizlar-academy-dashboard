@@ -16,3 +16,7 @@ export const EditData = async ({ values, id }: IMarketTaskEditBody) => {
 export const DeleteData = async (id: string) => {
   return await http.delete(`/market/tasks/${id}`);
 };
+
+export const GetSurveyList = async () => {
+  return await http.get(`/survey`);
+};

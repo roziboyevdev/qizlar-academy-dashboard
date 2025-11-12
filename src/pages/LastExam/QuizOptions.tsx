@@ -1,10 +1,5 @@
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from 'components/ui/form';
+import { FormControl, FormField, FormItem, FormMessage } from 'components/ui/form';
 import { RadioGroup, RadioGroupItem } from 'components/ui/radio-group';
 import { quizFormSchema } from './QuizForm';
 import RichTextEditorForQuiz from 'components/fields/RichTextEditorForQuiz';
@@ -16,11 +11,10 @@ export default function QuizOptions() {
     control,
   });
 
-
   return (
     <RadioGroup
-      value={`${optionsFields.findIndex(field => field.isCorrect)}`}
-      onValueChange={value => {
+      value={`${optionsFields.findIndex((field) => field.isCorrect)}`}
+      onValueChange={(value) => {
         optionsFields.forEach((_, index) => {
           setValue(`options.${index}.isCorrect`, index === +value);
         });
@@ -36,16 +30,13 @@ export default function QuizOptions() {
             <FormItem>
               <div className="flex items-center space-x-3">
                 <FormControl>
-                  <RadioGroupItem
-                    value={`${valuesIndex}`}
-                    checked={field.value}
-                  />
+                  <RadioGroupItem value={`${valuesIndex}`} checked={field.value} />
                 </FormControl>
                 {/* <TextField
                   name={`options.${valuesIndex}.value`}
                   placeholder="Javob matni..."
                 /> */}
-                <RichTextEditorForQuiz name={`options.${valuesIndex}.value`} label={`Javob ${valuesIndex +1}`}  />
+                <RichTextEditorForQuiz name={`options.${valuesIndex}.value`} label={`Javob ${valuesIndex + 1}`} />
               </div>
               <FormMessage />
             </FormItem>

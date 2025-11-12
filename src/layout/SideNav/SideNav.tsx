@@ -21,7 +21,7 @@ import {
   BarChart,
   Bot,
   Gift,
-  ListChecks,
+  ShieldQuestion,
   ChevronDown,
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
@@ -62,6 +62,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/lesson-reward': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/survey': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
 };
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
@@ -181,6 +182,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
         { title: "Darslar sovg'alari", link: '/lesson-reward' },
         { title: "Darslarga sovg'a qo'shish", link: '/add-reward-to-lessons' },
       ]
+    },
+      {
+      title: "So'rovnomalar",
+      icon: ShieldQuestion ,
+      link: '/survey',
     },
   ];
 

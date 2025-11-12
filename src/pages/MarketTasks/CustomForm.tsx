@@ -1,15 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'components/ui/form';
-import { FileField, RichTextEditor, TextField } from 'components/fields';
+import { FileField, RichTextEditor, TextField, SelectField, DatePickerField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { schema, useFormSchemaType } from './schema';
 import NumberTextField from 'components/fields/Number';
 import { useCreateMarketTask } from 'modules/market-taskts/hooks/useCreate';
 import { useEditMarketTask } from 'modules/market-taskts/hooks/useEdit';
 import { IMarketTask, IMarketTaskInput } from 'modules/market-taskts/types';
+import { FREQUENCY_OPTIONS, EVENT_OPTIONS, TYPE_OPTIONS, TaskType } from 'modules/market-taskts/constants';
+import { Label } from 'components/ui/label';
+import { Switch } from 'components/ui/switch';
+import { useSurveyList } from 'modules/survey/hooks/useList';
 
 interface IProps {
   product?: IMarketTask;
@@ -20,6 +24,8 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
   const [state, setState] = useState(false);
 
   const { uploadFile } = useFileUploader();
+  // const { surveys, isLoading: isSurveysLoading } = useSurveyList();
+  const { data: surveys, isLoading: isSurveysLoading, paginationInfo } = useSurveyList(20);
 
   const { triggerCreate, isPending: isInfoCreatePending } = useCreateMarketTask({
     setSheetOpen,
@@ -37,21 +43,33 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           photo: product?.photo,
           points: +product?.points,
           description: product?.description,
+          frequency: product?.frequency,
+          event: product?.event,
+          type: product?.type,
+          surveyId: product?.surveyId,
+          isActive: product?.isActive,
+          startsAt: product?.startsAt ? new Date(product.startsAt) : undefined,
+          endsAt: product?.endsAt ? new Date(product.endsAt) : undefined,
         }
       : {
           title: '',
           photo: '',
           description: '',
+          isActive: true,
         },
   });
+
+  const selectedType = form.watch('type');
 
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);
     try {
       const firstValue = await uploadFile<IMarketTaskInput>(formValues, 'photo');
-      const data = {
+      const data: IMarketTaskInput = {
         ...firstValue,
         points: +firstValue.points,
+        startsAt: firstValue.startsAt ? new Date(firstValue.startsAt).toISOString() : undefined,
+        endsAt: firstValue.endsAt ? new Date(firstValue.endsAt).toISOString() : undefined,
       };
       if (product) {
         triggerEdit(data);
@@ -67,17 +85,47 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
   console.log(form.formState.errors);
 
+  const surveyOptions = surveys.map((survey) => ({
+    name: survey.question,
+    type: survey.id,
+  }));
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
-          <TextField name="title" label="Topshiriq  nomi" required />
+          <TextField name="title" label="Topshiriq nomi" required />
 
-          <NumberTextField name="points" placeholder="Topshiriq points" label="Topshiriq points" required />
+          <NumberTextField name="points" placeholder="Coin miqdori" label="Coin miqdori" required />
 
-          <FileField name={`photo`} label={`Topshiriq rasmi `} />
+          <FileField name={`photo`} label={`Topshiriq rasmi`} />
 
-          <RichTextEditor name="description" label="Topshiriq tarifi" />
+          <RichTextEditor name="description" label="Topshiriq tarifi" required />
+
+          <SelectField name="frequency" label="Chastota" placeholder="Chastota tanlang" data={FREQUENCY_OPTIONS} required />
+
+          <SelectField name="event" label="Hodisa" placeholder="Hodisa tanlang" data={EVENT_OPTIONS} required />
+
+          <SelectField name="type" label="Turi" placeholder="Tur tanlang" data={TYPE_OPTIONS} required />
+
+          {selectedType === TaskType.SURVEY && (
+            <SelectField
+              name="surveyId"
+              label="So'rovnoma"
+              placeholder={isSurveysLoading ? 'Yuklanmoqda...' : "So'rovnoma tanlang"}
+              data={surveyOptions}
+              required
+            />
+          )}
+
+          <div className="flex items-center gap-2">
+            <Switch id="isActive" checked={form.watch('isActive')} onCheckedChange={(checked) => form.setValue('isActive', checked)} />
+            <Label htmlFor="isActive">Faol</Label>
+          </div>
+
+          <DatePickerField name="startsAt" label="Boshlanish sanasi" placeholder="Sana tanlang" />
+
+          <DatePickerField name="endsAt" label="Tugash sanasi" placeholder="Sana tanlang" />
         </div>
         {product ? (
           <LoadingButton isLoading={isNotificationEditPending}>Tahrirlash</LoadingButton>
