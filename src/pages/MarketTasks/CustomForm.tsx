@@ -108,6 +108,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
           <SelectField name="type" label="Turi" placeholder="Tur tanlang" data={TYPE_OPTIONS} required />
 
+
           {selectedType === TaskType.SURVEY && (
             <SelectField
               name="surveyId"
