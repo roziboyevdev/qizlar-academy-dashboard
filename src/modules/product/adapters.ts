@@ -1,4 +1,3 @@
-import { count } from "console";
 import { ProductType } from "./types";
 export const getData = (item?: ProductType) => {
   return {

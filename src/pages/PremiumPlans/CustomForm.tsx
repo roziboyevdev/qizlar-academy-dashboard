@@ -23,7 +23,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
   const [state, setState] = useState(false);
 
   const [properties, setProperties] = useState([1]);
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreatePremiumPlan({
+  const { triggerCreate } = useCreatePremiumPlan({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditPremiumPlan({

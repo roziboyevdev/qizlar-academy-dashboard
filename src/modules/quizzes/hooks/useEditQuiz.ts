@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
 
-import { QuizInput } from '../types';
 import { EditQuiz } from '../api';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';

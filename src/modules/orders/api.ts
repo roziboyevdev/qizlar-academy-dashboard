@@ -1,5 +1,5 @@
 import http from 'services/api';
-import { IOrderInput, OrderType } from './types';
+import { IOrderInput } from './types';
 
 export const GetDatasList = async (currentPage: number, type: string) => {
   return await http.get(`/order?pageSize=10&pageNumber=${currentPage}&type=${type}`);

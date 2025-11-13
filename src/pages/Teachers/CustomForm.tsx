@@ -22,7 +22,7 @@ export default function CustomForm({ certificate, setSheetOpen }: IProps) {
   const [switchState, setSwitchState] = useState<boolean>(initialState);
   const [state, setState] = useState(false);
   const { uploadFile } = useFileUploader();
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateTeacher({
+  const { triggerCreate } = useCreateTeacher({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditTeacher({

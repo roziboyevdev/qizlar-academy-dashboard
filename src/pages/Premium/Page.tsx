@@ -18,7 +18,7 @@ const PremiumPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [data, setData] = useState<Premium>();
-  const { categoryId } = useParams();
+  // const { categoryId } = useParams();
 
   const { data: notificationsList, isLoading, paginationInfo } = usePremiumList(currentPage);
 

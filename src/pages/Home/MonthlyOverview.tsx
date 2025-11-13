@@ -1,4 +1,4 @@
-import { BadgeCheck, Calendar, Crown, Puzzle, Users, Video, View } from 'lucide-react';
+import { BadgeCheck, Crown, Puzzle, Users, Video, View } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card';
 import { Skeleton } from 'components/ui/skeleton';
 import { useMonthlyOverview } from 'modules/statistics/hooks/useMonthlyOverview';

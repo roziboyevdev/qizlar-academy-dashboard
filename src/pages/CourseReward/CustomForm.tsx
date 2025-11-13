@@ -28,7 +28,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
   const { uploadFile } = useFileUploader();
 
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateLessonReward({
+  const { triggerCreate } = useCreateLessonReward({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditLessonReward({
@@ -92,13 +92,13 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           <TextField name="title" label="Sovg'a nomi" required />
           <SelectField name="type" data={typeData} placeholder="Sovg'a turini tanlang..." label="Sovg'a turini tanglang" required />
 
-          {type == LessonRewardType.COIN && <NumberTextField name="value" placeholder="Coin miqdori" label="Coin miqdori" required />}
+          {type === LessonRewardType.COIN && <NumberTextField name="value" placeholder="Coin miqdori" label="Coin miqdori" required />}
 
-          {type == LessonRewardType.PROMOCODE && <NumberTextField name="count" placeholder="Promocode soni" label="Promocode soni" required />}
+          {type === LessonRewardType.PROMOCODE && <NumberTextField name="count" placeholder="Promocode soni" label="Promocode soni" required />}
 
-          {type == LessonRewardType.PRODUCT && <FileField name={`photo`} label={`Mahsulot rasmi `} />}
+          {type === LessonRewardType.PRODUCT && <FileField name={`photo`} label={`Mahsulot rasmi `} />}
 
-          {type == LessonRewardType.FILE && <FileField name={`file`} label={`Mukofot fayli`} />}
+          {type === LessonRewardType.FILE && <FileField name={`file`} label={`Mukofot fayli`} />}
 
           <RichTextEditor name="description" label="Product tarifi" />
         </div>

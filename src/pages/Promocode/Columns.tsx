@@ -38,7 +38,7 @@ export const createVacancyColumns = ({
       const value = row.original.discountValue;
 
       return (
-        <> {type == DiscountEnum.PERCENT ? value + "%" : value +" " + "ming"} </>
+        <> {type === DiscountEnum.PERCENT ? value + "%" : value +" " + "ming"} </>
       );
     },
   },

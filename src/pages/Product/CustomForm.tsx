@@ -27,7 +27,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
   const initialState = product?.title ? product?.isActive : true;
   const [switchState, setSwitchState] = useState<boolean>(initialState);
   const [state, setState] = useState(false);
-  const { uploadFile: easyFileUpload, isPending } = useEasyFileUploader();
+  const { uploadFile: easyFileUpload } = useEasyFileUploader();
 
   // Photo field'lar soni
   const getInitialPhotoCount = () => {

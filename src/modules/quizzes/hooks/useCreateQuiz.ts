@@ -2,11 +2,11 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from 'components/ui/use-toast';
 import { CreateQuiz } from '../api';
-import { QuizInput } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
 interface IHook {
+  id?: string;
   setSheetOpen: (state: boolean) => void;
 }
 

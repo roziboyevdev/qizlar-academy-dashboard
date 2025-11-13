@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
 import CustomSwitch from 'components/SwitchIsDreft';
 import NumberTextField from 'components/fields/Number';
-import { useParams } from 'react-router-dom';
 import { FortunaProduct, FortunaProductType } from 'modules/fortuna-product/types';
 import { useEditProductFortuna } from 'modules/fortuna-product/hooks/useEdit';
 import { useCreateProductFortuna } from 'modules/fortuna-product/hooks/useCreate';
@@ -32,7 +31,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
   const { uploadFile } = useFileUploader();
 
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateProductFortuna({
+  const { triggerCreate } = useCreateProductFortuna({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditProductFortuna({
@@ -100,13 +99,13 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           <NumberTextField name="probability" placeholder="0 dan 10 gacha oraliqda" label="Sovg'ani tushish ehtimoligi" required />
           <SelectField name="type" data={typeData} placeholder="Sovg'a turini tanlang..." label="Sovg'a turini tanglang" required />
 
-          {type == FortunaProductType.COIN && <NumberTextField name="value" placeholder="Coin miqdori" label="Coin miqdori" required />}
+          {type === FortunaProductType.COIN && <NumberTextField name="value" placeholder="Coin miqdori" label="Coin miqdori" required />}
 
-          {(type == FortunaProductType.PROMOCODE || type == FortunaProductType.PRODUCT) && (
+          {(type === FortunaProductType.PROMOCODE || type === FortunaProductType.PRODUCT) && (
             <NumberTextField name="count" placeholder="Promocode soni" label="Promocode soni" required />
           )}
 
-          {type == FortunaProductType.PRODUCT && <FileField name={`photo`} label={`Mahsulot rasmi `} />}
+          {type === FortunaProductType.PRODUCT && <FileField name={`photo`} label={`Mahsulot rasmi `} />}
 
           <RichTextEditor name="content" label="Product tarifi" />
 

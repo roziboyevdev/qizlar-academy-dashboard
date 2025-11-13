@@ -12,15 +12,11 @@ import PromocodeGenerateForm from './PromocodeGenerateForm';
 import { Button } from 'components/ui/button';
 import { Plus } from 'lucide-react';
 import MediaUploadField from 'components/fields/VideoUploder';
-import { Form } from 'components/ui/form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { checkFileSchema, useCheckFileSchemaType } from './schema';
 import CheckFileForm from './CheckFileForm';
 
 const MarketPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [loading, setIsLoading] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isGenerateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [isCheckSheetOpen, setCheckSheetOpen] = useState(false);

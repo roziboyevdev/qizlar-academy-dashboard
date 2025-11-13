@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { HalfCompleteCourse, IUserHalfCompleteCourse } from 'modules/statistic-half-complete-course/types';
+import { HalfCompleteCourse } from 'modules/statistic-half-complete-course/types';
 
 interface IProps {
   getRowData: (user: any) => void;

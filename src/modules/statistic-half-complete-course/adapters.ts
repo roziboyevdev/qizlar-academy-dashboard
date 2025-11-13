@@ -1,4 +1,3 @@
-import { first } from 'lodash';
 import { IUserHalfCompleteCourse } from './types';
 
 export const getData = (item?: IUserHalfCompleteCourse) => {

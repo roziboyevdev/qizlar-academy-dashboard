@@ -42,9 +42,9 @@ interface IProps {
 export default function CourseForm({ vacancy, setSheetOpen }: IProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { triggerVacancyCreate, isPending: isCourseCreatePending } = useCreateMeeting({ setSheetOpen });
+  const { triggerVacancyCreate } = useCreateMeeting({ setSheetOpen });
 
-  const { triggerMeetingEdit, isPending: isCourseEditPending } = useEditMeeting({
+  const { triggerMeetingEdit } = useEditMeeting({
     id: vacancy?.id,
     setSheetOpen,
   });

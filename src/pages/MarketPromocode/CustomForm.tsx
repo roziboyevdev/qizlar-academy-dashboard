@@ -30,7 +30,7 @@ const createMethods = [
 
 export default function CustomForm({ banner, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage] = useState(1);
 
   const [state, setState] = useState(false);
   const { triggerCreate } = useCreateMarketPromocode({

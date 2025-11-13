@@ -82,10 +82,10 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
   }
 
   useEffect(() => {
-    if (type == BannerType.COURSE || notification?.type == BannerType.COURSE) {
+    if (type === BannerType.COURSE || notification?.type === BannerType.COURSE) {
       form.register('objectId', { required: 'Kursni tanlash talab qilinadi' });
     }
-    if (type == BannerType.LINK || notification?.type == BannerType.LINK) {
+    if (type === BannerType.LINK || notification?.type === BannerType.LINK) {
       form.register('link', { required: 'Link kiritish talab qilinadi' });
     }
   }, [type, form, notification]);
@@ -112,14 +112,14 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
 
           <SelectField name="type" data={bannerTypeData} placeholder="Notification turini tanlang..." label="Notification turini tanlang" />
 
-          {(type == BannerType.COURSE || (notification && notification?.objectId)) &&
+          {(type === BannerType.COURSE || (notification && notification?.objectId)) &&
             (coursesData?.length ? (
               <SelectField name="objectId" key="objectId" data={coursesData} placeholder="Kursni  tanlang..." label="Kursni  tanglang" />
             ) : (
               'no courses'
             ))}
 
-          {(type == BannerType.LINK || (notification && notification?.link)) && (
+          {(type === BannerType.LINK || (notification && notification?.link)) && (
             <TextField name="link" key="link" label="Notification linki" required />
           )}
         </div>

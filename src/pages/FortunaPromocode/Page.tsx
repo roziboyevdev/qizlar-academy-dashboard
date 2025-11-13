@@ -15,7 +15,6 @@ import { useDeleteFortunaPromocode } from 'modules/fortuna-promocode/hooks/useDe
 
 const FortunaPromocodePage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [loading, setIsLoading] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isGenerateSheetOpen, setGenerateSheetOpen] = useState(false);
   const [isCheckSheetOpen, setCheckSheetOpen] = useState(false);

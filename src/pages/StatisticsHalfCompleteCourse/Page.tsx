@@ -9,8 +9,6 @@ import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import regions from '../../db/regions.json';
 import districtData from '../../db/districts.json';
 import SelectWithoutForm from 'components/fields/SelectWithoutForm';
-import http from 'services/api';
-import { Button } from 'components/ui/button';
 import { useUserByHalfCourse } from 'modules/statistic-half-complete-course/hooks/useList';
 import { IUserHalfCompleteCourse } from 'modules/statistic-half-complete-course/types';
 import { DateRange } from 'react-day-picker';
@@ -22,7 +20,6 @@ export type CustomSelectType = { name: string; id: string | number; disabled?: b
 const UsersHalfComplitedCoursesPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
-  const [isPanding, setPanding] = useState(false);
   const [data, setData] = useState<IUserHalfCompleteCourse>();
   const [currentPage, setCurrentPage] = useState(1);
   const [course, setCourse] = useState('');

@@ -15,7 +15,7 @@ const FortunaProductPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [data, setData] = useState<FortunaProduct>();
-  const { categoryId } = useParams();
+  // const { categoryId } = useParams();
   const { data: notificationsList, isLoading } = useProductFortunaList(20);
   const { triggerInfoDelete } = useDeleteProductFortuna(data?.id!);
 

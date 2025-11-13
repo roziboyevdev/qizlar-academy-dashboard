@@ -6,11 +6,6 @@ import { showErrorToast } from 'utils/showErrorToast';
 import { IOrderInput } from '../types';
 import { EditData } from '../api';
 
-interface IHook {
-  id?: string;
-  setSheetOpen: (state: boolean) => void;
-}
-
 export const useEditOrder = () => {
   const { toast } = useToast();
   const { mutate, isPending, isSuccess, isError } = useMutation({

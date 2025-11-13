@@ -3,10 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'components/ui/form';
 import { SelectField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
-import useFileUploader from 'hooks/useFileUploader';
 import { useEffect, useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
-import { useParams } from 'react-router-dom';
 import { Premium } from 'modules/premium/types';
 import { usePremiumPlansList } from 'modules/premium-plan/hooks/useList';
 
@@ -26,16 +24,16 @@ export default function CustomForm({ premium, setSheetOpen }: IProps) {
   // const { categoryId } = useParams();
   const [state, setState] = useState(false);
   // const [properties, setProperties] = useState([1]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearchValue = useDebounce(searchValue, 300);
   const [planesData, setplanesData] = useState<SelectType[]>([]);
   const [usersData, setUsersData] = useState<SelectType[]>([]);
 
   // const { uploadFile } = useFileUploader();
-  const { data: planList, isLoading, paginationInfo } = usePremiumPlansList(currentPage, 10);
+  const { data: planList, isLoading } = usePremiumPlansList(currentPage, 10);
 
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreatePremium({
+  const { triggerCreate } = useCreatePremium({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditPremium({

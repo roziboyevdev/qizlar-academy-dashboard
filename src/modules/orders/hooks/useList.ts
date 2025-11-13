@@ -3,8 +3,6 @@ import { get } from 'lodash';
 
 import { getDatasList } from '../adapters';
 import { GetDatasList } from '../api';
-import { OrderType } from '../types';
-
 export const useOredersList = (currentPage: number, type:string) => {
   const initialData = {
     data: getDatasList(),

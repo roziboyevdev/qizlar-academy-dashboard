@@ -1,4 +1,4 @@
-import http, { httpV2 } from 'services/api';
+import { httpV2 } from 'services/api';
 import { StoryV2InputType, StoryV2EditBodyType } from './types';
 
 export const GetDatasList = async () => {

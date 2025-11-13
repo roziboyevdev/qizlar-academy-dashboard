@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Module } from 'modules/modules/types';
 
 import { Form } from 'components/ui/form';
-import { SelectField, TextAreaField, TextField } from 'components/fields';
+import { SelectField, TextField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useCreateModule } from 'modules/modules/hooks/useCreateModule';
@@ -87,7 +87,7 @@ export default function ModuleForm({ module, lastDataOrder: lastModuleOrder, set
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <TextField name="title" label="Bo'lim nomi" required />
-          {type == 'PAID' && <SelectField name="degree" data={levelData} placeholder="Module darajasini tanlang..." label="Module darajasi" />}
+          {type === 'PAID' && <SelectField name="degree" data={levelData} placeholder="Module darajasini tanlang..." label="Module darajasi" />}
           <CustomSwitch
             state={switchState}
             setState={setSwitchState}

@@ -1,4 +1,4 @@
-import { useForm, useFieldArray, FieldValues } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'components/ui/form';
 import { TextField, SelectField } from 'components/fields';
@@ -29,7 +29,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
   const { data: courses, isLoading: isCoursesLoading } = useCoursesList();
 
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateSurvey({
+  const { triggerCreate } = useCreateSurvey({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditSurvey({

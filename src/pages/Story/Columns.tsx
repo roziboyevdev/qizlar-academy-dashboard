@@ -53,14 +53,14 @@ export const createDataColumns = ({
       accessorKey: 'video',
       header: 'Video',
       cell: ({ row }) => {
-        return <a style={{ color: "blue", cursor: "pointer" }} target="_blank" href={`${baseMediaUrl}/${row.getValue("video")}`}>Videoni ko'rish</a>;
+        return <a style={{ color: "blue", cursor: "pointer" }} target="_blank" rel="noreferrer noopener" href={`${baseMediaUrl}/${row.getValue("video")}`}>Videoni ko'rish</a>;
       },
     },
     {
       accessorKey: 'link',
       header: 'Link',
       cell: ({ row }) => {
-        return <a style={{ color: "blue", cursor: "pointer" }} target="_blank" href={row.getValue('link')}>Link</a>;
+        return <a style={{ color: "blue", cursor: "pointer" }} target="_blank" rel="noreferrer noopener" href={row.getValue('link')}>Link</a>;
       },
     },
 

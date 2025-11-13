@@ -30,7 +30,7 @@ export const createInfoColumns = ({
       accessorKey: 'url',
       header: 'Link',
       cell: ({ row }) => {
-        return <a style={{ color: "blue" }} target="_blank" href={row.getValue('url')}>Link</a>;
+        return <a style={{ color: "blue" }} target="_blank" rel="noreferrer noopener" href={row.getValue('url')}>Link</a>;
       },
     },
     {

@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'components/ui/form';
-import { SelectField, TextField } from 'components/fields';
+import { SelectField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { useEffect, useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
-import { ICourseReward, ICourseRewardInput } from 'modules/add-reward-to-lessons/types';
+import { ICourseReward } from 'modules/add-reward-to-lessons/types';
 import VideoUploadField from 'components/fields/VideoUploder';
 import { useCourseLessonsList } from 'modules/lessons/hooks/useCourseLessonsList';
 import { useCreateCourseReward } from 'modules/add-reward-to-lessons/hooks/useCreate';
@@ -22,7 +22,7 @@ interface IProps {
 export type SelectType = { name: string; type: string; disabled?: boolean };
 
 export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
   const [lessonsData, setLessonsData] = useState<SelectType[]>([]);
@@ -30,7 +30,6 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
   const [selectedCourseId, setSelectedCourseId] = useState<string>('');
   const [state, setState] = useState(false);
 
-  const { uploadFile } = useFileUploader();
   const { triggerCreate, isPending: isInfoCreatePending } = useCreateCourseReward({ setSheetOpen });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditCourseReward({
     id: selectedData?.id,

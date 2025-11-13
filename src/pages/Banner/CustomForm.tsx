@@ -29,7 +29,7 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
 
   const [state, setState] = useState(false);
   const { uploadFile } = useFileUploader();
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateBanner({
+  const { triggerCreate } = useCreateBanner({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditBanner({
@@ -83,15 +83,15 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
   // console.log(form.setError(title,));
 
   useEffect(() => {
-    if (type == BannerType.COURSE || banner?.type == BannerType.COURSE) {
+    if (type === BannerType.COURSE || banner?.type === BannerType.COURSE) {
       form.register('objectId', { required: 'Kursni tanlash talab qilinadi' });
     }
-    if (type == BannerType.LINK || banner?.type == BannerType.LINK) {
+    if (type === BannerType.LINK || banner?.type === BannerType.LINK) {
       console.log('link');
 
       form.register('link', { required: 'Link kiritish talab qilinadi' });
     }
-    if (type == BannerType.CONTENT || banner?.type == BannerType.CONTENT) {
+    if (type === BannerType.CONTENT || banner?.type === BannerType.CONTENT) {
       form.register('content', { required: 'Banner kontenti talab qilinadi' });
     }
   }, [type, form, banner]);
@@ -117,17 +117,17 @@ export default function CustomForm({ banner, setSheetOpen }: IProps) {
           <FileField name="photo" label="Banner rasmi" />
           <SelectField name="type" data={bannerTypeData} placeholder="Banner turini tanlang..." label="Banner turini tanglang" />
 
-          {(type == BannerType.COURSE || (banner && banner?.objectId)) &&
+          {(type === BannerType.COURSE || (banner && banner?.objectId)) &&
             (coursesData?.length ? (
               <SelectField name="objectId" key="objectId" data={coursesData} placeholder="Kursni  tanlang..." label="Kursni  tanglang" />
             ) : (
               'no courses'
             ))}
 
-          {(type == BannerType.LINK || (banner && banner?.link)) && <TextField name="link" key="link" label="Banner linki" required />}
+          {(type === BannerType.LINK || (banner && banner?.link)) && <TextField name="link" key="link" label="Banner linki" required />}
 
           <TextField name="title" key="title" label="Banner nomi" required />
-          {type == BannerType.CONTENT && (
+          {type === BannerType.CONTENT && (
             <>
               <TextField name="content" key="content" label="Banner kontenti" required />
             </>

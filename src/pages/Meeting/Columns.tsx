@@ -21,7 +21,7 @@ export const createMeetingColumns = ({ getRowData, setSheetOpen, setDialogOpen }
     accessorKey: 'link',
     header: 'Link',
     cell: ({ row }) => (
-      <a style={{ color: 'blue' }} href={row.original.link} target="_blank">
+      <a style={{ color: 'blue' }} href={row.original.link} target="_blank" rel="noreferrer noopener">
         Link
       </a>
     ),

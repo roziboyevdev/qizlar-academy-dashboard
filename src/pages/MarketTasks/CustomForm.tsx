@@ -4,7 +4,7 @@ import { Form } from 'components/ui/form';
 import { FileField, RichTextEditor, TextField, SelectField, DatePickerField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
 import NumberTextField from 'components/fields/Number';
 import { useCreateMarketTask } from 'modules/market-taskts/hooks/useCreate';
@@ -25,9 +25,9 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
   const { uploadFile } = useFileUploader();
   // const { surveys, isLoading: isSurveysLoading } = useSurveyList();
-  const { data: surveys, isLoading: isSurveysLoading, paginationInfo } = useSurveyList(20);
+  const { data: surveys, isLoading: isSurveysLoading } = useSurveyList(20);
 
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateMarketTask({
+  const { triggerCreate } = useCreateMarketTask({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditMarketTask({

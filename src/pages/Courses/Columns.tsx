@@ -53,7 +53,7 @@ export const createCourseColumns = ({ getRowData, setSheetOpen, setDialogOpen, c
       const pricingType = row.getValue('pricingType') as string;
       return (
         <Badge variant={pricingType === 'PAID' ? 'default' : 'secondary'}>
-          {pricingType === 'PAID' ? 'PRO' : pricingType == 'TOURISM' ? 'Turizm' : 'BEPUL'}
+          {pricingType === 'PAID' ? 'PRO' : pricingType === 'TOURISM' ? 'Turizm' : 'BEPUL'}
         </Badge>
       );
     },

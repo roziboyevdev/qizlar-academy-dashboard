@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Module } from 'modules/modules/types';
 import { DataTableRowActions } from 'components/DataTableRowActions';
-import { timeConverter } from 'utils/timeConverter';
+// import { timeConverter } from 'utils/timeConverter';
 
 interface IProps {
   getRowData: (module: Module) => void;

@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { ICourseReward } from 'modules/add-reward-to-lessons/types';
-import { Link } from 'react-router-dom';
 import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {

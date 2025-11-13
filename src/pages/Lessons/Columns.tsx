@@ -26,12 +26,12 @@ export const createLessonColumns = ({ getRowData, setSheetOpen, setDialogOpen }:
       return (
         <a
           href={
-            row.original.linkType == LessonLinkType.VIDEO
+            row.original.linkType === LessonLinkType.VIDEO
               ? `https://iframe.mediadelivery.net/play/504451/${row.getValue('link')}`
               : row.getValue('link')
           }
           className="hover:underline text-blue-500"
-          target="_blank"
+          target="_blank" rel="noreferrer noopener"
           onClick={(e) => e.stopPropagation()}
         >
           Havola

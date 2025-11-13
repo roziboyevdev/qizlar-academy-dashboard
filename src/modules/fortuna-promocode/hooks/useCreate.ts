@@ -1,14 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { useToast } from 'components/ui/use-toast';
 import { CreateData } from '../api';
+import { useToast } from 'components/ui/use-toast';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
-import { IMarketPromocodeInput } from '../types';
 
 interface IHook {
   setSheetOpen: (state: boolean) => void;
 }
-
 export const useCreateFortunaPromocode = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 

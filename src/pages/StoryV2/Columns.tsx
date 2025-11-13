@@ -20,7 +20,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     header: 'Story rasmi',
     cell: ({ row }) => {
       return (
-        <a style={{ color: 'blue', cursor: 'pointer' }} target="_blank" href={`${baseMediaUrl}/${row.getValue('thumbnailUrl')}`}>
+        <a style={{ color: 'blue', cursor: 'pointer' }} target="_blank" rel="noreferrer noopener" href={`${baseMediaUrl}/${row.getValue('thumbnailUrl')}`}>
           Rasmni ko'rish
         </a>
       );

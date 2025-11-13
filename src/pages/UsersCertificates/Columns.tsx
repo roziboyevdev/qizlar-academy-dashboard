@@ -55,7 +55,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen, cur
     accessorKey: 'file',
     header: 'Sertifikat',
     cell: ({ row }) => (
-      <a href={normalizeImgUrl(row.original?.file || '')} target="_blank" className="text-blue-700">
+      <a href={normalizeImgUrl(row.original?.file || '')} target="_blank" rel="noreferrer noopener" className="text-blue-700">
         File
       </a>
     ),

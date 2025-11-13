@@ -26,11 +26,11 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     header: 'File',
     cell: ({ row }) => {
       return row.original.file ? (
-        <Link to={row.original.file ? normalizeImgUrl(row.original.file as string) : '#'} className="text-blue-600" target="_blank">
+        <Link to={row.original.file ? normalizeImgUrl(row.original.file as string) : '#'} className="text-blue-600" target="_blank" rel="noreferrer noopener">
           file
         </Link>
       ) : row.original.photo ? (
-        <Link to={row.original.photo ? normalizeImgUrl(row.original.photo as string) : '#'} className="text-blue-600" target="_blank">
+        <Link to={row.original.photo ? normalizeImgUrl(row.original.photo as string) : '#'} className="text-blue-600" target="_blank" rel="noreferrer noopener">
           maxsulot rasmi
         </Link>
       ) : (

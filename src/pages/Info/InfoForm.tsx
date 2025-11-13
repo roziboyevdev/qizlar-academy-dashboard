@@ -41,7 +41,7 @@ export default function InfoForm({
   const [coursesData, setCoursesData] = useState<CourseSelectType[]>([])
   const [state, setState] = useState(false)
   const { uploadFile } = useFileUploader();
-  const { triggerInfoCreate, isPending: isInfoCreatePending } =
+  const { triggerInfoCreate } =
     useCreateInfo({ setSheetOpen });
   const { triggerInfoEdit, isPending: isNotificationEditPending } = useEditInfo({
     id: notification?.id,

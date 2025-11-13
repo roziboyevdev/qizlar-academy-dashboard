@@ -85,13 +85,13 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
   const type = form.watch("type");
 
   useEffect(() => {
-    if (type == BannerType.COURSE || story?.type == BannerType.COURSE) {
+    if (type === BannerType.COURSE || story?.type === BannerType.COURSE) {
       form.register("objectId", { required: "Kursni tanlash talab qilinadi" });
     }
-    if (type == BannerType.LINK || story?.type == BannerType.LINK) {
+    if (type === BannerType.LINK || story?.type === BannerType.LINK) {
       form.register("link", { required: "Link kiritish talab qilinadi" });
     }
-    if (type == BannerType.CONTENT || story?.type == BannerType.CONTENT) {
+    if (type === BannerType.CONTENT || story?.type === BannerType.CONTENT) {
       form.register("content", { required: "Banner kontenti talab qilinadi" });
     }
   }, [type, story]);
@@ -147,7 +147,7 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
             label="Hikoya turini tanglang"
           />
 
-          {(type == BannerType.COURSE || (story && story?.objectId)) &&
+          {(type === BannerType.COURSE || (story && story?.objectId)) &&
             (coursesData?.length ? (
               <SelectField
                 name="objectId"
@@ -160,11 +160,11 @@ export default function CustomForm({ story, setSheetOpen }: IProps) {
               "Kurslar yuklanishda hatolik!"
             ))}
 
-          {(type == BannerType.LINK || (story && story?.link)) && (
+          {(type === BannerType.LINK || (story && story?.link)) && (
             <TextField name="link" key="link" label="Hikoya linki" required />
           )}
 
-          {type == BannerType.CONTENT && (
+          {type === BannerType.CONTENT && (
             <>
               <TextField
                 name="content"

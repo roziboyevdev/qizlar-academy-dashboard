@@ -65,7 +65,7 @@ export const createCourseColumns = ({ getRowData, setSheetOpen, setDialogOpen, c
             setSheetOpen={setSheetOpen}
             showAddTest={true}
             addTestEl={<Link to={`/exam/${row.getValue('id')}`}>Yakuniy test qo'shish</Link>}
-            showBattle={row.original.type == 'PROFESSION'}
+            showBattle={row.original.type === 'PROFESSION'}
             addBattleEl={<Link to={`/battle-question/${row.getValue('id')}`}>Battle test qo'shish</Link>}
           />
         </div>

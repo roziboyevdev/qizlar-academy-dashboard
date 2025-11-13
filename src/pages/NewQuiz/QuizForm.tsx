@@ -76,7 +76,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     setLoading(true)
     try {
       const res = await http.get(`quiz/${id}`)
-      if (res.status == 200) {
+      if (res.status === 200) {
         const data = res?.data?.data
 
         form.setValue("options", data?.quizOptions)
@@ -253,7 +253,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
 //     setLoading(true);
 //     try {
 //       const res = await http.get(`quiz/${id}`);
-//       if (res.status == 200) {
+//       if (res.status === 200) {
 //         const data = res?.data?.data;
 
 //         form.setValue('options', data?.quizOptions);

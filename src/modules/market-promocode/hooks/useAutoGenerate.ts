@@ -1,9 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
-import { CreateData, GenerateData } from '../api';
+import { GenerateData } from '../api';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
-import { IMarketPromocodeInput } from '../types';
 
 interface IHook {
   setSheetOpen: (state: boolean) => void;

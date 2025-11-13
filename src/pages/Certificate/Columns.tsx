@@ -29,7 +29,7 @@ export const createDataColumns = ({
         <Link
           to={normalizeImgUrl(row.getValue("photo"))}
           className="text-blue-600"
-          target="_blank"
+          target="_blank" rel="noreferrer noopener"
         >
           file
         </Link>

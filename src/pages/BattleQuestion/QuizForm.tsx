@@ -52,7 +52,7 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
     setLoading(true);
     try {
       const res = await http.get(`battle-game/${id}`);
-      if (res.status == 200) {
+      if (res.status === 200) {
         const data = res?.data?.data;
         console.log(data);
 

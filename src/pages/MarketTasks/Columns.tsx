@@ -26,7 +26,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     header: 'Rasm',
     cell: ({ row }) => {
       return (
-        <Link to={normalizeImgUrl(row.getValue('photo'))} className="text-blue-600" target="_blank">
+        <Link to={normalizeImgUrl(row.getValue('photo'))} className="text-blue-600" target="_blank" rel="noreferrer noopener">
           file
         </Link>
       );

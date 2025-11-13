@@ -26,7 +26,7 @@ export default function CustomForm({
   const initialState = category?.title ? category?.isActive : true
   const [switchState, setSwitchState] = useState<boolean>(initialState)
 
-  const { triggerCreate, isPending: isInfoCreatePending } = useCreateCategories({ setSheetOpen });
+  const { triggerCreate } = useCreateCategories({ setSheetOpen });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditCategories({ id: category?.id, setSheetOpen});
 console.log(switchState);
 

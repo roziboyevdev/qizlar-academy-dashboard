@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { ICourseAssistant } from 'modules/course-assistant/types';
-import { Course } from 'modules/courses/types';
 import { Link } from 'react-router-dom';
 import normalizeImgUrl from 'utils/normalizeFileUrl';
 
@@ -27,7 +26,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
         <Link
           to={row.getValue('staticAnimation') ? normalizeImgUrl(row.getValue('staticAnimation')) : '#'}
           className="text-blue-600"
-          target="_blank"
+          target="_blank" rel="noreferrer noopener"
         >
           file
         </Link>
@@ -44,7 +43,7 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
         <Link
           to={row.getValue('thinkingAnimation') ? normalizeImgUrl(row.getValue('thinkingAnimation')) : '#'}
           className="text-blue-600"
-          target="_blank"
+          target="_blank" rel="noreferrer noopener"
         >
           file
         </Link>
