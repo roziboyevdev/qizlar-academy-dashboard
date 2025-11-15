@@ -28,6 +28,7 @@ export const schema = z
       errorMap: () => ({ message: 'Turi tanlanishi shart' }),
     }),
     surveyId: z.string().optional(),
+    completedCourseCount: z.union([z.number(), z.string()]).optional(),
     isActive: z.boolean().optional().default(true),
     startsAt: z.date().optional(),
     endsAt: z.date().optional(),
@@ -56,6 +57,32 @@ export const schema = z
     {
       message: 'Tugash sanasi boshlanish sanasidan keyinroq bo\'lishi kerak',
       path: ['endsAt'],
+    }
+  )
+  .refine(
+    (data) => {
+      // If event is COMPLETE_COURSE, completedCourseCount is required
+      if (data.event === TaskEvent.COMPLETE_COURSE) {
+        return !!data.completedCourseCount && Number(data.completedCourseCount) > 0;
+      }
+      return true;
+    },
+    {
+      message: 'Kursni yakunlash hodisasi uchun yakunlangan kurslar soni talab qilinadi',
+      path: ['completedCourseCount'],
+    }
+  )
+  .refine(
+    (data) => {
+      // If frequency is SPECIAL, both dates are required
+      if (data.frequency === TaskFrequency.SPECIAL) {
+        return !!data.startsAt && !!data.endsAt;
+      }
+      return true;
+    },
+    {
+      message: 'Maxsus chastota uchun boshlanish va tugash sanasi talab qilinadi',
+      path: ['startsAt'],
     }
   );
 

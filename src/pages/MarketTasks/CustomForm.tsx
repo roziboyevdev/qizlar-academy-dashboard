@@ -10,7 +10,7 @@ import NumberTextField from 'components/fields/Number';
 import { useCreateMarketTask } from 'modules/market-taskts/hooks/useCreate';
 import { useEditMarketTask } from 'modules/market-taskts/hooks/useEdit';
 import { IMarketTask, IMarketTaskInput } from 'modules/market-taskts/types';
-import { FREQUENCY_OPTIONS, EVENT_OPTIONS, TYPE_OPTIONS, TaskType } from 'modules/market-taskts/constants';
+import { FREQUENCY_OPTIONS, EVENT_OPTIONS, TYPE_OPTIONS, TaskType, TaskEvent, TaskFrequency } from 'modules/market-taskts/constants';
 import { Label } from 'components/ui/label';
 import { Switch } from 'components/ui/switch';
 import { useSurveyList } from 'modules/survey/hooks/useList';
@@ -47,6 +47,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           event: product?.event,
           type: product?.type,
           surveyId: product?.surveyId,
+          completedCourseCount: product?.completedCourseCount,
           isActive: product?.isActive,
           startsAt: product?.startsAt ? new Date(product.startsAt) : undefined,
           endsAt: product?.endsAt ? new Date(product.endsAt) : undefined,
@@ -60,6 +61,8 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
   });
 
   const selectedType = form.watch('type');
+  const selectedEvent = form.watch('event');
+  const selectedFrequency = form.watch('frequency');
 
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);
@@ -68,6 +71,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
       const data: IMarketTaskInput = {
         ...firstValue,
         points: +firstValue.points,
+        completedCourseCount: firstValue.completedCourseCount ? +firstValue.completedCourseCount : undefined,
         startsAt: firstValue.startsAt ? new Date(firstValue.startsAt).toISOString() : undefined,
         endsAt: firstValue.endsAt ? new Date(firstValue.endsAt).toISOString() : undefined,
       };
@@ -106,6 +110,10 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
           <SelectField name="event" label="Hodisa" placeholder="Hodisa tanlang" data={EVENT_OPTIONS} required />
 
+          {selectedEvent === TaskEvent.COMPLETE_COURSE && (
+            <NumberTextField name="completedCourseCount" placeholder="Yakunlangan kurslar soni" label="Yakunlangan kurslar soni" required />
+          )}
+
           <SelectField name="type" label="Turi" placeholder="Tur tanlang" data={TYPE_OPTIONS} required />
 
 
@@ -124,9 +132,13 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
             <Label htmlFor="isActive">Faol</Label>
           </div>
 
-          <DatePickerField name="startsAt" label="Boshlanish sanasi" placeholder="Sana tanlang" />
+          {selectedFrequency === TaskFrequency.SPECIAL && (
+            <>
+              <DatePickerField name="startsAt" label="Boshlanish sanasi" placeholder="Sana tanlang" required />
 
-          <DatePickerField name="endsAt" label="Tugash sanasi" placeholder="Sana tanlang" />
+              <DatePickerField name="endsAt" label="Tugash sanasi" placeholder="Sana tanlang" required />
+            </>
+          )}
         </div>
         {product ? (
           <LoadingButton isLoading={isNotificationEditPending}>Tahrirlash</LoadingButton>

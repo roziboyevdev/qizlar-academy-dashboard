@@ -11,6 +11,11 @@ interface IProps {
 
 export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<ISurvey>[] => [
   {
+    accessorKey: 'title',
+    header: 'Sarlavha',
+  },
+
+  {
     accessorKey: 'question',
     header: 'Savol',
   },

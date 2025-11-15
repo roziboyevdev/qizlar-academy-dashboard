@@ -41,6 +41,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
     resolver: zodResolver(schema),
     defaultValues: product
       ? {
+          title: product?.title,
           question: product?.question,
           context: product?.context,
           points: product?.points,
@@ -49,6 +50,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           lessonId: product?.lessonId,
         }
       : {
+          title: '',
           question: '',
           context: undefined,
           points: undefined,
@@ -72,6 +74,7 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
     setState(true);
     try {
       const data: ISurveyInput = {
+        title: formValues.title,
         question: formValues.question,
         context: formValues.context,
         points: formValues.points ? +formValues.points : undefined,
@@ -109,6 +112,8 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
+          <TextField name="title" label="Sarlavha" required />
+
           <TextField name="question" label="Savol" required />
 
           <SelectField name="context" label="Kontekst" placeholder="Kontekst tanlang" data={CONTEXT_OPTIONS} required />

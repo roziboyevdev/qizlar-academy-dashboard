@@ -10,6 +10,7 @@ export interface IMarketTask {
   event: TaskEvent;
   type: TaskType;
   surveyId?: string;
+  completedCourseCount?: number;
   isActive: boolean;
   startsAt?: string;
   endsAt?: string;
@@ -25,6 +26,7 @@ export interface IMarketTaskInput {
   event: TaskEvent;
   type: TaskType;
   surveyId?: string;
+  completedCourseCount?: number;
   isActive?: boolean;
   startsAt?: string;
   endsAt?: string;

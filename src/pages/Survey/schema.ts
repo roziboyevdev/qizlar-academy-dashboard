@@ -3,6 +3,7 @@ import { SurveyContext } from 'modules/survey/constants';
 
 export const schema = z
   .object({
+    title: z.string().min(3, { message: 'Title talab qilinadi' }),
     question: z.string().min(3, { message: 'Savol talab qilinadi' }),
     context: z.nativeEnum(SurveyContext, {
       errorMap: () => ({ message: 'Kontekst tanlanishi shart' }),

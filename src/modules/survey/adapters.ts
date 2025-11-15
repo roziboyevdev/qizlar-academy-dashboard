@@ -4,6 +4,7 @@ import { SurveyContext } from './constants';
 export const getData = (item?: ISurvey): ISurvey => {
   return {
     id: item?.id ?? '',
+    title: item?.title ?? '',
     question: item?.question ?? '',
     context: item?.context ?? SurveyContext.GENERAL,
     points: item?.points,

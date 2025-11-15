@@ -2,6 +2,7 @@ import { SurveyContext } from './constants';
 
 export interface ISurvey {
   id: string;
+  title: string;
   question: string;
   context: SurveyContext;
   points?: number;
@@ -12,6 +13,7 @@ export interface ISurvey {
 }
 
 export interface ISurveyInput {
+  title: string;
   question: string;
   context: SurveyContext;
   points?: number;
