@@ -22,7 +22,10 @@ interface IProps {
 const locationData = [
   { type: BannerLocationType.HOME, name: 'Home' },
   { type: BannerLocationType.SHOP, name: "Do'kon" },
+  { type: BannerLocationType.PORTFOLIO_LEADERBOARD, name: 'Portfolio Leaderboard' },
 ];
+
+
 
 export default function CustomForm({ banner, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);

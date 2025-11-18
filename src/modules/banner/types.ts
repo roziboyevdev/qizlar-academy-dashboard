@@ -1,7 +1,11 @@
 export enum BannerLocationType {
   HOME = 'HOME',
   SHOP = 'SHOP',
+  PORTFOLIO_LEADERBOARD = 'PORTFOLIO_LEADERBOARD',
 }
+
+
+
 
 export enum BannerType {
   COURSE = 'COURSE',
