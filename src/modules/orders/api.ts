@@ -1,8 +1,27 @@
 import http from 'services/api';
 import { IOrderInput } from './types';
 
-export const GetDatasList = async (currentPage: number, type: string) => {
-  return await http.get(`/order?pageSize=10&pageNumber=${currentPage}&type=${type}`);
+interface OrderFilters {
+  type: string;
+  status?: string;
+  firstname?: string;
+  lastname?: string;
+  phone?: string;
+}
+
+export const GetDatasList = async (currentPage: number, filters: OrderFilters) => {
+  const params = new URLSearchParams({
+    pageSize: '10',
+    pageNumber: currentPage.toString(),
+    type: filters.type,
+  });
+
+  if (filters.status) params.append('status', filters.status);
+  if (filters.firstname) params.append('firstname', filters.firstname);
+  if (filters.lastname) params.append('lastname', filters.lastname);
+  if (filters.phone) params.append('phone', filters.phone);
+
+  return await http.get(`/order?${params.toString()}`);
 };
 
 export const EditData = async ({ status, id }: IOrderInput) => {

@@ -3,7 +3,16 @@ import { get } from 'lodash';
 
 import { getDatasList } from '../adapters';
 import { GetDatasList } from '../api';
-export const useOredersList = (currentPage: number, type:string) => {
+
+interface OrderFilters {
+  type: string;
+  status?: string;
+  firstname?: string;
+  lastname?: string;
+  phone?: string;
+}
+
+export const useOredersList = (currentPage: number, filters: OrderFilters) => {
   const initialData = {
     data: getDatasList(),
     pagenationInfo: {
@@ -14,8 +23,8 @@ export const useOredersList = (currentPage: number, type:string) => {
     },
   };
   const { data = initialData, ...args } = useQuery({
-    queryKey: ['order_list', currentPage, type],
-    queryFn: () => GetDatasList(currentPage, type),
+    queryKey: ['order_list', currentPage, filters],
+    queryFn: () => GetDatasList(currentPage, filters),
     select: (data) => ({
       data: getDatasList(get(data, 'data.data.data')),
       pagenationInfo: get(data, 'data.data.meta.pagination'),
