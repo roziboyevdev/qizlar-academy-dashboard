@@ -1,37 +1,41 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
 
-import { CertificateInputType } from '../types';
-import { EditData } from '../api';
+import { CertificateInputType, CreateRecommendationCertificateType } from '../types';
+import { EditData, RecomEditData } from '../api';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
 interface IHook {
-  id?: string;
+  id: string ;
+  type: 'certificate' | 'recommendation';
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useEditCertificate = ({ id = '', setSheetOpen }: IHook) => {
+
+// ****************************************  EDIT CERTIFICATE  **********************************************
+
+export const useEditRow = ({ id, type, setSheetOpen }: IHook) => {
   const { toast } = useToast();
+  
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: CertificateInputType) => EditData({ values, id }),
+    mutationFn: (values: CertificateInputType | CreateRecommendationCertificateType) =>
+      type === 'certificate'
+        ? EditData({ values: values as CertificateInputType, id })
+        : RecomEditData({ values: values as CreateRecommendationCertificateType, id }),
     onSuccess: () => {
       toast({
         variant: 'success',
         title: 'Tasdiqlandi!',
-        description: 'Malumot muvaffaqiyatli tahrirlandi.',
+        description: 'Ma’lumot muvaffaqiyatli tahrirlandi.',
       });
-      queryClient.invalidateQueries({ queryKey: ['certificates_list'] });
+      queryClient.invalidateQueries({ queryKey: [type === 'certificate' ? 'certificates_list' : 'recommendation_list'] });
       setSheetOpen(false);
     },
     onError: (error: any) => showErrorToast(error),
   });
 
-  return {
-    triggerEdit: mutate,
-    isPending,
-    isSuccess,
-    isError,
-  };
+  return { triggerEdit: mutate, isPending, isSuccess, isError };
 };
+

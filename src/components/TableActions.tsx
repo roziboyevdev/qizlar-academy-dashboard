@@ -6,15 +6,19 @@ import { useState } from 'react';
 
 interface IProps {
   sheetTriggerTitle?: string;
+  sheetTriggerTitle2?: string;
   sheetTitle?: string;
+  sheetTitle2?: string;
   lastDataOrder?: number;
   TableForm?: any;
+  TableForm2?:any;
   isAddButtonHidden?: boolean;
   children?: React.ReactNode;
 }
 
-export const TableActions = ({ sheetTriggerTitle, sheetTitle, lastDataOrder, TableForm, isAddButtonHidden, children }: IProps) => {
+export const TableActions = ({ sheetTriggerTitle, sheetTriggerTitle2, sheetTitle2, sheetTitle, lastDataOrder, TableForm, TableForm2, isAddButtonHidden, }: IProps) => {
   const [isSheetOpen, setSheetOpen] = useState(false);
+  const [isSheetOpen2, setSheetOpen2] = useState(false);
 
   return (
     <div className="flex items-center justify-between mb-4">
@@ -24,20 +28,33 @@ export const TableActions = ({ sheetTriggerTitle, sheetTitle, lastDataOrder, Tab
           <Search className="size-4" />
         </Button>
       </div>
+  
+    
+      
 
-      <div className="flex   items-center gap-2">
-        {!isAddButtonHidden && (
-          <Button onClick={() => setSheetOpen(true)}>
-            <Plus className="size-4 mr-2" />
-            {sheetTriggerTitle}
-          </Button>
-        )}
-        {children}
-      </div>
+
+          {/* sertificat qoshish */}
+          
+        <div className="flex   items-center gap-2">
+          {!isAddButtonHidden && (
+            <Button onClick={() => setSheetOpen(true)}>
+              <Plus className="size-4 mr-2" />
+              {sheetTriggerTitle}
+            </Button>
+          )}
+         
+        </div>
+
+
+
+      <Sheet sheetTitle={sheetTitle2} isOpen={isSheetOpen2} setSheetOpen={setSheetOpen2}>
+        <TableForm2 lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen2} />
+      </Sheet>
 
       <Sheet sheetTitle={sheetTitle} isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
         <TableForm lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen} />
       </Sheet>
+
     </div>
   );
 };

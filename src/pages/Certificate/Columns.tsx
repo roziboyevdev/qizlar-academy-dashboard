@@ -1,12 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "components/DataTableRowActions";
 import { CertificateType } from "modules/certificate/types";
-import { Course } from "modules/courses/types";
+import { RecommendationType } from "modules/certificate/types";
 import { Link } from "react-router-dom";
 import normalizeImgUrl from "utils/normalizeFileUrl";
 
+// Union type for table rows
+export type TableRowType = CertificateType | RecommendationType;
+
 interface IProps {
-  getRowData: (notification: CertificateType) => void;
+  getRowData: (row: TableRowType) => void;
   setSheetOpen: (state: boolean) => void;
   setDialogOpen: (state: boolean) => void;
 }
@@ -15,42 +18,44 @@ export const createDataColumns = ({
   getRowData,
   setSheetOpen,
   setDialogOpen,
-}: IProps): ColumnDef<CertificateType>[] => [
+}: IProps): ColumnDef<TableRowType>[] => [
   {
-    accessorKey: "photo",
+    id: "photo",
+    accessorFn: (row) => row.photo,
     header: "Icon",
-    // cell: ({ row }) => {
-    //   return <img src={`https://upload.ustozai-app.uz/${row.getValue('photo')}`} alt="img" width={80} height={60} style={{
-    //     objectFit: "cover"
-    //   }} loading="lazy" />;
-    // },
-    cell: ({ row }) => {
-      return (
-        <Link
-          to={normalizeImgUrl(row.getValue("photo"))}
-          className="text-blue-600"
-          target="_blank" rel="noreferrer noopener"
-        >
-          file
-        </Link>
-      );
-    },
-  },
-  {
-    accessorKey: "degree",
-    header: "Daraja",
-  },
-  {
-    accessorKey: "course",
-    header: "Kurs",
-    cell: ({ row }) => {
-      const course = row.getValue("course") as Course;
-      return <> {course?.title} </>;
-    },
+    cell: ({ row }) => (
+      <Link
+        to={normalizeImgUrl(row.getValue("photo") as string)}
+        className="text-blue-600"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        file
+      </Link>
+    ),
   },
 
   {
-    accessorKey: "id",
+    id: "degreeOrType",
+    accessorFn: (row) => ("degree" in row ? row.degree : row.type),
+    header: "Daraja / Type",
+  },
+
+  {
+    id: "course",
+    accessorFn: (row) => {
+      if ("course" in row) {
+        if (typeof row.course === "string") return row.course;
+        return row.course.title;
+      }
+      return "";
+    },
+    header: "Kurs",
+  },
+
+  {
+    id: "actions",
+    accessorFn: (row) => row.id,
     header: () => <span className="sr-only">Actions</span>,
     size: 50,
     cell: ({ row }) => (

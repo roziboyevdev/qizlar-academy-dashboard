@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from 'components/ui/use-toast';
-import { CreateData } from '../api';
-import { CertificateInputType } from '../types';
+import { CreateData, CreateRecommendationData } from '../api';
+import { CertificateInputType, CreateRecommendationCertificateType } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
@@ -36,6 +36,34 @@ export const useCreateCertificate = ({ setSheetOpen }: IHook) => {
   });
   return {
     triggerCreate: mutateAsync,
+    isPending,
+    isSuccess,
+    isError,
+  };
+};
+
+export const useCreateRecommendationCertificate = ({ setSheetOpen }: IHook) => {
+  const { toast } = useToast();
+
+  const { mutateAsync, isPending, isSuccess, isError } = useMutation({
+    mutationFn: (values: CreateRecommendationCertificateType) => {
+      return CreateRecommendationData(values)
+    },
+    onSuccess: () => {
+      toast({
+        variant: 'success',
+        title: 'Tasdiqlandi!',
+        description: 'Kurs haqida malumot muvaffaqiyatli yaratildi.',
+      });
+      queryClient.invalidateQueries({ queryKey: ['RecCertificates_list'] });
+      setSheetOpen(false);
+    },
+    onError: (error: any) => {
+      showErrorToast(error)
+    },
+  });
+  return {
+    recTriggerCreate: mutateAsync,
     isPending,
     isSuccess,
     isError,

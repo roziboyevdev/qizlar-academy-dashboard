@@ -6,55 +6,68 @@ import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import { useEffect, useState } from 'react';
-import { CertificateInputType, CertificateType } from 'modules/certificate/types';
-import { useEditCertificate } from 'modules/certificate/hooks/useEdit';
+import { CertificateType, RecommendationType, RecEnum, CertificateInputType } from 'modules/certificate/types';
+import { useEditRow } from 'modules/certificate/hooks/useEdit';
 import { useCreateCertificate } from 'modules/certificate/hooks/useCreate';
-import { schema, useFormSchemaType } from './schema';
-import { bannerTypeData } from 'constants/banner';
+import { schema, recSchema, useFormSchemaType } from './schema';
 
 interface IProps {
-  certificate?: CertificateType;
+  certificate?: CertificateType | RecommendationType;
   setSheetOpen: (state: boolean) => void;
 }
-const degreeData = [{ type: "GOLD", name: "Oltin" }, { type: "SILVER", name: "Kumush" }, { type: "BRONZE", name: "Bronza" }]
 
-export type SelectType = { name: string, type: string ,disabled?: boolean}
-export default function CustomForm({
-  certificate,
-  setSheetOpen,
-}: IProps) {
+const degreeData = [
+  { type: "GOLD", name: "Oltin" },
+  { type: "SILVER", name: "Kumush" },
+  { type: "BRONZE", name: "Bronza" }
+];
 
-  const [coursesData, setCoursesData] = useState<SelectType[]>([])
-  const [state, setState] = useState(false)
+const recommendationData = [
+  { type: RecEnum.AMATEUR, name: "Havaskor" },
+  { type: RecEnum.PROGRESSIVE, name: "Progressive" }
+];
+
+export type SelectType = { name: string; type: string; disabled?: boolean };
+
+export default function CustomForm({ certificate, setSheetOpen }: IProps) {
+  const [coursesData, setCoursesData] = useState<SelectType[]>([]);
+  const [state, setState] = useState(false);
   const { uploadFile } = useFileUploader();
-  const { triggerCreate } =
-    useCreateCertificate({ setSheetOpen });
-  const { triggerEdit, isPending: isNotificationEditPending } = useEditCertificate({
-    id: certificate?.id,
+  const { triggerCreate } = useCreateCertificate({ setSheetOpen });
+
+  const isRecommendation = certificate && 'type' in certificate;
+
+  // Hooks: useEditRow
+  const { triggerEdit, isPending: isEditPending } = useEditRow({
+    id: certificate?.id || '',
     setSheetOpen,
+    type: isRecommendation ? 'recommendation' : 'certificate',
   });
 
-  // get courses 
+  // Courses list
   const { data: coursesList, isLoading: loadingCourses } = useCoursesList();
 
   const form = useForm<useFormSchemaType>({
-    resolver: zodResolver(schema),
-    defaultValues: certificate
+  resolver: zodResolver(isRecommendation ? recSchema : schema),
+  defaultValues: certificate
+    ? isRecommendation
       ? {
-        degree: certificate?.degree,
-        photo: certificate?.photo,
-        courseId: certificate?.course?.id
-      }
+          type: certificate.type as RecEnum, // <- bu muammoni hal qiladi
+          photo: certificate.photo,
+          courseId: certificate.course.id,
+        }
       : {
-        degree: '',
-        photo: '',
-        courseId: ''
-      },
-  });
+          degree: certificate.degree,
+          photo: certificate.photo,
+          courseId: certificate.course?.id,
+        }
+    : { degree: '', type: undefined, photo: '', courseId: '' },
+});
+
 
   async function onSubmit(formValues: useFormSchemaType) {
     try {
-      setState(true)
+      setState(true);
       const values = await uploadFile<CertificateInputType>(formValues, 'photo');
       if (certificate) {
         triggerEdit(values);
@@ -62,60 +75,59 @@ export default function CustomForm({
         triggerCreate(values);
       }
     } catch (error) {
-      setState(false)
-      alert("Aniqlanmagan hatolik!")
+      setState(false);
+      alert("Aniqlanmagan hatolik!");
     }
   }
 
   useEffect(() => {
-    let newArr: SelectType[] = [{
-      name: "All",
-      type: "all"
-    }]
-    coursesList.forEach(el => newArr.push({
-      name: el.title, type: el.id,
-    }))
-    setCoursesData(newArr)
-  }, [coursesList])
+    let newArr: SelectType[] = [{ name: "All", type: "all" }];
+    coursesList.forEach(el => newArr.push({ name: el.title, type: el.id }));
+    setCoursesData(newArr);
+  }, [coursesList]);
 
-  
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
           <FileField name="photo" label="Malumot rasmi" />
-          <SelectField
-            name="degree"
-            data={degreeData}
-            placeholder="Darajani tanlang..."
-            label="Darajani tanglang"
-          />
-          {
-            loadingCourses && !certificate ? (<SelectField
+
+          {isRecommendation ? (
+            <SelectField
+              name="type"
+              data={recommendationData}
+              placeholder="Type tanlang..."
+              label="Type"
+            />
+          ) : (
+            <SelectField
+              name="degree"
+              data={degreeData}
+              placeholder="Darajani tanlang..."
+              label="Daraja"
+            />
+          )}
+
+          {loadingCourses && !certificate ? (
+            <SelectField
               name="courseId"
-              data={bannerTypeData}
-              placeholder="Kurslar hali yuklanmagan..."
-              label="Kurslar hali yuklanmagan"
-            />) : (<SelectField
+              data={[{ name: "Loading...", type: "loading" }]}
+              placeholder="Kurslar yuklanmoqda..."
+              label="Kurslar"
+            />
+          ) : (
+            <SelectField
               name="courseId"
               data={coursesData}
               placeholder="Kursni tanlang..."
-              label="Kursni tanglang"
-            />)
-          }
+              label="Kursni tanlang"
+            />
+          )}
         </div>
-        {certificate ? (
-          <LoadingButton isLoading={isNotificationEditPending}>
-            Tahrirlash
-          </LoadingButton>
-        ) : (
-          <LoadingButton isLoading={state}>
-            Saqlash
-          </LoadingButton>
-        )}
+
+        <LoadingButton isLoading={certificate ? isEditPending : state}>
+          {certificate ? "Tahrirlash" : "Saqlash"}
+        </LoadingButton>
       </form>
     </Form>
   );
