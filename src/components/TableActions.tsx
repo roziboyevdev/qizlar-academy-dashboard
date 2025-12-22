@@ -31,8 +31,16 @@ export const TableActions = ({ sheetTriggerTitle, sheetTriggerTitle2, sheetTitle
   
     
       
-
-
+    <div className='flex gap-5'>
+         <div className="flex   items-center gap-2">
+          {!isAddButtonHidden && (
+            <Button onClick={() => setSheetOpen2(true)}>
+              <Plus className="size-4 mr-2" />
+              {sheetTriggerTitle2}
+            </Button>
+          )}
+         
+        </div>
           {/* sertificat qoshish */}
           
         <div className="flex   items-center gap-2">
@@ -44,6 +52,8 @@ export const TableActions = ({ sheetTriggerTitle, sheetTriggerTitle2, sheetTitle
           )}
          
         </div>
+    </div>
+    
 
 
 
