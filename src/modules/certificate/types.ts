@@ -22,8 +22,8 @@ export interface RecommendationType {
 }
 
 export enum RecEnum {
-  AMATEUR = 'AMATEUR',
-  PROGRESSIVE = 'PROGRESSIVE'
+  AMATEUR = 'AMATEUR', 
+  PROGRESSIVE = 'PROGRESSIVE', 
 }
 
 export interface CreateRecommendationCertificateType {

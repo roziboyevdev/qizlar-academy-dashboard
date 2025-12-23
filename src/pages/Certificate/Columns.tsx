@@ -1,7 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActions } from "components/DataTableRowActions";
-import { CertificateType } from "modules/certificate/types";
-import { RecommendationType } from "modules/certificate/types";
+import { CertificateType, RecommendationType, RecEnum } from "modules/certificate/types";
 import { Link } from "react-router-dom";
 import normalizeImgUrl from "utils/normalizeFileUrl";
 
@@ -13,6 +12,19 @@ interface IProps {
   setSheetOpen: (state: boolean) => void;
   setDialogOpen: (state: boolean) => void;
 }
+
+// Mapping for recommendation type to uzbek label
+const typeLabelMap: Record<RecEnum, string> = {
+  [RecEnum.AMATEUR]: "Havaskor",
+  [RecEnum.PROGRESSIVE]: "Rivojlanayotgan",
+};
+
+// Mapping for certificate degree to uzbek label
+const degreeLabelMap: Record<string, string> = {
+  GOLD: "Oltin",
+  SILVER: "Kumush",
+  BRONZE: "Bronza",
+};
 
 export const createDataColumns = ({
   getRowData,
@@ -37,8 +49,11 @@ export const createDataColumns = ({
 
   {
     id: "degreeOrType",
-    accessorFn: (row) => ("degree" in row ? row.degree : row.type),
-    header: "Daraja / Type",
+    accessorFn: (row) =>
+      "degree" in row
+        ? degreeLabelMap[row.degree] || row.degree
+        : typeLabelMap[row.type as RecEnum] || row.type,
+    header: "Daraja / Tur",
   },
 
   {
