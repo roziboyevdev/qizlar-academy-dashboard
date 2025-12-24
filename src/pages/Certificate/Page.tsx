@@ -50,6 +50,7 @@ const Certificate = () => {
         sheetTitle2="Yangi havaskor sertifikat qo'shish"
         TableForm={CustomForm}
         TableForm2={RecommendationCertificateForm}
+        showSecondButton={true}
       />
       {isLoading || isRecomLoading ? (
         <Loader />

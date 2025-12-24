@@ -11,12 +11,14 @@ interface IProps {
   sheetTitle2?: string;
   lastDataOrder?: number;
   TableForm?: any;
-  TableForm2?:any;
+  TableForm2?: any;
   isAddButtonHidden?: boolean;
+  showSecondButton?: boolean; // 👈 YANGI
   children?: React.ReactNode;
 }
 
-export const TableActions = ({ sheetTriggerTitle, sheetTriggerTitle2, sheetTitle2, sheetTitle, lastDataOrder, TableForm, TableForm2, isAddButtonHidden, }: IProps) => {
+
+export const TableActions = ({ sheetTriggerTitle, sheetTriggerTitle2, sheetTitle2, sheetTitle, lastDataOrder, TableForm, TableForm2, isAddButtonHidden,showSecondButton }: IProps) => {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isSheetOpen2, setSheetOpen2] = useState(false);
 
@@ -32,15 +34,15 @@ export const TableActions = ({ sheetTriggerTitle, sheetTriggerTitle2, sheetTitle
 {/* ***** */}
       
     <div className='flex gap-5'>
-         <div className="flex   items-center gap-2">
-          {!isAddButtonHidden && (
-            <Button onClick={() => setSheetOpen2(true)}>
-              <Plus className="size-4 mr-2" />
-              {sheetTriggerTitle2}
-            </Button>
-          )}
-         
-        </div>
+         {showSecondButton && !isAddButtonHidden && (
+  <div className="flex items-center gap-2">
+    <Button onClick={() => setSheetOpen2(true)}>
+      <Plus className="size-4 mr-2" />
+      {sheetTriggerTitle2}
+    </Button>
+  </div>
+)}
+
           {/* sertificat qoshish */}
           
         <div className="flex   items-center gap-2">
