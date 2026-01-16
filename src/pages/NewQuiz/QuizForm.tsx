@@ -25,6 +25,8 @@ const typeData = [
   { type: QuizOptionType.IMAGE, name: 'Rasm' },
 ];
 
+
+
 const quizSchema = z.object({
   question: z.string().min(9, { message: "Savol minimum 8 ta harifdan iborat bolishi kerak" }),
   type: z.nativeEnum(QuizOptionType).default(QuizOptionType.TEXT),
