@@ -158,6 +158,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/market-tasks',
     },
     {
+      title: 'Bottom sheet',
+      icon: ListChecks,
+      link: '/bottom-sheet',
+    },
+    {
       title: 'Buyurtmalar',
       icon: MailQuestion,
       link: '/orders',

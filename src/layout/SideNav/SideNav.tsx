@@ -161,6 +161,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
         { title: 'Market Promocode', link: '/market-promocode' },
         { title: 'Baraban promocode', link: '/fortuna-promocode' },
         { title: 'Darslar promocode', link: '/lesson-reward-promocode' },
+        { title: 'Bottom sheet', link: '/bottom-sheet' },
       ]
     },
     {
