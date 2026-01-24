@@ -43,8 +43,9 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/notifications': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/info': [UserRole.SUPER_ADMIN],
   '/certificate': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/story': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
-  '/banner': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/banner': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
+
   '/category': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/donation': [UserRole.SUPER_ADMIN],
   '/premium-plan': [UserRole.SUPER_ADMIN],
@@ -206,9 +207,9 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
 
   const filteredMenuItems = userData?.role
     ? menuItems.filter((item) => {
-        if (userData.role === UserRole.SUPER_ADMIN) return true;
-        return routePermissions[item.link]?.includes(userData.role);
-      })
+      if (userData.role === UserRole.SUPER_ADMIN) return true;
+      return routePermissions[item.link]?.includes(userData.role);
+    })
     : [];
 
   return (

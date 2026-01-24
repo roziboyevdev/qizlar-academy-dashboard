@@ -61,8 +61,9 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/notifications': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/info': [UserRole.SUPER_ADMIN],
   '/certificate': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/story': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
-  '/banner': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/banner': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
+
   '/category': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/category/:categoryId': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/donation': [UserRole.SUPER_ADMIN],
@@ -121,7 +122,7 @@ const routes = [
   { path: '/add-reward-to-lessons', element: <AddRewardToLessons /> },
   { path: '/half-completed-course-users', element: <UsersHalfComplitedCoursesPage /> },
   { path: '/survey', element: <SurveyPage /> },
- 
+
 ];
 
 export const Routes = () => {
