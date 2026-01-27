@@ -39,7 +39,6 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
   const { data: lessons, isLoading: loadingLessons } = useCourseLessonsList(selectedCourseId);
   const { data: rewards, isLoading: loadingRewards } = useLessonRewardList(100);
 
-  console.log(coursesData, "kurslar ruyxati");
   
 
   const form = useForm<useFormSchemaType>({

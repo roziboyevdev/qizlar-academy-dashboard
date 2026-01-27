@@ -22,7 +22,6 @@ const Courses = () => {
 
   const { data: coursesList, isLoading, paginationInfo } = useCoursesList({ currentPage });
 
-  console.log(coursesList, "course data count");
   
   
   const { triggerCourseEdit } = useEditCourse({

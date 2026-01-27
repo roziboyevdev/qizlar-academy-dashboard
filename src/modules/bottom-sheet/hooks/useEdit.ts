@@ -14,7 +14,6 @@ export const useEditBottomSheet = ({ id = '', setSheetOpen }: IHook) => {
 
   const { mutateAsync, isPending, isSuccess, isError } = useMutation({
     mutationFn: (payload: any) => {
-      console.log('Edit payload:', payload, 'ID:', id);
       return EditData({ payload, id });
     },
     onSuccess: () => {

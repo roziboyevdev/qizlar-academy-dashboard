@@ -13,7 +13,6 @@ export const useCreateBottomSheet = ({ setSheetOpen }: IHook) => {
 
   const { mutateAsync, isPending, isSuccess, isError } = useMutation({
     mutationFn: (payload: any) => {
-      console.log('Create payload:', payload);
       return CreateData(payload);
     },
     onSuccess: () => {

@@ -37,7 +37,6 @@ const storyMediaSchema = z
     id: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    console.log(data?.type, 'ttttttttttt');
     if (data.type === BannerType.LINK) {
       if (!data.link || typeof data.link !== 'string' || !z.string().url().safeParse(data.link).success) {
         ctx.addIssue({

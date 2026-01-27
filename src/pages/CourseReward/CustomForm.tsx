@@ -86,7 +86,6 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
 
   const type = form.watch('type');
 
-  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

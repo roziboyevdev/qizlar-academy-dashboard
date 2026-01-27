@@ -100,7 +100,6 @@ export default function BottomSheetForm({ setSheetOpen, initialData }: IProps) {
 
       const valuesWithPhoto = await uploadFile<BottomSheetCreateType>(values, 'photo');
 
-      console.log('Values with photo:', valuesWithPhoto);
 
       if (initialData) {
         await triggerEdit(valuesWithPhoto);

@@ -9,7 +9,6 @@ export const useDeleteBottomSheet = (p0: string) => {
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (id: string) => {
-      console.log('Deleting ID:', id);
       return DeleteData(id);
     },
     onSuccess: () => {

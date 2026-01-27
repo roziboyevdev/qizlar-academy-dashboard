@@ -139,7 +139,6 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
     }
     // Agar thumbnail oddiy filename bo'lsa, o'zgarishsiz qoldiring
 
-    console.log(payloadData, "payload data");
 
     // ✅ Video upload
     if (formValues.linkType === LessonLinkType.VIDEO) {
