@@ -174,7 +174,7 @@ export default function BottomSheetForm({ setSheetOpen, initialData }: IProps) {
                         placeholder="Promocode qidirish..."
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        onFocus={() => setShowDropdown(true)}
+                        onClick={() => setShowDropdown(true)}
                       />
                       <Button 
                         size="icon" 

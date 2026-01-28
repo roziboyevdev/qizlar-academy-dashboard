@@ -26,7 +26,7 @@ export const createCourseColumns = ({ getRowData, setSheetOpen, setDialogOpen, c
   {
     accessorKey: 'isActive',
     header: 'Status',
-    cell: ({ row }) => {
+     cell: ({ row }) => {
       const isActive: boolean = row.getValue('isActive') || false;
       return (
         <>
