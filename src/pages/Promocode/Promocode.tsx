@@ -23,7 +23,7 @@ const PromocodePage = () => {
     search: searchQuery 
   });
   
-  const { triggerVacancyDelete } = useDeletePromocode(course?.id!);
+  const { triggerVacancyDelete } = useDeletePromocode(course?.id || '');
 
   const getRowData = (course: IPromocode) => {
     setCourse(course);
