@@ -60,7 +60,7 @@ const storyMediaSchema = z
 // StoryV2Type sxemasi
 export const schema = z.object({
   title: z.string().optional(),
-  thumbnailUrl: z.union([
+  thumbnail: z.union([
     z.custom<File>((file) => file instanceof File && isValidFileType(file, imageTypes), {
       message: `Fayl turi ${imageTypes.join(', ')} dan biri bo'lishi kerak`,
     }),

@@ -22,15 +22,15 @@ import { baseMediaUrl } from 'services/api';
 const lessonSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(20),
-  link: z.union([z.string(), z.instanceof(File)]).optional(),
-  thumbnail: z.union([z.string(), z.instanceof(File)]).optional(),
+  link: z.union([z.string(), z.instanceof(File)]).optional().nullable(),
+  thumbnail: z.union([z.string(), z.instanceof(File)]).optional().nullable(),
   duration: z.number().optional(),
   _duration: z.date().optional(),
   isSoon: z.boolean().optional(),
   linkType: z.nativeEnum(LessonLinkType),
   isActive: z.boolean().optional(),
   orderId: z.number().optional(),
-  videoId: z.string().optional(),
+  videoId: z.string().optional().nullable(),
 });
 
 type lessonFormSchema = z.infer<typeof lessonSchema>;
@@ -57,8 +57,8 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
   const initialActive = lesson?.title ? lesson.isActive ?? true : true;
   const [isActive, setIsActive] = useState<boolean>(initialActive);
 
-  const { uploadFile } = useFileUploader('/file/bunny/stream'); // video endpoint
-  const { uploadFile: uploadThumbnail } = useFileUploader('/file'); // thumbnail endpoint
+  const { uploadFile } = useFileUploader('/file/bunny/stream');
+  const { uploadFile: uploadThumbnail } = useFileUploader('/file');
 
   const { triggerLessonCreate, isPending: isLessonCreatePending } = useCreateLesson({ setSheetOpen });
   const { triggerLessonEdit, isPending: isLessonEditPending } = useEditLesson({ id: lesson?.id, setSheetOpen });
@@ -71,13 +71,16 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
     return value;
   }, [lesson?.duration]);
 
+  console.log('📦 Lesson data:', lesson);
+
   const form = useForm<lessonFormSchema>({
-    resolver: zodResolver(lessonSchema),
-    defaultValues: lesson
-      ? {
+  resolver: zodResolver(lessonSchema),
+  defaultValues: lesson
+    ? {
         title: lesson.title,
         description: lesson.description,
-        thumbnail: lesson.thumbnail || '',
+        // ✅ thumbnail mavjud bo'lsa to'liq URL, yo'qsa bo'sh
+        thumbnail: lesson.thumbnail ? `${baseMediaUrl}/${lesson.thumbnail}` : undefined,
         linkType: lesson.linkType,
         link: lesson.linkType === LessonLinkType.YOU_TUBE ? lesson.link : '',
         videoId: lesson.linkType === LessonLinkType.VIDEO ? lesson.link : '',
@@ -87,11 +90,11 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
         isActive: lesson.isActive ?? true,
         orderId: lesson.orderId ?? 0,
       }
-      : {
+    : {
         title: '',
         description: '',
         link: '',
-        thumbnail: '',
+        thumbnail: undefined, // ✅ '' o'rniga undefined
         videoId: '',
         duration: 0,
         linkType: LessonLinkType.YOU_TUBE,
@@ -100,7 +103,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
         isActive: true,
         orderId: lastLessonOrder ? lastLessonOrder + 1 : 1,
       },
-  });
+});
 
   const type = form.watch('linkType');
 
@@ -119,43 +122,72 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       formValues._duration ? (formValues._duration.getTime() - initialDate.getTime()) / 1000 : 0
     );
 
+    // ✅ Helper function
+    const isValidString = (value: any) => 
+      value && typeof value === 'string' && value.trim() !== '';
+
     let payloadData: any = {
-      ...formValues,
+      title: formValues.title,
+      description: formValues.description,
+      orderId: formValues.orderId,
       duration,
       moduleId: moduleId as string,
       isActive,
       isSoon,
+      linkType: formValues.linkType,
     };
 
-    delete payloadData._duration;
+    console.log('📝 Form values:', formValues);
+    console.log('📦 Original lesson:', lesson);
 
-    // ✅ Thumbnail upload - faqat yangi file yuklanganda
+    // ✅ THUMBNAIL
     if (formValues.thumbnail instanceof File) {
+      console.log('🆕 Yangi rasm yuklanmoqda...');
       payloadData = await uploadThumbnail(payloadData, 'thumbnail');
-    } else if (typeof formValues.thumbnail === 'string' && formValues.thumbnail.startsWith('http')) {
-      // Agar to'liq URL bo'lsa, faqat filename ni oling
-      const filename = formValues.thumbnail.split('/').pop();
-      payloadData.thumbnail = filename;
+    } else if (isValidString(formValues.thumbnail)) {
+      console.log('♻️ Eski rasm saqlanmoqda...');
+      if (
+        typeof formValues.thumbnail === 'string' &&
+        (formValues.thumbnail.startsWith('http') || formValues.thumbnail.includes(baseMediaUrl))
+      ) {
+        payloadData.thumbnail = formValues.thumbnail.split('/').pop();
+      } else {
+        payloadData.thumbnail = formValues.thumbnail;
+      }
+    } else {
+      console.log('❓ Thumbnail yo\'q yoki bo\'sh');
+      // ✅ Agar lesson da thumbnail bo'lsa, uni saqlash
+      if (lesson?.thumbnail) {
+        console.log('📌 Lesson dan thumbnail olinmoqda:', lesson.thumbnail);
+        payloadData.thumbnail = lesson.thumbnail;
+      }
+      // Agar thumbnail yo'q bo'lsa, serverga yubormaslik (undefined qoldirish)
     }
-    // Agar thumbnail oddiy filename bo'lsa, o'zgarishsiz qoldiring
 
-
-    // ✅ Video upload
+    // ✅ VIDEO
     if (formValues.linkType === LessonLinkType.VIDEO) {
-      payloadData.link = formValues.videoId;
       if (formValues.link instanceof File) {
+        console.log('🆕 Yangi video yuklanmoqda...');
         payloadData = await uploadFile(payloadData, 'link');
+      } else if (isValidString(formValues.videoId)) {
+        console.log('🆔 VideoId ishlatilmoqda:', formValues.videoId);
+        payloadData.link = formValues.videoId;
+      } else if (lesson?.link) {
+        console.log('♻️ Eski video saqlanmoqda:', lesson.link);
+        payloadData.link = lesson.link;
       }
     }
 
-    // ✅ YouTube
+    // ✅ YOUTUBE
     if (formValues.linkType === LessonLinkType.YOU_TUBE) {
-      payloadData.videoId = undefined;
+      payloadData.link = isValidString(formValues.link) ? formValues.link : (lesson?.link || '');
     }
+
+    console.log('📤 Final payload:', payloadData);
 
     lesson ? triggerLessonEdit(payloadData) : triggerLessonCreate(payloadData);
   } catch (e) {
-    console.error(e);
+    console.error('❌ Error:', e);
   } finally {
     setIsLoading(false);
   }
@@ -173,7 +205,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
             label="Video turini tanlang"
           />
 
-          {/* ✅ Thumbnail with preview */}
+          {/* ✅ Thumbnail - defaultValue to'g'ri beriladi */}
           <MediaUploadField
             name="thumbnail"
             label="Rasm yuklash"
