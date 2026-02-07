@@ -10,19 +10,15 @@ import {
   NotebookPen,
   ShoppingBag,
   HandCoins,
-  Plane,
   BadgeCheck,
-  GraduationCap,
   Handshake,
-  User,
   TicketPercent,
-  MailQuestion,
   CalendarClock,
   BarChart,
-  Bot,
   Gift,
   ShieldQuestion,
   ChevronDown,
+  PhoneCall,
 } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
@@ -63,6 +59,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/survey': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/call-center': [ UserRole.CALL_CENTER],
 };
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
@@ -189,24 +186,41 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       icon: ShieldQuestion ,
       link: '/survey',
     },
+    {
+      title: "Call Center",
+      icon: PhoneCall,
+      link: '/call-center',
+    }
   ];
 
-  const hasPermission = (item: any): boolean => {
-    if (!userData?.role) return false;
-    if (userData.role === UserRole.SUPER_ADMIN) return true;
-    
-    if (item.link) {
-      return routePermissions[item.link]?.includes(userData.role) || false;
-    }
-    
-    if (item.items) {
-      return item.items.some((subItem: any) => 
-        routePermissions[subItem.link]?.includes(userData.role)
-      );
-    }
-    
+const hasPermission = (item: any): boolean => {
+  if (!userData?.role) return false;
+
+  // 🚫 CALL_CENTER uchun bosh sahifa (/) yo‘q
+  if (userData.role === UserRole.CALL_CENTER && item.link === '/') {
     return false;
-  };
+  }
+
+  // 👑 SUPER_ADMIN hammasini ko‘radi
+  if (userData.role === UserRole.SUPER_ADMIN) {
+    return true;
+  }
+
+  // 🔗 Oddiy link
+  if (item.link) {
+    return routePermissions[item.link]?.includes(userData.role) ?? false;
+  }
+
+  // 📂 Group menu
+  if (item.items) {
+    return item.items.some((subItem: any) =>
+      routePermissions[subItem.link]?.includes(userData.role)
+    );
+  }
+
+  return false;
+};
+
 
   const filteredMenuItems = menuItems.filter(hasPermission);
 

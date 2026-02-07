@@ -5,6 +5,8 @@ import AuthLayout from 'layout/AuthLayout';
 import { Toaster } from 'components/ui/toaster';
 import { useRefreshToken } from 'modules/auth/hooks/useRefreshToken';
 import { AuthContext } from 'providers/auth';
+import { UserContext } from 'providers/UserProvider';
+import { UserRole } from 'modules/auth/types';
 import AuthPage from 'pages/Auth';
 import HomePage from 'pages/Home';
 import CoursesPage from 'pages/Courses';
@@ -33,8 +35,6 @@ import CourseAssistantPage from 'pages/CourseAssistant/Page';
 import MarketPromocodePage from 'pages/MarketPromocode/Page';
 import StoryV2Page from 'pages/StoryV2/Page';
 import BattleQuestionPage from 'pages/BattleQuestion';
-import { UserContext } from 'providers/UserProvider';
-import { UserRole } from 'modules/auth/types';
 import FortunaProductPage from 'pages/FortunaProduct/Page';
 import FortunaPromocodePage from 'pages/FortunaPromocode/Page';
 import LessonRewardPage from 'pages/CourseReward/Page';
@@ -45,6 +45,7 @@ import UsersHalfComplitedCoursesPage from 'pages/StatisticsHalfCompleteCourse/Pa
 import SurveyPage from 'pages/Survey';
 import CourseComments from 'pages/courses-comments';
 import BottomSheet from 'pages/BottomSheet/pages';
+import CallCenterPage from 'pages/CallCenter/Pages';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
@@ -63,7 +64,6 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/certificate': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/banner': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
-
   '/category': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/category/:categoryId': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/donation': [UserRole.SUPER_ADMIN],
@@ -82,6 +82,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/survey': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/call-center': [UserRole.SUPER_ADMIN, UserRole.CALL_CENTER],
 };
 
 const routes = [
@@ -122,15 +123,25 @@ const routes = [
   { path: '/add-reward-to-lessons', element: <AddRewardToLessons /> },
   { path: '/half-completed-course-users', element: <UsersHalfComplitedCoursesPage /> },
   { path: '/survey', element: <SurveyPage /> },
-
+  { path: '/call-center', element: <CallCenterPage /> },
 ];
+
+// ✅ CALL_CENTER uchun redirect component
+const HomeRedirect = () => {
+  const { userData } = useContext(UserContext);
+  
+  if (userData?.role === UserRole.CALL_CENTER) {
+    return <Navigate to="/call-center" replace />;
+  }
+  
+  return <HomePage />;
+};
 
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
   const { isAuthenticated } = useContext(AuthContext);
   const { userData } = useContext(UserContext);
 
-  // Foydalanuvchi roliga asoslangan sahifalarni filtrlash
   const getFilteredRoutes = () => {
     if (!userData?.role) return [];
     if (userData.role === UserRole.SUPER_ADMIN) return routes;
@@ -142,10 +153,15 @@ export const Routes = () => {
       {isLoading ? null : isAuthenticated ? (
         <MainLayout>
           <DOMRoutes>
-            {getFilteredRoutes().map((route) => (
-              <Route path={route.path} element={route.element} key={route.path} />
-            ))}
-            {/* Agar foydalanuvchi ruxsat berilmagan sahifaga kirmoqchi bo'lsa, bosh sahifaga yo'naltirish */}
+            {/* ✅ Bosh sahifaga redirect qo'shamiz */}
+            <Route path="/" element={<HomeRedirect />} />
+            
+            {getFilteredRoutes()
+              .filter(route => route.path !== '/') // "/" ni o'chirib tashlaymiz chunki yuqorida qo'shdik
+              .map((route) => (
+                <Route path={route.path} element={route.element} key={route.path} />
+              ))}
+            
             <Route path="*" element={<Navigate to="/" replace />} />
           </DOMRoutes>
         </MainLayout>
