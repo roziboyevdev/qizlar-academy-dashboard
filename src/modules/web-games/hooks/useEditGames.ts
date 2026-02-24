@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
-import { EditBook } from '../api';
-import { BookInput } from '../types';
+
+import { EditGames } from '../api';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
@@ -10,22 +10,27 @@ interface IHook {
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useEditBook = ({ id = '', setSheetOpen }: IHook) => {
+export const useEditGames  = ({ id = '', setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (values: BookInput) => EditBook({ values, id }),
+  const { mutate, isPending, isSuccess, isError } = useMutation({
+    mutationFn: (values: any) => EditGames({ id, value: values }),
     onSuccess: () => {
       toast({
         variant: 'success',
         title: 'Tasdiqlandi!',
-        description: 'Kitob muvaffaqiyatli tahrirlandi.',
+        description: 'Malumot muvaffaqiyatli tahrirlandi.',
       });
-      queryClient.invalidateQueries({ queryKey: ['books_list'] });
+      queryClient.invalidateQueries({ queryKey: ['web-games_list'] });
       setSheetOpen(false);
     },
     onError: (error: any) => showErrorToast(error),
   });
 
-  return { triggerBookEdit: mutate, isPending };
+  return {
+    triggerEdit: mutate,
+    isPending,
+    isSuccess,
+    isError,
+  };
 };

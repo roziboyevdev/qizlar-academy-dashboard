@@ -19,7 +19,9 @@ import {
   ShieldQuestion,
   ChevronDown,
   PhoneCall,
-} from 'lucide-react';
+  BookType,
+  Gamepad2
+  } from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
 import { useContext, useState } from 'react';
@@ -34,6 +36,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/books': [UserRole.SUPER_ADMIN],
   '/course-assistants': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/news': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/puzzles': [UserRole.SUPER_ADMIN],
@@ -89,6 +92,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
         { title: 'Kurs Assistant', link: '/course-assistants' },
       ]
     },
+     {
+      title: 'Kitoblar',
+      icon: BookType,
+      link: '/books',
+    },
     {
       title: 'Yangiliklar',
       icon: Newspaper,
@@ -122,6 +130,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       title: 'Bannerlar',
       icon: NotebookPen,
       link: '/banner',
+    },
+    {
+      title: `Web o'yinlar`,
+      icon: Gamepad2,
+      link: '/web-games',
     },
     {
       groupId: 'shop',

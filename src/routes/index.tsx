@@ -46,11 +46,15 @@ import SurveyPage from 'pages/Survey';
 import CourseComments from 'pages/courses-comments';
 import BottomSheet from 'pages/BottomSheet/pages';
 import CallCenterPage from 'pages/CallCenter/Pages';
+import BooksPage from 'pages/Books/Page';
+import CourseInfluencerPage from 'pages/CourseInfluencer/Page';
+import WebGamesPage from 'pages/WebGames';
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/books': [UserRole.SUPER_ADMIN],
   '/course-assistants': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/courses/:courseId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/exam/:lessonId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
@@ -83,18 +87,21 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/survey': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/call-center': [UserRole.SUPER_ADMIN, UserRole.CALL_CENTER],
+  '/web-games': [UserRole.SUPER_ADMIN],
 };
 
 const routes = [
   { path: '/', element: <HomePage /> },
   { path: '/teachers', element: <TeachersPage /> },
   { path: '/courses', element: <CoursesPage /> },
+  { path: '/books', element: <BooksPage /> },
   { path: '/course-assistants', element: <CourseAssistantPage /> },
   { path: '/courses/:courseId', element: <ModulesPage /> },
   { path: '/exam/:lessonId', element: <LastExam /> },
   { path: '/battle-question/:lessonId', element: <BattleQuestionPage /> },
   { path: '/courses/:courseId/:moduleId', element: <LessonsPage /> },
   { path: '/courses/:courseId/comments', element: <CourseComments /> },
+  { path: '/courses/:courseId/influencer', element: <CourseInfluencerPage /> },
   { path: '/courses/:courseId/:moduleId/:lessonId', element: <NewQuizPage /> },
   { path: '/news', element: <NewsPage /> },
   { path: '/puzzles', element: <PuzzlesPage /> },
@@ -124,9 +131,10 @@ const routes = [
   { path: '/half-completed-course-users', element: <UsersHalfComplitedCoursesPage /> },
   { path: '/survey', element: <SurveyPage /> },
   { path: '/call-center', element: <CallCenterPage /> },
+  { path: '/web-games', element: <WebGamesPage /> },
 ];
 
-// ✅ CALL_CENTER uchun redirect component
+
 const HomeRedirect = () => {
   const { userData } = useContext(UserContext);
   

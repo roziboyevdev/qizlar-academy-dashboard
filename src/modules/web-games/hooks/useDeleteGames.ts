@@ -1,23 +1,23 @@
 import { useMutation } from '@tanstack/react-query';
-import { useToast } from 'components/ui/use-toast';
-import { DeleteBook } from '../api';
 import { queryClient } from 'services/react-query';
+import { DeleteGames } from '../api';
+import { useToast } from 'components/ui/use-toast';
 import { showErrorToast } from 'utils/showErrorToast';
 
-export const useDeleteBook = (id: string) => {
+export const useDeleteGames = (id: string) => {
   const { toast } = useToast();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: () => DeleteBook(id),
+  const { mutate, isSuccess, isError } = useMutation({
+    mutationFn: () => DeleteGames(id),
     onSuccess: () => {
       toast({
         variant: 'success',
         title: "Muvaffaqiyatli o'chirildi!",
       });
-      queryClient.invalidateQueries({ queryKey: ['books_list'] });
+      queryClient.invalidateQueries({ queryKey: ['web-games_list'] });
     },
     onError: (error: any) => showErrorToast(error),
   });
 
-  return { triggerBookDelete: mutate, isPending };
+  return { triggerDeleteGames: mutate, isSuccess, isError };
 };

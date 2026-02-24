@@ -1,31 +1,30 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
-import { EditBook } from '../api';
-import { BookInput } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
+import { InfluencerInput } from '../types';
+import { CreateInfluencer } from '../api';
 
 interface IHook {
-  id?: string;
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useEditBook = ({ id = '', setSheetOpen }: IHook) => {
+export const useCreateInfluencer = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (values: BookInput) => EditBook({ values, id }),
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (values: InfluencerInput) => CreateInfluencer(values),
     onSuccess: () => {
       toast({
         variant: 'success',
         title: 'Tasdiqlandi!',
-        description: 'Kitob muvaffaqiyatli tahrirlandi.',
+        description: 'Kurs Influencer muvaffaqiyatli yaratildi.',
       });
-      queryClient.invalidateQueries({ queryKey: ['books_list'] });
+      queryClient.invalidateQueries({ queryKey: ['influencer_list'] });
       setSheetOpen(false);
     },
     onError: (error: any) => showErrorToast(error),
   });
 
-  return { triggerBookEdit: mutate, isPending };
+  return { triggerInfluencerCreate: mutateAsync, isPending };
 };

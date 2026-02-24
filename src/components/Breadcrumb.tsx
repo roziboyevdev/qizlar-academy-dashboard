@@ -41,6 +41,10 @@ export default function createBreadcrumbs() {
               path: ':courseId/comments',
               element: <Breadcrumbs text="Izohlar" />,
             },
+             {
+              path: ':courseId/influencer',
+              element: <Breadcrumbs text="Influencer" />,
+            },
           ],
         },
         {
