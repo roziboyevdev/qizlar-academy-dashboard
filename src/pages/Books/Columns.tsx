@@ -17,6 +17,13 @@ export const createDataColumns = ({
   setDialogOpen,
 }: IProps): ColumnDef<Book>[] => [
     {
+      id: "index",
+      header: "№",
+      size: 50,
+      cell: ({ row }) => row.index + 1,
+    },
+    
+    {
       accessorKey: "photo",
       header: "Rasm",
       cell: ({ row }) => {

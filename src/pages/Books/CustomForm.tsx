@@ -61,7 +61,7 @@ export default function CustomForm({ book, setSheetOpen }: IProps) {
         photo: withFile.photo as string,
         file: withFile.file as string,
         pagesCount: withFile.pagesCount,
-        description: withFile.description,
+        description: withFile.description || '',
       };
 
       if (book) {

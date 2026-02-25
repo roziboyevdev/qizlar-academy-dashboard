@@ -13,7 +13,7 @@ export const schema = z.object({
   pagesCount: z.coerce
     .number({ invalid_type_error: "Raqam bo'lishi kerak" })
     .min(1, { message: "1 dan katta bo'lishi kerak" }),
-  description: z.string().min(2, { message: 'Tavsif talab qilinadi' }),
+  description: z.string().optional(),
 });
 
 export type UseFormSchemaType = z.infer<typeof schema>;
