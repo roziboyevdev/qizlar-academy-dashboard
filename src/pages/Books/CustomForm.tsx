@@ -32,7 +32,7 @@ export default function CustomForm({ book, setSheetOpen }: IProps) {
           name: book.name,
           photo: book.photo,
           file: book.file,
-          pagesCount: book.pageCount,
+          pagesCount: book.pagesCount,
           description: book.description,
         }
       : {

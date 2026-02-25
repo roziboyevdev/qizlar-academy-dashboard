@@ -62,7 +62,7 @@ export const createDataColumns = ({
       ),
     },
     {
-      accessorKey: 'pageCount',
+      accessorKey: 'pagesCount',
       header: 'Sahifalar soni',
     },
     {

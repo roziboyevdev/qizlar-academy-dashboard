@@ -5,7 +5,7 @@ export const getBook = (item?: Book) => {
     name: item?.name ?? '',
     photo: item?.photo ?? '',
     file: item?.file ?? '',
-    pagesCount: item?.pageCount ?? 0,
+    pagesCount: item?.pagesCount ?? 0,
     description: item?.description ?? '',
     createdAt: item?.createdAt ?? ''
   };

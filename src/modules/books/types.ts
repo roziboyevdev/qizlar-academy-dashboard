@@ -5,7 +5,7 @@ export interface Book {
   name: string;
   photo: string;
   file: string;
-  pageCount: number;
+  pagesCount: number;
   description: string;
   createdAt: string;
 }
