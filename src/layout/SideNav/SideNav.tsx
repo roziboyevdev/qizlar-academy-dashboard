@@ -35,7 +35,7 @@ interface IProps {
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
   '/books': [UserRole.SUPER_ADMIN],
   '/course-assistants': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/news': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
@@ -63,6 +63,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
   '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/survey': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/call-center': [ UserRole.CALL_CENTER],
+  '/influencer': [UserRole.SUPER_ADMIN, UserRole.TOP_30_ADMIN],
 };
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
