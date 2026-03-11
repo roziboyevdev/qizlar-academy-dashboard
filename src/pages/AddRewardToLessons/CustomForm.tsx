@@ -37,23 +37,23 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
   // Get data
   const { data: coursesList, isLoading: loadingCourses } = useCoursesList();
   const { data: lessons, isLoading: loadingLessons } = useCourseLessonsList(selectedCourseId);
-  const { data: rewards, isLoading: loadingRewards } = useLessonRewardList(100);
+  const { data: rewards, isLoading: loadingRewards } = useLessonRewardList({ pageSize: 100 });
 
-  
+
 
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
     defaultValues: selectedData
       ? {
-          courseId: selectedData ? searchParams.get('courseId') || '' : '',
-          lessonId: selectedData.lessonId || '',
-          rewardId: selectedData.rewardId || '',
-        }
+        courseId: selectedData ? searchParams.get('courseId') || '' : '',
+        lessonId: selectedData.lessonId || '',
+        rewardId: selectedData.rewardId || '',
+      }
       : {
-          courseId: '',
-          lessonId: '',
-          rewardId: '',
-        },
+        courseId: '',
+        lessonId: '',
+        rewardId: '',
+      },
   });
 
   // Watch courseId changes
