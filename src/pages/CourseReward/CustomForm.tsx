@@ -11,6 +11,7 @@ import { useCreateLessonReward } from 'modules/course-reward-product/hooks/useCr
 import { useEditLessonReward } from 'modules/course-reward-product/hooks/useEdit';
 import { LessonReward, LessonRewardInputType, LessonRewardType } from 'modules/course-reward-product/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
+import { useCourseLessonsList } from 'modules/lessons/hooks/useCourseLessonsList';
 import { Switch } from 'components/ui/switch';
 import { Button } from 'components/ui/button';
 
@@ -33,6 +34,7 @@ export type SelectType = { name: string; type: string; disabled?: boolean };
 
 export default function CustomForm({ product, setSheetOpen }: IProps) {
   const [coursesData, setCoursesData] = useState<SelectType[]>([]);
+  const [lessonsData, setLessonsData] = useState<SelectType[]>([]);
   const [state, setState] = useState(false);
   const { data: coursesList, isLoading: loadingCourses } = useCoursesList();
 
@@ -72,6 +74,9 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
       },
   });
 
+  const watchedCourseId = form.watch('courseId');
+  const { data: lessonsList } = useCourseLessonsList(watchedCourseId || '');
+
   const { fields: partsFields, append, remove } = useFieldArray({
     control: form.control,
     name: 'parts',
@@ -89,6 +94,18 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
     }
     setCoursesData(newArr);
   }, [coursesList]);
+
+  useEffect(() => {
+    if (lessonsList) {
+      const newArr: SelectType[] = lessonsList.map((el) => ({
+        name: `${el.orderId}. ${el.title}`,
+        type: el.id,
+      }));
+      setLessonsData(newArr);
+    } else {
+      setLessonsData([]);
+    }
+  }, [lessonsList]);
 
   async function onSubmit(formValues: useFormSchemaType) {
     setState(true);
@@ -112,7 +129,12 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
       if (payload.isPartial && payload.parts) {
         const uploadedParts = await Promise.all(
           payload.parts.map(async (part: any) => {
-            const processedPart = { title: part.title, value: Number(part.value) || 0, photo: '' };
+            const processedPart = { 
+              title: part.title, 
+              value: Number(part.value) || 0, 
+              photo: '',
+              lessonId: part.lessonId
+            };
             if (part.photo && part.photo instanceof File) {
               const res = await uploadFile<any>(part, 'photo');
               processedPart.photo = res.photo;
@@ -125,11 +147,6 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
         payload.parts = uploadedParts;
       } else {
         payload.parts = [];
-      }
-
-      // Agar file File tipida bo'lsa, uni yuklash
-      if (formValues.file && formValues.file instanceof File) {
-        payload = await uploadFile<LessonRewardInputType>(payload as any, 'file');
       }
 
       if (product) {
@@ -181,6 +198,13 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
               {partsFields.map((field, index) => (
                 <div key={field.id} className="flex flex-col gap-2 border bg-white dark:bg-gray-800 p-4 rounded-lg relative">
                   <TextField name={`parts.${index}.title`} label="Nomi" required />
+                  <SelectField
+                    name={`parts.${index}.lessonId`}
+                    data={lessonsData}
+                    placeholder="Darsni tanlang..."
+                    label="Darsni tanlang"
+                    required
+                  />
                   <FileField name={`parts.${index}.photo`} label="Rasm" />
                   <NumberTextField name={`parts.${index}.value`} label="Qiymati" required />
                   <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)} className="absolute right-2 top-2 h-8 w-8">
@@ -188,11 +212,12 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
                   </Button>
                 </div>
               ))}
-              <Button type="button" variant="outline" onClick={() => append({ title: '', photo: '', value: 0 })}>
+              <Button type="button" variant="outline" onClick={() => append({ title: '', photo: '', value: 0, lessonId: '' })}>
                 Qism qo'shish
               </Button>
             </div>
           )}
+
 
           {type === LessonRewardType.COIN && <NumberTextField name="value" placeholder="Coin miqdori" label="Coin miqdori" required />}
 

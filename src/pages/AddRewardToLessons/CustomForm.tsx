@@ -63,9 +63,9 @@ export default function CustomForm({ selectedData, setSheetOpen }: IProps) {
     setState(true);
     try {
       if (selectedData) {
-        triggerEdit(formValues);
+        triggerEdit(formValues as any);
       } else {
-        triggerCreate(formValues);
+        triggerCreate(formValues as any);
       }
     } catch (error) {
       alert('Aniqlanmagan hatolik!');

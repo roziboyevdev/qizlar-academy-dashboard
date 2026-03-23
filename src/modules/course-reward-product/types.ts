@@ -19,7 +19,7 @@ export interface LessonReward {
   file?: string;
   isPartial?: boolean;
   courseId?: string;
-  parts?: { title: string; photo: string; value: number }[];
+  parts?: { title: string; photo: string; value: number; lessonId: string }[];
 }
 
 export interface LessonRewardInputType {
@@ -32,7 +32,7 @@ export interface LessonRewardInputType {
   file?: any;
   isPartial?: boolean;
   courseId?: string;
-  parts?: { title: string; photo?: any; value: number }[];
+  parts?: { title: string; photo?: any; value: number; lessonId: string }[];
 }
 
 export interface LessonRewardEditBodyType {
