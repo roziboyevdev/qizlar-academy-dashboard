@@ -76,7 +76,7 @@ const DauMauStatisticsTable: React.FC = () => {
     setError('');
 
     try {
-      const response = await http<ApiResponse>(`https://api.ustozaibot.uz/api/v1/statistics/dau/mau/${selectedMonth}/${amount}`, {
+      const response = await http<ApiResponse>(`https://back.qizlarakademiyasi.uz/api/v1statistics/dau/mau/${selectedMonth}/${amount}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -116,7 +116,7 @@ const DauMauStatisticsTable: React.FC = () => {
     setError('');
 
     try {
-      const response = await http(`https://api.ustozaibot.uz/api/v1/statistics/dau/mau/file/${selectedMonth}/${amount}`, {
+      const response = await http(`https://back.qizlarakademiyasi.uz/api/v1statistics/dau/mau/file/${selectedMonth}/${amount}`, {
         responseType: 'blob',
         headers: {
           'Content-Type': 'application/json',
