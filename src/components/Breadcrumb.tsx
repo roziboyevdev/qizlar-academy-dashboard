@@ -1,7 +1,4 @@
 import { Outlet, useLocation, useResolvedPath, Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { UserContext } from 'providers/UserProvider';
-import { UserRole } from 'modules/auth/types';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -52,14 +49,6 @@ export default function createBreadcrumbs() {
           element: <Breadcrumbs text="Grandmasterlar" />,
         },
         {
-          path: 'news',
-          element: <Breadcrumbs text="Yangiliklar" />,
-        },
-        {
-          path: 'books',
-          element: <Breadcrumbs text="Kitoblar" />,
-        },
-        {
           path: 'afisha',
           element: <Breadcrumbs text="Afisha" />,
         },
@@ -80,9 +69,63 @@ export default function createBreadcrumbs() {
           element: <Breadcrumbs text="Bildirishnomalar" />,
         },
         {
-          path: 'call-center',
-          element: <Breadcrumbs text="Call Center" />,
-        }
+          path: 'story',
+          element: <Breadcrumbs text="Istoriyalar" />,
+        },
+        {
+          path: 'teachers',
+          element: <Breadcrumbs text="Ustozlar" />,
+        },
+        {
+          path: 'banner',
+          element: <Breadcrumbs text="Bannerlar" />,
+        },
+        {
+          path: 'category',
+          element: <Breadcrumbs text="Kategoriyalar" />,
+          children: [
+            {
+              path: ':categoryId',
+              element: <Breadcrumbs text="Mahsulotlar" />,
+            },
+          ],
+        },
+        {
+          path: 'user-certificate',
+          element: <Breadcrumbs text="Talabalar sertifikati" />,
+        },
+        {
+          path: 'market-tasks',
+          element: <Breadcrumbs text="Market vazifalari" />,
+        },
+        {
+          path: 'market-promocode',
+          element: <Breadcrumbs text="Market promocode" />,
+        },
+        {
+          path: 'orders',
+          element: <Breadcrumbs text="Buyurtmalar" />,
+        },
+        {
+          path: 'vacancy',
+          element: <Breadcrumbs text="Vakansiyalar" />,
+        },
+        {
+          path: 'promocode',
+          element: <Breadcrumbs text="Promocode" />,
+        },
+        {
+          path: 'exam/:lessonId',
+          element: <Breadcrumbs text="Imtihon" />,
+        },
+        {
+          path: 'battle-question/:lessonId',
+          element: <Breadcrumbs text="Jang savollari" />,
+        },
+        {
+          path: 'half-completed-course-users',
+          element: <Breadcrumbs text="Yarim yakunlangan kurslar" />,
+        },
       ],
     },
   ];
@@ -92,15 +135,6 @@ function Breadcrumbs({ text }: { text: string }) {
   const location = useLocation();
   const resolvedLocation = useResolvedPath('');
   const isActive = location.pathname === resolvedLocation.pathname;
-  const { userData } = useContext(UserContext);
-  
-  // ✅ CALL_CENTER uchun bosh sahifani yashirish
-  const isCallCenter = userData?.role === UserRole.CALL_CENTER;
-  const isHomePage = resolvedLocation.pathname === '/';
-  
-  if (isCallCenter && isHomePage) {
-    return <Outlet />;
-  }
 
   return (
     <div className="flex gap-1">

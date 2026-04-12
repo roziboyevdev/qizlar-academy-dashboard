@@ -21,99 +21,73 @@ interface IProps {
   label?: string
   placeholder?: string
   required?: boolean
+  suggestions?: string[]
 }
 
-export default function KeywordField({ placeholder, required, name, label }: IProps) {
+export default function KeywordField({ placeholder, required, name, label, suggestions = [] }: IProps) {
   const { control, setValue, getValues } = useFormContext()
   const [keyword, setKeyword] = useState("")
   const [isObjectData, setIsObjectData] = useState(false)
   const [originalData, setOriginalData] = useState<Skill[] | string[]>([])
   const [keywords, setKeywords] = useState<string[]>([])
 
-  // Initialize data on component mount
   useEffect(() => {
     const formValues = getValues(name) || []
     setOriginalData(formValues)
 
-    // Check if we're dealing with an array of objects or strings
     if (Array.isArray(formValues) && formValues.length > 0 && typeof formValues[0] === "object") {
       setIsObjectData(true)
-      // Extract titles from objects for display
       const titles = formValues.map((value: Skill) => value.title)
       setKeywords(titles)
     } else {
       setIsObjectData(false)
-      // If it's already an array of strings, use it directly
       setKeywords(formValues as string[])
     }
   }, [getValues, name])
 
-  const handleAddKeyword = () => {
-    if (keyword.trim() && !keywords.includes(keyword.trim())) {
-      const updatedKeywords = [...keywords, keyword.trim()]
+  const addKeyword = (value: string) => {
+    const trimmedValue = value.trim()
+    if (trimmedValue && !keywords.includes(trimmedValue)) {
+      const updatedKeywords = [...keywords, trimmedValue]
       setKeywords(updatedKeywords)
 
-      // Update form value based on data type
       if (isObjectData) {
-        // For object data, maintain the original structure for existing items
-        // and add new items as objects with temporary IDs
         const updatedValues = [...(originalData as Skill[])]
-        // Only add new keywords that don't exist in original data
-        if (!updatedValues.some((item) => item.title === keyword.trim())) {
+        if (!updatedValues.some((item) => item.title === trimmedValue)) {
           updatedValues.push({
-            id: `temp-${Date.now()}`, // Temporary ID for new items
-            title: keyword.trim(),
+            id: `temp-${Date.now()}`,
+            title: trimmedValue,
           })
         }
         setValue(name, updatedValues)
       } else {
-        // For string data, just use the array of strings
         setValue(name, updatedKeywords)
       }
-
-      setKeyword("")
     }
   }
 
-  const handleRemoveKeyword = async (removeKeyword: string) => {
-    try {
-      if (isObjectData) {
-        // Find the item to remove
-        const itemToRemove = (originalData as Skill[]).find((item) => item.title === removeKeyword)
+  const handleAddKeyword = () => {
+    addKeyword(keyword)
+    setKeyword("")
+  }
 
-        // Only call API if the item has a real ID (not a temporary one)
-        if (itemToRemove && !itemToRemove.id.startsWith("temp-")) {
-          try {
-            await http.delete(`vacancy/skill/${itemToRemove.id}`)
-          } catch (error) {
-            alert("O'chirishda xatolik")
-            return
-          }
-        }
+  const handleRemoveKeyword = (removeKeyword: string) => {
+    const updatedKeywords = keywords.filter((kw) => kw !== removeKeyword)
+    setKeywords(updatedKeywords)
 
-        // Update the form value by filtering out the removed item
-        const updatedValues = (originalData as Skill[]).filter((item) => item.title !== removeKeyword)
-        setOriginalData(updatedValues)
-        setValue(name, updatedValues)
-      } else {
-        // For string data, just filter out the removed keyword
-        const updatedKeywords = keywords.filter((kw) => kw !== removeKeyword)
-        setOriginalData(updatedKeywords)
-        setValue(name, updatedKeywords)
-      }
-
-      // Update the displayed keywords
-      const updatedKeywords = keywords.filter((kw) => kw !== removeKeyword)
-      setKeywords(updatedKeywords)
-    } catch (error) {
-      console.error("Error removing keyword:", error)
-      alert("Xatolik yuz berdi")
+    if (isObjectData) {
+      const updatedValues = (originalData as Skill[]).filter((item) => item.title !== removeKeyword)
+      setOriginalData(updatedValues)
+      setValue(name, updatedValues)
+    } else {
+      setOriginalData(updatedKeywords)
+      setValue(name, updatedKeywords)
     }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      e.preventDefault() // Prevent form submission
+      e.preventDefault()
       handleAddKeyword()
     }
   }
@@ -136,21 +110,45 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
               onChange={(e) => setKeyword(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            <Button type="button" onClick={handleAddKeyword}>
+            <Button type="button" onClick={handleAddKeyword} variant="outline" className="border-primary/50 text-primary">
               Qo'shish
             </Button>
           </div>
-          <div className="mt-2 flex flex-wrap gap-2">
+
+          {/* Suggestions */}
+          {suggestions.length > 0 && (
+            <div className="mt-2">
+              <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Tanlash mumkin:</p>
+              <div className="flex flex-wrap gap-1.5">
+                {suggestions
+                  .filter((s) => !keywords.includes(s))
+                  .slice(0, 15)
+                  .map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => addKeyword(s)}
+                      className="px-2 py-0.5 text-[11px] rounded-md bg-white/5 border border-white/10 text-muted-foreground hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-all"
+                    >
+                      + {s}
+                    </button>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* Selected Keywords */}
+          <div className="mt-3 flex flex-wrap gap-2">
             {keywords.map((kw, index) => (
               <span
                 key={index}
-                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-lg flex items-center gap-2"
+                className="bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-lg flex items-center gap-2 text-sm animate-in zoom-in-95 duration-200"
               >
                 {kw}
                 <button
                   type="button"
                   onClick={() => handleRemoveKeyword(kw)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-primary hover:text-primary-foreground hover:bg-primary/50 rounded-full w-4 h-4 flex items-center justify-center transition-all"
                 >
                   ✕
                 </button>
@@ -163,4 +161,5 @@ export default function KeywordField({ placeholder, required, name, label }: IPr
     />
   )
 }
+
 

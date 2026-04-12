@@ -15,7 +15,7 @@ export const useEditStory = ({ id = '', setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: StoryV2InputType) => EditData({ values, id }),
+    mutationFn: (values: Partial<StoryV2InputType>) => EditData({ values, id }),
     onSuccess: () => {
       toast({
         variant: 'success',

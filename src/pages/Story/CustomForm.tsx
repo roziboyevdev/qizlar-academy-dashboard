@@ -12,7 +12,7 @@ import { useCreateStory } from "modules/story/hooks/useCreate";
 import DateTimePicker from "components/DateAndTimePicker";
 import { BannerType } from "modules/banner/types";
 import { useCoursesList } from "modules/courses/hooks/useCoursesList";
-import { SelectType } from "pages/Certificate/CustomForm";
+import { SelectType } from 'types/selectField';
 import VideoUploadField from "components/fields/VideoUploder";
 import { cleanEmptyStrings } from "utils/clearEmptyKeys";
 interface IProps {

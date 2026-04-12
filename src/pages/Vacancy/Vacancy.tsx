@@ -4,6 +4,7 @@ import Loader from 'components/Loader';
 import { TableActions } from 'components/TableActions';
 import { AlertDialog } from 'components/AlertDialog';
 import { Sheet } from 'components/Sheet';
+import { Pagination } from 'components/Pagination';
 import CourseForm from './CourseForm';
 import { createVacancyColumns } from './Columns';
 import { Vacancy } from 'modules/vacancy/types';
@@ -14,9 +15,10 @@ const VacancyPage = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [course, setCourse] = useState<Vacancy>();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: coursesList, isLoading } = useVacanciesList();
-  const { triggerVacancyDelete } = useDeleteVacancy(course?.id!);
+  const { data: coursesList, isLoading, paginationInfo } = useVacanciesList({ currentPage });
+  const { triggerVacancyDelete } = useDeleteVacancy(course?.id ?? '');
 
   const getRowData = (course: Vacancy) => {
     setCourse(course);
@@ -38,7 +40,17 @@ const VacancyPage = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <DataTable columns={columns} data={coursesList}  />
+        <>
+          <DataTable columns={columns} data={coursesList} />
+          {paginationInfo && (
+            <Pagination
+              className="justify-end mt-3"
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              paginationInfo={paginationInfo}
+            />
+          )}
+        </>
       )}
 
       <Sheet
@@ -46,7 +58,7 @@ const VacancyPage = () => {
         isOpen={isSheetOpen}
         setSheetOpen={setSheetOpen}
       >
-        <CourseForm vacancy={course} setSheetOpen={setSheetOpen} />
+        <CourseForm key={course?.id ?? 'new'} vacancy={course} setSheetOpen={setSheetOpen} />
       </Sheet>
       <AlertDialog
         alertTitle="Ishonchingiz komilmi?"

@@ -39,7 +39,7 @@ export const Pagination = ({ className, currentPage, setCurrentPage, paginationI
   };
 
   return (
-    <PaginationRoot className={cn(className, 'dark:text-slate-400')}>
+    <PaginationRoot className={cn(className, 'text-muted-foreground')}>
       <PaginationContent>
         {/* Oldingi sahifa tugmasi */}
         <PaginationItem className="cursor-pointer select-none">

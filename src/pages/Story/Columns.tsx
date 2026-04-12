@@ -1,9 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
-import { CertificateType } from 'modules/certificate/types';
-import { Course } from 'modules/courses/types';
 import { StoryType } from 'modules/story/types';
-import { baseMediaUrl } from 'services/api';
+import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {
   getRowData: (notification: StoryType) => void;
@@ -20,7 +18,8 @@ export const createDataColumns = ({
       accessorKey: 'photo',
       header: 'Rasm',
       cell: ({ row }) => {
-        return <img src={`${baseMediaUrl}/${row.getValue('photo')}`} alt="img" width={80} height={60} style={{
+        const src = normalizeImgUrl(String(row.getValue('photo') ?? ''));
+        return <img src={src} alt="img" width={80} height={60} style={{
           objectFit: "cover",
           maxHeight:"60px"
         }} loading="lazy" />;
@@ -39,7 +38,7 @@ export const createDataColumns = ({
     //       <div className='w-24 max-h-16 relative' >
 
     //         <video
-    //           src={`${baseMediaUrl}/${course}`}
+    //           src={normalizeImgUrl(String(course))}
     //           controls
     //           className=" w-24 max-h-16"
     //         />
@@ -53,7 +52,8 @@ export const createDataColumns = ({
       accessorKey: 'video',
       header: 'Video',
       cell: ({ row }) => {
-        return <a style={{ color: "blue", cursor: "pointer" }} target="_blank" rel="noreferrer noopener" href={`${baseMediaUrl}/${row.getValue("video")}`}>Videoni ko'rish</a>;
+        const href = normalizeImgUrl(String(row.getValue('video') ?? ''));
+        return <a style={{ color: "blue", cursor: "pointer" }} target="_blank" rel="noreferrer noopener" href={href}>Videoni ko'rish</a>;
       },
     },
     {

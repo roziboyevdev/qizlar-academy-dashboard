@@ -1,4 +1,4 @@
-import { baseMediaUrl } from "services/api";
+import { baseImageUrl } from "services/api";
 
 export function isYouTubeUrl(url: string): boolean {
   if (!url) return false;
@@ -9,7 +9,7 @@ export function isYouTubeUrl(url: string): boolean {
 
 export const getMediaUrl = (path?: string): string => {
   if (path && !path.startsWith('http')) {
-    return `${baseMediaUrl}/${path}`;
+    return `${baseImageUrl}/${path.replace(/^\//, '')}`;
   } else if (path) {
     return path;
   }

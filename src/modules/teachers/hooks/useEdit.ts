@@ -14,8 +14,13 @@ interface IHook {
 export const useEditTeacher = ({ id = '', setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
-  const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: TeacherInputType) => EditData({ values, id }),
+  const { mutateAsync, isPending, isSuccess, isError } = useMutation({
+    mutationFn: (values: TeacherInputType) => {
+      if (!id) {
+        return Promise.reject(new Error('Ustoz identifikatori topilmadi'));
+      }
+      return EditData({ values, id });
+    },
     onSuccess: () => {
       toast({
         variant: 'success',
@@ -29,7 +34,7 @@ export const useEditTeacher = ({ id = '', setSheetOpen }: IHook) => {
   });
 
   return {
-    triggerEdit: mutate,
+    triggerEdit: mutateAsync,
     isPending,
     isSuccess,
     isError,

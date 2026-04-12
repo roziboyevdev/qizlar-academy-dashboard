@@ -12,9 +12,11 @@ export const useTeachersList = (pageNumber:number,pageSize:number) => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ['teachers_list',pageNumber , pageSize],
     queryFn: () => GetDatasList(pageNumber , pageSize),
-    select: (data) => ({
-      data: getDatasList(get(data, 'data.data.data')),
-      pagenationInfo: get(data, 'data.data.meta.pagination'),
+    select: (res) => ({
+      data: getDatasList(
+        get(res, 'data.data.data') ?? get(res, 'data.data') ?? []
+      ),
+      pagenationInfo: get(res, 'data.data.meta.pagination') ?? get(res, 'data.meta.pagination'),
     }),
   });
 

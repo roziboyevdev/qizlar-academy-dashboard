@@ -3,8 +3,6 @@ import { DataTable } from 'components/DataTable';
 import Loader from 'components/Loader';
 import { createDataColumns } from './Columns';
 import { Pagination } from 'components/Pagination';
-import { useUserCertificateList } from 'modules/user-certificate/hooks/useList';
-import { IUserCertificate } from 'modules/user-certificate/types';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 import regions from '../../db/regions.json';
 import districtData from '../../db/districts.json';

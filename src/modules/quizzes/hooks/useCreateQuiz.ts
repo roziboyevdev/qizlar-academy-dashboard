@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from 'components/ui/use-toast';
 import { CreateQuiz } from '../api';
+import type { QuizFormPayload } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
@@ -13,8 +14,8 @@ interface IHook {
 export const useCreateQuiz = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
-  const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: any) => CreateQuiz(values),
+  const { mutateAsync, isPending, isSuccess, isError } = useMutation({
+    mutationFn: (values: QuizFormPayload) => CreateQuiz(values),
     onSuccess: () => {
       toast({
         variant: 'success',
@@ -28,7 +29,7 @@ export const useCreateQuiz = ({ setSheetOpen }: IHook) => {
   });
 
   return {
-    triggerQuizCreate: mutate,
+    triggerQuizCreate: mutateAsync,
     isPending,
     isSuccess,
     isError,

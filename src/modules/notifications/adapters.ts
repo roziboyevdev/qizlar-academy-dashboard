@@ -1,12 +1,21 @@
 import { Notification } from './types';
-export const getNotification = (item?: Notification) => {
+
+export const getNotification = (item?: Notification & { imageUrl?: string; bannerImage?: string }) => {
+  const anyItem = item as Record<string, unknown> | undefined;
+  const candidates = [item?.photo, anyItem?.imageUrl, anyItem?.bannerImage];
+  const photo =
+    candidates
+      .map((v) => (typeof v === 'string' ? v : v != null ? String(v) : ''))
+      .find((s) => s.trim().length > 0) ?? '';
+
   return {
     id: item?.id ?? '',
     title: item?.title ?? '',
     content: item?.content ?? '',
-    photo: item?.photo ?? '',
+    body: item?.body ?? '',
+    photo,
     type: item?.type,
-    objectId: item?.objectId ?? null,
+    objectId: item?.objectId ?? (typeof anyItem?.targetId === 'string' ? anyItem.targetId : null) ?? null,
     link: item?.link ?? null,
     createdAt: item?.createdAt ?? '',
     deliveredCount: item?.deliveredCount ?? 0,

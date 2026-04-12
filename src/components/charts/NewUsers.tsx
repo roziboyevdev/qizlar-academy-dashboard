@@ -23,65 +23,77 @@ export default function NewUsersChart() {
       ],
       chart: {
         height: 400,
-        type: 'bar',
+        type: 'area',
+        toolbar: { show: false },
+        background: 'transparent',
+        fontFamily: 'Inter, sans-serif',
       },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            position: 'top',
-          },
-        },
+      theme: {
+        mode: 'dark',
+      },
+      colors: ['#E8307D'],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.4,
+          opacityTo: 0.05,
+          stops: [0, 100]
+        }
       },
       dataLabels: {
-        enabled: true,
-        formatter: function (value: number) {
-          return value;
-        },
-        offsetY: -20,
-        style: {
-          fontSize: '12px',
-          colors: ['#304758'],
-        },
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 3,
+        colors: ['#ff4d94'],
+        dropShadow: {
+          enabled: true,
+          color: '#E8307D',
+          top: 4,
+          left: 0,
+          blur: 4,
+          opacity: 0.2
+        }
       },
       xaxis: {
         categories: newUsers?.map((item: DailyData) => item.date) ?? [],
-        position: 'bottom',
-        axisTicks: {
-          show: true,
+        labels: {
+          style: { colors: '#94a3b8' }
         },
+        axisBorder: { show: false },
+        axisTicks: { show: false },
         crosshairs: {
-          fill: {
-            type: 'gradient',
-            gradient: {
-              colorFrom: '#D8E3F0',
-              colorTo: '#BED1E6',
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5,
-            },
-          },
+          stroke: {
+            color: 'rgba(255,255,255,0.1)'
+          }
         },
       },
       yaxis: {
-        axisTicks: {
-          show: true,
-        },
         labels: {
-          show: true,
-          formatter: function (value: number) {
-            return value;
-          },
-        },
+          style: { colors: '#94a3b8' }
+        }
       },
+      grid: {
+        borderColor: 'rgba(255,255,255,0.05)',
+        strokeDashArray: 4,
+      },
+      tooltip: {
+        theme: 'dark'
+      }
     };
   }, [newUsers]);
 
 
   return (
-    <Card className="col-span-4">
+    <Card className="col-span-4 rounded-2xl border-white/5 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Yangi foydalanuvchilar</CardTitle>
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-medium text-foreground tracking-wide">Foydalanuvchilar O'sishi</CardTitle>
+            <p className="text-sm text-muted-foreground">Oxirgi kungi statistika o'zgarishlari</p>
+          </div>
           <DateRangePicker date={date} setDate={setDate} />
         </div>
       </CardHeader>

@@ -1,8 +1,9 @@
 export interface CategoryType {
   id: string;
   title: string;
-  isActive: boolean,
-  date: string
+  slug?: string;
+  isActive: boolean;
+  date: string;
 }
 
 

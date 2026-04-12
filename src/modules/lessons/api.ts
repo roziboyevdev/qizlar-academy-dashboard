@@ -1,16 +1,29 @@
 import http from 'services/api';
-import { LessonInput, LessonEditBody } from './types';
+import { LessonEditBody, LessonInput } from './types';
 
-export const GetLessonsList = async (moduleId: string, currentPage: number) => {
-  return await http.get(`/lesson`, { params: { moduleId: moduleId, pageNumber: currentPage } });
+const stripHtml = (html: string) =>
+  (html ?? '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+export const GetLessonsList = async (moduleId: string, currentPage: number, courseId?: string) => {
+  return await http.get(`/lesson`, {
+    params: {
+      moduleId,
+      pageNumber: currentPage,
+      pageSize: 20,
+      ...(courseId ? { courseId } : {}),
+    },
+  });
 };
-// for rewards
+
 export const GetCourseLessonsList = async (courseId: string) => {
-  return await http.get(`/lesson/reward/${courseId}`);
+  return await http.get(`/lesson`, { params: { courseId, pageNumber: 1, pageSize: 500 } });
 };
 
 export const CreateLesson = async (values: LessonInput) => {
-  return await http.post(`/lesson/`, values);
+  return await http.post(`/lesson`, values);
 };
 
 export const EditLesson = async ({ values, id }: LessonEditBody) => {

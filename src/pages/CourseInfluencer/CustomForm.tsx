@@ -109,7 +109,7 @@ export default function CustomForm({ setSheetOpen, courseId }: IProps) {
                     </div>
 
                     {showUserDropdown && (
-                      <div className="absolute z-20 w-full mt-1 bg-white border rounded-md shadow max-h-60 overflow-y-auto">
+                      <div className="absolute z-20 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow max-h-60 overflow-y-auto">
                         {userLoading ? (
                           <p className="p-3 text-center">Yuklanmoqda...</p>
                         ) : users.length ? (

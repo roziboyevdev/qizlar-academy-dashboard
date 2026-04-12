@@ -17,7 +17,8 @@ export const useCourseLessonsList = (courseId: string) => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     select: (data) => {
-      const lessonsList = getLessonsList(get(data, 'data.data', []));
+      const raw = get(data, 'data.data.data') ?? get(data, 'data.data') ?? [];
+      const lessonsList = getLessonsList(raw);
 
       return {
         data: lessonsList,

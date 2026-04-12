@@ -69,7 +69,7 @@ export default function SelectWithInpatch({
                 }}
               />
               {showDropdown && filteredData.length > 0 ? (
-                <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                <div className="absolute z-10 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow-lg max-h-60 overflow-auto">
                   {filteredData.map(item => (
                     <div
                       key={item.type}

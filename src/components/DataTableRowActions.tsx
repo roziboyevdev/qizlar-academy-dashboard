@@ -31,7 +31,11 @@ export const DataTableRowActions = <TData,>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+        <Button
+          variant="ghost"
+          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          onClick={(e) => e.stopPropagation()}
+        >
           <EllipsisVertical className="h-4 w-4 stroke-1" />
         </Button>
       </DropdownMenuTrigger>

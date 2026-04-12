@@ -1,11 +1,12 @@
 {
-  "short_name": "UzChess Admin",
-  "name": "UzChess Admin Dashboard",
+  "short_name": "Qizlar Akademiyasi",
+  "name": "Qizlar Akademiyasi boshqaruv paneli",
   "icons": [
     {
-      "src": "logo.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "logo_only.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",

@@ -1,18 +1,22 @@
 import { CategoryType } from './types';
-export const getData = (item?: CategoryType) => {
-  
+
+type ApiCategory = CategoryType & { name?: string };
+
+export const getData = (item?: ApiCategory) => {
+  const title = item?.title ?? item?.name ?? '';
   return {
     id: item?.id ?? '',
-    title: item?.title ?? '',
-    isActive: item?.isActive ?? false,
+    title,
+    isActive: item?.isActive ?? true,
     date: item?.date ?? '',
+    slug: (item as { slug?: string })?.slug,
   };
 };
 
-export const getDatasList = (data?: CategoryType[]) => {
+export const getDatasList = (data?: ApiCategory[]) => {
   return data?.length
-    ? data?.map(item => {
-      return getData(item);
-    })
+    ? data.map((item) => {
+        return getData(item);
+      })
     : [];
 };

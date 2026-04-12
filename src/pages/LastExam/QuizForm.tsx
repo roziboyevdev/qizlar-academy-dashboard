@@ -14,137 +14,137 @@ import http from 'services/api';
 import { useEffect, useState } from 'react';
 
 const quizSchema = z.object({
-  question: z.string().min(9, { message: 'Savol minimum 8 ta harifdan iborat bolishi karak' }),
-  options: z
-    .array(
-      z.object({
-        value: z.string().min(1, { message: 'Javobni kiriting' }),
-        isCorrect: z.boolean(),
-        id: z.string().optional(),
-      })
-    )
-    .refine((data) => data.some((option) => option.isCorrect), {
-      message: "To'g'ri javobni belgilang",
-      path: ['options'],
-    }),
+    question: z.string().min(9, { message: 'Savol minimum 8 ta harifdan iborat bolishi karak' }),
+    options: z
+        .array(
+            z.object({
+                value: z.string().min(1, { message: 'Javobni kiriting' }),
+                isCorrect: z.boolean(),
+                id: z.string().optional(),
+            })
+        )
+        .refine((data) => data.some((option) => option.isCorrect), {
+            message: "To'g'ri javobni belgilang",
+            path: ['options'],
+        }),
 });
 
 export type quizFormSchema = z.infer<typeof quizSchema>;
 
 interface IProps {
-  quiz?: Quiz;
-  setSheetOpen: (state: boolean) => void;
+    quiz?: Quiz;
+    setSheetOpen: (state: boolean) => void;
 }
 
 export default function QuizForm({ quiz, setSheetOpen }: IProps) {
-  const { lessonId } = useParams();
-  const [loading, setLoading] = useState(false);
+    const { lessonId } = useParams();
+    const [loading, setLoading] = useState(false);
 
-  const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({
-    setSheetOpen,
-  });
-  const { triggerQuizEdit, isPending: isQuizEditPending } = useEditQuiz({
-    id: quiz?.id,
-    setSheetOpen,
-  });
+    const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({
+        setSheetOpen,
+    });
+    const { triggerQuizEdit, isPending: isQuizEditPending } = useEditQuiz({
+        setSheetOpen,
+    });
 
-  const getOneQuiz = async (id: string) => {
-    setLoading(true);
-    try {
-      const res = await http.get(`exam/${id}`);
-      if (res.status === 200) {
-        const data = res?.data?.data;
-
-        form.setValue('options', data?.examOptions);
-      }
-    } catch (error) {
-      alert('Savollarni olishda hatolik');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (quiz) {
-      getOneQuiz(quiz.id);
-    }
-  }, [quiz]);
-
-  const form = useForm<quizFormSchema>({
-    resolver: zodResolver(quizSchema),
-    defaultValues: quiz
-      ? {
-          question: quiz.question,
-          options: quiz.options,
+    const getOneQuiz = async (id: string) => {
+        setLoading(true);
+        try {
+            const res = await http.get(`/quiz/${id}`);
+            if (res.status === 200) {
+                const data = res?.data?.data;
+                const raw = data?.options ?? data?.examOptions ?? [];
+                form.setValue('options', raw);
+            }
+        } catch (error) {
+            alert('Savollarni olishda hatolik');
+        } finally {
+            setLoading(false);
         }
-      : {
-          // question: "<p><br></p>",
-          options: [
-            {
-              // value: "",
-              isCorrect: false,
-            },
-            {
-              // value: "",
-              isCorrect: false,
-            },
-            {
-              // value: "",
-              isCorrect: false,
-            },
-            {
-              // value: "",
-              isCorrect: false,
-            },
-          ],
-        },
-  });
-  const {
-    control,
-    formState: { errors },
-    getValues,
-  } = form;
+    };
 
-  const { fields: questionFields } = useFieldArray({
-    name: 'options',
-    control,
-  });
+    useEffect(() => {
+        if (quiz) {
+            getOneQuiz(quiz.id);
+        }
+    }, [quiz]);
 
-  function onSubmit(formValues: quizFormSchema) {
-    if (quiz) {
-      triggerQuizEdit({ ...formValues, courseId: lessonId! });
-    } else {
-      triggerQuizCreate({ ...formValues, courseId: lessonId! });
+    const form = useForm<quizFormSchema>({
+        resolver: zodResolver(quizSchema),
+        defaultValues: quiz
+            ? {
+                question: quiz.question,
+                options: quiz.options,
+            }
+            : {
+                // question: "<p><br></p>",
+                options: [
+                    {
+                        // value: "",
+                        isCorrect: false,
+                    },
+                    {
+                        // value: "",
+                        isCorrect: false,
+                    },
+                    {
+                        // value: "",
+                        isCorrect: false,
+                    },
+                    {
+                        // value: "",
+                        isCorrect: false,
+                    },
+                ],
+            },
+    });
+    const {
+        control,
+        formState: { errors },
+        getValues,
+    } = form;
+
+    const { fields: questionFields } = useFieldArray({
+        name: 'options',
+        control,
+    });
+
+    async function onSubmit(formValues: quizFormSchema) {
+        const payload = { ...formValues, courseId: lessonId! };
+        if (quiz?.id) {
+            await triggerQuizEdit({ id: quiz.id, values: payload });
+        } else {
+            triggerQuizCreate(payload);
+        }
     }
-  }
 
-  return (
-    <Form {...form}>
-      <form
-        // onSubmit={form.handleSubmit(onSubmit)}
-        onSubmit={form.handleSubmit(onSubmit, (err) => console.log('Validation error: ', err))}
-        className="flex flex-col gap-2"
-      >
-        <div className="flex gap-4 flex-col my-4">
-          {/* <TextAreaField name={`question`} label="Savol" required /> */}
-          <RichTextEditorForQuiz name="question" label="Savol" required />
-          <hr />
-          <FormDescription className="mb-2 text-xs">Bitta to'g'ri javobni belgilang</FormDescription>
-          {loading && <h3>Javoblar yuklanmoqda... </h3>}
+    return (
+        <Form {...form}>
+            <form
+                // onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(onSubmit, (err) => console.log('Validation error: ', err))}
+                className="flex flex-col gap-2"
+            >
+                <div className="flex gap-4 flex-col my-4">
+                    {/* <TextAreaField name={`question`} label="Savol" required /> */}
+                    <RichTextEditorForQuiz name="question" label="Savol" required />
+                    <hr />
+                    <FormDescription className="mb-2 text-xs">Bitta to'g'ri javobni belgilang</FormDescription>
+                    {loading && <h3>Javoblar yuklanmoqda... </h3>}
 
-          <QuizOptions />
+                    <QuizOptions />
 
-          {errors.options && (
-            // @ts-ignore
-            <FormMessage className="text-red-600">{errors.options?.message}</FormMessage>
-          )}
-        </div>
-        {quiz ? (
-          <LoadingButton isLoading={isQuizEditPending}>Tahrirlash</LoadingButton>
-        ) : (
-          <LoadingButton isLoading={isQuizCreatePending}>Saqlash</LoadingButton>
-        )}
-      </form>
-    </Form>
-  );
+                    {errors.options && (
+                        // @ts-ignore
+                        <FormMessage className="text-red-600">{errors.options?.message}</FormMessage>
+                    )}
+                </div>
+                {quiz ? (
+                    <LoadingButton isLoading={isQuizEditPending}>Tahrirlash</LoadingButton>
+                ) : (
+                    <LoadingButton isLoading={isQuizCreatePending}>Saqlash</LoadingButton>
+                )}
+            </form>
+        </Form>
+    );
 }

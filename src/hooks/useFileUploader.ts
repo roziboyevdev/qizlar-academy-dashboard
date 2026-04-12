@@ -1,5 +1,6 @@
 import { useFileUpload } from 'modules/file-upload/hooks/useFileUpload';
 
+/** Swagger `FileController`: multipart maydon nomi `file`. */
 export default function useFileUploader(url = '/file') {
   const { triggerFileUpload, isPending } = useFileUpload(url);
 
@@ -9,7 +10,9 @@ export default function useFileUploader(url = '/file') {
 
     if (values[key] instanceof File) {
       const { data } = await triggerFileUpload(formData);
-      return { ...values, [key]: data.data?.data } as TData;
+      const uploaded =
+        data?.data?.data ?? data?.data?.url ?? data?.data ?? data?.url ?? '';
+      return { ...values, [key]: uploaded } as TData;
     }
 
     return values as TData;
@@ -27,7 +30,7 @@ export function useEasyFileUploader(url = '/file') {
 
     if (file instanceof File) {
       const { data } = await triggerFileUpload(formData);
-      return data?.data?.data as string;
+      return (data?.data?.data ?? data?.data?.url ?? data?.data ?? data?.url ?? '') as string;
     }
     return '';
   }

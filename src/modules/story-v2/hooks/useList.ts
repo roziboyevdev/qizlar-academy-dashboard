@@ -11,9 +11,14 @@ export const useStoriesList = () => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ['stories_list'],
     queryFn: () => GetDatasList(),
-    select: data => ({
-      data: getDatasList(get(data, 'data.data.data')),
-    }),
+    select: (res) => {
+      const inner = get(res, 'data.data') as { data?: unknown[] } | unknown[] | undefined;
+      const raw = Array.isArray(inner) ? inner : inner?.data ?? [];
+      const list = Array.isArray(raw) ? raw : raw != null ? [raw] : [];
+      return {
+        data: getDatasList(list),
+      };
+    },
   });
 
   return {

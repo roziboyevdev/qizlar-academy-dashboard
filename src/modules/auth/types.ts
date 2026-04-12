@@ -33,6 +33,6 @@ export enum UserRole {
 
 export interface IAuthData {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   role: UserRole;
 }

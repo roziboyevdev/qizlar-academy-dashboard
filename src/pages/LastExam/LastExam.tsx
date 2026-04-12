@@ -39,7 +39,7 @@ const LastExam = () => {
         sheetTriggerTitle="Yakuniy test qo'shish"
         sheetTitle="Yangi yakuniy test qo'shish."
         TableForm={QuizForm}
-        // isAddButtonHidden={quizzesList.length >= 5}
+      // isAddButtonHidden={quizzesList.length >= 5}
       />
       {isLoading ? (
         <Loader />

@@ -22,8 +22,15 @@ const NewQuizPage = () => {
   const { data: quizzesList, isLoading } = useQuizzesList(lessonId!);
   const { triggerQuizDelete } = useDeleteQuiz(quiz?.id!);
 
-  const getRowData = (quiz: Quiz) => {
-    setQuiz(quiz);
+  const getRowData = (rowQuiz: Quiz) => {
+    setQuiz(rowQuiz);
+  };
+
+  const handleEditSheetOpen = (open: boolean) => {
+    setSheetOpen(open);
+    if (!open) {
+      setQuiz(undefined);
+    }
   };
 
   const columns = createQuizColumns({
@@ -54,12 +61,8 @@ const NewQuizPage = () => {
         </>
       )}
 
-      <Sheet
-        sheetTitle="Quiz  yaratish"
-        isOpen={isSheetOpen}
-        setSheetOpen={setSheetOpen}
-      >
-        <QuizForm quiz={quiz} setSheetOpen={setSheetOpen} />
+      <Sheet sheetTitle={quiz ? 'Quizni tahrirlash' : "Yangi quiz"} isOpen={isSheetOpen} setSheetOpen={handleEditSheetOpen}>
+        <QuizForm key={quiz?.id ?? 'new-quiz'} quiz={quiz} setSheetOpen={handleEditSheetOpen} />
       </Sheet>
 
       <AlertDialog

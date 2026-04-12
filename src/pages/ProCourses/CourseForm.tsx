@@ -11,7 +11,7 @@ import LoadingButton from 'components/LoadingButton';
 import NumberTextField from 'components/fields/Number';
 import KeywordField from 'components/fields/KeywordField';
 import { useEffect, useState } from 'react';
-import { SelectType } from 'pages/Certificate/CustomForm';
+import { SelectType } from 'types/selectField';
 import { useTeachersList } from 'modules/teachers/hooks/useList';
 
 const typeData = [
@@ -71,7 +71,6 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
   const { uploadFile, isPending: isFileUpload } = useFileUploader();
   const { triggerCourseCreate, isPending: isCourseCreatePending } = useCreateCourse({ setSheetOpen });
   const { triggerCourseEdit, isPending: isCourseEditPending } = useEditCourse({
-    id: course?.id,
     setSheetOpen,
   });
 
@@ -117,8 +116,8 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
       seoKeywords: formValues.seoKeywords?.toString(),
     };
 
-    if (course) {
-      triggerCourseEdit(payload);
+    if (course?.id) {
+      triggerCourseEdit({ id: course.id, values: payload });
     } else {
       triggerCourseCreate(payload);
     }

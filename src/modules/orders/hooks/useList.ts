@@ -4,39 +4,33 @@ import { get } from 'lodash';
 import { getDatasList } from '../adapters';
 import { GetDatasList, SearchCourseId, SearchUserId } from '../api';
 
-interface OrderFilters {
-  type: string;
+export interface OrderListFilters {
   status?: string;
-  firstname?: string;
-  lastname?: string;
-  phone?: string;
 }
 
-export const useOredersList = (currentPage: number, filters: OrderFilters) => {
+export const useOredersList = (currentPage: number, filters: OrderListFilters) => {
   const initialData = {
     data: getDatasList(),
     pagenationInfo: {
-      total_pages: 0,
-      prev_page: 0,
-      next_page: 0,
-      current_page: 1,
+      count: 0,
+      pageCount: 0,
+      pageNumber: 1,
+      pageSize: 10,
     },
   };
   const { data = initialData, ...args } = useQuery({
     queryKey: ['order_list', currentPage, filters],
     queryFn: () => GetDatasList(currentPage, filters),
-    select: (data) => ({
-      data: getDatasList(get(data, 'data.data.data')),
-      pagenationInfo: get(data, 'data.data.meta.pagination'),
+    select: (res) => ({
+      data: getDatasList(get(res, 'data.data.data')),
+      pagenationInfo: get(res, 'data.data.meta.pagination', initialData.pagenationInfo),
     }),
   });
   return {
     ...data,
     ...args,
-    // pagenationInfo
   };
 };
-
 
 export const useSearchCoursesId = (search: string) => {
   return useQuery({
@@ -49,7 +43,6 @@ export const useSearchCoursesId = (search: string) => {
     staleTime: 1000 * 60 * 5,
   });
 };
-
 
 export const useSearchUserId = (search: string) => {
   return useQuery({

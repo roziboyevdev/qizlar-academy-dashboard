@@ -1,35 +1,39 @@
+export enum LessonLinkType {
+  YOU_TUBE = 'YOU_TUBE',
+  VIDEO = 'VIDEO',
+}
+
 export interface Lesson {
-  thumbnail?: string;
   id: string;
-  title: string;
+  name: string;
+  title?: string;
   description: string;
+  shortDescription?: string;
   link: string;
+  photo?: string;
+  thumbnail?: string;
   moduleId: string;
   duration: number;
-  linkType: LessonLinkType;
-  isSoon: boolean;
-  isActive: boolean;
-  orderId: number;
-
+  orderIndex: number;
+  orderId?: number;
+  isActive?: boolean;
+  isSoon?: boolean;
+  linkType?: LessonLinkType;
 }
 
 export interface LessonInput {
-  title: string;
+  name: string;
   description: string;
-  link: string | File;
+  shortDescription?: string;
+  link: string;
+  photo?: string;
+  duration: number;
+  courseId?: string;
   moduleId: string;
-  duration?: number;
-  isSoon: boolean;
-  isActive: boolean;
-  thumbnail?: string;
+  orderIndex?: number;
 }
 
 export interface LessonEditBody {
   id: string;
-  values: LessonInput;
-}
-
-export enum LessonLinkType {
-  YOU_TUBE = 'YOU_TUBE',
-  VIDEO = 'VIDEO',
+  values: Partial<LessonInput>;
 }

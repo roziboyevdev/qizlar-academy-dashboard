@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import {  Quiz } from 'modules/lastexam/types';
+import { Quiz } from 'modules/lastexam/types';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 
 
@@ -19,7 +19,7 @@ export const createQuizColumns = ({
       header: 'Battle savoli',
       cell: ({ row }) => {
         return <>
-          <div className="img_content" dangerouslySetInnerHTML={{ __html: row.getValue("question")}} />
+          <div className="img_content" dangerouslySetInnerHTML={{ __html: row.getValue("question") }} />
         </>;
       },
     },

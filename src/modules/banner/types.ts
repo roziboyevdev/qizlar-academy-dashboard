@@ -27,6 +27,8 @@ export interface Banner {
   title: string;
   content: string;
   photo: string;
+  /** Mobil banner rasmi (API / forma) */
+  mobilePhoto?: string;
   type?: BannerType;
   location?: BannerLocationType;
   objectId?: string;

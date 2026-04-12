@@ -7,15 +7,21 @@ import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 
 interface IHook {
-  id?: string;
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useEditQuiz = ({ id = '', setSheetOpen }: IHook) => {
+export type LastExamEditVariables = { id: string; values: QuizInput };
+
+export const useEditQuiz = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
-  const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: QuizInput) => EditQuiz({ values, id }),
+  const { mutateAsync, isPending, isSuccess, isError } = useMutation({
+    mutationFn: ({ id, values }: LastExamEditVariables) => {
+      if (!id) {
+        return Promise.reject(new Error('Quiz identifikatori topilmadi'));
+      }
+      return EditQuiz({ values, id });
+    },
     onSuccess: () => {
       toast({
         variant: 'success',
@@ -29,7 +35,7 @@ export const useEditQuiz = ({ id = '', setSheetOpen }: IHook) => {
   });
 
   return {
-    triggerQuizEdit: mutate,
+    triggerQuizEdit: mutateAsync,
     isPending,
     isSuccess,
     isError,

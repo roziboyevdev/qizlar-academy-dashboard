@@ -18,12 +18,12 @@ const Lessons = () => {
   const [lesson, setLesson] = useState<Lesson>();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { moduleId } = useParams();
+  const { moduleId, courseId } = useParams();
   const {
     data: lessonsList,
     paginationInfo,
     isLoading,
-  } = useLessonsList(moduleId!, currentPage);
+  } = useLessonsList(moduleId!, currentPage, courseId);
   const { triggerLessonDelete } = useDeleteLesson(lesson?.id!);
 
   // const lastLessonOrder = lessonsList.at(-1)?.order;

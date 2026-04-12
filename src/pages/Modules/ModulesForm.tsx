@@ -48,7 +48,7 @@ export default function ModuleForm({ module, lastDataOrder: lastModuleOrder, set
   const type = params.get('type');
   const initialState = module?.title ? module?.isActive : true;
 
- const moduleSchema = createModuleSchema(type);
+  const moduleSchema = createModuleSchema(type);
   type moduleFormSchema = z.infer<typeof moduleSchema>;
   const [switchState, setSwitchState] = useState<boolean>(initialState);
   const { triggerModuleCreate, isPending: isModuleCreatePending } = useCreateModule({ setSheetOpen });
@@ -61,14 +61,14 @@ export default function ModuleForm({ module, lastDataOrder: lastModuleOrder, set
   const form = useForm<moduleFormSchema>({
     resolver: zodResolver(createModuleSchema(type)),
     defaultValues: module
-     ? {
-          title: module.title,
-          degree: module?.degree || '', 
-        }
+      ? {
+        title: module.title,
+        degree: module?.degree || '',
+      }
       : {
-          title: '',
-          degree: '', 
-        },
+        title: '',
+        degree: '',
+      },
   });
 
 

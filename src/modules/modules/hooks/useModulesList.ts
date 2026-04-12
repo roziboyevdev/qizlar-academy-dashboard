@@ -11,8 +11,8 @@ export const useModulesList = (courseId: string) => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ['modules_list', courseId],
     queryFn: () => GetModulesList(courseId),
-    select: data => {
-      const modulesList = getModulesList(get(data, 'data.data.data'));
+    select: (data) => {
+      const modulesList = getModulesList(get(data, 'data.data.data') ?? get(data, 'data.data') ?? []);
       // const sortedModulesList = modulesList.sort((a, b) => a.order - b.order);
       return { data: modulesList };
     },

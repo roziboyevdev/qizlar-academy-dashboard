@@ -10,7 +10,7 @@ import { BannerInputType, Banner, BannerType, BannerLocationType } from 'modules
 import { useEditBanner } from 'modules/banner/hooks/useEdit';
 import { useCreateBanner } from 'modules/banner/hooks/useCreate';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
-import { SelectType } from 'pages/Certificate/CustomForm';
+import { SelectType } from 'types/selectField';
 import { cleanEmptyStrings } from 'utils/clearEmptyKeys';
 import { bannerTypeData } from 'constants/banner';
 

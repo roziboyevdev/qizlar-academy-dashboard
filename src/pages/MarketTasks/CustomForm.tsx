@@ -10,10 +10,9 @@ import NumberTextField from 'components/fields/Number';
 import { useCreateMarketTask } from 'modules/market-taskts/hooks/useCreate';
 import { useEditMarketTask } from 'modules/market-taskts/hooks/useEdit';
 import { IMarketTask, IMarketTaskInput } from 'modules/market-taskts/types';
-import { FREQUENCY_OPTIONS, EVENT_OPTIONS, TYPE_OPTIONS, TaskType, TaskEvent, TaskFrequency } from 'modules/market-taskts/constants';
+import { FREQUENCY_OPTIONS, EVENT_OPTIONS, TYPE_OPTIONS, TaskEvent, TaskFrequency } from 'modules/market-taskts/constants';
 import { Label } from 'components/ui/label';
 import { Switch } from 'components/ui/switch';
-import { useSurveyList } from 'modules/survey/hooks/useList';
 
 interface IProps {
   product?: IMarketTask;
@@ -24,8 +23,6 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
   const [state, setState] = useState(false);
 
   const { uploadFile } = useFileUploader();
-  // const { surveys, isLoading: isSurveysLoading } = useSurveyList();
-  const { data: surveys, isLoading: isSurveysLoading } = useSurveyList(20);
 
   const { triggerCreate } = useCreateMarketTask({
     setSheetOpen,
@@ -60,7 +57,6 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
         },
   });
 
-  const selectedType = form.watch('type');
   const selectedEvent = form.watch('event');
   const selectedFrequency = form.watch('frequency');
 
@@ -87,12 +83,6 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
     }
   }
 
-
-  const surveyOptions = surveys.map((survey) => ({
-    name: survey.question,
-    type: survey.id,
-  }));
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -114,17 +104,6 @@ export default function CustomForm({ product, setSheetOpen }: IProps) {
           )}
 
           <SelectField name="type" label="Turi" placeholder="Tur tanlang" data={TYPE_OPTIONS} required />
-
-
-          {selectedType === TaskType.SURVEY && (
-            <SelectField
-              name="surveyId"
-              label="So'rovnoma"
-              placeholder={isSurveysLoading ? 'Yuklanmoqda...' : "So'rovnoma tanlang"}
-              data={surveyOptions}
-              required
-            />
-          )}
 
           <div className="flex items-center gap-2">
             <Switch id="isActive" checked={form.watch('isActive')} onCheckedChange={(checked) => form.setValue('isActive', checked)} />

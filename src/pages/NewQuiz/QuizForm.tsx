@@ -57,54 +57,82 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
   const { lessonId } = useParams();
   const { uploadFile: easyUpload } = useEasyFileUploader();
   const { triggerQuizCreate, isPending: isQuizCreatePending } = useCreateQuiz({ setSheetOpen });
-  const { triggerQuizEdit, isPending: isQuizEditPending } = useEditQuiz({ id: quiz?.id, setSheetOpen });
+  const { triggerQuizEdit, isPending: isQuizEditPending } = useEditQuiz({ setSheetOpen });
+
+  const defaultOptions = () => [
+    { isCorrect: false, type: QuizOptionType.TEXT },
+    { isCorrect: false, type: QuizOptionType.TEXT },
+    { isCorrect: false, type: QuizOptionType.TEXT },
+    { isCorrect: false, type: QuizOptionType.TEXT },
+  ];
 
   const form = useForm<quizFormSchema>({
     resolver: zodResolver(quizSchema),
     defaultValues: {
       question: quiz?.question || '',
       type: quiz?.type || QuizOptionType.TEXT,
-      options:
-        quiz?.options ||
-        [
-          { isCorrect: false },
-          { isCorrect: false },
-          { isCorrect: false },
-          { isCorrect: false },
-        ],
+      options: quiz?.options?.length ? quiz.options : defaultOptions(),
     },
   });
 
-  const { formState: { errors }, setValue } = form;
+  const {
+    formState: { errors },
+    reset,
+  } = form;
 
   useEffect(() => {
-    if (quiz) {
-      setLoading(true);
-      http.get(`quiz/${quiz.id}`)
-        .then((res) => {
-          if (res.status === 200 && res.data?.data) {
-            const data = res.data.data;
-            // Ensure options match form schema
-            const quizOptions = data.quizOptions.map((opt: any) => ({
-              id: opt.id,
-              value: opt.value || '',
-              link: opt.link || '',
-              isCorrect: opt.isCorrect,
-            }));
-            setValue('options', quizOptions);
-          }
-        })
-        .catch(() => alert('Savollarni olishda xatolik'))
-        .finally(() => setLoading(false));
+    if (!quiz?.id) {
+      reset({
+        question: '',
+        type: QuizOptionType.TEXT,
+        options: defaultOptions(),
+      });
+      return;
     }
-  }, [quiz, setValue]);
+
+    setLoading(true);
+    http
+      .get(`/quiz/${quiz.id}`)
+      .then((res) => {
+        const dto = res.data?.data ?? res.data;
+        if (res.status !== 200 || !dto) return;
+
+        const rawOpts = dto.options ?? dto.quizOptions ?? [];
+        const quizOptions =
+          Array.isArray(rawOpts) && rawOpts.length
+            ? rawOpts.map((opt: Record<string, unknown>) => ({
+                id: opt.id as string | undefined,
+                value: (opt.value as string) || '',
+                link: (opt.link as string) || '',
+                type: (opt.type as QuizOptionType) || QuizOptionType.TEXT,
+                isCorrect: !!opt.isCorrect,
+              }))
+            : defaultOptions();
+
+        let nextType = quiz.type || QuizOptionType.TEXT;
+        const first = quizOptions[0];
+        if (first?.type === QuizOptionType.IMAGE || first?.type === QuizOptionType.AUDIO || first?.type === QuizOptionType.TEXT) {
+          nextType = first.type;
+        } else if (dto.mediaType === 'IMAGE' || dto.mediaType === 'AUDIO' || dto.mediaType === 'TEXT') {
+          nextType = dto.mediaType as QuizOptionType;
+        }
+
+        reset({
+          question: typeof dto.question === 'string' ? dto.question : quiz.question || '',
+          type: nextType,
+          options: quizOptions,
+        });
+      })
+      .catch(() => alert('Savollarni olishda xatolik'))
+      .finally(() => setLoading(false));
+  }, [quiz?.id, quiz?.type, quiz?.question, reset]);
 
   async function onSubmit(formValues: quizFormSchema) {
     try {
       // Process files
       const processedOptions = await Promise.all(
         formValues.options.map(async (option) => {
-          const processedOption = { ...option };
+          const processedOption = { ...option, type: formValues.type };
           if (option.link && option.link instanceof File) {
             const url = await easyUpload(option.link);
             processedOption.link = url;
@@ -115,8 +143,8 @@ export default function QuizForm({ quiz, setSheetOpen }: IProps) {
 
       const finalPayload = { ...formValues, options: processedOptions, lessonId: lessonId! };
 
-      if (quiz) {
-        await triggerQuizEdit(finalPayload);
+      if (quiz?.id) {
+        await triggerQuizEdit({ id: quiz.id, values: finalPayload });
       } else {
         await triggerQuizCreate(finalPayload);
       }

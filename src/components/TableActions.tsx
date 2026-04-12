@@ -19,15 +19,15 @@ interface IProps {
   setSearchValue?: (value: string) => void;
 }
 
-export const TableActions = ({ 
-  sheetTriggerTitle, 
-  sheetTriggerTitle2, 
-  sheetTitle2, 
-  sheetTitle, 
-  lastDataOrder, 
-  TableForm, 
-  TableForm2, 
-  isAddButtonHidden, 
+export const TableActions = ({
+  sheetTriggerTitle,
+  sheetTriggerTitle2,
+  sheetTitle2,
+  sheetTitle,
+  lastDataOrder,
+  TableForm,
+  TableForm2,
+  isAddButtonHidden,
   showSecondButton,
   searchValue = '',
   setSearchValue
@@ -44,9 +44,9 @@ export const TableActions = ({
   return (
     <div className="flex items-center justify-between mb-4">
       <div className="flex w-full max-w-sm items-center space-x-2">
-        <Input 
-          type="text" 
-          placeholder="Qidirish..." 
+        <Input
+          type="text"
+          placeholder="Qidirish..."
           value={searchValue}
           onChange={handleSearchChange}
         />
@@ -56,7 +56,7 @@ export const TableActions = ({
       </div>
 
       <div className='flex gap-5'>
-        {showSecondButton && !isAddButtonHidden && (
+        {showSecondButton && !isAddButtonHidden && TableForm2 && (
           <div className="flex items-center gap-2">
             <Button onClick={() => setSheetOpen2(true)}>
               <Plus className="size-4 mr-2" />
@@ -66,7 +66,7 @@ export const TableActions = ({
         )}
 
         <div className="flex items-center gap-2">
-          {!isAddButtonHidden && (
+          {!isAddButtonHidden && TableForm && (
             <Button onClick={() => setSheetOpen(true)}>
               <Plus className="size-4 mr-2" />
               {sheetTriggerTitle}
@@ -75,13 +75,17 @@ export const TableActions = ({
         </div>
       </div>
 
-      <Sheet sheetTitle={sheetTitle2} isOpen={isSheetOpen2} setSheetOpen={setSheetOpen2}>
-        <TableForm2 lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen2} />
-      </Sheet>
+      {TableForm2 ? (
+        <Sheet sheetTitle={sheetTitle2} isOpen={isSheetOpen2} setSheetOpen={setSheetOpen2}>
+          <TableForm2 lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen2} />
+        </Sheet>
+      ) : null}
 
-      <Sheet sheetTitle={sheetTitle} isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
-        <TableForm lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen} />
-      </Sheet>
+      {TableForm ? (
+        <Sheet sheetTitle={sheetTitle} isOpen={isSheetOpen} setSheetOpen={setSheetOpen}>
+          <TableForm lastDataOrder={lastDataOrder} setSheetOpen={setSheetOpen} />
+        </Sheet>
+      ) : null}
     </div>
   );
 };

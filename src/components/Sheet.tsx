@@ -23,7 +23,7 @@ export const Sheet = ({
   setSheetOpen,
 }: IProps) => {
   return (
-    <SheetRoot open={isOpen} onOpenChange={() => setSheetOpen(false)}>
+    <SheetRoot open={isOpen} onOpenChange={setSheetOpen}>
       <SheetContent className="overflow-auto sm:max-w-2xl">
         <SheetHeader>
           <SheetTitle>{sheetTitle}</SheetTitle>

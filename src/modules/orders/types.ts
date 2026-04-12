@@ -1,15 +1,18 @@
-export enum DonationStatus {
-  NEW = 'NEW',
-  PENDING = 'PENDING',
-  DONE = 'DONE',
-  CANCELED = 'CANCELED',
-}
+/** Admin buyurtma statuslari (Swagger Order) */
+export type OrderAdminStatus =
+  | 'PENDING'
+  | 'PAID'
+  | 'SHIPPED'
+  | 'DELIVERED'
+  | 'CANCELLED'
+  | 'REFUNDED';
 
-export enum OrderType {
-  ALL = 'ALL',
-  DELETED = 'DELETED',
-  ACTIVE = 'ACTIVE',
-}
+/** Eski nomlar bilan mos kelishi uchun */
+export const DonationStatus = {
+  PENDING: 'PENDING',
+  DONE: 'PAID',
+  CANCELED: 'CANCELLED',
+} as const;
 
 interface User {
   firstname: string;
@@ -21,12 +24,13 @@ interface IProduct {
   title: string;
   count: number;
 }
+
 export interface IOrder {
   id: string;
   orderId: number;
   price: number;
   comment: string;
-  status: DonationStatus;
+  status: OrderAdminStatus;
   user?: User | null;
   product?: IProduct | null;
   updatedAt?: string;
@@ -35,7 +39,7 @@ export interface IOrder {
 
 export interface IOrderInput {
   id: string;
-  status: DonationStatus;
+  status: OrderAdminStatus;
 }
 
 export interface OrdersCreateType {
@@ -44,13 +48,13 @@ export interface OrdersCreateType {
 }
 
 export interface IOrdersFilter {
-  id: string,
-  userId: string,
-  courseId: string,
-  amount: number,
-  createdAt: string,
-  user: {},
-  course: {}
+  id: string;
+  userId: string;
+  courseId: string;
+  amount: number;
+  createdAt: string;
+  user: Record<string, unknown>;
+  course: Record<string, unknown>;
 }
 
 export interface OrdersFormType {

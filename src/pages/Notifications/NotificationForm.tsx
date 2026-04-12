@@ -11,7 +11,7 @@ import LoadingButton from 'components/LoadingButton';
 import useFileUploader from 'hooks/useFileUploader';
 import { BannerType } from 'modules/banner/types';
 import { bannerTypeData } from 'constants/banner';
-import { SelectType } from 'pages/Certificate/CustomForm';
+import { SelectType } from 'types/selectField';
 import { useEffect, useState } from 'react';
 import { useCoursesList } from 'modules/courses/hooks/useCoursesList';
 
@@ -30,6 +30,7 @@ const notificationSchema = z.object({
   type: z.nativeEnum(BannerType),
   objectId: z.string().optional(),
   link: z.string().optional(),
+  userId: z.string().optional(),
 });
 
 type notificationFormSchema = z.infer<typeof notificationSchema>;
@@ -67,6 +68,7 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
           body: '',
           photo: undefined,
           type: BannerType.NONE,
+          userId: '',
         },
   });
 
@@ -106,6 +108,7 @@ export default function NotificationForm({ notification, setSheetOpen }: IProps)
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
+          <TextField name="userId" label="User ID (Agar bitta userga yubormoqchi bo'lsangiz kiriting)" placeholder="User UUID..." />
           <TextField name="title" label="Bildirishnoma nomi" required />
           <TextAreaField name="body" label="Bildirishnoma matni" required />
           <RichTextEditor name="content" label="Bildirishnoma kontenti(batavsil)" required />

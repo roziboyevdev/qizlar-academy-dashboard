@@ -1,14 +1,14 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "components/ui/form";
-import { FileField,  TextField } from "components/fields";
-import LoadingButton from "components/LoadingButton";
-import useFileUploader from "hooks/useFileUploader";
-import { useState } from "react";
-import { schema, useFormSchemaType } from "./schema";
-import { TeacherInputType, TeacherType } from "modules/teachers/types";
-import { useCreateTeacher } from "modules/teachers/hooks/useCreate";
-import { useEditTeacher } from "modules/teachers/hooks/useEdit";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form } from 'components/ui/form';
+import { FileField, TextField, TextAreaField } from 'components/fields';
+import LoadingButton from 'components/LoadingButton';
+import useFileUploader from 'hooks/useFileUploader';
+import { useEffect, useState } from 'react';
+import { schema, useFormSchemaType } from './schema';
+import { TeacherInputType, TeacherType } from 'modules/teachers/types';
+import { useCreateTeacher } from 'modules/teachers/hooks/useCreate';
+import { useEditTeacher } from 'modules/teachers/hooks/useEdit';
 
 interface IProps {
   certificate?: TeacherType;
@@ -16,90 +16,74 @@ interface IProps {
 }
 
 export default function CustomForm({ certificate, setSheetOpen }: IProps) {
-  const initialState =
-    certificate?.fullname && certificate?.isActive ? certificate?.isActive : true;
-
-  const [switchState, setSwitchState] = useState<boolean>(initialState);
   const [state, setState] = useState(false);
   const { uploadFile } = useFileUploader();
   const { triggerCreate } = useCreateTeacher({
     setSheetOpen,
   });
   const { triggerEdit, isPending: isNotificationEditPending } = useEditTeacher({
-    id: certificate?.id,
+    id: certificate?.id ?? '',
     setSheetOpen,
   });
 
-  // get courses
-
   const form = useForm<useFormSchemaType>({
     resolver: zodResolver(schema),
-    defaultValues: certificate
-      ? {
-          fullname: certificate?.fullname,
-          photo: certificate?.photo,
-        }
-      : {
-          fullname: "",
-          photo: "",
-       
-        },
+    defaultValues: {
+      fullname: '',
+      photo: '',
+      bio: '',
+    },
   });
 
+  useEffect(() => {
+    if (certificate) {
+      form.reset({
+        fullname: certificate.fullname ?? '',
+        photo: certificate.photo ?? '',
+        bio: certificate.bio ?? '',
+      });
+    } else {
+      form.reset({ fullname: '', photo: '', bio: '' });
+    }
+  }, [certificate, form]);
+
   async function onSubmit(formValues: useFormSchemaType) {
+    setState(true);
     try {
-     
-      setState(true);
-     
+      const withPhoto = await uploadFile<TeacherInputType>(formValues, 'photo');
+      const payload: TeacherInputType = {
+        fullname: String(withPhoto.fullname ?? '').trim(),
+        photo: String(withPhoto.photo ?? '').trim(),
+        bio: String(withPhoto.bio ?? '').trim(),
+      };
 
-      const valuesWithVideo = await uploadFile<TeacherInputType>(formValues, "photo");
- 
-
-      if (certificate) {
-        triggerEdit({
-          ...valuesWithVideo,
-        });
-      } else {
-        triggerCreate({
-          ...valuesWithVideo,
-        });
+      if (!certificate?.id && !payload.photo) {
+        alert('Yangi ustoz uchun rasm yuklang');
+        return;
       }
-    } catch (error) {
+
+      if (certificate?.id) {
+        await triggerEdit(payload);
+      } else {
+        await triggerCreate(payload);
+      }
+    } catch {
+      alert('Aniqlanmagan hatolik!');
+    } finally {
       setState(false);
-      alert("Aniqlanmagan hatolik!");
     }
   }
 
-  
-
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex gap-4 flex-col my-4">
-          <TextField name="fullname" label="Ism" required />
-      
-       
-          {/* 
-          <CustomSwitch
-            state={switchState}
-            setState={setSwitchState}
-            labelText={
-              certificate?.withId || switchState
-                ? "Idli bunner"
-                : "Idsiz  bunner"
-            }/> */}
-         
-
+          <TextField name="fullname" label="To‘liq ism" required />
+          <TextAreaField name="bio" label="Bio" placeholder="Ustoz haqida qisqacha" />
           <FileField name="photo" label="Rasm" />
-         
         </div>
         {certificate ? (
-          <LoadingButton isLoading={isNotificationEditPending}>
-            Tahrirlash
-          </LoadingButton>
+          <LoadingButton isLoading={isNotificationEditPending}>Tahrirlash</LoadingButton>
         ) : (
           <LoadingButton isLoading={state}>Saqlash</LoadingButton>
         )}

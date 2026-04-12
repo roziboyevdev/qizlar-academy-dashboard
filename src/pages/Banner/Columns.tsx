@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableRowActions } from 'components/DataTableRowActions';
 import { Banner } from 'modules/banner/types';
-import { Link } from 'react-router-dom';
 import normalizeImgUrl from 'utils/normalizeFileUrl';
 
 interface IProps {
@@ -12,13 +11,30 @@ interface IProps {
 
 export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: IProps): ColumnDef<Banner>[] => [
   {
-    accessorKey: 'photo',
-    header: 'Rasm',
+    id: 'bannerPhotos',
+    header: 'Rasmlar',
     cell: ({ row }) => {
+      const desktop = normalizeImgUrl(String(row.original.photo || ''));
+      const mobile = normalizeImgUrl(String(row.original.mobilePhoto || ''));
+
+      const thumb = (src: string, label: string) => (
+        <div className="flex flex-col gap-1 min-w-0">
+          <span className="text-[11px] text-muted-foreground leading-none">{label}</span>
+          <a href={src} target="_blank" rel="noopener noreferrer" className="inline-block shrink-0 rounded-md border bg-muted overflow-hidden hover:opacity-90">
+            <img src={src} alt="" width={88} height={56} className="h-14 w-[5.5rem] object-cover block" loading="lazy" />
+          </a>
+        </div>
+      );
+
+      if (!desktop && !mobile) {
+        return <span className="text-muted-foreground text-sm">—</span>;
+      }
+
       return (
-        <Link to={normalizeImgUrl(row.getValue('photo'))} target="_blank" rel="noreferrer noopener" className="text-blue-600">
-          file
-        </Link>
+        <div className="flex flex-wrap items-end gap-3 max-w-[280px]">
+          {desktop ? thumb(desktop, 'Asosiy') : null}
+          {mobile ? thumb(mobile, 'Mobil') : null}
+        </div>
       );
     },
   },

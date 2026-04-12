@@ -3,32 +3,27 @@ export enum MediaType {
   VIDEO = 'VIDEO',
 }
 
-export interface IStoryMedia {
-  mediaType: MediaType;
-  mediaUrl: string | File;
-  sortId?: number;
-  title: string;
-  button: string;
-  link?: string;
-  type?: string;
-  deadline: string;
-  objectId?: string;
-}
-
+/** GET `/api/v1/story` — `StoryResponseDto` */
 export interface StoryV2Type {
   id: string;
-  title?: string;
-  thumbnail: string;
-  media: IStoryMedia[];
+  title: string | null;
+  mediaUrl: string;
+  mediaType: MediaType;
+  expiresAt: string;
+  viewCount: number;
+  likeCount: number;
+  createdAt: string;
 }
 
+/** POST `CreateStoryDto` / PATCH `UpdateStoryDto` (maydonlar ixtiyoriy patchda) */
 export interface StoryV2InputType {
   title?: string;
-  thumbnailUrl: string;
-  media?: IStoryMedia[];
+  mediaUrl: string;
+  mediaType: MediaType;
+  expiresAt: string;
 }
 
 export interface StoryV2EditBodyType {
   id: string;
-  values: StoryV2InputType;
+  values: Partial<StoryV2InputType>;
 }

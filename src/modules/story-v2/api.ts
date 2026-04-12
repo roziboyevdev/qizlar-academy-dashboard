@@ -1,8 +1,8 @@
 import { httpV2 } from 'services/api';
 import { StoryV2InputType, StoryV2EditBodyType } from './types';
 
-export const GetDatasList = async () => {
-  return await httpV2.get(`/story`);
+export const GetDatasList = async (pageNumber = 1, pageSize = 100) => {
+  return await httpV2.get(`/story`, { params: { pageNumber, pageSize } });
 };
 
 export const CreateData = async (values: StoryV2InputType) => {

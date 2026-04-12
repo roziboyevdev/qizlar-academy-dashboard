@@ -17,7 +17,7 @@ const MainLayout = ({ children }: IProps) => {
       <div className="w-full">
         <Header setSideNavOpen={setSideNavOpen} isSideNavOpen={isSideNavOpen} />
         <div className="flex justify-center">
-          <div className="max-w-7xl w-full p-5 space-y-4 bg-white dark:bg-slate-950">
+          <div className="max-w-7xl w-full p-5 space-y-4 bg-background animate-in fade-in duration-500">
             {breadcrumbs}
             {children}
           </div>

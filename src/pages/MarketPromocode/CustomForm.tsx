@@ -5,7 +5,7 @@ import { SelectField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import { useEffect, useState } from 'react';
 import { schema, useFormSchemaType } from './schema';
-import { SelectType } from 'pages/Certificate/CustomForm';
+import { SelectType } from 'types/selectField';
 import { useProductsList } from 'modules/product/hooks/useList';
 import { IMarketPromocode } from 'modules/market-promocode/types';
 import { useCreateMarketPromocode } from 'modules/market-promocode/hooks/useCreate';
@@ -23,7 +23,7 @@ const createMethods = [
     type: 'file',
   },
   {
-    name: 'Auto Genenatsiya(ustoz ai uchun)  ',
+    name: 'Auto Genenatsiya (Qizlar Akademiyasi uchun)',
     type: 'auto',
   },
 ];

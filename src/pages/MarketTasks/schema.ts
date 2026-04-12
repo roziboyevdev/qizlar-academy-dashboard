@@ -35,19 +35,6 @@ export const schema = z
   })
   .refine(
     (data) => {
-      // If type is SURVEY, surveyId is required
-      if (data.type === TaskType.SURVEY) {
-        return !!data.surveyId;
-      }
-      return true;
-    },
-    {
-      message: 'So\'rovnoma turi uchun so\'rovnoma tanlanishi shart',
-      path: ['surveyId'],
-    }
-  )
-  .refine(
-    (data) => {
       // If both dates are provided, endsAt should be after startsAt
       if (data.startsAt && data.endsAt) {
         return data.endsAt > data.startsAt;

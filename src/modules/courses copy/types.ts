@@ -38,6 +38,7 @@ export interface CourseInput {
   price?: number
   audioLink?: string
   teacherId: string
+  isActive?: boolean
   seo?: Seo | null
 }
 

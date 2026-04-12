@@ -50,7 +50,6 @@ export const EVENT_OPTIONS = [
   { name: 'Instagram ulash', type: TaskEvent.CONNECT_INSTAGRAM },
   { name: 'Telegram ulash', type: TaskEvent.CONNECT_TELEGRAM },
   { name: 'Portfolio yaratish', type: TaskEvent.CREATE_PORTFOLIO },
-  { name: 'So\'rovnoma', type: TaskEvent.SURVEY },
   { name: 'Kursni yakunlash', type: TaskEvent.COMPLETE_COURSE },
   { name: 'Bildirishnomani yoqish', type: TaskEvent.ENABLE_NOTIFICATION },
   { name: 'Fortuna aylantirilishi', type: TaskEvent.SPIN_FORTUNA },
@@ -63,5 +62,4 @@ export const EVENT_OPTIONS = [
 export const TYPE_OPTIONS = [
   { name: 'Avtomatik', type: TaskType.AUTO },
   { name: 'Qo\'lda', type: TaskType.MANUAL },
-  { name: 'So\'rovnoma', type: TaskType.SURVEY },
 ];

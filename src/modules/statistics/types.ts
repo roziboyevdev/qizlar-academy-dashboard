@@ -4,16 +4,12 @@ export interface DailyData {
   amount: number;
 }
 
+/** `/statistics/main` javobi */
 export interface IOwerviewData {
   users: number;
-  lessons: number;
-  courses: number;
-  courseViews: number;
-  certificates: number;
-  premiumAmount: number;
-  donationAmount: number;
-  freePremiums: number;
-  payedPremiums: number;
+  completedStudents: number;
+  startedStudents: number;
+  videos: number;
 }
 
 export enum AuthType {
@@ -73,5 +69,31 @@ export interface IMonthlyOwerviewData {
     mau: number;
     dauMauRate: number;
     churnRate: number;
+  };
+}
+
+/** `/statistics/count-by-area` va `/statistics/count-by-district` javobi */
+export type AreaSortBy = 'profiles' | 'startedCourses' | 'certificates' | 'certifiedUsers';
+
+export interface IAreaStat {
+  id: number;
+  name: string;
+  profiles: number;
+  startedCourses: number;
+  certificates: number;
+  certifiedUsers: number;
+  tin?: number;
+  kod?: number;
+}
+
+export interface IAreaStatPaginated {
+  data: IAreaStat[];
+  meta: {
+    pagination: {
+      count: number;
+      pageCount: number;
+      pageNumber: number;
+      pageSize: number;
+    };
   };
 }

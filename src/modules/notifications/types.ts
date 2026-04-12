@@ -22,6 +22,17 @@ export interface NotificationInput {
   type?: BannerType;
   link?: string | null;
   objectId?: string | null;
+  userId?: string;
+}
+
+export interface UserPushNotification {
+  title: string;
+  body: string;
+  imageUrl?: string;
+  data?: {
+    screen?: string;
+    courseId?: string;
+  };
 }
 
 export interface NotificationEditBody {

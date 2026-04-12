@@ -1,9 +1,12 @@
 import { Module } from './types';
-export const getModule = (item?: Module) => {
-  
+
+export const getModule = (item?: Module & { name?: string }) => {
+  const anyItem = item as Record<string, unknown> | undefined;
+  const title = item?.title ?? (anyItem?.name as string) ?? '';
+
   return {
     id: item?.id ?? '',
-    title: item?.title ?? '',
+    title,
     courseId: item?.courseId ?? '',
     degree: item?.degree ?? '',
     isActive: item?.isActive ?? false,

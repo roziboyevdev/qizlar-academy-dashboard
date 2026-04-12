@@ -1,70 +1,45 @@
 import { Link, NavLink } from 'react-router-dom';
 import {
   BookAudio,
-  Newspaper,
   Bell,
-  BadgeInfo,
   ShieldCheck,
-  BrainCircuit,
   CircleFadingPlus,
   NotebookPen,
   ShoppingBag,
-  HandCoins,
-  BadgeCheck,
   Handshake,
   TicketPercent,
-  CalendarClock,
   BarChart,
-  Gift,
-  ShieldQuestion,
   ChevronDown,
-  PhoneCall,
-  BookType,
-  Gamepad2
-  } from 'lucide-react';
+  Sparkles,
+} from 'lucide-react';
 import { Button } from 'components/ui/button';
 import { cn } from 'utils/styleUtils';
 import { useContext, useState } from 'react';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
+import { LogoMark, LogoWithName } from 'components/BrandLogo';
 
 interface IProps {
   isSideNavOpen: boolean;
 }
 
 const routePermissions: { [key: string]: UserRole[] } = {
-  '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN],
+  '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
-  '/books': [UserRole.SUPER_ADMIN],
-  '/course-assistants': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/news': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
-  '/verification': [UserRole.SUPER_ADMIN],
   '/puzzles': [UserRole.SUPER_ADMIN],
   '/notifications': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
-  '/info': [UserRole.SUPER_ADMIN],
-  '/certificate': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],    /////////
-  '/banner': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],   /////////
+  '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
+  '/banner': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/category': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
-  '/donation': [UserRole.SUPER_ADMIN],
-  '/premium-plan': [UserRole.SUPER_ADMIN],
-  '/premium': [UserRole.SUPER_ADMIN],
   '/user-certificate': [UserRole.SUPER_ADMIN],
   '/promocode': [UserRole.SUPER_ADMIN],
   '/market-promocode': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/market-tasks': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/orders': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
   '/vacancy': [UserRole.SUPER_ADMIN],
-  '/meeting': [UserRole.SUPER_ADMIN],
-  '/fortuna-product': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN],
-  '/fortuna-promocode': [UserRole.SUPER_ADMIN],
-  '/lesson-reward': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/lesson-reward-promocode': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/add-reward-to-lessons': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/survey': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/call-center': [ UserRole.CALL_CENTER],
   '/influencer': [UserRole.SUPER_ADMIN, UserRole.TOP_30_ADMIN],
+  '/skills': [UserRole.SUPER_ADMIN],
 };
 
 const SideNav = ({ isSideNavOpen }: IProps) => {
@@ -72,9 +47,9 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
   const [expandedGroups, setExpandedGroups] = useState<{ [key: string]: boolean }>({});
 
   const toggleGroup = (groupId: string) => {
-    setExpandedGroups(prev => ({
+    setExpandedGroups((prev) => ({
       ...prev,
-      [groupId]: !prev[groupId]
+      [groupId]: !prev[groupId],
     }));
   };
 
@@ -91,23 +66,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       items: [
         { title: 'Ustozlar', link: '/teachers' },
         { title: 'Kurslar', link: '/courses' },
-        { title: 'Kurs Assistant', link: '/course-assistants' },
-      ]
-    },
-     {
-      title: 'Kitoblar',
-      icon: BookType,
-      link: '/books',
-    },
-    {
-      title: 'Yangiliklar',
-      icon: Newspaper,
-      link: '/news',
-    },
-    {
-      title: 'Maxsus',
-      icon: ShieldCheck,
-      link: '/verification',
+      ],
     },
     {
       title: 'Bildirishnomalar',
@@ -115,18 +74,9 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/notifications',
     },
     {
-      title: 'Malumotlar',
-      icon: BadgeInfo,
-      link: '/info',
-    },
-    {
-      groupId: 'certificates',
-      title: 'Sertifikatlar',
+      title: 'Talabalar sertifikati',
       icon: ShieldCheck,
-      items: [
-        { title: 'Sertifikatlar', link: '/certificate' },
-        { title: 'Talabalar Sertifikatlari', link: '/user-certificate' },
-      ]
+      link: '/user-certificate',
     },
     {
       title: 'Istoriyalar',
@@ -139,117 +89,73 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       link: '/banner',
     },
     {
-      title: `Web o'yinlar`,
-      icon: Gamepad2,
-      link: '/web-games',
-    },
-    {
       groupId: 'shop',
       title: "Do'kon",
       icon: ShoppingBag,
       items: [
         { title: 'Kategoriyalar', link: '/category' },
-        { title: 'Market Vazifalari', link: '/market-tasks' },
-        { title: 'Market Promocode', link: '/market-promocode' },
         { title: 'Buyurtmalar', link: '/orders' },
-      ]
+      ],
     },
-    {
-      title: 'Donation',
-      icon: HandCoins,
-      link: '/donation',
-    },
-    {
-      groupId: 'premium',
-      title: 'Premium',
-      icon: BadgeCheck,
-      items: [
-        { title: 'Premium Plan', link: '/premium-plan' },
-        { title: 'Premium', link: '/premium' },
-      ]
-    },
-
     {
       groupId: 'promocodes',
       title: 'Promocodlar',
       icon: TicketPercent,
       items: [
         { title: 'Promocode', link: '/promocode' },
-        { title: 'Market Promocode', link: '/market-promocode' },
-        { title: 'Baraban promocode', link: '/fortuna-promocode' },
-        { title: 'Darslar promocode', link: '/lesson-reward-promocode' },
-        { title: 'Bottom sheet', link: '/bottom-sheet' },
-      ]
+      ],
+    },
+    {
+      title: 'Skillar',
+      icon: Sparkles,
+      link: '/skills',
     },
     {
       title: 'Vakansiyalar',
       icon: Handshake,
       link: '/vacancy',
     },
-    {
-      title: 'Uchrashuvlar',
-      icon: CalendarClock,
-      link: '/meeting',
-    },
-    {
-      groupId: 'gifts',
-      title: "Sovg'alar",
-      icon: Gift,
-      items: [
-        { title: "Baraban sovg'alari", link: '/fortuna-product' },
-        { title: "Darslar sovg'alari", link: '/lesson-reward' },
-        { title: "Darslarga sovg'a qo'shish", link: '/add-reward-to-lessons' },
-      ]
-    },
-      {
-      title: "So'rovnomalar",
-      icon: ShieldQuestion ,
-      link: '/survey',
-    },
-    {
-      title: "Call Center",
-      icon: PhoneCall,
-      link: '/call-center',
-    }
   ];
 
-const hasPermission = (item: any): boolean => {
-  if (!userData?.role) return false;
+  const hasPermission = (item: any): boolean => {
+    if (!userData?.role) return false;
 
-  // 🚫 CALL_CENTER uchun bosh sahifa (/) yo‘q
-  if (userData.role === UserRole.CALL_CENTER && item.link === '/') {
+    if (userData.role === UserRole.SUPER_ADMIN) {
+      return true;
+    }
+
+    if (item.link) {
+      return routePermissions[item.link]?.includes(userData.role) ?? false;
+    }
+
+    if (item.items) {
+      return item.items.some((subItem: any) => routePermissions[subItem.link]?.includes(userData.role));
+    }
+
     return false;
-  }
-
-  // 👑 SUPER_ADMIN hammasini ko‘radi
-  if (userData.role === UserRole.SUPER_ADMIN) {
-    return true;
-  }
-
-  // 🔗 Oddiy link
-  if (item.link) {
-    return routePermissions[item.link]?.includes(userData.role) ?? false;
-  }
-
-  // 📂 Group menu
-  if (item.items) {
-    return item.items.some((subItem: any) =>
-      routePermissions[subItem.link]?.includes(userData.role)
-    );
-  }
-
-  return false;
-};
-
+  };
 
   const filteredMenuItems = menuItems.filter(hasPermission);
 
   return (
-    <aside className={cn({ 'w-full': isSideNavOpen }, 'sticky top-0 max-w-72 flex flex-col border-solid border-r-2 h-screen')}>
-      <header className="z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 p-2">
-        <Link to="/" className={`flex h-10 items-center gap-2 px-4 dark:text-white ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}>
-          {isSideNavOpen && <h1 className="font-semibold">UstozAI </h1>}
-          <BrainCircuit />
+    <aside
+      className={cn(
+        'sticky top-0 flex flex-col border-r border-border bg-background h-screen text-muted-foreground transition-all duration-300 ease-in-out',
+        isSideNavOpen ? 'w-72' : 'w-20'
+      )}
+    >
+      <header className="z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 p-2 overflow-hidden">
+        <Link
+          to="/"
+          className={`flex h-11 items-center gap-2 px-3 text-foreground transition-all duration-300 ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}
+        >
+          <div className="flex items-center gap-2 shrink-0">
+            {isSideNavOpen ? (
+              <LogoWithName className="h-9 max-h-9 transition-all duration-300" />
+            ) : (
+              <LogoMark className="h-10 w-10 shrink-0 transition-all duration-300" />
+            )}
+          </div>
         </Link>
       </header>
       <div className="flex flex-col gap-1 p-2 overflow-y-auto">
@@ -260,55 +166,78 @@ const hasPermission = (item: any): boolean => {
                 <Button
                   variant="ghost"
                   onClick={() => toggleGroup(item.groupId)}
-                  className={`w-full ${isSideNavOpen ? 'justify-between' : 'justify-center'} dark:text-white rounded`}
+                  className={`w-full ${isSideNavOpen ? 'justify-between' : 'justify-center'} text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-xl mb-1`}
                 >
                   <div className="flex items-center">
-                    <item.icon className="size-5 stroke-[1.3px]" />
-                    {isSideNavOpen && <span className="ml-3">{item.title}</span>}
+                    <item.icon className="size-5 stroke-[1.5px]" />
+                    {isSideNavOpen && <span className="ml-3 font-normal">{item.title}</span>}
                   </div>
                   {isSideNavOpen && (
                     <ChevronDown
-                      className={`size-4 transition-transform ${
-                        expandedGroups[item.groupId] ? 'rotate-180' : ''
-                      }`}
+                      className={`size-4 transition-transform ${expandedGroups[item.groupId] ? 'rotate-180' : ''}`}
                     />
                   )}
                 </Button>
-                {expandedGroups[item.groupId] && isSideNavOpen && (
-                  <div className="pl-4 flex flex-col gap-1">
-                    {item.items.map((subItem: any, subIndex: number) => (
-                      <NavLink
-                        to={subItem.link}
-                        key={subIndex}
-                        className={({ isActive }) =>
-                          cn(
-                            { 'bg-secondary': isActive },
-                            'dark:text-white rounded block text-sm'
-                          )
-                        }
-                      >
-                        <Button variant="ghost" className="w-full justify-start py-1 h-8">
-                          <span>{subItem.title}</span>
-                        </Button>
-                      </NavLink>
-                    ))}
+                <div className={cn(
+                  "grid transition-all duration-300 ease-in-out",
+                  expandedGroups[item.groupId] && isSideNavOpen ? "grid-rows-[1fr] opacity-100 mt-1" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+                )}>
+                  <div className="overflow-hidden">
+                    <div className="ml-[25px] border-l border-white/10 flex flex-col gap-1 py-1">
+                      {item.items.map((subItem: any, subIndex: number) => (
+                        <NavLink
+                          to={subItem.link}
+                          key={subIndex}
+                          className={({ isActive }) =>
+                            cn(
+                              { 'text-foreground font-medium': isActive, 'text-muted-foreground hover:text-foreground': !isActive },
+                              'block relative transition-all duration-200'
+                            )
+                          }
+                        >
+                          <Button variant="ghost" className="w-full justify-start py-0 h-9 bg-transparent hover:bg-transparent relative text-inherit">
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 border-t border-white/10" />
+                            <span className="pl-6 font-normal tracking-wide">{subItem.title}</span>
+                          </Button>
+                        </NavLink>
+                      ))}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             ) : (
               <NavLink
                 to={item.link}
                 className={({ isActive }) =>
-                  cn({ 'bg-secondary': isActive }, 'dark:text-white rounded block')
+                  cn(
+                    { 
+                      'bg-[#1c222b] border-white/[0.08] text-foreground shadow-[0_4px_20px_-10px_rgba(232,48,125,0.2)]': isActive, 
+                      'border-transparent text-muted-foreground hover:bg-white/5 hover:text-foreground': !isActive 
+                    }, 
+                    'rounded-xl block relative border transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) mb-1.5 active:scale-[0.97] group'
+                  )
                 }
               >
-                <Button
-                  variant="ghost"
-                  className={`w-full ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}
-                >
-                  <item.icon className="size-5 stroke-[1.3px]" />
-                  {isSideNavOpen && <span className="ml-3">{item.title}</span>}
-                </Button>
+                {({ isActive }) => (
+                  <Button variant="ghost" className={`w-full bg-transparent hover:bg-transparent ${isSideNavOpen ? 'justify-start' : 'justify-center'} text-inherit transition-colors duration-500`}>
+                    <item.icon className={cn(
+                      "size-5 stroke-[1.5px] transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)", 
+                      isActive ? "text-primary scale-110 drop-shadow-[0_0_8px_rgba(232,48,125,0.4)]" : "group-hover:scale-110"
+                    )} />
+                    {isSideNavOpen && (
+                      <span className={cn(
+                        "ml-3 font-normal overflow-hidden whitespace-nowrap transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)",
+                        isActive ? "translate-x-0 opacity-100" : "opacity-80 group-hover:opacity-100"
+                      )}>
+                        {item.title}
+                      </span>
+                    )}
+                    {/* Subtle glow indicator */}
+                    {isActive && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-primary rounded-r-full shadow-[0_0_12px_rgba(232,48,125,0.8)] animate-in fade-in zoom-in duration-500" />
+                    )}
+                  </Button>
+                )}
               </NavLink>
             )}
           </div>

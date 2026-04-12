@@ -1,12 +1,16 @@
 import http from 'services/api';
-import { VacancyEditBody, VacancyInput } from './types';
+import { VacancyEditBody, VacancyInput, VacancyListQuery } from './types';
 
-export const GetVacanciesList = async () => {
-  return await http.get(`/vacancy/`);
+export const GetVacanciesList = async (params?: VacancyListQuery) => {
+  return await http.get(`/vacancy`, { params });
+};
+
+export const GetVacancyById = async (id: string) => {
+  return await http.get(`/vacancy/${id}`);
 };
 
 export const CreateVacancy = async (values: VacancyInput) => {
-  return await http.post(`/vacancy/`, values);
+  return await http.post(`/vacancy`, values);
 };
 
 export const EditVacancy = async ({ values, id }: VacancyEditBody) => {

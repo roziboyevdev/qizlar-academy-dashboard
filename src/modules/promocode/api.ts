@@ -1,36 +1,20 @@
-import http from "services/api";
-import { IPromocodeEditBody, IPromocodeInput } from "./types";
+import http from 'services/api';
 
-export const GetPromocodesList = async ({
-  pageNumber,
-  pageSize,
-  isActive,
-  search,
-}: {
-  pageNumber: number;
-  pageSize: number;
-  isActive?: boolean;
-  search?: string;
-}) => {
-  return await http.get('/promocode', {
+export const GetPromocodesList = async (params: { productId: string; isUsed?: boolean }) => {
+  return await http.get('/promo-code', {
     params: {
-      pageNumber,
-      pageSize,
-      isActive,
-      search,
+      productId: params.productId,
+      ...(params.isUsed !== undefined ? { isUsed: params.isUsed } : {}),
     },
   });
 };
 
-
-export const CreatePromocode = async (values: IPromocodeInput) => {
-  return await http.post(`/promocode/`, values);
+export const GetPromoCodeStats = async () => {
+  return await http.get('/promo-code/stats');
 };
 
-export const EditPromocode = async ({ values, id }: IPromocodeEditBody) => {
-  return await http.patch(`/promocode/${id}`, values);
-};
-
-export const DeletePromocode = async (id: string) => {
-  return await http.delete(`/promocode/${id}`);
+export const UploadPromoCodesExcel = async (productId: string, file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return await http.post(`/promo-code/upload/${productId}`, formData);
 };

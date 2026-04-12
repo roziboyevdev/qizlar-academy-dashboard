@@ -11,9 +11,18 @@ export const useQuizzesList = (lessonId: string) => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ['quizzes_list', lessonId],
     queryFn: () => GetQuizzesList(lessonId),
-    select: data => ({
-      data: getQuizzesList(get(data, 'data.data')),
-    }),
+    enabled: !!lessonId,
+    select: (axiosRes) => {
+      const body = axiosRes?.data ?? {};
+      const raw =
+        get(axiosRes, 'data.data.data') ??
+        get(axiosRes, 'data.data') ??
+        get(body, 'data.data') ??
+        get(body, 'data') ??
+        (Array.isArray(body) ? body : []);
+      const list = Array.isArray(raw) ? raw : [];
+      return { data: getQuizzesList(list) };
+    },
   });
 
   return {

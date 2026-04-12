@@ -271,7 +271,7 @@ const DauMauStatisticsTable: React.FC = () => {
 
         {/* Statistics Table */}
         {data && (
-          <div className="bg-white shadow-sm rounded-lg border overflow-hidden border-gray-200">
+          <div className="bg-card text-card-foreground shadow-sm rounded-lg border border-border overflow-hidden">
             {/* Table Header */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900">Statistika natijalari</h3>
@@ -288,7 +288,7 @@ const DauMauStatisticsTable: React.FC = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qiymat</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-card divide-y divide-border">
                 {statisticsData.map((item: StatisticItem, index: number) => (
                   <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">

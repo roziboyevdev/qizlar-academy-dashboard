@@ -36,9 +36,3 @@ export interface IMarketTaskEditBody {
   id: string;
   values: IMarketTaskInput;
 }
-
-export interface ISurvey {
-  id: string;
-  title: string;
-  description?: string;
-}

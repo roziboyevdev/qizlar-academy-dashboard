@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from 'components/ui/use-toast';
-import { CreateNotification } from '../api';
+import { CreateNotification, SendUserPush } from '../api';
 import { NotificationInput } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
@@ -14,7 +14,21 @@ export const useCreateNotification = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutateAsync, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: NotificationInput) => CreateNotification(values),
+    mutationFn: (values: NotificationInput) => {
+      if (values.userId) {
+        const pushPayload = {
+          title: values.title,
+          body: values.body || values.content,
+          imageUrl: values.photo,
+          data: {
+            screen: values.link || "CourseDetail",
+            courseId: values.objectId || null
+          }
+        };
+        return SendUserPush(values.userId, pushPayload);
+      }
+      return CreateNotification(values);
+    },
     onSuccess: () => {
       toast({
         variant: 'success',

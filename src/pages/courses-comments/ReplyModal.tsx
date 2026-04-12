@@ -1,5 +1,5 @@
 import { X, Calendar, User } from 'lucide-react';
-import { baseMediaUrl } from 'services/api';
+import { baseImageUrl } from 'services/api';
 
 interface Reply {
   id: string;
@@ -35,7 +35,7 @@ const RepliesModal: React.FC<RepliesModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-2xl bg-card text-card-foreground border border-border rounded-lg shadow-lg">
         {/* HEADER */}
         <div className="flex items-center justify-between px-5 py-3 border-b">
           <h2 className="font-semibold">
@@ -51,7 +51,7 @@ const RepliesModal: React.FC<RepliesModalProps> = ({
           {replies && replies.length > 0 ? (
             replies.map((reply) => {
               const avatarUrl = reply.user.photoUrl
-                ? `${baseMediaUrl}/${reply.user.photoUrl}`
+                ? `${baseImageUrl}/${String(reply.user.photoUrl).replace(/^\//, '')}`
                 : null;
 
               return (

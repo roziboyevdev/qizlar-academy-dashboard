@@ -12,10 +12,14 @@ export const useQuizzesList = (lessonId: string, currentPage: number) => {
   const { data = initialData, ...args } = useQuery({
     queryKey: ['exam_list', lessonId, currentPage],
     queryFn: () => GetQuizzesList(lessonId, currentPage),
-    select: (data) => ({
-      data: getQuizzesList(get(data, 'data.data.data')),
-      paginationInfo: get(data, 'data.data.meta.pagination'),
-    }),
+    select: (res) => {
+      const raw = get(res, 'data.data.data') ?? get(res, 'data.data') ?? [];
+      const list = Array.isArray(raw) ? raw : [];
+      return {
+        data: getQuizzesList(list),
+        paginationInfo: get(res, 'data.data.meta.pagination'),
+      };
+    },
   });
 
   return {

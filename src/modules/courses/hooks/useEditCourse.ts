@@ -9,15 +9,21 @@ import { showErrorToast } from "utils/showErrorToast"
 import { EditCourse } from "../api"
 
 interface IHook {
-  id?: string
   setSheetOpen: (state: boolean) => void
 }
 
-export const useEditCourse = ({ id = "", setSheetOpen }: IHook) => {
+export type EditCourseVariables = { id: string; values: CourseInput }
+
+export const useEditCourse = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast()
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: CourseInput) => EditCourse({ values, id }),
+    mutationFn: ({ id, values }: EditCourseVariables) => {
+      if (!id) {
+        return Promise.reject(new Error("Kurs identifikatori topilmadi"))
+      }
+      return EditCourse({ values, id })
+    },
     onSuccess: () => {
       toast({
         variant: "success",

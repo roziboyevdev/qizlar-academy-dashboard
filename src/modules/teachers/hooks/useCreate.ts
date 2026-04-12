@@ -21,7 +21,7 @@ export const useCreateTeacher= ({ setSheetOpen }: IHook) => {
       toast({
         variant: 'success',
         title: 'Tasdiqlandi!',
-        description: 'Kurs haqida malumot muvaffaqiyatli yaratildi.',
+        description: 'Ustoz muvaffaqiyatli yaratildi.',
       });
       queryClient.invalidateQueries({ queryKey: ['teachers_list'] });
       setSheetOpen(false);

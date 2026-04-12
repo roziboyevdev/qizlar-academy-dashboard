@@ -32,6 +32,7 @@ export interface CourseInput {
   type: string;
   degree: string;
   teacherId: string;
+  isActive?: boolean;
   seo?: Seo | null;
 
 }

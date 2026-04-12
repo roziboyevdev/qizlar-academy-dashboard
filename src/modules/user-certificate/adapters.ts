@@ -1,17 +1,38 @@
-import { IUserCertificate } from './types';
-export const getData = (item?: IUserCertificate) => {
+import type { ICertificateUser, IUserCertificate } from './types';
+
+const mapUser = (raw: unknown): ICertificateUser | null => {
+  if (!raw || typeof raw !== 'object') return null;
+  const u = raw as Record<string, unknown>;
   return {
-    id: item?.id ?? '',
-    file: item?.file ?? '',
-    user: item?.user ? item?.user : null,
-    course: item?.course ? item?.course : null,
+    id: String(u.id ?? ''),
+    firstname: String(u.firstname ?? ''),
+    lastname: String(u.lastname ?? ''),
+    phone: u.phone != null ? String(u.phone) : undefined,
+    status: (u.status as ICertificateUser['status']) ?? null,
   };
 };
 
-export const getDatasList = (data?: IUserCertificate[]) => {
-  return data?.length
-    ? data.map((item) => {
-        return getData(item);
-      })
-    : [];
+export const getData = (item?: Partial<IUserCertificate> | null): IUserCertificate => {
+  const rawCourse = item?.course as ({ name?: string; title?: string } | null | undefined);
+  const course = rawCourse
+    ? {
+        name: String(rawCourse.name ?? rawCourse.title ?? ''),
+        title: String(rawCourse.title ?? rawCourse.name ?? ''),
+      }
+    : null;
+
+  return {
+    id: String(item?.id ?? ''),
+    uniqueId: Number(item?.uniqueId ?? 0),
+    type: String(item?.type ?? ''),
+    file: String(item?.file ?? ''),
+    createdAt: String(item?.createdAt ?? ''),
+    user: mapUser(item?.user),
+    course,
+  };
+};
+
+export const getDatasList = (data?: Partial<IUserCertificate>[] | null) => {
+  if (!data?.length) return [];
+  return data.map((row) => getData(row));
 };

@@ -13,8 +13,13 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <AuthProvider>
-          <BrowserRouter>
-            <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
+            <ThemeProvider defaultTheme="light" storageKey="ui-theme">
               <Routes />
             </ThemeProvider>
           </BrowserRouter>

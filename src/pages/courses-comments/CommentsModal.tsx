@@ -1,6 +1,6 @@
 
 import { X, Star, Calendar, User } from 'lucide-react'
-import { baseMediaUrl } from 'services/api'
+import { baseImageUrl } from 'services/api'
 
 
 interface CommentModalProps {
@@ -29,13 +29,13 @@ const CommentModal: React.FC<CommentModalProps> = ({
   if (!isOpen || !comment) return null
 
   const avatarUrl = comment.user.photoUrl
-    ? `${baseMediaUrl}/${comment.user.photoUrl}`
+    ? `${baseImageUrl}/${String(comment.user.photoUrl).replace(/^\//, '')}`
     : null
 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-2xl bg-card text-card-foreground border border-border rounded-lg shadow-lg">
 
         {/* HEADER */}
         <div className="flex items-center justify-between px-5 py-3 border-b">

@@ -16,6 +16,11 @@ interface DataTableProps<TData, TValue> {
   queryParams?: Record<string, string>
   customNavigationUrl?: (rowData: TData) => string
 
+  /** Qator bosilganda (masalan, yon panelda preview) */
+  onRowClick?: (row: TData) => void
+  selectedRowId?: string
+  getRowId?: (row: TData) => string
+
   // ✅ pagination
   pageNumber?: number
   pageSize?: number
@@ -30,6 +35,9 @@ export function DataTable<TData, TValue>({
   navigateTable,
   queryParams,
   customNavigationUrl,
+  onRowClick,
+  selectedRowId,
+  getRowId,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -37,6 +45,11 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
   const navigate = useNavigate()
+
+  const rowId = (row: TData) => {
+    if (getRowId) return getRowId(row)
+    return String((row as { id?: string }).id ?? '')
+  }
 
   const buildNavigationUrl = (row: any) => {
     if (customNavigationUrl) {
@@ -53,7 +66,7 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div className="rounded-md border dark:text-white">
+    <div className="rounded-md border border-border bg-card text-card-foreground">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -75,8 +88,19 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className={cn({ "cursor-pointer": navigateTable })}
-                onClick={() => navigateTable && navigate(buildNavigationUrl(row))}
+                className={cn(
+                  (navigateTable || onRowClick) && "cursor-pointer",
+                  selectedRowId && rowId(row.original) === selectedRowId && "bg-muted/60",
+                  "animate-in fade-in slide-in-from-bottom-1 duration-500 fill-mode-both"
+                )}
+                style={{ animationDelay: `${row.index * 40}ms` }}
+                onClick={() => {
+                  if (navigateTable) {
+                    navigate(buildNavigationUrl(row))
+                  } else if (onRowClick) {
+                    onRowClick(row.original)
+                  }
+                }}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="py-3">

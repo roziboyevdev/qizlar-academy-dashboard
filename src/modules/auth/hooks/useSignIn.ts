@@ -15,21 +15,28 @@ export const useSignIn = () => {
   const { toast } = useToast();
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: IApi.SignIn) => SignIn(values).then((res) => res.data.data),
+    mutationFn: (values: IApi.SignIn) =>
+      SignIn(values).then((res) => ({
+        ...res.data.data,
+        role: (res.data.data?.role as UserRole | undefined) ?? UserRole.SUPER_ADMIN,
+      })),
     onSuccess: (data: IAuthData) => {
       setUserData(data);
 
       http.defaults.headers.common = {
-        Authorization: data?.accessToken,
+        Authorization: `Bearer ${data?.accessToken}`,
       };
 
       localStorage.setItem('access', data?.accessToken);
-      localStorage.setItem('role', data?.role);
+      if (data?.refreshToken) {
+        localStorage.setItem('refresh', data.refreshToken);
+      }
+      localStorage.setItem('role', data.role);
       setIsAuthenticated(true);
       toast({
         variant: 'success',
         title: 'Muvaffaqiyat!',
-        description: 'UstozAI platformasiga xush kelibsiz!',
+        description: 'Qizlar Akademiyasi admin paneliga xush kelibsiz!',
       });
       if (data.role == UserRole.NOTIFICATION_ADMIN) {
         navigate('/notifications');

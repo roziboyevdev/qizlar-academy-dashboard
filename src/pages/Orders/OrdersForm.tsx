@@ -163,7 +163,7 @@ export default function OrdersForm({ selectedData, setSheetOpen }: IProps) {
                     </div>
 
                     {showUserDropdown && (
-                      <div className="absolute z-20 w-full mt-1 bg-white border rounded-md shadow max-h-60 overflow-y-auto">
+                      <div className="absolute z-20 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow max-h-60 overflow-y-auto">
                         {userLoading ? (
                           <p className="p-3 text-center">Yuklanmoqda...</p>
                         ) : users.length ? (
@@ -250,7 +250,7 @@ export default function OrdersForm({ selectedData, setSheetOpen }: IProps) {
                     </div>
 
                     {showCourseDropdown && (
-                      <div className="absolute z-20 w-full mt-1 bg-white border rounded-md shadow max-h-60 overflow-y-auto">
+                      <div className="absolute z-20 w-full mt-1 bg-popover text-popover-foreground border border-border rounded-md shadow max-h-60 overflow-y-auto">
                         {courseLoading ? (
                           <p className="p-3 text-center">Yuklanmoqda...</p>
                         ) : courses.length ? (

@@ -1,31 +1,24 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
 
-import { IPromocodeInput } from '../types';
-import { queryClient } from 'services/react-query';
-import { showErrorToast } from 'utils/showErrorToast';
-import { EditPromocode } from '../api';
-
 interface IHook {
   id?: string;
   setSheetOpen: (state: boolean) => void;
 }
 
-export const useEditPromocode = ({ id = '', setSheetOpen }: IHook) => {
+/** Swaggerda promokod qatorini PATCH qilish yo‘q */
+export const useEditPromocode = ({ setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: IPromocodeInput) => EditPromocode({ values, id }),
-    onSuccess: () => {
+    mutationFn: async () => {
       toast({
-        variant: 'success',
-        title: 'Muvaffaqiyat!',
-        description: 'Kurs muvaffaqiyatli tahrirlandi.',
+        variant: 'destructive',
+        title: 'API mavjud emas',
+        description: 'Promokod qatorini tahrirlash backend hujjatida ko‘rsatilmagan.',
       });
-      queryClient.invalidateQueries({ queryKey: ['promocodes_list'] });
-      setSheetOpen(false);
     },
-    onError: (error: any) => showErrorToast(error),
+    onSuccess: () => setSheetOpen(false),
   });
 
   return {

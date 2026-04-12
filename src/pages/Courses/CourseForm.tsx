@@ -13,7 +13,7 @@ import LoadingButton from 'components/LoadingButton';
 import NumberTextField from 'components/fields/Number';
 import KeywordField from 'components/fields/KeywordField';
 import { useEffect, useState } from 'react';
-import type { SelectType } from 'pages/Certificate/CustomForm';
+import type { SelectType } from 'types/selectField';
 import { useTeachersList } from 'modules/teachers/hooks/useList';
 import MediaUploadField from 'components/fields/VideoUploder';
 import CustomSwitch from 'components/SwitchIsDreft';
@@ -167,7 +167,6 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
   const { uploadFile, isPending: isFileUpload } = useFileUploader();
   const { triggerCourseCreate, isPending: isCourseCreatePending } = useCreateCourse({ setSheetOpen });
   const { triggerCourseEdit, isPending: isCourseEditPending } = useEditCourse({
-    id: course?.id,
     setSheetOpen,
   });
 
@@ -272,8 +271,8 @@ export default function CourseForm({ course, setSheetOpen }: IProps) {
           break;
       }
 
-      if (course) {
-        triggerCourseEdit(finalPayload);
+      if (course?.id) {
+        triggerCourseEdit({ id: course.id, values: finalPayload });
       } else {
         triggerCourseCreate(finalPayload);
       }

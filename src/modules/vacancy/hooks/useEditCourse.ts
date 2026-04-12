@@ -1,10 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from 'components/ui/use-toast';
-
-import { VacancyInput } from '../types';
 import { queryClient } from 'services/react-query';
 import { showErrorToast } from 'utils/showErrorToast';
 import { EditVacancy } from '../api';
+import { VacancyInput } from '../types';
+
+type VacancyPatch = Partial<VacancyInput>;
 
 interface IHook {
   id?: string;
@@ -15,12 +16,12 @@ export const useEditVacancy = ({ id = '', setSheetOpen }: IHook) => {
   const { toast } = useToast();
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (values: VacancyInput) => EditVacancy({ values, id }),
+    mutationFn: (values: VacancyPatch) => EditVacancy({ values, id }),
     onSuccess: () => {
       toast({
         variant: 'success',
         title: 'Muvaffaqiyat!',
-        description: 'Kurs muvaffaqiyatli tahrirlandi.',
+        description: 'Vakansiya muvaffaqiyatli tahrirlandi.',
       });
       queryClient.invalidateQueries({ queryKey: ['vacancies_list'] });
       setSheetOpen(false);
