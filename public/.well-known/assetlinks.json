@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "uz.globalmove.girls_academy",
+            "sha256_cert_fingerprints": [
+                "96:8F:09:43:7B:32:8F:3E:A4:C1:A7:29:F6:32:F5:F1:EB:86:93:FE:3B:1D:FA:C6:B1:AD:F3:07:E0:E8:CC:B9"
+            ]
+        }
+    }
+]

@@ -33,7 +33,17 @@
       "Bash(curl -s https://back.qizlarakademiyasi.uz/api/v1/admin/login -H 'Content-Type: application/json' -d '{\"__TRACKED_VAR__\":\"admin\",\"password\":\"dev\"}')",
       "Bash(curl -s -u admin:dev \"https://back.qizlarakademiyasi.uz/api/v1/statistics/count-by-area\")",
       "Bash(gh auth:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(ls -la .vercel/)",
+      "Bash(cat .vercel/project.json)",
+      "Bash(vercel --version)",
+      "Bash(npm i:*)",
+      "Bash(vercel domains:*)",
+      "Bash(dig qizlarakademiyasi.uz A +short)",
+      "Bash(dig www.qizlarakademiyasi.uz A +short)",
+      "Bash(curl -sI https://qizlarakademiyasi.uz)",
+      "Bash(curl -sI http://qizlarakademiyasi.uz)",
+      "Bash(curl -sk https://qizlarakademiyasi.uz)"
     ],
     "deny": [],
     "ask": []
