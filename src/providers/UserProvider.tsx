@@ -24,8 +24,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const storedAuth = localStorage.getItem('userData');
-    if (storedAuth) {
-      setUserData(JSON.parse(storedAuth));
+    if (!storedAuth) return;
+    try {
+      setUserData(JSON.parse(storedAuth) as IAuthData);
+    } catch {
+      localStorage.removeItem('userData');
+      setUserData(null);
     }
   }, []);
 

@@ -1,12 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from 'components/ui/use-toast';
 import { AuthContext } from 'providers/auth';
 import http from 'services/api';
 import { SignIn } from '../api';
 import { IAuthData, UserRole, type IApi } from '../types';
 import { UserContext } from 'providers/UserProvider';
+import { clearAuthStorage } from 'utils/clearAuthStorage';
 
 export const useSignIn = () => {
   const navigate = useNavigate();
@@ -53,7 +54,8 @@ export const useSignIn = () => {
       }
     },
     onError: (error: any) => {
-      localStorage.clear();
+      clearAuthStorage();
+      setUserData(null);
 
       toast({
         variant: 'destructive',

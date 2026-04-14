@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useMemo, useState } from 'react';
 import Header from '../Header';
 import SideNav from '../SideNav';
 import { useRoutes } from 'react-router-dom';
@@ -10,7 +10,8 @@ interface IProps {
 
 const MainLayout = ({ children }: IProps) => {
   const [isSideNavOpen, setSideNavOpen] = useState(true);
-  const breadcrumbs = useRoutes(createBreadcrumbs());
+  const breadcrumbRoutes = useMemo(() => createBreadcrumbs(), []);
+  const breadcrumbs = useRoutes(breadcrumbRoutes);
   return (
     <div className="flex w-full">
       <SideNav isSideNavOpen={isSideNavOpen} />

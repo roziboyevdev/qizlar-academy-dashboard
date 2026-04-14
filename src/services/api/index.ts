@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clearAuthStorage } from 'utils/clearAuthStorage';
 
 const ENV = process.env;
 
@@ -52,8 +53,19 @@ http.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 401) {
-      localStorage.clear();
-      window.location.reload();
+      const hadToken = !!localStorage.getItem('access');
+      clearAuthStorage();
+
+      // Prevent infinite reload loops on public pages (e.g. Landing)
+      // when backend returns 401 for unauthenticated requests.
+      if (hadToken) {
+        const reloadGuardKey = 'did-reload-after-401';
+        const didReload = sessionStorage.getItem(reloadGuardKey) === '1';
+        if (!didReload) {
+          sessionStorage.setItem(reloadGuardKey, '1');
+          window.location.reload();
+        }
+      }
     }
 
     throw error;

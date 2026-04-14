@@ -8,6 +8,7 @@ import { AuthContext } from 'providers/auth';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
 import AuthPage from 'pages/Auth';
+import LandingPage from 'pages/Landing';
 import HomePage from 'pages/Home';
 import CoursesPage from 'pages/Courses';
 import ModulesPage from 'pages/Modules';
@@ -113,12 +114,11 @@ export const Routes = () => {
           </DOMRoutes>
         </MainLayout>
       ) : (
-        <AuthLayout>
-          <DOMRoutes>
-            <Route path="/" element={<AuthPage />} />
-            <Route path="*" element={<AuthPage />} />
-          </DOMRoutes>
-        </AuthLayout>
+        <DOMRoutes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<AuthLayout><AuthPage /></AuthLayout>} />
+          <Route path="*" element={<LandingPage />} />
+        </DOMRoutes>
       )}
       <Toaster />
     </>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="60" viewBox="0 0 240 60" role="img" aria-label="CREATIVE INC">
+  <rect x="2" y="2" width="236" height="56" rx="14" fill="none" stroke="#E8307D" stroke-width="4"/>
+  <path d="M44 18c-8 6-12 14-10 22 2 8 10 14 20 14" fill="none" stroke="#E8307D" stroke-width="6" stroke-linecap="round"/>
+  <path d="M56 22l8-6" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+  <text x="148" y="37" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="800" fill="#2b2340" letter-spacing="2">CREATIVE INC</text>
+</svg>

@@ -9,20 +9,26 @@ interface IProps {
 
 const ChessboardComponent = ({ pgn }: IProps) => {
   const { toast } = useToast();
-  const newGame = new Chess();
   const [fen, setFen] = useState('start');
 
   useEffect(() => {
+    const game = new Chess();
+    const trimmed = (pgn ?? '').trim();
+    if (!trimmed) {
+      setFen('start');
+      return;
+    }
     try {
-      newGame.loadPgn(pgn);
-      setFen(newGame.fen());
-    } catch (error) {
+      game.loadPgn(trimmed);
+      setFen(game.fen());
+    } catch {
+      setFen('start');
       toast({
         variant: 'destructive',
         title: 'Kiritilayotgan PGNda xatolik bor',
       });
     }
-  }, [pgn]);
+  }, [pgn, toast]);
 
   return <Chessboard position={fen} />;
 };

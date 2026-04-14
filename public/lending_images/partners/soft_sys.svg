@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="60" viewBox="0 0 240 60" role="img" aria-label="SOFT SYS">
+  <rect x="2" y="2" width="236" height="56" rx="14" fill="none" stroke="#E8307D" stroke-width="4"/>
+  <circle cx="36" cy="30" r="10" fill="#E8307D" opacity="0.9"/>
+  <circle cx="56" cy="30" r="10" fill="#7C3AED" opacity="0.85"/>
+  <text x="140" y="37" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="800" fill="#2b2340" letter-spacing="2">SOFT SYS</text>
+</svg>
