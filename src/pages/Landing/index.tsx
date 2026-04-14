@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
 import http from 'services/api';
 import { Award, BriefcaseBusiness, Clock, Code2, MessageCircle, Palette, Sparkles, GraduationCap, Star, type LucideIcon } from 'lucide-react';
+import { Seo } from 'components/Seo';
+import { getSiteUrl } from 'config/site';
 import './landing.css';
 
 const APP_LINK = 'https://onelink.to/4h9hr9';
@@ -28,7 +31,48 @@ const trustWomenAvatars = [
   'https://randomuser.me/api/portraits/women/7.jpg',
 ];
 
+const LANDING_SEO_DESCRIPTION =
+  "O'zbekistondagi yirik qizlar onlayn ta'lim platformasi: sifatli kurslar, professional mentorlar, hamjamiyat va rasmiy sertifikatlar. IT, dizayn, biznes va boshqa yo'nalishlar.";
+
+const LANDING_SEO_KEYWORDS = [
+  "Qizlar Akademiyasi",
+  "qizlar uchun kurslar",
+  "onlayn ta'lim O'zbekiston",
+  "ayollar IT kursi",
+  "onlayn platforma",
+  "ta'lim sertifikati",
+];
+
 const LandingPage: React.FC = () => {
+  const { pathname } = useLocation();
+  const isCanonicalLanding = pathname === '/' || pathname === '';
+  const siteUrl = getSiteUrl();
+
+  const structuredData = useMemo(() => {
+    if (!isCanonicalLanding || !siteUrl) return undefined;
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': `${siteUrl}/#website`,
+          url: siteUrl,
+          name: 'Qizlar Akademiyasi',
+          inLanguage: 'uz-UZ',
+          publisher: { '@id': `${siteUrl}/#organization` },
+        },
+        {
+          '@type': 'EducationalOrganization',
+          '@id': `${siteUrl}/#organization`,
+          name: 'Qizlar Akademiyasi',
+          url: siteUrl,
+          logo: `${siteUrl}/logo_only.svg`,
+          description: LANDING_SEO_DESCRIPTION,
+        },
+      ],
+    };
+  }, [isCanonicalLanding, siteUrl]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -294,6 +338,19 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="landing-page">
+      <Seo
+        title={
+          isCanonicalLanding
+            ? "Qizlar Akademiyasi — qizlar uchun onlayn ta'lim, kurslar va sertifikatlar"
+            : 'Qizlar Akademiyasi'
+        }
+        description={LANDING_SEO_DESCRIPTION}
+        canonicalPath={isCanonicalLanding ? '/' : undefined}
+        ogImage={isCanonicalLanding ? '/lending_images/teacher_2.jpg' : undefined}
+        keywords={isCanonicalLanding ? LANDING_SEO_KEYWORDS : undefined}
+        noindex={!isCanonicalLanding}
+        jsonLd={structuredData}
+      />
       {/* HEADER */}
       <header className={`landing-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="landing-container header-inner">

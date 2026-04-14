@@ -5,10 +5,18 @@ import {
   CardTitle,
 } from 'components/ui/card';
 import { LogoWithName } from 'components/BrandLogo';
+import { Seo } from 'components/Seo';
 import AuthForm from './Forms/AuthForm';
 
 const Auth = () => {
   return (
+    <>
+    <Seo
+      title="Kirish — boshqaruv paneli"
+      description="Qizlar Akademiyasi boshqaruv paneliga xavfsiz kirish. Administrator va moderatorlar uchun."
+      canonicalPath="/login"
+      noindex
+    />
     <Card className="w-[350px]">
       <CardHeader className="space-y-4 text-center">
         <div className="flex justify-center">
@@ -20,7 +28,8 @@ const Auth = () => {
         <AuthForm />
       </CardContent>
     </Card>
-  )
-}
+    </>
+  );
+};
 
 export default Auth;

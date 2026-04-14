@@ -3,6 +3,7 @@ import Header from '../Header';
 import SideNav from '../SideNav';
 import { useRoutes } from 'react-router-dom';
 import createBreadcrumbs from 'components/Breadcrumb';
+import { Seo } from 'components/Seo';
 
 interface IProps {
   children: ReactElement;
@@ -14,6 +15,11 @@ const MainLayout = ({ children }: IProps) => {
   const breadcrumbs = useRoutes(breadcrumbRoutes);
   return (
     <div className="flex w-full">
+      <Seo
+        title="Boshqaruv paneli"
+        description="Qizlar Akademiyasi boshqaruv paneli — kurslar, modullar va foydalanuvchilarni boshqarish."
+        noindex
+      />
       <SideNav isSideNavOpen={isSideNavOpen} />
       <div className="w-full">
         <Header setSideNavOpen={setSideNavOpen} isSideNavOpen={isSideNavOpen} />

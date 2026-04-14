@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Routes } from './routes';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -7,26 +8,27 @@ import { ThemeProvider } from 'providers/ThemeProvider';
 import { AuthProvider } from 'providers/auth';
 import { UserProvider } from 'providers/UserProvider';
 
-
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <AuthProvider>
-          <BrowserRouter
-            future={{
-              v7_startTransition: true,
-              v7_relativeSplatPath: true,
-            }}
-          >
-            <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
-              <Routes />
-            </ThemeProvider>
-          </BrowserRouter>
-        </AuthProvider>
-      </UserProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          <AuthProvider>
+            <BrowserRouter
+              future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+              }}
+            >
+              <ThemeProvider defaultTheme="light" storageKey="ui-theme">
+                <Routes />
+              </ThemeProvider>
+            </BrowserRouter>
+          </AuthProvider>
+        </UserProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 
