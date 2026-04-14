@@ -15,7 +15,6 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
     header: 'Rasmlar',
     cell: ({ row }) => {
       const desktop = normalizeImgUrl(String(row.original.photo || ''));
-      const mobile = normalizeImgUrl(String(row.original.mobilePhoto || ''));
 
       const thumb = (src: string, label: string) => (
         <div className="flex flex-col gap-1 min-w-0">
@@ -26,14 +25,13 @@ export const createDataColumns = ({ getRowData, setSheetOpen, setDialogOpen }: I
         </div>
       );
 
-      if (!desktop && !mobile) {
+      if (!desktop) {
         return <span className="text-muted-foreground text-sm">—</span>;
       }
 
       return (
         <div className="flex flex-wrap items-end gap-3 max-w-[280px]">
-          {desktop ? thumb(desktop, 'Asosiy') : null}
-          {mobile ? thumb(mobile, 'Mobil') : null}
+          {desktop ? thumb(desktop, 'Rasm') : null}
         </div>
       );
     },

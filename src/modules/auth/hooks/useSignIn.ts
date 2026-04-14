@@ -15,6 +15,21 @@ export const useSignIn = () => {
   const { setUserData } = useContext(UserContext);
   const { toast } = useToast();
 
+  const getSafeNextPath = () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get('next');
+      if (!raw) return null;
+      const decoded = decodeURIComponent(raw);
+      // Faqat ichki (same-origin) relative pathlarga ruxsat
+      if (!decoded.startsWith('/')) return null;
+      if (decoded.startsWith('//')) return null;
+      return decoded;
+    } catch {
+      return null;
+    }
+  };
+
   const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (values: IApi.SignIn) =>
       SignIn(values).then((res) => ({
@@ -39,6 +54,11 @@ export const useSignIn = () => {
         title: 'Muvaffaqiyat!',
         description: 'Qizlar Akademiyasi admin paneliga xush kelibsiz!',
       });
+      const nextPath = getSafeNextPath();
+      if (nextPath) {
+        navigate(nextPath, { replace: true });
+        return;
+      }
       if (data.role == UserRole.NOTIFICATION_ADMIN) {
         navigate('/notifications');
       } else if (data.role == UserRole.STATISTICS_ADMIN) {

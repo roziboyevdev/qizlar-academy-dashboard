@@ -6,8 +6,7 @@ import {
   FormMessage,
 } from 'components/ui/form';
 import { useFormContext } from 'react-hook-form';
-import QuillEditor from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Textarea } from 'components/ui/textarea';
 
 interface IProps {
   name: string;
@@ -24,30 +23,6 @@ export default function RichTextEditor({
 }: IProps) {
   const { control } = useFormContext();
 
-  const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'link',
-  ];
-  const modules = {
-    toolbar: {
-      container: [
-        [{ header: [1, 2, 3, 4, false] }],
-        ['bold', 'italic', 'underline', 'blockquote'],
-        [{ list: 'ordered' }, { list: 'bullet' }, 'link'],
-      ],
-    },
-    clipboard: {
-      matchVisual: true,
-    },
-  };
-
   return (
     <FormField
       control={control}
@@ -63,13 +38,12 @@ export default function RichTextEditor({
             </FormLabel>
           )}
           <FormControl>
-            <QuillEditor
-              theme="snow"
-              value={field.value}
-              onChange={field.onChange}
-              formats={formats}
-              modules={modules}
+            <Textarea
+              {...field}
+              value={typeof field.value === 'string' ? field.value : field.value == null ? '' : String(field.value)}
+              onChange={(e) => field.onChange(e.target.value)}
               placeholder={placeholder}
+              rows={10}
             />
           </FormControl>
           <FormMessage />

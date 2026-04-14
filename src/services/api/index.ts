@@ -53,18 +53,25 @@ http.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 401) {
+      const requestUrl = String(error?.config?.url ?? '');
+      const isAuthRequest =
+        requestUrl.includes('/admin/login') ||
+        requestUrl.includes('/admin/refresh') ||
+        requestUrl.includes('/auth/login') ||
+        requestUrl.includes('/login');
+
       const hadToken = !!localStorage.getItem('access');
       clearAuthStorage();
 
-      // Prevent infinite reload loops on public pages (e.g. Landing)
-      // when backend returns 401 for unauthenticated requests.
-      if (hadToken) {
-        const reloadGuardKey = 'did-reload-after-401';
-        const didReload = sessionStorage.getItem(reloadGuardKey) === '1';
-        if (!didReload) {
-          sessionStorage.setItem(reloadGuardKey, '1');
-          window.location.reload();
+      // Admin panel: token bor-yu backend 401 qaytarsa — login sahifasiga chiqarib yuboramiz.
+      // Login oqimidagi 401 (noto'g'ri parol) uchun redirect qilmaymiz.
+      if (hadToken && !isAuthRequest) {
+        if (window.location.pathname === '/login') {
+          throw error;
         }
+        const path = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+        const next = encodeURIComponent(path);
+        window.location.replace(`/login?next=${next}`);
       }
     }
 

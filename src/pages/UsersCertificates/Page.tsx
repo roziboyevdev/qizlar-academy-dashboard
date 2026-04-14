@@ -246,7 +246,7 @@ const UsersCertificatesPage = () => {
         </div>
 
         <div className="rounded-xl border border-border/60 bg-card/40 p-3 shadow-sm">
-          <p className="text-muted-foreground mb-2 text-sm font-medium">Filtrlar (Swagger parametrlari)</p>
+          <p className="text-muted-foreground mb-2 text-sm font-medium">Filtrlar</p>
           <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-end gap-2 md:gap-3">
               <div className="min-w-[180px] flex-1 sm:max-w-[220px]">
@@ -318,7 +318,7 @@ const UsersCertificatesPage = () => {
                 <div className="flex flex-wrap items-center gap-2">
                   <Input
                     className="min-w-[180px] flex-1"
-                    placeholder="Yozing… (450 ms dan keyin avtomatik)"
+                    placeholder="Qidirish..."
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     onKeyDown={(e) => {

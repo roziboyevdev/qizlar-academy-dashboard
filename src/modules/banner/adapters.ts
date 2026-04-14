@@ -5,8 +5,14 @@ const pickUrl = (...vals: unknown[]) =>
     .map((v) => (typeof v === 'string' ? v : v != null ? String(v) : ''))
     .find((s) => s.trim().length > 0) ?? '';
 
+const pickFirstNonEmpty = (...vals: unknown[]) =>
+  vals
+    .map((v) => (typeof v === 'string' ? v : v != null ? String(v) : ''))
+    .find((s) => s.trim().length > 0) ?? '';
+
 export const getData = (item?: Banner & { imageUrl?: string; bannerImage?: string; mobileImage?: string; mobileBanner?: string }) => {
   const anyItem = item as Record<string, unknown> | undefined;
+  const targetId = pickFirstNonEmpty(item?.targetId, item?.objectId, anyItem?.targetId, anyItem?.objectId);
 
   return {
     id: item?.id ?? '',
@@ -20,9 +26,12 @@ export const getData = (item?: Banner & { imageUrl?: string; bannerImage?: strin
       anyItem?.mobileBanner
     ),
     link: item?.link ?? '',
-    objectId: item?.objectId ?? '',
+    targetId,
+    // Legacy UI joylarida ishlashi uchun
+    objectId: targetId,
     type: item?.type ?? undefined,
     location: item?.location ?? undefined,
+    isActive: item?.isActive ?? (typeof anyItem?.isActive === 'boolean' ? anyItem.isActive : true),
   };
 };
 

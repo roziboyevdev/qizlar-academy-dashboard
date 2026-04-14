@@ -19,7 +19,7 @@ function App() {
               v7_relativeSplatPath: true,
             }}
           >
-            <ThemeProvider defaultTheme="light" storageKey="ui-theme">
+            <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
               <Routes />
             </ThemeProvider>
           </BrowserRouter>

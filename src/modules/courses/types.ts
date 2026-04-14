@@ -8,10 +8,16 @@ export type PricingType = 'FREE' | 'PAID' | 'TOURISM';
 
 export interface Course {
   id: string;
+  /** API v1: `name` */
+  name?: string;
   title: string;
   description: string;
+  /** API v1: `shortDescription` */
+  shortDescription?: string;
   seo: Seo | null;
+  /** Legacy: `banner`, API v1: `bannerImage` */
   banner: string;
+  bannerImage?: string;
   icon: string;
   slug: string;
   pricingType: PricingType;
@@ -24,15 +30,21 @@ export interface Course {
   teacherId: string;
   ratingCount: number;
   seoKeywords: string | string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface CourseInput {
+  /** API v1: `name` */
+  name?: string;
   title?: string;
   description?: string;
+  shortDescription?: string;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string | string[];
   banner?: string;
+  bannerImage?: string;
   icon?: string;
   slug?: string;
   pricingType?: PricingType;

@@ -3,21 +3,23 @@ export interface Module {
   title: string;
   courseId: string;
   isActive: boolean;
-  degree?: string;
+  description?: string;
+  icon?: string;
 }
 
 export interface ModuleCreateInput {
   title: string;
+  description: string;
+  icon: string | File;
   courseId: string;
   isActive: boolean;
-  degree?: string;
 }
 
 export interface ModuleEditInput {
   title: string;
-  courseId: string;
+  description: string;
+  icon: string | File;
   isActive: boolean;
-  degree?: string;
 }
 
 export interface ModuleEditBody {

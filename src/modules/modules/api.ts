@@ -8,8 +8,8 @@ export const GetModulesList = async (courseId: string) => {
 export const CreateModule = async (values: ModuleCreateInput) => {
   return await http.post(`/course-module`, {
     name: values.title,
-    description: '',
-    icon: '',
+    description: values.description ?? '',
+    icon: values.icon ?? '',
     courseId: values.courseId,
     isActive: values.isActive,
   });
@@ -18,8 +18,8 @@ export const CreateModule = async (values: ModuleCreateInput) => {
 export const EditModule = async ({ values, id }: ModuleEditBody) => {
   return await http.patch(`/course-module/${id}`, {
     name: values.title,
-    description: '',
-    icon: '',
+    description: values.description ?? '',
+    icon: values.icon ?? '',
     isActive: values.isActive,
   });
 };

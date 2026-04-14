@@ -31,19 +31,23 @@ export interface Banner {
   mobilePhoto?: string;
   type?: BannerType;
   location?: BannerLocationType;
+  /** API v1: `targetId` */
+  targetId?: string;
+  /** Legacy */
   objectId?: string;
   link?: string;
+  isActive?: boolean;
 }
 
 export interface BannerInputType {
   title: string;
   content: string;
   photo: string;
-  mobilePhoto: string;
   type?: BannerType;
   location?: BannerLocationType;
-  objectId?: string;
+  targetId?: string;
   link?: string;
+  isActive?: boolean;
 }
 
 export interface BannerEditBodyType {

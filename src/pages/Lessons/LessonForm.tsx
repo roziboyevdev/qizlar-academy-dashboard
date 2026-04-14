@@ -13,7 +13,6 @@ import { Lesson, LessonInput, LessonLinkType } from 'modules/lessons/types';
 import { RichTextEditor, SelectField, TextField, TimePickerField } from 'components/fields';
 import LoadingButton from 'components/LoadingButton';
 import { convertSecondsToHMS } from 'utils/timeConverter';
-import CustomSwitch from 'components/SwitchIsDreft';
 import NumberTextField from 'components/fields/Number';
 import MediaUploadField from 'components/fields/VideoUploder';
 import { useEasyFileUploader } from 'hooks/useFileUploader';
@@ -22,10 +21,10 @@ import normalizeImgUrl from 'utils/normalizeFileUrl';
 const lessonSchema = z.object({
   name: z.string().min(3, 'Kamida 3 ta belgi kiriting'),
   description: z.string().min(20, 'Kamida 20 ta belgi kiriting'),
-  shortDescription: z.string().optional(),
-  link: z.union([z.string(), z.instanceof(File)]).optional().nullable(),
-  photo: z.union([z.string(), z.instanceof(File)]).optional().nullable(),
-  duration: z.number().optional(),
+  shortDescription: z.string().min(3, 'Kamida 3 ta belgi kiriting'),
+  link: z.union([z.string(), z.instanceof(File)]).optional(),
+  photo: z.union([z.string(), z.instanceof(File)]).optional(),
+  duration: z.number().optional(), // serverga _duration orqali hisoblab yuboramiz
   _duration: z.date().optional(),
   orderIndex: z.number().min(1, 'Tartib raqami 1 dan katta bo\'lishi kerak').optional(),
   videoId: z.string().optional().nullable(),
@@ -71,29 +70,29 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
     resolver: zodResolver(lessonSchema),
     defaultValues: lesson
       ? {
-          name: lesson.name,
-          description: lesson.description,
-          shortDescription: lesson.shortDescription || '',
-          photo: lesson.photo ? normalizeImgUrl(lesson.photo) : undefined,
-          linkType: LessonLinkType.YOU_TUBE, // Defaulting if not present in new model
-          link: lesson.link,
-          videoId: '',
-          duration: lesson.duration,
-          _duration,
-          orderIndex: lesson.orderIndex ?? 0,
-        }
+        name: lesson.name,
+        description: lesson.description,
+        shortDescription: lesson.shortDescription || lesson.name,
+        photo: lesson.photo ? normalizeImgUrl(lesson.photo) : undefined,
+        linkType: LessonLinkType.YOU_TUBE, // Defaulting if not present in new model
+        link: lesson.link,
+        videoId: '',
+        duration: lesson.duration,
+        _duration,
+        orderIndex: lesson.orderIndex ?? 0,
+      }
       : {
-          name: '',
-          description: '',
-          shortDescription: '',
-          link: '',
-          photo: undefined,
-          videoId: '',
-          duration: 0,
-          linkType: LessonLinkType.YOU_TUBE,
-          _duration: initialDate,
-          orderIndex: lastLessonOrder ? lastLessonOrder + 1 : 1,
-        },
+        name: '',
+        description: '',
+        shortDescription: '',
+        link: '',
+        photo: undefined,
+        videoId: '',
+        duration: 0,
+        linkType: LessonLinkType.YOU_TUBE,
+        _duration: initialDate,
+        orderIndex: lastLessonOrder ? lastLessonOrder + 1 : 1,
+      },
   });
 
   const type = form.watch('linkType');
@@ -101,7 +100,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
   useEffect(() => {
     if (!lesson) {
       if (type === LessonLinkType.VIDEO) {
-        form.setValue('link', null);
+        form.setValue('link', '' as any);
         form.setValue('videoId', '');
       } else {
         form.setValue('link', '');
@@ -121,7 +120,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       const payloadData: Record<string, unknown> = {
         name: formValues.name,
         description: formValues.description,
-        shortDescription: formValues.shortDescription || formValues.name,
+        shortDescription: formValues.shortDescription,
         duration,
         moduleId: moduleId as string,
       };
@@ -137,12 +136,17 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
         const photoPath = await uploadThumbnail(formValues.photo);
         payloadData.photo = photoPath || '';
       } else {
-        payloadData.photo = lesson?.photo || formValues.photo || '';
+        payloadData.photo = (formValues.photo as string) || lesson?.photo || '';
       }
 
       // ✅ LINK
       if (formValues.linkType === LessonLinkType.YOU_TUBE) {
-        payloadData.link = typeof formValues.link === 'string' ? formValues.link : lesson?.link || '';
+        payloadData.link =
+          typeof formValues.link === 'string'
+            ? formValues.link
+            : formValues.link instanceof File
+            ? lesson?.link || ''
+            : lesson?.link || '';
       } else if (formValues.linkType === LessonLinkType.VIDEO) {
         if (formValues.link instanceof File) {
           const videoId = await uploadVideo(formValues.link);
@@ -152,9 +156,11 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
         }
       }
 
-      lesson
-        ? await triggerLessonEdit(payloadData as unknown as LessonInput)
-        : await triggerLessonCreate(payloadData as unknown as LessonInput);
+      if (lesson) {
+        await triggerLessonEdit(payloadData as unknown as Partial<LessonInput>);
+      } else {
+        await triggerLessonCreate(payloadData as unknown as LessonInput);
+      }
     } catch (e) {
       console.error('❌ Xatolik yuz berdi:', e);
       // Bu yerda toast yoki error message ko'rsatish mumkin
@@ -168,8 +174,8 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="flex flex-col gap-4 my-4">
           <TextField name="name" label="Dars nomi" required />
-          <TextField name="shortDescription" label="Dars qisqa tavsifi" />
-          
+          <TextField name="shortDescription" label="Dars qisqa tavsifi" required />
+
           <SelectField
             name="linkType"
             data={typeData}
@@ -182,6 +188,7 @@ export default function LessonForm({ lesson, lastDataOrder: lastLessonOrder, set
             label="Rasm yuklash"
             types={['JPG', 'PNG', 'JPEG', 'WEBP']}
             defaultValue={lesson?.photo ? normalizeImgUrl(lesson.photo) : undefined}
+            required
           />
 
           {type === LessonLinkType.VIDEO ? (

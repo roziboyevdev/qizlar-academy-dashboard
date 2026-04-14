@@ -17,6 +17,7 @@ interface IProps {
   children?: React.ReactNode;
   searchValue?: string;
   setSearchValue?: (value: string) => void;
+  hideSearch?: boolean;
 }
 
 export const TableActions = ({
@@ -30,7 +31,8 @@ export const TableActions = ({
   isAddButtonHidden,
   showSecondButton,
   searchValue = '',
-  setSearchValue
+  setSearchValue,
+  hideSearch = false,
 }: IProps) => {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [isSheetOpen2, setSheetOpen2] = useState(false);
@@ -43,17 +45,21 @@ export const TableActions = ({
 
   return (
     <div className="flex items-center justify-between mb-4">
-      <div className="flex w-full max-w-sm items-center space-x-2">
-        <Input
-          type="text"
-          placeholder="Qidirish..."
-          value={searchValue}
-          onChange={handleSearchChange}
-        />
-        <Button size="icon" type="button">
-          <Search className="size-4" />
-        </Button>
-      </div>
+      {!hideSearch ? (
+        <div className="flex w-full max-w-sm items-center space-x-2">
+          <Input
+            type="text"
+            placeholder="Qidirish..."
+            value={searchValue}
+            onChange={handleSearchChange}
+          />
+          <Button size="icon" type="button">
+            <Search className="size-4" />
+          </Button>
+        </div>
+      ) : (
+        <div />
+      )}
 
       <div className='flex gap-5'>
         {showSecondButton && !isAddButtonHidden && TableForm2 && (

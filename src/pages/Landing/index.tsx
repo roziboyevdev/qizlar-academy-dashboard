@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
 import http from 'services/api';
@@ -30,7 +29,6 @@ const trustWomenAvatars = [
 ];
 
 const LandingPage: React.FC = () => {
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -163,27 +161,41 @@ const LandingPage: React.FC = () => {
   const { data: coursesData } = useQuery({
     queryKey: ['landing-courses-count'],
     queryFn: () => http.get('/course', { params: { pageSize: 1, pageNumber: 1 } }),
-    select: (res) => get(res, 'data.meta.pagination.count', 0) as number,
+    select: (res) =>
+      (get(res, 'data.data.meta.pagination.count') ??
+        get(res, 'data.meta.pagination.count') ??
+        get(res, 'data.data.pagination.count') ??
+        0) as number,
     staleTime: 5 * 60 * 1000,
   });
 
   const { data: teachersData } = useQuery({
     queryKey: ['landing-teachers-count'],
     queryFn: () => http.get('/teacher', { params: { pageSize: 1, pageNumber: 1 } }),
-    select: (res) => get(res, 'data.meta.pagination.count', 0) as number,
+    select: (res) =>
+      (get(res, 'data.data.meta.pagination.count') ??
+        get(res, 'data.meta.pagination.count') ??
+        get(res, 'data.data.pagination.count') ??
+        0) as number,
     staleTime: 5 * 60 * 1000,
   });
 
   const formatNum = (n?: number) => {
-    if (!n) return '...';
+    if (n === undefined || n === null || Number.isNaN(n)) return '...';
+    if (n <= 0) return '...';
     if (n >= 1000) return `${(n / 1000).toFixed(0)}K+`;
+    return `${n}+`;
+  };
+
+  const formatCountPlus = (n?: number, fallback = '20+') => {
+    if (n === undefined || n === null || Number.isNaN(n) || n <= 0) return fallback;
     return `${n}+`;
   };
 
   const stats = [
     { value: formatNum(overview?.users), label: "O'quvchilar" },
-    { value: coursesData ? `${coursesData}+` : '...', label: "Kurslar soni" },
-    { value: teachersData ? `${teachersData}+` : '...', label: "Mutaxassislar" },
+    { value: formatCountPlus(coursesData, '20+'), label: "Kurslar soni" },
+    { value: formatCountPlus(teachersData, '20+'), label: "Mutaxassislar" },
   ];
 
   const courses = [
@@ -669,12 +681,6 @@ const LandingPage: React.FC = () => {
         <div className="footer-bottom">
           <div className="landing-container footer-bottom-inner">
             <span>© 2024 Qizlar Akademiyasi. Barcha huquqlar himoyalangan.</span>
-            <button
-              className="btn-admin-footer"
-              onClick={() => navigate('/login')}
-            >
-              🔐 Admin Panel
-            </button>
           </div>
         </div>
       </footer>

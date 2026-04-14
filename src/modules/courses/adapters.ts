@@ -4,12 +4,14 @@ export const getCourse = (item?: Course & { name?: string; bannerImage?: string 
   const anyItem = item as Record<string, unknown> | undefined;
   const title = item?.title ?? (anyItem?.name as string) ?? '';
   const banner = item?.banner ?? (anyItem?.bannerImage as string) ?? '';
+  const shortDescription = (anyItem?.shortDescription as string) ?? (item as any)?.shortDescription ?? '';
 
   return {
     id: item?.id ?? '',
     slug: item?.slug ?? '',
     title,
     description: item?.description ?? '',
+    shortDescription,
     icon: item?.icon ?? '',
     pricingType: item?.pricingType ?? 'FREE',
     isActive: item?.isActive ?? false,
