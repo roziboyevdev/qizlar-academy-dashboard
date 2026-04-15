@@ -43,7 +43,10 @@
       "Bash(dig www.qizlarakademiyasi.uz A +short)",
       "Bash(curl -sI https://qizlarakademiyasi.uz)",
       "Bash(curl -sI http://qizlarakademiyasi.uz)",
-      "Bash(curl -sk https://qizlarakademiyasi.uz)"
+      "Bash(curl -sk https://qizlarakademiyasi.uz)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

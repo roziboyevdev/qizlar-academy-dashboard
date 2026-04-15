@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/manifest.json", "destination": "/manifest.json" },
+    { "source": "/logo_only.svg", "destination": "/logo_only.svg" },
+    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+

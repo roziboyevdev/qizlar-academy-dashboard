@@ -116,6 +116,10 @@ export const Routes = () => {
       ) : (
         <DOMRoutes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<LandingPage />} />
+          <Route path="/courses" element={<LandingPage />} />
+          <Route path="/advantages" element={<LandingPage />} />
+          <Route path="/testimonials" element={<LandingPage />} />
           <Route path="/login" element={<AuthLayout><AuthPage /></AuthLayout>} />
           <Route path="*" element={<LandingPage />} />
         </DOMRoutes>

@@ -46,10 +46,18 @@ const LANDING_SEO_KEYWORDS = [
 const LandingPage: React.FC = () => {
   const { pathname } = useLocation();
   const isCanonicalLanding = pathname === '/' || pathname === '';
+  const sectionLandingMap: Record<string, string> = {
+    '/about': 'about',
+    '/courses': 'courses',
+    '/advantages': 'advantages',
+    '/testimonials': 'testimonials',
+  };
+  const isIndexableLanding =
+    isCanonicalLanding || Object.prototype.hasOwnProperty.call(sectionLandingMap, pathname);
   const siteUrl = getSiteUrl();
 
   const structuredData = useMemo(() => {
-    if (!isCanonicalLanding || !siteUrl) return undefined;
+    if (!isIndexableLanding || !siteUrl) return undefined;
     return {
       '@context': 'https://schema.org',
       '@graph': [
@@ -71,7 +79,7 @@ const LandingPage: React.FC = () => {
         },
       ],
     };
-  }, [isCanonicalLanding, siteUrl]);
+  }, [isIndexableLanding, siteUrl]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -98,6 +106,16 @@ const LandingPage: React.FC = () => {
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+
+  // SEO uchun bo‘limlarni alohida URL qilish: /about, /courses, ...
+  // Kirilganda mos section’ga skroll qiladi.
+  useEffect(() => {
+    const sectionId = sectionLandingMap[pathname];
+    if (!sectionId) return;
+    const t = window.setTimeout(() => scrollToSection(sectionId), 50);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   // Auto-slideshow: har 3.5 soniyada rasm almashadi
   useEffect(() => {
@@ -342,13 +360,21 @@ const LandingPage: React.FC = () => {
         title={
           isCanonicalLanding
             ? "Qizlar Akademiyasi — qizlar uchun onlayn ta'lim, kurslar va sertifikatlar"
-            : 'Qizlar Akademiyasi'
+            : pathname === '/courses'
+              ? "Kurslar — Qizlar Akademiyasi"
+              : pathname === '/about'
+                ? "Biz haqimizda — Qizlar Akademiyasi"
+                : pathname === '/advantages'
+                  ? "Afzalliklar — Qizlar Akademiyasi"
+                  : pathname === '/testimonials'
+                    ? "Bitiruvchilar fikri — Qizlar Akademiyasi"
+                    : 'Qizlar Akademiyasi'
         }
         description={LANDING_SEO_DESCRIPTION}
-        canonicalPath={isCanonicalLanding ? '/' : undefined}
-        ogImage={isCanonicalLanding ? '/lending_images/teacher_2.jpg' : undefined}
-        keywords={isCanonicalLanding ? LANDING_SEO_KEYWORDS : undefined}
-        noindex={!isCanonicalLanding}
+        canonicalPath={isIndexableLanding ? (isCanonicalLanding ? '/' : pathname) : undefined}
+        ogImage={isIndexableLanding ? '/lending_images/teacher_2.jpg' : undefined}
+        keywords={isIndexableLanding ? LANDING_SEO_KEYWORDS : undefined}
+        noindex={!isIndexableLanding}
         jsonLd={structuredData}
       />
       {/* HEADER */}
@@ -363,40 +389,44 @@ const LandingPage: React.FC = () => {
 
           <nav className={`landing-nav ${isMenuOpen ? 'open' : ''}`}>
             <a
-              href="#about"
+              href="/about"
               onClick={(e) => {
                 e.preventDefault();
                 setIsMenuOpen(false);
+                window.history.pushState({}, '', '/about');
                 scrollToSection('about');
               }}
             >
               Biz haqimizda
             </a>
             <a
-              href="#courses"
+              href="/courses"
               onClick={(e) => {
                 e.preventDefault();
                 setIsMenuOpen(false);
+                window.history.pushState({}, '', '/courses');
                 scrollToSection('courses');
               }}
             >
               Kurslar
             </a>
             <a
-              href="#advantages"
+              href="/advantages"
               onClick={(e) => {
                 e.preventDefault();
                 setIsMenuOpen(false);
+                window.history.pushState({}, '', '/advantages');
                 scrollToSection('advantages');
               }}
             >
               Afzalliklar
             </a>
             <a
-              href="#testimonials"
+              href="/testimonials"
               onClick={(e) => {
                 e.preventDefault();
                 setIsMenuOpen(false);
+                window.history.pushState({}, '', '/testimonials');
                 scrollToSection('testimonials');
               }}
             >
