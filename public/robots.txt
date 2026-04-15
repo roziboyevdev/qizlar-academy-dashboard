@@ -5,4 +5,4 @@ Allow: /
 # Boshqaruv paneli va kirish sahifasini indekslamaslik (xavfsizlik va kontent dublikati)
 Disallow: /login
 
-Sitemap: https://qizlarakademiyasi.uz/sitemap.xml
+Sitemap: https://www.qizlarakademiyasi.uz/sitemap.xml
