@@ -13,6 +13,15 @@ const puppeteer = require('puppeteer');
 const buildDir = path.resolve(__dirname, '..', 'build');
 const PORT = Number(process.env.PRERENDER_PORT || 47832);
 
+/** Vercel va boshqa minimal Linux imagelarda Chromium uchun libnspr4 va boshqalar bo‘lmaydi. */
+function shouldSkipPrerender() {
+  const skip = process.env.SKIP_PRERENDER;
+  if (skip === '1' || skip === 'true') return true;
+  const vercel = process.env.VERCEL;
+  if (vercel === '1' || vercel === 'true') return true;
+  return false;
+}
+
 function getMime(filePath) {
   const ext = path.extname(filePath);
   const map = {
@@ -70,6 +79,13 @@ async function main() {
   if (!fs.existsSync(buildDir)) {
     console.error('prerender: build/ topilmadi. Avval CRA build qiling.');
     process.exit(1);
+  }
+
+  if (shouldSkipPrerender()) {
+    console.log(
+      'prerender: o‘tkazib yuborildi (Vercel yoki SKIP_PRERENDER=1). SEO: Helmet + index.html; to‘liq statik HTML prerender faqat Chromium ishlaydigan muhitda.',
+    );
+    return;
   }
 
   const server = http.createServer(staticHandler);
