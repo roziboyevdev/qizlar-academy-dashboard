@@ -1,38 +1,42 @@
-import React, { useContext } from 'react';
+import React, { Suspense, lazy, useContext } from 'react';
 import { Routes as DOMRoutes, Route, Navigate } from 'react-router-dom';
 import MainLayout from 'layout/MainLayout';
 import AuthLayout from 'layout/AuthLayout';
 import { Toaster } from 'components/ui/toaster';
+import Loader from 'components/Loader';
 import { useRefreshToken } from 'modules/auth/hooks/useRefreshToken';
 import { AuthContext } from 'providers/auth';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
-import AuthPage from 'pages/Auth';
-import LandingPage from 'pages/Landing';
-import HomePage from 'pages/Home';
-import CoursesPage from 'pages/Courses';
-import ModulesPage from 'pages/Modules';
-import LessonsPage from 'pages/Lessons';
-import PuzzlesPage from 'pages/Puzzles';
-import NotificationsPage from 'pages/Notifications';
-import LastExam from 'pages/LastExam';
-import BannerPage from 'pages/Banner/Page';
-import CategoryPage from 'pages/Category/Page';
-import ProductPage from 'pages/Product/Page';
-import UsersCertificatesPage from 'pages/UsersCertificates/Page';
-import VacancyPage from 'pages/Vacancy';
-import TeachersPage from 'pages/Teachers/Page';
-import NewQuizPage from 'pages/NewQuiz';
-import PromocodePage from 'pages/Promocode';
-import OrdersPage from 'pages/Orders/Page';
-import CourseInfluencerPage from 'pages/CourseInfluencer/Page';
-import MarketPromocodePage from 'pages/MarketPromocode/Page';
-import StoryV2Page from 'pages/StoryV2/Page';
-import BattleQuestionPage from 'pages/BattleQuestion';
-import MarketTasksPage from 'pages/MarketTasks/Page';
-import UsersHalfComplitedCoursesPage from 'pages/StatisticsHalfCompleteCourse/Page';
-import CourseComments from 'pages/courses-comments';
-import SkillsPage from 'pages/Skills';
+
+const AuthPage = lazy(() => import('pages/Auth'));
+const LandingPage = lazy(() => import('pages/Landing'));
+const HomePage = lazy(() => import('pages/Home'));
+const CoursesPage = lazy(() => import('pages/Courses'));
+const ModulesPage = lazy(() => import('pages/Modules'));
+const LessonsPage = lazy(() => import('pages/Lessons'));
+const PuzzlesPage = lazy(() => import('pages/Puzzles'));
+const NotificationsPage = lazy(() => import('pages/Notifications'));
+const LastExam = lazy(() => import('pages/LastExam'));
+const BannerPage = lazy(() => import('pages/Banner/Page'));
+const CategoryPage = lazy(() => import('pages/Category/Page'));
+const ProductPage = lazy(() => import('pages/Product/Page'));
+const UsersCertificatesPage = lazy(() => import('pages/UsersCertificates/Page'));
+const VacancyPage = lazy(() => import('pages/Vacancy'));
+const TeachersPage = lazy(() => import('pages/Teachers/Page'));
+const NewQuizPage = lazy(() => import('pages/NewQuiz'));
+const PromocodePage = lazy(() => import('pages/Promocode'));
+const OrdersPage = lazy(() => import('pages/Orders/Page'));
+const CourseInfluencerPage = lazy(() => import('pages/CourseInfluencer/Page'));
+const MarketPromocodePage = lazy(() => import('pages/MarketPromocode/Page'));
+const StoryV2Page = lazy(() => import('pages/StoryV2/Page'));
+const BattleQuestionPage = lazy(() => import('pages/BattleQuestion'));
+const MarketTasksPage = lazy(() => import('pages/MarketTasks/Page'));
+const UsersHalfComplitedCoursesPage = lazy(
+  () => import('pages/StatisticsHalfCompleteCourse/Page')
+);
+const CourseComments = lazy(() => import('pages/courses-comments'));
+const SkillsPage = lazy(() => import('pages/Skills'));
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
@@ -99,31 +103,40 @@ export const Routes = () => {
 
   return (
     <>
-      {isLoading ? null : isAuthenticated ? (
-        <MainLayout>
+      <Suspense fallback={<Loader />}>
+        {isLoading ? null : isAuthenticated ? (
+          <MainLayout>
+            <DOMRoutes>
+              <Route path="/" element={<HomePage />} />
+
+              {getFilteredRoutes()
+                .filter((route) => route.path !== '/')
+                .map((route) => (
+                  <Route path={route.path} element={route.element} key={route.path} />
+                ))}
+
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </DOMRoutes>
+          </MainLayout>
+        ) : (
           <DOMRoutes>
-            <Route path="/" element={<HomePage />} />
-
-            {getFilteredRoutes()
-              .filter((route) => route.path !== '/')
-              .map((route) => (
-                <Route path={route.path} element={route.element} key={route.path} />
-              ))}
-
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<LandingPage />} />
+            <Route path="/courses" element={<LandingPage />} />
+            <Route path="/advantages" element={<LandingPage />} />
+            <Route path="/testimonials" element={<LandingPage />} />
+            <Route
+              path="/login"
+              element={
+                <AuthLayout>
+                  <AuthPage />
+                </AuthLayout>
+              }
+            />
+            <Route path="*" element={<LandingPage />} />
           </DOMRoutes>
-        </MainLayout>
-      ) : (
-        <DOMRoutes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/about" element={<LandingPage />} />
-          <Route path="/courses" element={<LandingPage />} />
-          <Route path="/advantages" element={<LandingPage />} />
-          <Route path="/testimonials" element={<LandingPage />} />
-          <Route path="/login" element={<AuthLayout><AuthPage /></AuthLayout>} />
-          <Route path="*" element={<LandingPage />} />
-        </DOMRoutes>
-      )}
+        )}
+      </Suspense>
       <Toaster />
     </>
   );

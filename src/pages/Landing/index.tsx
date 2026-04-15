@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
 import http from 'services/api';
-import { Award, BriefcaseBusiness, Clock, Code2, MessageCircle, Palette, Sparkles, GraduationCap, Star, type LucideIcon } from 'lucide-react';
+import { Award, ArrowRight, BriefcaseBusiness, Clock, Code2, MessageCircle, Palette, Sparkles, GraduationCap, Star, type LucideIcon } from 'lucide-react';
 import { Seo } from 'components/Seo';
 import { getSiteUrl } from 'config/site';
 import './landing.css';
@@ -667,8 +667,8 @@ const LandingPage: React.FC = () => {
             {testimonials.map((t, i) => (
               <div key={i} className="testimonial-card">
                 <div className="testimonial-stars">
-                  {'★★★★★'.split('').map((s, j) => (
-                    <span key={j} className="star">{s}</span>
+                  {[0, 1, 2, 3, 4].map((j) => (
+                    <Star key={j} size={15} fill="#f59e0b" color="#f59e0b" aria-hidden="true" />
                   ))}
                 </div>
                 <p className="testimonial-text">"{t.text}"</p>
@@ -714,7 +714,8 @@ const LandingPage: React.FC = () => {
             className="btn-primary btn-large btn-white-outline"
             onClick={openApp}
           >
-            Bepul ro'yxatdan o'tish →
+            <span>Bepul ro'yxatdan o'tish</span>
+            <ArrowRight size={18} aria-hidden="true" />
           </button>
 
           <div className="store-badges store-badges-on-dark">

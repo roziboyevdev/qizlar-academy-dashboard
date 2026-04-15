@@ -1,12 +1,20 @@
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import React from 'react';
 import { Routes } from './routes';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from 'services/react-query';
 import { ThemeProvider } from 'providers/ThemeProvider';
 import { AuthProvider } from 'providers/auth';
 import { UserProvider } from 'providers/UserProvider';
+
+const ReactQueryDevtools =
+  process.env.NODE_ENV === 'development'
+    ? React.lazy(async () => {
+        const mod = await import('@tanstack/react-query-devtools');
+        return { default: mod.ReactQueryDevtools };
+      })
+    : null;
 
 function App() {
   return (
@@ -26,7 +34,11 @@ function App() {
             </BrowserRouter>
           </AuthProvider>
         </UserProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {ReactQueryDevtools ? (
+          <React.Suspense fallback={null}>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </React.Suspense>
+        ) : null}
       </QueryClientProvider>
     </HelmetProvider>
   );
