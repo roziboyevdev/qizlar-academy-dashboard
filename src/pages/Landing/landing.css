@@ -8,7 +8,7 @@
 
 /* ── CSS DESIGN TOKENS ── */
 :root {
-  --rose-50:  #fff1f5;
+  --rose-50: #fff1f5;
   --rose-100: #ffe4ed;
   --rose-200: #ffb8ce;
   --rose-400: #f4477e;
@@ -25,15 +25,15 @@
 
   --white: #ffffff;
 
-  --radius-sm:  8px;
-  --radius-md:  14px;
-  --radius-lg:  22px;
-  --radius-xl:  32px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
 
-  --shadow-rose-sm:  0 4px 16px rgba(232, 48, 125, 0.22);
-  --shadow-rose-md:  0 8px 32px rgba(232, 48, 125, 0.30);
-  --shadow-rose-lg:  0 16px 56px rgba(232, 48, 125, 0.35);
+  --shadow-rose-sm: 0 4px 16px rgba(232, 48, 125, 0.22);
+  --shadow-rose-md: 0 8px 32px rgba(232, 48, 125, 0.30);
+  --shadow-rose-lg: 0 16px 56px rgba(232, 48, 125, 0.35);
   --shadow-black-sm: 0 4px 16px rgba(18, 7, 26, 0.08);
   --shadow-black-md: 0 10px 40px rgba(18, 7, 26, 0.12);
 
@@ -240,9 +240,18 @@
   transition: all var(--transition-smooth);
 }
 
-.burger-btn.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.burger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.burger-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.burger-btn.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.burger-btn.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burger-btn.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
 
 /* ══════════════════════════════════════════
    HERO SECTION
@@ -285,9 +294,19 @@
 }
 
 @keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(18px, -28px) scale(1.04); }
-  66%       { transform: translate(-12px, 15px) scale(0.97); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(18px, -28px) scale(1.04);
+  }
+
+  66% {
+    transform: translate(-12px, 15px) scale(0.97);
+  }
 }
 
 .hero-inner {
@@ -325,9 +344,20 @@
 }
 
 @keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(232, 48, 125, 0.4); opacity: 1; }
-  70%  { box-shadow: 0 0 0 8px rgba(232, 48, 125, 0); opacity: 0.8; }
-  100% { box-shadow: 0 0 0 0 rgba(232, 48, 125, 0); opacity: 1; }
+  0% {
+    box-shadow: 0 0 0 0 rgba(232, 48, 125, 0.4);
+    opacity: 1;
+  }
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(232, 48, 125, 0);
+    opacity: 0.8;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(232, 48, 125, 0);
+    opacity: 1;
+  }
 }
 
 .hero-title {
@@ -395,10 +425,12 @@
   border: 2.5px solid var(--white);
   margin-left: -10px;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.trust-avatars img:first-child { margin-left: 0; }
+.trust-avatars img:first-child {
+  margin-left: 0;
+}
 
 .trust-text {
   font-size: 13px;
@@ -563,8 +595,15 @@
 }
 
 @keyframes floatBadge {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-9px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
 }
 
 .hero-glow {
@@ -600,8 +639,17 @@
 }
 
 @keyframes scrollBounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50%       { transform: translateY(14px); opacity: 0.25; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(14px);
+    opacity: 0.25;
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -694,7 +742,9 @@
 .courses-section::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(232, 48, 125, 0.2), transparent);
 }
@@ -913,10 +963,26 @@
 }
 
 /* Bento positions (desktop) */
-.course-card.bento-it     { grid-column: 1 / span 8; grid-row: 1; }
-.course-card.bento-design { grid-column: 9 / span 4; grid-row: 1; padding: 38px; }
-.course-card.bento-business { grid-column: 1 / span 4; grid-row: 2; }
-.course-card.bento-growth { grid-column: 5 / span 8; grid-row: 2; }
+.course-card.bento-it {
+  grid-column: 1 / span 8;
+  grid-row: 1;
+}
+
+.course-card.bento-design {
+  grid-column: 9 / span 4;
+  grid-row: 1;
+  padding: 38px;
+}
+
+.course-card.bento-business {
+  grid-column: 1 / span 4;
+  grid-row: 2;
+}
+
+.course-card.bento-growth {
+  grid-column: 5 / span 8;
+  grid-row: 2;
+}
 
 .course-card.bento-it .course-title,
 .course-card.bento-growth .course-title {
@@ -945,7 +1011,9 @@
 .advantages-section::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(232, 48, 125, 0.15), transparent);
 }
@@ -1010,7 +1078,9 @@
   color: rgba(255, 255, 255, 0.95);
 }
 
-.adv-icon-svg { display: block; }
+.adv-icon-svg {
+  display: block;
+}
 
 .adv-title {
   font-family: 'Outfit', 'Inter', sans-serif;
@@ -1040,7 +1110,9 @@
 .testimonials-section::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(232, 48, 125, 0.15), transparent);
 }
@@ -1064,7 +1136,9 @@
 .testimonial-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--rose-500), var(--rose-400));
   opacity: 0;
@@ -1183,8 +1257,13 @@
 }
 
 @keyframes scrollPartners {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1408,6 +1487,7 @@
     opacity: 0;
     transform: translateY(28px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1419,6 +1499,7 @@
     opacity: 0;
     transform: translateX(48px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -1435,17 +1516,26 @@
     text-align: center;
   }
 
-  .hero-buttons { justify-content: center; }
-  .hero-trust   { justify-content: center; }
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-trust {
+    justify-content: center;
+  }
 
   .hero-desc {
     margin-left: auto;
     margin-right: auto;
   }
 
-  .hero-image-wrapper { order: -1; }
+  .hero-image-wrapper {
+    order: -1;
+  }
 
-  .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+  .advantages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -1462,7 +1552,9 @@
     z-index: 999;
   }
 
-  .landing-nav.open { display: flex; }
+  .landing-nav.open {
+    display: flex;
+  }
 
   .landing-nav a {
     font-size: 26px;
@@ -1482,25 +1574,56 @@
     padding-top: 20px;
   }
 
-  .hero-image-wrapper { order: -1; }
+  .hero-image-wrapper {
+    order: -1;
+  }
 
-  .hero-slideshow { height: clamp(300px, 52vh, 420px); }
+  .hero-slideshow {
+    height: clamp(300px, 52vh, 420px);
+  }
 
-  .badge-top-right  { right: 10px; top: 16px; }
-  .badge-bottom-left { left: 10px; }
+  .badge-top-right {
+    right: 10px;
+    top: 16px;
+  }
 
-  .hero-buttons    { justify-content: center; }
-  .store-badges    { justify-content: center; }
-  .hero-trust      { justify-content: center; }
+  .badge-bottom-left {
+    left: 10px;
+  }
 
-  .store-badge-img { width: 200px; height: 58px; }
+  .hero-buttons {
+    justify-content: center;
+  }
 
-  .hero-desc { margin: 0 auto 32px; }
+  .store-badges {
+    justify-content: center;
+  }
 
-  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 0; }
-  .stat-card  { padding: 24px 16px; }
+  .hero-trust {
+    justify-content: center;
+  }
 
-  .courses-grid { grid-template-columns: 1fr; }
+  .store-badge-img {
+    width: 200px;
+    height: 58px;
+  }
+
+  .hero-desc {
+    margin: 0 auto 32px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .stat-card {
+    padding: 24px 16px;
+  }
+
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
 
   .course-card.bento-it,
   .course-card.bento-design,
@@ -1510,7 +1633,9 @@
     grid-row: auto;
   }
 
-  .course-card { padding: 28px; }
+  .course-card {
+    padding: 28px;
+  }
 
   .course-card.bento-it .course-title,
   .course-card.bento-growth .course-title {
@@ -1522,16 +1647,38 @@
     font-size: 14px;
   }
 
-  .testimonials-grid { grid-template-columns: 1fr; }
-  .advantages-grid   { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
 
-  .footer-inner        { flex-direction: column; gap: 32px; }
-  .footer-links        { gap: 32px; }
+  .advantages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-links {
+    gap: 32px;
+  }
 }
 
 @media (max-width: 480px) {
-  .stats-grid { grid-template-columns: 1fr; }
-  .stat-card::after { display: none; }
-  .advantages-grid { grid-template-columns: 1fr; }
-  .landing-container { padding: 0 18px; }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card::after {
+    display: none;
+  }
+
+  .advantages-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-container {
+    padding: 0 18px;
+  }
 }
