@@ -24,7 +24,7 @@ interface IProps {
 }
 
 const routePermissions: { [key: string]: UserRole[] } = {
-  '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
+  '/dashboard': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
   '/puzzles': [UserRole.SUPER_ADMIN],
@@ -57,7 +57,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
     {
       title: 'Statistika',
       icon: BarChart,
-      link: '/',
+      link: '/dashboard',
     },
     {
       groupId: 'courses',
@@ -146,7 +146,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
     >
       <header className="z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 p-2 overflow-hidden">
         <Link
-          to="/"
+          to="/dashboard"
           className={`flex h-11 items-center gap-2 px-3 text-foreground transition-all duration-300 ${isSideNavOpen ? 'justify-start' : 'justify-center'}`}
         >
           <div className="flex items-center gap-2 shrink-0">

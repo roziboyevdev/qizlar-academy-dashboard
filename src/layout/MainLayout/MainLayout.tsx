@@ -1,12 +1,13 @@
-import { ReactElement, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import Header from '../Header';
 import SideNav from '../SideNav';
-import { useRoutes } from 'react-router-dom';
+import { Outlet, useRoutes } from 'react-router-dom';
 import createBreadcrumbs from 'components/Breadcrumb';
 import { Seo } from 'components/Seo';
 
 interface IProps {
-  children: ReactElement;
+  /** Marshrutlar `Outlet` orqali — yoki (masalan, /courses) aniq sahifa */
+  children?: ReactNode;
 }
 
 const MainLayout = ({ children }: IProps) => {
@@ -26,7 +27,7 @@ const MainLayout = ({ children }: IProps) => {
         <div className="flex justify-center">
           <div className="max-w-7xl w-full p-5 space-y-4 bg-background animate-in fade-in duration-500">
             {breadcrumbs}
-            {children}
+            {children ?? <Outlet />}
           </div>
         </div>
       </div>

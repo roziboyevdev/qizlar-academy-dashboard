@@ -62,15 +62,15 @@ export const useSignIn = () => {
       if (data.role == UserRole.NOTIFICATION_ADMIN) {
         navigate('/notifications');
       } else if (data.role == UserRole.STATISTICS_ADMIN) {
-        navigate('/');
+        navigate('/dashboard');
       } else if (data.role == UserRole.COURSE_ADMIN) {
         navigate('/courses');
       } else if (data.role == UserRole.SHOP_ADMIN) {
         navigate('/orders');
       } else if (data.role == UserRole.SUPER_ADMIN) {
-        navigate('/');
+        navigate('/dashboard');
       } else {
-        navigate('/');
+        navigate('/dashboard');
       }
     },
     onError: (error: any) => {

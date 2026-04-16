@@ -15,6 +15,10 @@ export default function createBreadcrumbs() {
       element: <Breadcrumbs text="Bosh sahifa" />,
       children: [
         {
+          path: 'dashboard',
+          element: <Breadcrumbs text="Statistika" />,
+        },
+        {
           path: 'courses',
           element: <Breadcrumbs text="Kurslar" />,
           children: [

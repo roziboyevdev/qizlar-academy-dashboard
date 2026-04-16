@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useContext } from 'react';
-import { Routes as DOMRoutes, Route, Navigate } from 'react-router-dom';
+import { Routes as DOMRoutes, Route, Navigate, Outlet } from 'react-router-dom';
 import MainLayout from 'layout/MainLayout';
 import AuthLayout from 'layout/AuthLayout';
 import { Toaster } from 'components/ui/toaster';
@@ -39,7 +39,7 @@ const CourseComments = lazy(() => import('pages/courses-comments'));
 const SkillsPage = lazy(() => import('pages/Skills'));
 
 const routePermissions: { [key: string]: UserRole[] } = {
-  '/': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
+  '/dashboard': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
   '/courses/:courseId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
@@ -64,7 +64,7 @@ const routePermissions: { [key: string]: UserRole[] } = {
 };
 
 const routes = [
-  { path: '/', element: <HomePage /> },
+  { path: '/dashboard', element: <HomePage /> },
   { path: '/teachers', element: <TeachersPage /> },
   { path: '/courses', element: <CoursesPage /> },
   { path: '/courses/:courseId', element: <ModulesPage /> },
@@ -90,6 +90,57 @@ const routes = [
   { path: '/skills', element: <SkillsPage /> },
 ];
 
+function RequireAuth() {
+  const { isAuthenticated } = useContext(AuthContext);
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return <Outlet />;
+}
+
+function LoginRoute() {
+  const { isAuthenticated } = useContext(AuthContext);
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return (
+    <AuthLayout>
+      <AuthPage />
+    </AuthLayout>
+  );
+}
+
+function CoursesPublicOrAdmin() {
+  const { isAuthenticated } = useContext(AuthContext);
+  if (!isAuthenticated) {
+    return <LandingPage />;
+  }
+  return (
+    <MainLayout>
+      <CoursesPage />
+    </MainLayout>
+  );
+}
+
+function NotFoundRoute() {
+  const { isAuthenticated } = useContext(AuthContext);
+  const { userData } = useContext(UserContext);
+  if (!isAuthenticated) {
+    return <LandingPage />;
+  }
+  const role = userData?.role;
+  if (role === UserRole.NOTIFICATION_ADMIN) {
+    return <Navigate to="/notifications" replace />;
+  }
+  if (role === UserRole.COURSE_ADMIN || role === UserRole.TOP_30_ADMIN) {
+    return <Navigate to="/courses" replace />;
+  }
+  if (role === UserRole.SHOP_ADMIN) {
+    return <Navigate to="/orders" replace />;
+  }
+  return <Navigate to="/dashboard" replace />;
+}
+
 export const Routes = () => {
   const { isLoading } = useRefreshToken();
   const { isAuthenticated } = useContext(AuthContext);
@@ -101,39 +152,33 @@ export const Routes = () => {
     return routes.filter((route) => routePermissions[route.path]?.includes(userData.role));
   };
 
+  const adminRoutesToRender = (isAuthenticated ? getFilteredRoutes() : routes).filter(
+    (route) => route.path !== '/courses'
+  );
+
   return (
     <>
       <Suspense fallback={<Loader />}>
-        {isLoading ? null : isAuthenticated ? (
-          <MainLayout>
-            <DOMRoutes>
-              <Route path="/" element={<HomePage />} />
-
-              {getFilteredRoutes()
-                .filter((route) => route.path !== '/')
-                .map((route) => (
-                  <Route path={route.path} element={route.element} key={route.path} />
-                ))}
-
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </DOMRoutes>
-          </MainLayout>
+        {isLoading ? null : isAuthenticated && !userData?.role ? (
+          <Loader />
         ) : (
           <DOMRoutes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<LandingPage />} />
-            <Route path="/courses" element={<LandingPage />} />
+            <Route path="/courses" element={<CoursesPublicOrAdmin />} />
             <Route path="/advantages" element={<LandingPage />} />
             <Route path="/testimonials" element={<LandingPage />} />
-            <Route
-              path="/login"
-              element={
-                <AuthLayout>
-                  <AuthPage />
-                </AuthLayout>
-              }
-            />
-            <Route path="*" element={<LandingPage />} />
+            <Route path="/login" element={<LoginRoute />} />
+
+            <Route element={<RequireAuth />}>
+              <Route element={<MainLayout />}>
+                {adminRoutesToRender.map((route) => (
+                  <Route path={route.path} element={route.element} key={route.path} />
+                ))}
+              </Route>
+            </Route>
+
+            <Route path="*" element={<NotFoundRoute />} />
           </DOMRoutes>
         )}
       </Suspense>
