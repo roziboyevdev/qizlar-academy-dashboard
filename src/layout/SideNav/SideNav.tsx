@@ -166,7 +166,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
                 <Button
                   variant="ghost"
                   onClick={() => toggleGroup(item.groupId)}
-                  className={`w-full ${isSideNavOpen ? 'justify-between' : 'justify-center'} text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-xl mb-1`}
+                  className={`w-full ${isSideNavOpen ? 'justify-between' : 'justify-center'} text-muted-foreground hover:text-foreground hover:bg-muted/70 dark:hover:bg-white/5 rounded-xl mb-1`}
                 >
                   <div className="flex items-center">
                     <item.icon className="size-5 stroke-[1.5px]" />
@@ -183,7 +183,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
                   expandedGroups[item.groupId] && isSideNavOpen ? "grid-rows-[1fr] opacity-100 mt-1" : "grid-rows-[0fr] opacity-0 pointer-events-none"
                 )}>
                   <div className="overflow-hidden">
-                    <div className="ml-[25px] border-l border-white/10 flex flex-col gap-1 py-1">
+                    <div className="ml-[25px] border-l border-border/70 flex flex-col gap-1 py-1">
                       {item.items.map((subItem: any, subIndex: number) => (
                         <NavLink
                           to={subItem.link}
@@ -196,7 +196,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
                           }
                         >
                           <Button variant="ghost" className="w-full justify-start py-0 h-9 bg-transparent hover:bg-transparent relative text-inherit">
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 border-t border-white/10" />
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 border-t border-border/70" />
                             <span className="pl-6 font-normal tracking-wide">{subItem.title}</span>
                           </Button>
                         </NavLink>
@@ -210,9 +210,11 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
                 to={item.link}
                 className={({ isActive }) =>
                   cn(
-                    { 
-                      'bg-[#1c222b] border-white/[0.08] text-foreground shadow-[0_4px_20px_-10px_rgba(232,48,125,0.2)]': isActive, 
-                      'border-transparent text-muted-foreground hover:bg-white/5 hover:text-foreground': !isActive 
+                    {
+                      'bg-muted/90 border-border text-foreground shadow-sm ring-1 ring-primary/10 dark:bg-[#1c222b] dark:border-white/[0.08] dark:shadow-[0_4px_20px_-10px_rgba(232,48,125,0.2)] dark:ring-0':
+                        isActive,
+                      'border-transparent text-muted-foreground hover:bg-muted/70 hover:text-foreground dark:hover:bg-white/5':
+                        !isActive,
                     }, 
                     'rounded-xl block relative border transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) mb-1.5 active:scale-[0.97] group'
                   )

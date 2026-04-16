@@ -9,7 +9,7 @@ export default function Overview() {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card className="rounded-2xl border-white/5 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
+      <Card className="rounded-2xl border-border/80 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Foydalanuvchilar</CardTitle>
           <div className="p-2 bg-primary/10 rounded-full">
@@ -26,7 +26,7 @@ export default function Overview() {
         </CardContent>
       </Card>
       
-      <Card className="rounded-2xl border-white/5 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
+      <Card className="rounded-2xl border-border/80 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Kursni boshlaganlar</CardTitle>
           <div className="p-2 bg-primary/10 rounded-full">
@@ -43,7 +43,7 @@ export default function Overview() {
         </CardContent>
       </Card>
 
-      <Card className="rounded-2xl border-white/5 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
+      <Card className="rounded-2xl border-border/80 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Kursni tugatganlar</CardTitle>
           <div className="p-2 bg-orange-500/10 rounded-full">
@@ -60,7 +60,7 @@ export default function Overview() {
         </CardContent>
       </Card>
 
-      <Card className="rounded-2xl border-white/5 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
+      <Card className="rounded-2xl border-border/80 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Videolar</CardTitle>
           <div className="p-2 bg-primary/10 rounded-full">

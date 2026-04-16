@@ -40,7 +40,7 @@ export const createDataColumns = ({
         <img
           src={src}
           alt=""
-          className="w-16 h-16 rounded-lg bg-black/20 object-contain border border-white/5"
+          className="w-16 h-16 rounded-lg bg-muted object-contain border border-border"
           loading="lazy"
         />
       );

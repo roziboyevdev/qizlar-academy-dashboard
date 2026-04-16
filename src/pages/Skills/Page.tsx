@@ -46,7 +46,7 @@ const SkillsPage = () => {
           </span>
         </div>
 
-        <div className="bg-card/30 backdrop-blur-sm border border-white/5 rounded-[2rem] p-8 transition-all duration-500 hover:border-white/10 shadow-2xl shadow-black/20">
+        <div className="bg-card/30 backdrop-blur-sm border border-border rounded-[2rem] p-8 transition-all duration-500 hover:border-border shadow-lg shadow-black/5 dark:shadow-black/20">
           {isLoading ? (
             <div className="flex justify-center py-20">
               <Loader />
@@ -63,14 +63,14 @@ const SkillsPage = () => {
                     >
                       <Badge 
                         variant="secondary"
-                        className="group pl-5 pr-2 py-2.5 text-sm bg-white/[0.03] hover:bg-white/[0.08] border-white/10 hover:border-primary/40 rounded-2xl transition-all duration-300 gap-3 shadow-lg hover:shadow-primary/5 active:scale-95 select-none"
+                        className="group pl-5 pr-2 py-2.5 text-sm bg-muted/50 hover:bg-muted dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border-border hover:border-primary/40 rounded-2xl transition-all duration-300 gap-3 shadow-sm hover:shadow-md active:scale-95 select-none"
                       >
                         <span className="font-medium tracking-wide text-foreground/90 group-hover:text-foreground italic-none">
                           {skill.name}
                         </span>
                         <button 
                           onClick={() => handleDeleteClick(skill)}
-                          className="p-1.5 rounded-xl bg-white/5 group-hover:bg-destructive/10 text-muted-foreground group-hover:text-destructive transition-all duration-300"
+                          className="p-1.5 rounded-xl bg-muted/80 group-hover:bg-destructive/10 text-muted-foreground group-hover:text-destructive transition-all duration-300 dark:bg-white/5"
                         >
                           <X size={14} strokeWidth={2.5} />
                         </button>
@@ -78,7 +78,7 @@ const SkillsPage = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="flex flex-col items-center justify-center w-full py-12 gap-3 text-muted-foreground/60 border-2 border-dashed border-white/5 rounded-[1.5rem]">
+                  <div className="flex flex-col items-center justify-center w-full py-12 gap-3 text-muted-foreground/60 border-2 border-dashed border-border rounded-[1.5rem]">
                     <Sparkles className="size-8 opacity-20" />
                     <p className="text-sm font-medium">Hali hech qanday skill qo'shilmagan</p>
                   </div>
@@ -86,7 +86,7 @@ const SkillsPage = () => {
               </div>
 
               {skillsData?.paginationInfo && skillsData.paginationInfo.pageCount > 1 && (
-                <div className="pt-6 border-t border-white/5">
+                <div className="pt-6 border-t border-border">
                   <Pagination 
                     className="justify-end" 
                     currentPage={currentPage} 

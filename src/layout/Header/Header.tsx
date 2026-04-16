@@ -2,6 +2,7 @@ import { PanelLeftClose, PanelRightClose } from 'lucide-react';
 
 import { Button } from 'components/ui/button';
 import ProfileDropdown from 'components/layout/ProfileDropdown';
+import ModeToggle from 'components/layout/ModeToggle/ModeToggle';
 import { LogoWithName } from 'components/BrandLogo';
 
 interface IProps {
@@ -27,7 +28,8 @@ const Header = ({ setSideNavOpen, isSideNavOpen }: IProps) => {
             </div>
           ) : null}
         </div>
-        <div className="flex shrink-0 items-center gap-x-3">
+        <div className="flex shrink-0 items-center gap-x-2 sm:gap-x-3">
+          <ModeToggle />
           <ProfileDropdown />
         </div>
       </div>

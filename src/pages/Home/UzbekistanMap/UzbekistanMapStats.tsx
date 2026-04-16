@@ -6,6 +6,7 @@ import { useStatsByDistrict } from 'modules/statistics/hooks/useStatsByDistrict'
 import type { IAreaStat, AreaSortBy } from 'modules/statistics/types';
 import regionPaths from './regionPaths';
 import { Users, BookOpen, Award, GraduationCap, ArrowLeft, MapPin } from 'lucide-react';
+import { useTheme } from 'providers/ThemeProvider';
 
 const SORT_OPTIONS: { value: AreaSortBy; label: string }[] = [
   { value: 'profiles', label: 'Profillar' },
@@ -14,26 +15,35 @@ const SORT_OPTIONS: { value: AreaSortBy; label: string }[] = [
   { value: 'certifiedUsers', label: 'Sertifikatlangan' },
 ];
 
-/**
- * Primary color: #E8307D  hsl(335, 80%, 55%)
- * Gradient: background (eng kam) -> yorqin primary (eng ko'p)
- * sqrt scale ishlatiladi - kichik farqlarni ham ko'rsatish uchun
- */
-const LEGEND_COLORS = [
+/** Primary: #E8307D — sqrt scale; qorong‘u / yorug‘ palitralar alohida */
+const LEGEND_COLORS_DARK = [
   '#1a1015', '#2d1525', '#4a1838', '#6b1e4d',
   '#8e2562', '#b52c73', '#d4327a', '#E8307D',
 ];
 
-const getHeatColor = (value: number, max: number): string => {
-  if (max === 0 || value === 0) return '#1a1015';
-  // sqrt scale - kichik qiymatlar ham ajralib turadi
+const LEGEND_COLORS_LIGHT = [
+  '#f5ecef', '#efd6df', '#e8bcc9', '#de9db4',
+  '#d1799c', '#c85586', '#cc3576', '#E8307D',
+];
+
+const getHeatColor = (value: number, max: number, isDark: boolean): string => {
+  if (max === 0 || value === 0) return isDark ? '#1a1015' : '#f5ecef';
   const ratio = Math.sqrt(value / max);
-  if (ratio < 0.15) return '#2d1525';
-  if (ratio < 0.3) return '#4a1838';
-  if (ratio < 0.4) return '#6b1e4d';
-  if (ratio < 0.5) return '#8e2562';
-  if (ratio < 0.65) return '#b52c73';
-  if (ratio < 0.8) return '#d4327a';
+  if (isDark) {
+    if (ratio < 0.15) return '#2d1525';
+    if (ratio < 0.3) return '#4a1838';
+    if (ratio < 0.4) return '#6b1e4d';
+    if (ratio < 0.5) return '#8e2562';
+    if (ratio < 0.65) return '#b52c73';
+    if (ratio < 0.8) return '#d4327a';
+    return '#E8307D';
+  }
+  if (ratio < 0.15) return '#efd6df';
+  if (ratio < 0.3) return '#e8bcc9';
+  if (ratio < 0.4) return '#de9db4';
+  if (ratio < 0.5) return '#d1799c';
+  if (ratio < 0.65) return '#c85586';
+  if (ratio < 0.8) return '#cc3576';
   return '#E8307D';
 };
 
@@ -54,6 +64,16 @@ function StatCard({ icon: Icon, label, value, color }: { icon: typeof Users; lab
 }
 
 export default function UzbekistanMapStats() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  const legendColors = isDark ? LEGEND_COLORS_DARK : LEGEND_COLORS_LIGHT;
+  const mapStrokeMuted = isDark ? 'rgba(232,48,125,0.25)' : 'rgba(232,48,125,0.4)';
+  const mapLabelFill = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(15,23,42,0.88)';
+  const mapLabelShadow = isDark ? '0 1px 3px rgba(0,0,0,0.6)' : '0 1px 2px rgba(255,255,255,0.95)';
+  const barGradient = isDark
+    ? 'linear-gradient(90deg, #8e2562, #E8307D)'
+    : 'linear-gradient(90deg, #d1799c, #E8307D)';
+
   const [sortBy, setSortBy] = useState<AreaSortBy>('profiles');
   const [selectedRegion, setSelectedRegion] = useState<IAreaStat | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<number | null>(null);
@@ -164,7 +184,7 @@ export default function UzbekistanMapStats() {
                       key={rp.id}
                       d={rp.path}
                       fill="url(#shimmer-grad)"
-                      stroke="rgba(232,48,125,0.15)"
+                      stroke={isDark ? 'rgba(232,48,125,0.15)' : 'rgba(232,48,125,0.28)'}
                       strokeWidth="0.8"
                       strokeLinejoin="round"
                     />
@@ -213,8 +233,8 @@ export default function UzbekistanMapStats() {
                       <path
                         key={rp.id}
                         d={rp.path}
-                        fill={getHeatColor(val, maxValue)}
-                        stroke={isHovered ? '#E8307D' : 'rgba(232,48,125,0.25)'}
+                        fill={getHeatColor(val, maxValue, isDark)}
+                        stroke={isHovered ? '#E8307D' : mapStrokeMuted}
                         strokeWidth={isHovered ? 2.5 : 0.8}
                         strokeLinejoin="round"
                         className="cursor-pointer"
@@ -243,11 +263,11 @@ export default function UzbekistanMapStats() {
                         y={rp.cy}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        fill="rgba(255,255,255,0.85)"
+                        fill={mapLabelFill}
                         fontSize={rp.name === 'Sirdaryo' ? '7' : '9'}
                         fontWeight="700"
                         className="pointer-events-none select-none"
-                        style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}
+                        style={{ textShadow: mapLabelShadow }}
                       >
                         {formatNumber(val)}
                       </text>
@@ -284,7 +304,7 @@ export default function UzbekistanMapStats() {
                 {/* Legend */}
                 <div className="flex items-center gap-1 mt-3 justify-center">
                   <span className="text-[10px] text-muted-foreground mr-1.5">Kam</span>
-                  {LEGEND_COLORS.map((c, i) => (
+                  {legendColors.map((c, i) => (
                     <div
                       key={i}
                       className="w-8 h-3 first:rounded-l-full last:rounded-r-full"
@@ -338,7 +358,7 @@ export default function UzbekistanMapStats() {
                                   className="h-full rounded-full transition-all duration-300"
                                   style={{
                                     width: `${barWidth}%`,
-                                    background: 'linear-gradient(90deg, #8e2562, #E8307D)',
+                                    background: barGradient,
                                   }}
                                 />
                               </div>

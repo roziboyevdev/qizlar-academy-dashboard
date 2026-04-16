@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useTheme } from 'providers/ThemeProvider';
 import { DateRange } from 'react-day-picker';
 import { useNewUsers } from 'modules/statistics/hooks/useNewUsers';
 import { DailyData } from 'modules/statistics/types';
@@ -8,6 +9,8 @@ import Chart from './Chart';
 import { getDefaultDateRange } from 'utils/defaultDateRange';
 
 export default function NewUsersChart() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   const [date, setDate] = useState<DateRange | undefined>(getDefaultDateRange());
   const validDate = date?.from && date.to ? date : getDefaultDateRange();
@@ -29,7 +32,7 @@ export default function NewUsersChart() {
         fontFamily: 'Inter, sans-serif',
       },
       theme: {
-        mode: 'dark',
+        mode: isDark ? 'dark' : 'light',
       },
       colors: ['#E8307D'],
       fill: {
@@ -60,34 +63,34 @@ export default function NewUsersChart() {
       xaxis: {
         categories: newUsers?.map((item: DailyData) => item.date) ?? [],
         labels: {
-          style: { colors: '#94a3b8' }
+          style: { colors: isDark ? '#94a3b8' : '#64748b' }
         },
         axisBorder: { show: false },
         axisTicks: { show: false },
         crosshairs: {
           stroke: {
-            color: 'rgba(255,255,255,0.1)'
+            color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(15,23,42,0.08)'
           }
         },
       },
       yaxis: {
         labels: {
-          style: { colors: '#94a3b8' }
+          style: { colors: isDark ? '#94a3b8' : '#64748b' }
         }
       },
       grid: {
-        borderColor: 'rgba(255,255,255,0.05)',
+        borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.06)',
         strokeDashArray: 4,
       },
       tooltip: {
-        theme: 'dark'
+        theme: isDark ? 'dark' : 'light'
       }
     };
-  }, [newUsers]);
+  }, [newUsers, isDark]);
 
 
   return (
-    <Card className="col-span-4 rounded-2xl border-white/5 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
+    <Card className="col-span-4 rounded-2xl border-border/80 bg-card shadow-lg hover:border-primary/20 transition-all duration-300">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="space-y-1">

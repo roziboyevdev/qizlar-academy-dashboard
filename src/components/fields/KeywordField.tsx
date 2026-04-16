@@ -128,7 +128,7 @@ export default function KeywordField({ placeholder, required, name, label, sugge
                       key={s}
                       type="button"
                       onClick={() => addKeyword(s)}
-                      className="px-2 py-0.5 text-[11px] rounded-md bg-white/5 border border-white/10 text-muted-foreground hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-all"
+                      className="px-2 py-0.5 text-[11px] rounded-md bg-muted/70 border border-border text-muted-foreground hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-all"
                     >
                       + {s}
                     </button>

@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/logo_only.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#faf7f9" />
   <meta name="color-scheme" content="light dark" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -26,9 +26,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      try {
+        var k = 'ui-theme';
+        var t = localStorage.getItem(k);
+        var resolved = 'light';
+        if (t === 'dark') resolved = 'dark';
+        else if (t === 'light') resolved = 'light';
+        else if (t === 'system')
+          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(resolved);
+      } catch (e) {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
 </head>
 
-<body class="dark:bg-slate-950">
+<body>
   <noscript>
     <h1>Qizlar Akademiyasi</h1>
     <p>

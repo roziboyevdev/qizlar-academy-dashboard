@@ -79,7 +79,7 @@ const OrdersPage = () => {
         <h1 className="text-2xl font-bold">Buyurtmalar (admin)</h1>
       </div>
 
-      <div className="mb-4 p-4 border border-white/5 rounded-2xl bg-card shadow-lg">
+      <div className="mb-4 p-4 border border-border rounded-2xl bg-card shadow-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div>
             <label className="text-sm font-medium mb-1 block text-muted-foreground">Status</label>

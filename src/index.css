@@ -4,8 +4,42 @@
 
 @layer base {
   :root {
-    /* SevenTeen Finance Panel matching theme - Enforced Dark Mode */
-    --background: 220 30% 6%; /* #0b0e14 */
+    /* Light — iliq kulrang fon, brend rozasi */
+    --background: 320 20% 98%;
+    --foreground: 224 47% 11%;
+
+    --muted: 320 14% 95%;
+    --muted-foreground: 220 9% 45%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 47% 11%;
+
+    --border: 320 12% 88%;
+    --input: 320 10% 86%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 47% 11%;
+
+    --primary: 335 80% 52%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 320 16% 93%;
+    --secondary-foreground: 224 40% 18%;
+
+    --accent: 335 40% 96%;
+    --accent-foreground: 335 75% 38%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --ring: 335 80% 52%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Dark — SevenTeen / panel qorong‘i rejimi */
+    --background: 220 30% 6%;
     --foreground: 210 40% 98%;
 
     --muted: 222 23% 11%;
@@ -14,27 +48,25 @@
     --popover: 222 23% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --border: 220 20% 15%; /* #1e222a border base */
+    --border: 220 20% 15%;
     --input: 220 20% 15%;
 
-    --card: 222 23% 11%; /* #161a23 */
+    --card: 222 23% 11%;
     --card-foreground: 210 40% 98%;
 
-    --primary: 335 80% 55%; /* #E8307D */
+    --primary: 335 80% 55%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 32% 17%;
     --secondary-foreground: 210 40% 98%;
 
-    --accent: 335 80% 55%; 
+    --accent: 335 80% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 63% 40%;
     --destructive-foreground: 210 40% 98%;
 
     --ring: 335 80% 55%;
-
-    --radius: 0.75rem; /* slightly softer rounds */
   }
 
   * {
@@ -76,12 +108,21 @@
   min-height: 70px !important;
 }
 
-/* Autofill styling */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #161a23 inset !important;
-    -webkit-text-fill-color: #f8fafc !important;
-    transition: background-color 5000s ease-in-out 0s;
+/* Autofill — rejimga mos */
+html.light input:-webkit-autofill,
+html.light input:-webkit-autofill:hover,
+html.light input:-webkit-autofill:focus,
+html.light input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px hsl(var(--card)) inset !important;
+  -webkit-text-fill-color: hsl(var(--card-foreground)) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus,
+html.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px hsl(var(--card)) inset !important;
+  -webkit-text-fill-color: hsl(var(--card-foreground)) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
