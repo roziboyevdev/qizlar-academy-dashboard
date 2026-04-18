@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useContext } from 'react';
-import { Routes as DOMRoutes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Routes as DOMRoutes, Route, Navigate, Outlet, useParams } from 'react-router-dom';
 import MainLayout from 'layout/MainLayout';
 import AuthLayout from 'layout/AuthLayout';
 import { Toaster } from 'components/ui/toaster';
@@ -122,6 +122,34 @@ function CoursesPublicOrAdmin() {
   );
 }
 
+function CourseDeepLinkOrAdmin() {
+  const { isAuthenticated } = useContext(AuthContext);
+  const { userData } = useContext(UserContext);
+  const { courseId } = useParams();
+
+  // Marketing deep-linklar (UUID) har doim landingni ochishi kerak.
+  const isUuidCourseLink = !!courseId && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(courseId);
+  if (isUuidCourseLink) {
+    return <LandingPage />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const role = userData?.role;
+  const canAccessCourseModules = !!role && routePermissions['/courses/:courseId']?.includes(role);
+  if (!canAccessCourseModules) {
+    return <NotFoundRoute />;
+  }
+
+  return (
+    <MainLayout>
+      <ModulesPage />
+    </MainLayout>
+  );
+}
+
 function NotFoundRoute() {
   const { isAuthenticated } = useContext(AuthContext);
   const { userData } = useContext(UserContext);
@@ -153,7 +181,7 @@ export const Routes = () => {
   };
 
   const adminRoutesToRender = (isAuthenticated ? getFilteredRoutes() : routes).filter(
-    (route) => route.path !== '/courses'
+    (route) => route.path !== '/courses' && route.path !== '/courses/:courseId'
   );
 
   return (
@@ -166,8 +194,10 @@ export const Routes = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<LandingPage />} />
             <Route path="/courses" element={<CoursesPublicOrAdmin />} />
+            <Route path="/courses/:courseId" element={<CourseDeepLinkOrAdmin />} />
             <Route path="/advantages" element={<LandingPage />} />
             <Route path="/testimonials" element={<LandingPage />} />
+            <Route path="/register" element={<LandingPage />} />
             <Route path="/login" element={<LoginRoute />} />
 
             <Route element={<RequireAuth />}>
