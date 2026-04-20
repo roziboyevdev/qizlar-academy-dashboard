@@ -11,6 +11,11 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: '/logo_only.svg',
+    shortcut: '/logo_only.svg',
+    apple: '/logo_only.svg',
+  },
   title: {
     default: title,
     template: `%s | ${siteName}`,
