@@ -1,46 +1,44 @@
-# Getting Started with Create React App
+# Lending Girls Dashboard (Next.js)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bu loyiha `Next.js App Router` ga ko'chirilgan. Mavjud React Router ilova `src/legacy` va `src/legacy-pages` ichida ishlaydi.
 
-## Available Scripts
+## Ishga tushirish
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev
+```
 
-### `npm start`
+App default holatda `http://localhost:3000` da ochiladi.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Build
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+npm run build
+npm run start
+```
 
-### `npm test`
+## SEO konfiguratsiyasi
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Global metadata: `src/app/layout.tsx`
+- Robots: `src/app/robots.ts`
+- Sitemap: `src/app/sitemap.ts`
+- Canonical URL uchun env: `NEXT_PUBLIC_SITE_URL`
 
-### `npm run build`
+## Environment variablelar
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Yangi nomlashda `NEXT_PUBLIC_*` ishlatiladi. Orqaga moslik uchun eski `REACT_APP_*` ham qo'llab-quvvatlanadi.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `NEXT_PUBLIC_API_BASE_URL`
+- `NEXT_PUBLIC_UPLOAD_URL`
+- `NEXT_PUBLIC_IMAGE_URL`
+- `NEXT_PUBLIC_SITE_URL`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## GitHub push
 
-### `npm run eject`
+Clone lokal manbadan olingani uchun `origin` remotingizni GitHub URL ga almashtiring:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+git remote set-url origin <YOUR_GITHUB_REPO_URL>
+git push -u origin main
+```

@@ -9,45 +9,45 @@ import { AuthContext } from 'providers/auth';
 import { UserContext } from 'providers/UserProvider';
 import { UserRole } from 'modules/auth/types';
 
-const AuthPage = lazy(() => import('pages/Auth'));
-const LandingPage = lazy(() => import('pages/Landing'));
-const HomePage = lazy(() => import('pages/Home'));
-const CoursesPage = lazy(() => import('pages/Courses'));
-const ModulesPage = lazy(() => import('pages/Modules'));
-const LessonsPage = lazy(() => import('pages/Lessons'));
-const PuzzlesPage = lazy(() => import('pages/Puzzles'));
-const NotificationsPage = lazy(() => import('pages/Notifications'));
-const LastExam = lazy(() => import('pages/LastExam'));
-const BannerPage = lazy(() => import('pages/Banner/Page'));
-const CategoryPage = lazy(() => import('pages/Category/Page'));
-const ProductPage = lazy(() => import('pages/Product/Page'));
-const UsersCertificatesPage = lazy(() => import('pages/UsersCertificates/Page'));
-const VacancyPage = lazy(() => import('pages/Vacancy'));
-const TeachersPage = lazy(() => import('pages/Teachers/Page'));
-const NewQuizPage = lazy(() => import('pages/NewQuiz'));
-const PromocodePage = lazy(() => import('pages/Promocode'));
-const OrdersPage = lazy(() => import('pages/Orders/Page'));
-const CourseInfluencerPage = lazy(() => import('pages/CourseInfluencer/Page'));
-const MarketPromocodePage = lazy(() => import('pages/MarketPromocode/Page'));
-const StoryV2Page = lazy(() => import('pages/StoryV2/Page'));
-const BattleQuestionPage = lazy(() => import('pages/BattleQuestion'));
-const MarketTasksPage = lazy(() => import('pages/MarketTasks/Page'));
+const AuthPage = lazy(() => import('legacy-pages/Auth'));
+const LandingPage = lazy(() => import('legacy-pages/Landing'));
+const HomePage = lazy(() => import('legacy-pages/Home'));
+const CoursesPage = lazy(() => import('legacy-pages/Courses'));
+const ModulesPage = lazy(() => import('legacy-pages/Modules'));
+const LessonsPage = lazy(() => import('legacy-pages/Lessons'));
+const PuzzlesPage = lazy(() => import('legacy-pages/Puzzles'));
+const NotificationsPage = lazy(() => import('legacy-pages/Notifications'));
+const LastExam = lazy(() => import('legacy-pages/LastExam'));
+const BannerPage = lazy(() => import('legacy-pages/Banner/Page'));
+const CategoryPage = lazy(() => import('legacy-pages/Category/Page'));
+const ProductPage = lazy(() => import('legacy-pages/Product/Page'));
+const UsersCertificatesPage = lazy(() => import('legacy-pages/UsersCertificates/Page'));
+const VacancyPage = lazy(() => import('legacy-pages/Vacancy'));
+const TeachersPage = lazy(() => import('legacy-pages/Teachers/Page'));
+const NewQuizPage = lazy(() => import('legacy-pages/NewQuiz'));
+const PromocodePage = lazy(() => import('legacy-pages/Promocode'));
+const OrdersPage = lazy(() => import('legacy-pages/Orders/Page'));
+const CourseInfluencerPage = lazy(() => import('legacy-pages/CourseInfluencer/Page'));
+const MarketPromocodePage = lazy(() => import('legacy-pages/MarketPromocode/Page'));
+const StoryV2Page = lazy(() => import('legacy-pages/StoryV2/Page'));
+const BattleQuestionPage = lazy(() => import('legacy-pages/BattleQuestion'));
+const MarketTasksPage = lazy(() => import('legacy-pages/MarketTasks/Page'));
 const UsersHalfComplitedCoursesPage = lazy(
-  () => import('pages/StatisticsHalfCompleteCourse/Page')
+  () => import('legacy-pages/StatisticsHalfCompleteCourse/Page')
 );
-const CourseComments = lazy(() => import('pages/courses-comments'));
-const SkillsPage = lazy(() => import('pages/Skills'));
+const CourseComments = lazy(() => import('legacy-pages/courses-comments'));
+const SkillsPage = lazy(() => import('legacy-pages/Skills'));
 
 const routePermissions: { [key: string]: UserRole[] } = {
   '/dashboard': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
-  '/courses/:courseId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/kurslar': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
+  '/kurslar/:courseId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/exam/:lessonId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/battle-question/:lessonId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/courses/:courseId/:moduleId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/courses/:courseId/influencer': [UserRole.SUPER_ADMIN, UserRole.TOP_30_ADMIN],
-  '/courses/:courseId/:moduleId/:lessonId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/kurslar/:courseId/:moduleId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
+  '/kurslar/:courseId/influencer': [UserRole.SUPER_ADMIN, UserRole.TOP_30_ADMIN],
+  '/kurslar/:courseId/:moduleId/:lessonId': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
   '/puzzles': [UserRole.SUPER_ADMIN],
   '/notifications': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
@@ -66,14 +66,14 @@ const routePermissions: { [key: string]: UserRole[] } = {
 const routes = [
   { path: '/dashboard', element: <HomePage /> },
   { path: '/teachers', element: <TeachersPage /> },
-  { path: '/courses', element: <CoursesPage /> },
-  { path: '/courses/:courseId', element: <ModulesPage /> },
+  { path: '/kurslar', element: <CoursesPage /> },
+  { path: '/kurslar/:courseId', element: <ModulesPage /> },
   { path: '/exam/:lessonId', element: <LastExam /> },
   { path: '/battle-question/:lessonId', element: <BattleQuestionPage /> },
-  { path: '/courses/:courseId/:moduleId', element: <LessonsPage /> },
-  { path: '/courses/:courseId/comments', element: <CourseComments /> },
-  { path: '/courses/:courseId/influencer', element: <CourseInfluencerPage /> },
-  { path: '/courses/:courseId/:moduleId/:lessonId', element: <NewQuizPage /> },
+  { path: '/kurslar/:courseId/:moduleId', element: <LessonsPage /> },
+  { path: '/kurslar/:courseId/comments', element: <CourseComments /> },
+  { path: '/kurslar/:courseId/influencer', element: <CourseInfluencerPage /> },
+  { path: '/kurslar/:courseId/:moduleId/:lessonId', element: <NewQuizPage /> },
   { path: '/puzzles', element: <PuzzlesPage /> },
   { path: '/notifications', element: <NotificationsPage /> },
   { path: '/story', element: <StoryV2Page /> },
@@ -138,7 +138,7 @@ function CourseDeepLinkOrAdmin() {
   }
 
   const role = userData?.role;
-  const canAccessCourseModules = !!role && routePermissions['/courses/:courseId']?.includes(role);
+  const canAccessCourseModules = !!role && routePermissions['/kurslar/:courseId']?.includes(role);
   if (!canAccessCourseModules) {
     return <NotFoundRoute />;
   }
@@ -161,7 +161,7 @@ function NotFoundRoute() {
     return <Navigate to="/notifications" replace />;
   }
   if (role === UserRole.COURSE_ADMIN || role === UserRole.TOP_30_ADMIN) {
-    return <Navigate to="/courses" replace />;
+    return <Navigate to="/kurslar" replace />;
   }
   if (role === UserRole.SHOP_ADMIN) {
     return <Navigate to="/orders" replace />;
@@ -181,7 +181,7 @@ export const Routes = () => {
   };
 
   const adminRoutesToRender = (isAuthenticated ? getFilteredRoutes() : routes).filter(
-    (route) => route.path !== '/courses' && route.path !== '/courses/:courseId'
+    (route) => route.path !== '/kurslar' && route.path !== '/kurslar/:courseId'
   );
 
   return (
@@ -193,8 +193,8 @@ export const Routes = () => {
           <DOMRoutes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<LandingPage />} />
-            <Route path="/courses" element={<CoursesPublicOrAdmin />} />
-            <Route path="/courses/:courseId" element={<CourseDeepLinkOrAdmin />} />
+            <Route path="/kurslar" element={<CoursesPublicOrAdmin />} />
+            <Route path="/kurslar/:courseId" element={<CourseDeepLinkOrAdmin />} />
             <Route path="/advantages" element={<LandingPage />} />
             <Route path="/testimonials" element={<LandingPage />} />
             <Route path="/register" element={<LandingPage />} />

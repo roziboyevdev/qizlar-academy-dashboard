@@ -172,7 +172,7 @@ const Courses = () => {
             data={coursesList}
             navigateTable
             customNavigationUrl={(row) => {
-              const baseUrl = `/courses/${row.id}`;
+              const baseUrl = `/kurslar/${row.id}`;
               const params = new URLSearchParams();
               params.append('type', row.pricingType);
               return `${baseUrl}?${params.toString()}`;

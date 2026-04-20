@@ -6,7 +6,7 @@ import createBreadcrumbs from 'components/Breadcrumb';
 import { Seo } from 'components/Seo';
 
 interface IProps {
-  /** Marshrutlar `Outlet` orqali — yoki (masalan, /courses) aniq sahifa */
+  /** Marshrutlar `Outlet` orqali — yoki (masalan, /kurslar) aniq sahifa */
   children?: ReactNode;
 }
 

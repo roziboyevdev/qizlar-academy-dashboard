@@ -48,7 +48,7 @@ const LandingPage: React.FC = () => {
   const isCanonicalLanding = pathname === '/' || pathname === '';
   const sectionLandingMap: Record<string, string> = {
     '/about': 'about',
-    '/courses': 'courses',
+    '/kurslar': 'courses',
     '/advantages': 'advantages',
     '/testimonials': 'testimonials',
   };
@@ -107,7 +107,7 @@ const LandingPage: React.FC = () => {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // SEO uchun bo‘limlarni alohida URL qilish: /about, /courses, ...
+  // SEO uchun bo‘limlarni alohida URL qilish: /about, /kurslar, ...
   // Kirilganda mos section’ga skroll qiladi.
   useEffect(() => {
     const sectionId = sectionLandingMap[pathname];
@@ -360,7 +360,7 @@ const LandingPage: React.FC = () => {
         title={
           isCanonicalLanding
             ? "Qizlar Akademiyasi — qizlar uchun onlayn ta'lim, kurslar va sertifikatlar"
-            : pathname === '/courses'
+            : pathname === '/kurslar'
               ? "Kurslar — Qizlar Akademiyasi"
               : pathname === '/about'
                 ? "Biz haqimizda — Qizlar Akademiyasi"
@@ -400,11 +400,11 @@ const LandingPage: React.FC = () => {
               Biz haqimizda
             </a>
             <a
-              href="/courses"
+              href="/kurslar"
               onClick={(e) => {
                 e.preventDefault();
                 setIsMenuOpen(false);
-                window.history.pushState({}, '', '/courses');
+                window.history.pushState({}, '', '/kurslar');
                 scrollToSection('courses');
               }}
             >

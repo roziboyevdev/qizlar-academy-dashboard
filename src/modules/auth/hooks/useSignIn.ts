@@ -64,7 +64,7 @@ export const useSignIn = () => {
       } else if (data.role == UserRole.STATISTICS_ADMIN) {
         navigate('/dashboard');
       } else if (data.role == UserRole.COURSE_ADMIN) {
-        navigate('/courses');
+        navigate('/kurslar');
       } else if (data.role == UserRole.SHOP_ADMIN) {
         navigate('/orders');
       } else if (data.role == UserRole.SUPER_ADMIN) {

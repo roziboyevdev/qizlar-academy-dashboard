@@ -19,7 +19,7 @@ export default function createBreadcrumbs() {
           element: <Breadcrumbs text="Statistika" />,
         },
         {
-          path: 'courses',
+          path: 'kurslar',
           element: <Breadcrumbs text="Kurslar" />,
           children: [
             {

@@ -26,7 +26,7 @@ interface IProps {
 const routePermissions: { [key: string]: UserRole[] } = {
   '/dashboard': [UserRole.SUPER_ADMIN, UserRole.STATISTICS_ADMIN, UserRole.CALL_CENTER],
   '/teachers': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN],
-  '/courses': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
+  '/kurslar': [UserRole.SUPER_ADMIN, UserRole.COURSE_ADMIN, UserRole.TOP_30_ADMIN],
   '/puzzles': [UserRole.SUPER_ADMIN],
   '/notifications': [UserRole.SUPER_ADMIN, UserRole.NOTIFICATION_ADMIN],
   '/story': [UserRole.SUPER_ADMIN, UserRole.SHOP_ADMIN, UserRole.NOTIFICATION_ADMIN],
@@ -65,7 +65,7 @@ const SideNav = ({ isSideNavOpen }: IProps) => {
       icon: BookAudio,
       items: [
         { title: 'Ustozlar', link: '/teachers' },
-        { title: 'Kurslar', link: '/courses' },
+        { title: 'Kurslar', link: '/kurslar' },
       ],
     },
     {

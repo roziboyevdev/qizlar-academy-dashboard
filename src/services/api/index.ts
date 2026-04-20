@@ -21,19 +21,24 @@ const normalizeApiBase = (input?: string): string => {
 
 const defaultApiBase = 'https://back.qizlarakademiyasi.uz/api/v1';
 const defaultR2 = 'https://pub-b6fcb2447c334506b2c5bc5f9b5e969f.r2.dev';
+const apiBaseFromEnv =
+  ENV.NEXT_PUBLIC_API_BASE_URL || ENV.REACT_APP_API_BASE_URL;
+const uploadBaseFromEnv =
+  ENV.NEXT_PUBLIC_UPLOAD_URL || ENV.REACT_APP_UPLOAD_URL;
+const imageBaseFromEnv = ENV.NEXT_PUBLIC_IMAGE_URL || ENV.REACT_APP_IMAGE_URL;
 
 const http = axios.create({
-  baseURL: normalizeApiBase(ENV.REACT_APP_API_BASE_URL) || defaultApiBase,
+  baseURL: normalizeApiBase(apiBaseFromEnv) || defaultApiBase,
 });
 
 /** Yuklash / umumiy fayl yo‘li: avvalo upload base, keyin rasm base. */
 export const baseMediaUrl = stripInvisible(
-  ENV.REACT_APP_UPLOAD_URL || ENV.REACT_APP_IMAGE_URL || defaultR2
+  uploadBaseFromEnv || imageBaseFromEnv || defaultR2
 ).replace(/\/$/, '');
 
 /** Ko‘rsatiladigan rasmlar va media: `REACT_APP_IMAGE_URL` ustuvor. */
 export const baseImageUrl = stripInvisible(
-  ENV.REACT_APP_IMAGE_URL || ENV.REACT_APP_UPLOAD_URL || defaultR2
+  imageBaseFromEnv || uploadBaseFromEnv || defaultR2
 ).replace(/\/$/, '');
 
 http.interceptors.request.use(

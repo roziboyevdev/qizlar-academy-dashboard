@@ -22,7 +22,7 @@ export const columns: ColumnDef<Tournament>[] = [
     header: 'Tahrirlash',
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <Link to={`/courses/${row.getValue('id')}`}>
+        <Link to={`/kurslar/${row.getValue('id')}`}>
           <Button size="icon">
             <Eye className="w-4 h-4" />
           </Button>
