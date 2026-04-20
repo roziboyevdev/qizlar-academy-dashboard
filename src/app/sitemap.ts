@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next';
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lending-girls.vercel.app';
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.qizlarakademiyasi.uz';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ['', '/login', '/dashboard', '/kurslar', '/teachers'];
+  const staticRoutes = ['', '/about', '/kurslar', '/advantages', '/testimonials'];
 
   return staticRoutes.map((route) => ({
     url: `${siteUrl}${route}`,

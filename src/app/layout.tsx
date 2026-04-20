@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import '../index.css';
 
-const siteName = 'Lending Girls';
-const title = `${siteName} Dashboard`;
+const siteName = 'Qizlar Akademiyasi';
+const title = `${siteName} — qizlar uchun onlayn ta'lim platformasi`;
 const description =
-  "Lending Girls platformasi uchun boshqaruv paneli: kurslar, statistikalar, o'qituvchilar va foydalanuvchilar boshqaruvi.";
+  "Qizlar Akademiyasi: qizlar uchun onlayn kurslar, mentorlik va zamonaviy ta'lim yo'nalishlari.";
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lending-girls.vercel.app';
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://qizlarakademiyasi.uz/';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   description,
   applicationName: siteName,
   keywords: [
-    'Lending Girls',
-    'dashboard',
-    'education',
-    'courses',
-    "o'qituvchilar",
-    'statistika',
+    'Qizlar Akademiyasi',
+    'qizlar uchun kurslar',
+    "qizlar uchun onlayn ta'lim",
+    "ayollar uchun kurslar",
+    "o'zbekcha kurslar",
+    'it kurslari',
   ],
   openGraph: {
     title,
