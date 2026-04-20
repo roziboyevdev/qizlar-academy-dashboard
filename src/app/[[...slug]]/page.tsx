@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import LegacyAppShell from 'legacy/LegacyAppShell';
+import LegacyClientShell from './LegacyClientShell';
 
 type Props = {
   params: Promise<{ slug?: string[] }>;
@@ -22,5 +22,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function CatchAllPage() {
-  return <LegacyAppShell />;
+  return <LegacyClientShell />;
 }
