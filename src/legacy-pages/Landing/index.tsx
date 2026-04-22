@@ -9,6 +9,28 @@ import { getSiteUrl } from 'config/site';
 import './landing.css';
 
 const APP_LINK = 'https://onelink.to/4h9hr9';
+const CUSTOM_SCHEME = 'qizlaracademy';
+
+const DEEP_LINK_PATTERNS = [
+  /^\/courses\/[^/]+(\/player|\/review)?$/,
+  /^\/lesson-quiz\/[^/]+$/,
+  /^\/vacancies(\/[^/]+)?$/,
+  /^\/register$/,
+  /^\/sign-in$/,
+  /^\/notification$/,
+  /^\/my-courses$/,
+  /^\/my-certificates$/,
+];
+
+function isDeepLinkablePath(path: string): boolean {
+  return DEEP_LINK_PATTERNS.some((re) => re.test(path));
+}
+
+function buildCustomSchemeUri(): string | null {
+  const { pathname, search } = window.location;
+  if (!isDeepLinkablePath(pathname)) return null;
+  return `${CUSTOM_SCHEME}:/${pathname}${search}`;
+}
 
 function getAppLink(): string {
   const params = new URLSearchParams(window.location.search);
@@ -124,6 +146,15 @@ const LandingPage: React.FC = () => {
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  useEffect(() => {
+    const schemeUri = buildCustomSchemeUri();
+    if (!schemeUri) return;
+    const timeout = setTimeout(() => {
+      window.location.href = schemeUri;
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, []);
 
   // Auto-slideshow: har 3.5 soniyada rasm almashadi
   useEffect(() => {
