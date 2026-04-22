@@ -9,8 +9,16 @@ import { getSiteUrl } from 'config/site';
 import './landing.css';
 
 const APP_LINK = 'https://onelink.to/4h9hr9';
-const openApp = () => window.open(APP_LINK, '_blank');
-const openStore = () => window.open(APP_LINK, '_blank');
+
+function getAppLink(): string {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  if (!ref) return APP_LINK;
+  return `https://www.qizlarakademiyasi.uz/register?ref=${encodeURIComponent(ref)}`;
+}
+
+const openApp = () => window.open(getAppLink(), '_blank');
+const openStore = () => window.open(getAppLink(), '_blank');
 
 // lending_images papkasidagi barcha rasmlar
 const heroImages = [
