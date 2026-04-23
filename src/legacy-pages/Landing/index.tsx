@@ -147,19 +147,14 @@ const LandingPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const deepLinkSchemeUri = useMemo(() => buildCustomSchemeUri(), []);
-  const [appBannerDismissed, setAppBannerDismissed] = useState(false);
-  const showAppBanner = !!deepLinkSchemeUri && !appBannerDismissed;
-
   useEffect(() => {
-    if (!deepLinkSchemeUri) return;
-    const isIOS = /iP(hone|ad|od)/i.test(navigator.userAgent);
-    if (isIOS) return;
+    const schemeUri = buildCustomSchemeUri();
+    if (!schemeUri) return;
     const timeout = setTimeout(() => {
-      window.location.href = deepLinkSchemeUri;
+      window.location.href = schemeUri;
     }, 300);
     return () => clearTimeout(timeout);
-  }, [deepLinkSchemeUri]);
+  }, []);
 
   // Auto-slideshow: har 3.5 soniyada rasm almashadi
   useEffect(() => {
@@ -400,64 +395,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="landing-page">
-      {showAppBanner && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 9999,
-            background: 'linear-gradient(135deg, #6C3AFF 0%, #A855F7 100%)',
-            color: '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            gap: '12px',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
-            <img src="/logo_only.svg" alt="" style={{ width: 32, height: 32, borderRadius: 8, flexShrink: 0 }} />
-            <span style={{ fontSize: 14, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              Ilovada ochish
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-            <a
-              href={deepLinkSchemeUri}
-              style={{
-                background: '#fff',
-                color: '#6C3AFF',
-                padding: '8px 18px',
-                borderRadius: 20,
-                fontWeight: 600,
-                fontSize: 14,
-                textDecoration: 'none',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Ochish
-            </a>
-            <button
-              onClick={() => setAppBannerDismissed(true)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#fff',
-                fontSize: 22,
-                cursor: 'pointer',
-                padding: '0 4px',
-                lineHeight: 1,
-              }}
-              aria-label="Yopish"
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-      )}
       <Seo
         title={
           isCanonicalLanding
