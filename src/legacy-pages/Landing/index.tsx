@@ -1,12 +1,22 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
 import http from 'services/api';
 import { Award, ArrowRight, BriefcaseBusiness, Clock, Code2, MessageCircle, Palette, Sparkles, GraduationCap, Star, type LucideIcon } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Seo } from 'components/Seo';
 import { getSiteUrl } from 'config/site';
 import './landing.css';
+
+import { useMotionProfile } from './components/useMotionProfile';
+import { FadeUp, ScaleIn, RotateIn, StaggerGroup, motionVariants, ParallaxLayer } from './components/MotionPrimitives';
+import { FloatingOrnamentLayer } from './components/FemmeOrnaments';
+import { AmbientCanvas } from './components/AmbientCanvas';
+
+const Hero3DScene = lazy(() =>
+  import('./components/Hero3DScene').then((m) => ({ default: m.Hero3DScene })),
+);
 
 const APP_LINK = 'https://onelink.to/4h9hr9';
 const CUSTOM_SCHEME = 'qizlaracademy';
@@ -86,6 +96,9 @@ const LandingPage: React.FC = () => {
     isCanonicalLanding || Object.prototype.hasOwnProperty.call(sectionLandingMap, pathname);
   const siteUrl = getSiteUrl();
 
+  const reduceMotion = useReducedMotion();
+  const profile = useMotionProfile();
+
   const structuredData = useMemo(() => {
     if (!isIndexableLanding || !siteUrl) return undefined;
     return {
@@ -113,13 +126,12 @@ const LandingPage: React.FC = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [prevSlide, setPrevSlide] = useState<number | null>(null);
   // Two-phase transition: first render next slide "offscreen",
   // then in next frame enable CSS transition to slide it in.
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
   const transitionRafRef = useRef<number | null>(null);
 
@@ -170,33 +182,6 @@ const LandingPage: React.FC = () => {
         window.cancelAnimationFrame(transitionRafRef.current);
         transitionRafRef.current = null;
       }
-    };
-
-    const finishTransitionLater = () => {
-      clearTransitionTimeout();
-      transitionTimeoutRef.current = window.setTimeout(() => {
-        setIsTransitioning(false);
-        setPrevSlide(null);
-        transitionTimeoutRef.current = null;
-      }, 700);
-    };
-
-    const startTransition = (nextIndex: number) => {
-      clearTransitionTimeout();
-      setCurrentSlide((prev) => {
-        if (prev === nextIndex) return prev;
-        setPrevSlide(prev);
-        return nextIndex;
-      });
-      // Pre-state: render next slide at translateX(+)
-      setIsTransitioning(false);
-      clearTransitionRaf();
-      transitionRafRef.current = window.requestAnimationFrame(() => {
-        // Active-state: enable CSS transition
-        setIsTransitioning(true);
-        finishTransitionLater();
-        transitionRafRef.current = null;
-      });
     };
 
     const timer = window.setInterval(() => {
@@ -416,6 +401,11 @@ const LandingPage: React.FC = () => {
         noindex={!isIndexableLanding}
         jsonLd={structuredData}
       />
+
+      {profile.enableParticles && (
+        <AmbientCanvas density={profile.particleDensity} className="ambient-canvas-wrap" />
+      )}
+
       {/* HEADER */}
       <header className={`landing-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="landing-container header-inner">
@@ -494,24 +484,49 @@ const LandingPage: React.FC = () => {
 
       {/* HERO SECTION */}
       <section className="hero-section" ref={heroRef}>
-        <div className="hero-bg-blob blob-1" />
-        <div className="hero-bg-blob blob-2" />
+        <ParallaxLayer offset={60} className="parallax-fill">
+          <div className="hero-bg-blob blob-1" />
+        </ParallaxLayer>
+        <ParallaxLayer offset={-40} className="parallax-fill">
+          <div className="hero-bg-blob blob-2" />
+        </ParallaxLayer>
+
+        {profile.enable3D && (
+          <div className="hero-3d-layer">
+            <Suspense fallback={null}>
+              <Hero3DScene
+                butterflyCount={profile.butterflyCount}
+                crystalCount={profile.crystalCount}
+                petalCount={profile.petalCount}
+              />
+            </Suspense>
+          </div>
+        )}
+
         <div className="landing-container hero-inner">
-          <div className="hero-content">
-            <div className="hero-badge">
+          <motion.div
+            className="hero-content"
+            initial={reduceMotion ? false : 'hidden'}
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+            }}
+          >
+            <motion.div className="hero-badge" variants={motionVariants.fadeUp}>
               <span className="badge-dot" />
               Kelajak sizning qo'lingizda
-            </div>
-            <h1 className="hero-title">
+            </motion.div>
+            <motion.h1 className="hero-title" variants={motionVariants.fadeUp}>
               Kelajak <span className="highlight">ayol</span><br />
               yetakchilarini<br />
               tayyorlaymiz.
-            </h1>
-            <p className="hero-desc">
+            </motion.h1>
+            <motion.p className="hero-desc" variants={motionVariants.fadeUp}>
               O'zbekistondagi eng yirik qizlar ta'lim platformasi. Sifatli kurslar,
               professional mentorlar va kuchli hamjamiyat bilan maqsadingizga erishing.
-            </p>
-            <div className="hero-buttons">
+            </motion.p>
+            <motion.div className="hero-buttons" variants={motionVariants.fadeUp}>
               <button
                 id="hero-cta-btn"
                 className="btn-primary btn-large"
@@ -529,8 +544,8 @@ const LandingPage: React.FC = () => {
               >
                 Batafsil ma'lumot
               </button>
-            </div>
-            <div className="hero-trust">
+            </motion.div>
+            <motion.div className="hero-trust" variants={motionVariants.fadeUp}>
               <div className="trust-avatars">
                 {trustWomenAvatars.map((src, idx) => (
                   <img key={src} src={src} alt={`student ${idx + 1}`} loading="lazy" />
@@ -539,10 +554,16 @@ const LandingPage: React.FC = () => {
               <span className="trust-text">
                 <strong>{overview?.users ? `${overview.users.toLocaleString()}+` : '10,000+'}</strong> muvaffaqiyatli bitiruvchi
               </span>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="hero-image-wrapper">
+          <motion.div
+            className="hero-image-wrapper"
+            initial={reduceMotion ? false : { opacity: 0, x: 60, scale: 0.94 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={reduceMotion ? undefined : { y: -6 }}
+          >
             <div className="hero-image-card">
               {/* Slideshow: lending_images papkasidagi rasmlar */}
               <div className={`hero-slideshow ${isTransitioning ? 'is-transitioning' : ''}`}>
@@ -572,23 +593,35 @@ const LandingPage: React.FC = () => {
                 ))}
               </div>
 
-              <div className="floating-badge badge-top-right">
+              <motion.div
+                className="floating-badge badge-top-right"
+                initial={reduceMotion ? false : { opacity: 0, x: 30, y: -10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={reduceMotion ? undefined : { scale: 1.06, rotate: 2 }}
+              >
                 <Star className="fb-icon" size={22} aria-hidden="true" />
                 <div>
                   <strong>94%</strong>
                   <span>Muvaffaqiyat darajasi</span>
                 </div>
-              </div>
-              <div className="floating-badge badge-bottom-left">
+              </motion.div>
+              <motion.div
+                className="floating-badge badge-bottom-left"
+                initial={reduceMotion ? false : { opacity: 0, x: -30, y: 10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={reduceMotion ? undefined : { scale: 1.06, rotate: -2 }}
+              >
                 <GraduationCap className="fb-icon" size={22} aria-hidden="true" />
                 <div>
                   <strong>Sertifikat</strong>
                   <span>Har bir kursda</span>
                 </div>
-              </div>
+              </motion.div>
             </div>
             <div className="hero-glow" />
-          </div>
+          </motion.div>
         </div>
 
         <div className="hero-scroll-indicator">
@@ -598,32 +631,39 @@ const LandingPage: React.FC = () => {
 
       {/* STATS */}
       <section className="stats-section" id="about">
-        <div className="landing-container stats-grid">
+        <StaggerGroup className="landing-container stats-grid" margin="-40px" staggerChildren={0.14}>
           {stats.map((stat, i) => (
-            <div key={i} className="stat-card">
+            <motion.div
+              key={i}
+              className="stat-card"
+              variants={motionVariants.scaleIn}
+              whileHover={reduceMotion ? undefined : { y: -8, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
               <div className="stat-value">{stat.value}</div>
               <div className="stat-label">{stat.label}</div>
               <div className="stat-line" />
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </StaggerGroup>
       </section>
 
       {/* COURSES */}
       <section className="courses-section" id="courses">
+        <FloatingOrnamentLayer variant="rich" />
         <div className="landing-container">
-          <div className="section-header">
+          <FadeUp className="section-header">
             <p className="section-eyebrow">Nima o'rganmoqchisiz?</p>
             <h2 className="section-title">Saralangan yo'nalishlar</h2>
             <p className="section-desc">
               Sizning qiziqishlaringiz va maqsadlaringizga mos keladigan professional
               yo'nalishlardan birini tanlang.
             </p>
-          </div>
+          </FadeUp>
 
-          <div className="courses-grid">
+          <StaggerGroup className="courses-grid" margin="-60px" staggerChildren={0.13}>
             {courses.map((course, i) => (
-              <div
+              <motion.div
                 key={course.id}
                 className={[
                   'course-card',
@@ -634,6 +674,13 @@ const LandingPage: React.FC = () => {
                   i === 3 ? 'bento bento-growth' : '',
                 ].join(' ')}
                 onClick={openApp}
+                variants={motionVariants.rotateIn}
+                whileHover={
+                  reduceMotion
+                    ? undefined
+                    : { y: -10, rotate: i % 2 === 0 ? 0.4 : -0.4 }
+                }
+                transition={{ type: 'spring', stiffness: 280, damping: 22 }}
               >
                 <div className="course-content">
                   <div className="course-icon" aria-hidden="true">
@@ -659,24 +706,33 @@ const LandingPage: React.FC = () => {
                     </svg>
                   ) : null}
                 </button>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
       {/* ADVANTAGES */}
       <section className="advantages-section" id="advantages">
+        <FloatingOrnamentLayer variant="lavender" />
         <div className="landing-container">
-          <div className="section-header">
+          <FadeUp className="section-header">
             <p className="section-eyebrow">Nima uchun biz?</p>
             <h2 className="section-title">Akademiya afzalliklari</h2>
             <div className="section-underline" />
-          </div>
+          </FadeUp>
 
-          <div className="advantages-grid">
+          <StaggerGroup className="advantages-grid" margin="-50px" staggerChildren={0.1}>
             {advantages.map((adv, i) => (
-              <div key={i} className="adv-card">
+              <motion.div
+                key={i}
+                className="adv-card"
+                variants={motionVariants.scaleIn}
+                whileHover={
+                  reduceMotion ? undefined : { y: -10, rotate: i % 2 === 0 ? -0.5 : 0.5 }
+                }
+                transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+              >
                 <div className="adv-icon-wrap">
                   <span className="adv-icon" aria-hidden="true">
                     {React.createElement(adv.icon as LucideIcon, {
@@ -688,23 +744,32 @@ const LandingPage: React.FC = () => {
                 </div>
                 <h3 className="adv-title">{adv.title}</h3>
                 <p className="adv-desc">{adv.desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
       {/* TESTIMONIALS */}
       <section className="testimonials-section" id="testimonials">
+        <FloatingOrnamentLayer variant="mint" />
         <div className="landing-container">
-          <div className="section-header">
+          <FadeUp className="section-header">
             <p className="section-eyebrow">Bitiruvchilar fikri</p>
             <h2 className="section-title">Kelajak ovozi</h2>
-          </div>
+          </FadeUp>
 
-          <div className="testimonials-grid">
+          <StaggerGroup className="testimonials-grid" margin="-50px" staggerChildren={0.14}>
             {testimonials.map((t, i) => (
-              <div key={i} className="testimonial-card">
+              <motion.div
+                key={i}
+                className="testimonial-card"
+                variants={motionVariants.fadeUp}
+                whileHover={
+                  reduceMotion ? undefined : { y: -10, scale: 1.015 }
+                }
+                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              >
                 <div className="testimonial-stars">
                   {[0, 1, 2, 3, 4].map((j) => (
                     <Star key={j} size={15} fill="#f59e0b" color="#f59e0b" aria-hidden="true" />
@@ -718,16 +783,18 @@ const LandingPage: React.FC = () => {
                     <span className="author-role">{t.role}</span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
       {/* PARTNERS */}
       <section className="partners-section">
         <div className="landing-container">
-          <p className="partners-label">Hamkor kompaniyalar</p>
+          <FadeUp>
+            <p className="partners-label">Hamkor kompaniyalar</p>
+          </FadeUp>
           <div className="partners-track-wrapper">
             <div className="partners-track">
               {partnersMarquee.map((p, i) => (
@@ -742,8 +809,11 @@ const LandingPage: React.FC = () => {
 
       {/* CTA SECTION */}
       <section className="cta-section">
-        <div className="cta-bg-blob" />
-        <div className="landing-container cta-inner">
+        <ParallaxLayer offset={50} className="parallax-fill">
+          <div className="cta-bg-blob" />
+        </ParallaxLayer>
+        <FloatingOrnamentLayer variant="lavender" />
+        <ScaleIn className="landing-container cta-inner" margin="-50px">
           <h2 className="cta-title">Bugun boshlang!</h2>
           <p className="cta-desc">
             10,000+ ayollar allaqachon o'z kelajagini qurishmoqda. Siz ham ularga qo'shiling.
@@ -758,20 +828,20 @@ const LandingPage: React.FC = () => {
           </button>
 
           <div className="store-badges store-badges-on-dark">
-            <button type="button" className="store-badge store-badge-dark" onClick={openStore} aria-label="Get it on Google Play">
-              <img className="store-badge-img" src="/store-badges/google-play-dark.svg" alt="" />
+            <button type="button" className="store-badge store-badge-light" onClick={openStore} aria-label="Get it on Google Play">
+              <img className="store-badge-img" src="/store-badges/google-play-light.svg" alt="" />
             </button>
-            <button type="button" className="store-badge store-badge-dark" onClick={openStore} aria-label="Download on the App Store">
-              <img className="store-badge-img" src="/store-badges/app-store-dark.svg" alt="" />
+            <button type="button" className="store-badge store-badge-light" onClick={openStore} aria-label="Download on the App Store">
+              <img className="store-badge-img" src="/store-badges/app-store-light.svg" alt="" />
             </button>
           </div>
-        </div>
+        </ScaleIn>
       </section>
 
       {/* FOOTER */}
       <footer className="landing-footer">
         <div className="landing-container footer-inner">
-          <div className="footer-brand">
+          <RotateIn className="footer-brand" margin="-30px">
             <a href="#" className="landing-logo">
               <img className="logo-icon-img" src="/logo_only.svg" alt="Qizlar Akademiyasi" />
               <span className="logo-text">
@@ -779,9 +849,9 @@ const LandingPage: React.FC = () => {
               </span>
             </a>
             <p className="footer-tagline">Kelajak ayol yetakchilarini tayyorlaymiz.</p>
-          </div>
+          </RotateIn>
 
-          <div className="footer-links">
+          <FadeUp className="footer-links" margin="-40px">
             <div className="footer-col">
               <h4>Kurslar</h4>
               <a href="#">IT va Dasturlash</a>
@@ -802,7 +872,7 @@ const LandingPage: React.FC = () => {
               <a href="#">Instagram</a>
               <a href="#">info@qizlarakademiyasi.uz</a>
             </div>
-          </div>
+          </FadeUp>
         </div>
 
         <div className="footer-bottom">
