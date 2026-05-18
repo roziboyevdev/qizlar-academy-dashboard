@@ -7,7 +7,13 @@ const LandingPage = lazy(() => import('legacy-pages/Landing'));
 export const Routes = () => {
   return (
     <>
-      <Suspense fallback={<Loader />}>
+      <Suspense
+        fallback={
+          <div className="flex min-h-dvh w-full flex-col items-center justify-center bg-background">
+            <Loader />
+          </div>
+        }
+      >
         <DOMRoutes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<LandingPage />} />

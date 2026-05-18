@@ -218,10 +218,10 @@ const Particle: React.FC<{
         reduce
           ? { opacity: 0.55 }
           : {
-              opacity: [0, 0.85, 0.85, 0],
-              y: [0, -120, -240, -360],
-              scale: [0.6, 1, 1, 0.5],
-            }
+            opacity: [0, 0.85, 0.85, 0],
+            y: [0, -120, -240, -360],
+            scale: [0.6, 1, 1, 0.5],
+          }
       }
       transition={
         reduce
@@ -376,9 +376,9 @@ export const Hero3DScene: React.FC<Hero3DSceneProps> = ({
   const parallaxStyle = reduce
     ? undefined
     : {
-        transform: `translate3d(${parallax.x * 12}px, ${parallax.y * 8}px, 0)`,
-        transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
-      };
+      transform: `translate3d(${parallax.x * 12}px, ${parallax.y * 8}px, 0)`,
+      transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+    };
 
   return (
     <div className="hero-3d-scene" ref={sceneRef}>
@@ -392,20 +392,20 @@ export const Hero3DScene: React.FC<Hero3DSceneProps> = ({
               reduce
                 ? undefined
                 : {
-                    y: [0, -it.drift, 0, it.drift * 0.6, 0],
-                    x: [0, it.drift * 0.4, 0, -it.drift * 0.5, 0],
-                    rotateZ: [0, 6, 0, -4, 0],
-                  }
+                  y: [0, -it.drift, 0, it.drift * 0.6, 0],
+                  x: [0, it.drift * 0.4, 0, -it.drift * 0.5, 0],
+                  rotateZ: [0, 6, 0, -4, 0],
+                }
             }
             transition={
               reduce
                 ? undefined
                 : {
-                    duration: it.floatDur,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: it.floatDelay,
-                  }
+                  duration: it.floatDur,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: it.floatDelay,
+                }
             }
           >
             {it.node}

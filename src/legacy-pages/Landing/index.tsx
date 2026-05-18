@@ -1,9 +1,6 @@
-import React, { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { get } from 'lodash';
-import http from 'services/api';
-import { Award, ArrowRight, BriefcaseBusiness, Clock, Code2, MessageCircle, Palette, Sparkles, GraduationCap, Star, type LucideIcon } from 'lucide-react';
+import { Award, Clock, GraduationCap, MessageCircle, type LucideIcon } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Seo } from 'components/Seo';
 import { getSiteUrl } from 'config/site';
@@ -12,11 +9,15 @@ import './landing.css';
 import { useMotionProfile } from './components/useMotionProfile';
 import { FadeUp, ScaleIn, RotateIn, StaggerGroup, motionVariants, ParallaxLayer } from './components/MotionPrimitives';
 import { FloatingOrnamentLayer } from './components/FemmeOrnaments';
-import { AmbientCanvas } from './components/AmbientCanvas';
-
-const Hero3DScene = lazy(() =>
-  import('./components/Hero3DScene').then((m) => ({ default: m.Hero3DScene })),
-);
+import { LANDING_ASSETS } from './landingAssets';
+import { LANDING_TESTIMONIAL_VIDEOS } from './landingTestimonialVideos';
+import { TestimonialYoutubeEmbed } from './components/TestimonialYoutubeEmbed';
+import {
+  LANDING_TEAM_MEMBERS,
+  landingTeamMemberImageSrc,
+  orderTeamAlternatingGender,
+} from './landingTeamMembers';
+import { formatLandingStatInt, useLandingStats } from './hooks/useLandingStats';
 
 const APP_LINK = 'https://onelink.to/4h9hr9';
 const CUSTOM_SCHEME = 'qizlaracademy';
@@ -52,24 +53,8 @@ function getAppLink(): string {
 const openApp = () => window.open(getAppLink(), '_blank');
 const openStore = () => window.open(getAppLink(), '_blank');
 
-// lending_images papkasidagi barcha rasmlar
-const heroImages = [
-  '/lending_images/teacher_2.jpg',
-  '/lending_images/teacher_3.jpg',
-  '/lending_images/teacher_4.jpg',
-  '/lending_images/teacher_5.jpg',
-  '/lending_images/teacher_6.jpg',
-  '/lending_images/teacher_8.jpg',
-];
-
-// Women-only avatars for "trust" row (avoid random male avatars)
-const trustWomenAvatars = [
-  'https://randomuser.me/api/portraits/women/44.jpg',
-  'https://randomuser.me/api/portraits/women/68.jpg',
-  'https://randomuser.me/api/portraits/women/12.jpg',
-  'https://randomuser.me/api/portraits/women/31.jpg',
-  'https://randomuser.me/api/portraits/women/7.jpg',
-];
+const heroImages = LANDING_ASSETS.heroSlides;
+const trustStudentAvatars = LANDING_ASSETS.trustStudents;
 
 const LANDING_SEO_DESCRIPTION =
   "O'zbekistondagi yirik qizlar onlayn ta'lim platformasi: sifatli kurslar, professional mentorlar, hamjamiyat va rasmiy sertifikatlar. IT, dizayn, biznes va boshqa yo'nalishlar.";
@@ -84,7 +69,7 @@ const LANDING_SEO_KEYWORDS = [
 ];
 
 const LandingPage: React.FC = () => {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const isCanonicalLanding = pathname === '/' || pathname === '';
   const sectionLandingMap: Record<string, string> = {
     '/about': 'about',
@@ -98,6 +83,35 @@ const LandingPage: React.FC = () => {
 
   const reduceMotion = useReducedMotion();
   const profile = useMotionProfile();
+
+  const {
+    studentsCount,
+    coursesCount,
+    specialistsCount,
+    studentsPending,
+    coursesPending,
+    specialistsPending,
+  } = useLandingStats();
+
+  const statRows = useMemo(() => {
+    const cell = (n: number | null, pending: boolean): string => {
+      if (pending && n == null) return '…';
+      if (n != null) return formatLandingStatInt(n);
+      return '—';
+    };
+    return [
+      { key: 'students', value: cell(studentsCount, studentsPending), label: "O'quvchilar" },
+      { key: 'courses', value: cell(coursesCount, coursesPending), label: 'Kurslar soni' },
+      { key: 'specialists', value: cell(specialistsCount, specialistsPending), label: 'Mutaxassislar' },
+    ];
+  }, [
+    studentsCount,
+    coursesCount,
+    specialistsCount,
+    studentsPending,
+    coursesPending,
+    specialistsPending,
+  ]);
 
   const structuredData = useMemo(() => {
     if (!isIndexableLanding || !siteUrl) return undefined;
@@ -124,6 +138,11 @@ const LandingPage: React.FC = () => {
     };
   }, [isIndexableLanding, siteUrl]);
 
+  const appHref = useMemo(() => {
+    if (typeof window === 'undefined') return APP_LINK;
+    return getAppLink();
+  }, [pathname, search]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -134,6 +153,29 @@ const LandingPage: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
   const transitionTimeoutRef = useRef<number | null>(null);
   const transitionRafRef = useRef<number | null>(null);
+  const heroDotsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = heroDotsRef.current;
+    if (!root) return;
+    const active = root.querySelector<HTMLElement>('.slide-dot.active');
+    if (!active) return;
+
+    // scrollIntoView sahifa scrollini ham o‘zgartiradi — pastga tushib videolar bo‘limida
+    // turgan foydalanuvchini tepaga “uchirish” mumkin. Faqat dots lentasini siljitamiz.
+    const rootRect = root.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const delta =
+      activeRect.left + activeRect.width / 2 - (rootRect.left + rootRect.width / 2);
+    const targetLeft = Math.max(
+      0,
+      Math.min(root.scrollLeft + delta, Math.max(0, root.scrollWidth - root.clientWidth)),
+    );
+    root.scrollTo({
+      left: targetLeft,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  }, [currentSlide, reduceMotion]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -236,94 +278,50 @@ const LandingPage: React.FC = () => {
     });
   };
 
-  // ── API: statistika ──
-  const { data: overview } = useQuery({
-    queryKey: ['landing-overview'],
-    queryFn: () => http.get('/statistics/main'),
-    select: (res) => get(res, 'data.data') as { users: number; completedStudents: number; videos: number },
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const { data: coursesData } = useQuery({
-    queryKey: ['landing-courses-count'],
-    queryFn: () => http.get('/course', { params: { pageSize: 1, pageNumber: 1 } }),
-    select: (res) =>
-      (get(res, 'data.data.meta.pagination.count') ??
-        get(res, 'data.meta.pagination.count') ??
-        get(res, 'data.data.pagination.count') ??
-        0) as number,
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const { data: teachersData } = useQuery({
-    queryKey: ['landing-teachers-count'],
-    queryFn: () => http.get('/teacher', { params: { pageSize: 1, pageNumber: 1 } }),
-    select: (res) =>
-      (get(res, 'data.data.meta.pagination.count') ??
-        get(res, 'data.meta.pagination.count') ??
-        get(res, 'data.data.pagination.count') ??
-        0) as number,
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const formatNum = (n?: number) => {
-    if (n === undefined || n === null || Number.isNaN(n)) return '...';
-    if (n <= 0) return '...';
-    if (n >= 1000) return `${(n / 1000).toFixed(0)}K+`;
-    return `${n}+`;
-  };
-
-  const formatCountPlus = (n?: number, fallback = '20+') => {
-    if (n === undefined || n === null || Number.isNaN(n) || n <= 0) return fallback;
-    return `${n}+`;
-  };
-
-  const stats = [
-    { value: formatNum(overview?.users), label: "O'quvchilar" },
-    { value: formatCountPlus(coursesData, '20+'), label: "Kurslar soni" },
-    { value: formatCountPlus(teachersData, '20+'), label: "Mutaxassislar" },
-  ];
-
   const courses = [
     {
       id: 1,
-      icon: Code2,
-      title: 'IT va Dasturlash',
+      iconSrc: LANDING_ASSETS.iconCourseIt,
+      title: 'IT va Media',
       description:
-        "Dasturlash asoslaridan tortib, professional darajagacha: Python, JavaScript, React va boshqa texnologiyalarni o'rganing.",
+        "Zamonaviy texnologiyalar, grafik dizayn va raqamli marketing olamiga qadam qo'ying. Kelajak kasblarini mutaxassislardan o'rganing.",
       cta: "YO'NALISHNI KO'RISH",
       showArrow: true,
       isFeatured: false,
+      bentoClass: 'bento-it',
     },
     {
       id: 2,
-      icon: Palette,
-      title: 'UI/UX Design',
+      iconSrc: LANDING_ASSETS.iconCourseBusiness,
+      title: 'Tadbirkorlik',
       description:
-        "Figma va Adobe XD orqali zamonaviy interfeys dizaynini o'rganing. Real loyihalarda amaliyot.",
-      cta: "BATAFSIL MA'LUMOT",
-      showArrow: false,
+        "O'z biznesingizni noldan boshlash, strategik rejalashtirish va moliyaviy erkinlikka erishish sirlarini egallang.",
+      cta: "YO'NALISHNI KO'RISH",
+      showArrow: true,
       isFeatured: true,
+      bentoClass: 'bento-design',
     },
     {
       id: 3,
-      icon: BriefcaseBusiness,
-      title: 'Biznes',
+      iconSrc: LANDING_ASSETS.iconCourseCraft,
+      title: 'Hunarmandchilik',
       description:
-        "Biznesni boshlash, rivojlantirish va marketing strategiyalarini professional o'qituvchilardan o'rganing.",
-      cta: "O'QUV REJASINI KO'RISH",
-      showArrow: false,
+        "Milliy va zamonaviy hunarmandchilik san'ati orqali o'z ijodingizni daromadga aylantiring va mahoratingizni oshiring.",
+      cta: "YO'NALISHNI KO'RISH",
+      showArrow: true,
       isFeatured: false,
+      bentoClass: 'bento-business',
     },
     {
       id: 4,
-      icon: Sparkles,
-      title: "Shaxsiy rivojlanish",
+      iconSrc: LANDING_ASSETS.iconCourseHealth,
+      title: 'Salomatlik',
       description:
-        "O'z-o'zini boshqarish, liderlik ko'nikmalari va emotional intellekt orqali muvaffaqiyatga erishing.",
-      cta: "O'SISHNI BOSHLASH",
+        "Sog'lom turmush tarzi, psixologiya va ayollar salomatligi bo'yicha bilimga ega bo'lib, hayot sifatini yaxshilang.",
+      cta: "YO'NALISHNI KO'RISH",
       showArrow: true,
       isFeatured: false,
+      bentoClass: 'bento-growth',
     },
   ];
 
@@ -350,26 +348,20 @@ const LandingPage: React.FC = () => {
     },
   ];
 
-  const testimonials = [
-    {
-      avatar: 'https://i.pravatar.cc/100?img=47',
-      name: 'Nilufar S.',
-      role: 'Frontend Developer',
-      text: "Qizlar Akademiyasi mening hayotimni o'zgartirdi. 6 oy ichida IT sohasida ishga kirishga muvaffaq bo'ldim.",
-    },
-    {
-      avatar: 'https://i.pravatar.cc/100?img=48',
-      name: 'Malika T.',
-      role: 'UI/UX Designer',
-      text: "Kurslar juda sifatli va amaliy. Endi o'z dizayn studiyamni ochish rejam bor.",
-    },
-    {
-      avatar: 'https://i.pravatar.cc/100?img=49',
-      name: 'Zulfiya A.',
-      role: 'Business Owner',
-      text: "Biznes kursidan so'ng o'z onlayn do'konimni ochtim. Daromadim 3 baravarga oshdi!",
-    },
-  ];
+  const testimonials = useMemo(
+    () =>
+      LANDING_TESTIMONIAL_VIDEOS.map((v) => ({
+        youtubeId: v.youtubeId,
+        title: v.title,
+        role: 'Bitiruvchi',
+      })),
+    [],
+  );
+
+  const landingTestimonialsMarquee = useMemo(
+    () => (reduceMotion ? testimonials : [...testimonials, ...testimonials]),
+    [reduceMotion, testimonials],
+  );
 
   const partners = [
     { name: 'Yoshlar agentligi', src: '/sponsers/yoshlar_agantligi.svg' },
@@ -377,6 +369,16 @@ const LandingPage: React.FC = () => {
     { name: 'Qizlar ovozi', src: '/sponsers/qizlar_ovozi.svg' },
   ];
   const partnersMarquee = [...partners, ...partners, ...partners, ...partners];
+
+  const landingTeamOrdered = useMemo(
+    () => orderTeamAlternatingGender(LANDING_TEAM_MEMBERS),
+    [],
+  );
+  const landingTeamMarquee = useMemo(
+    () =>
+      reduceMotion ? landingTeamOrdered : [...landingTeamOrdered, ...landingTeamOrdered],
+    [reduceMotion, landingTeamOrdered],
+  );
 
   return (
     <div className="landing-page">
@@ -396,15 +398,11 @@ const LandingPage: React.FC = () => {
         }
         description={LANDING_SEO_DESCRIPTION}
         canonicalPath={isIndexableLanding ? (isCanonicalLanding ? '/' : pathname) : undefined}
-        ogImage={isIndexableLanding ? '/lending_images/teacher_2.jpg' : undefined}
+        ogImage={isIndexableLanding ? LANDING_ASSETS.heroMain : undefined}
         keywords={isIndexableLanding ? LANDING_SEO_KEYWORDS : undefined}
         noindex={!isIndexableLanding}
         jsonLd={structuredData}
       />
-
-      {profile.enableParticles && (
-        <AmbientCanvas density={profile.particleDensity} className="ambient-canvas-wrap" />
-      )}
 
       {/* HEADER */}
       <header className={`landing-header ${scrolled ? 'scrolled' : ''}`}>
@@ -484,25 +482,6 @@ const LandingPage: React.FC = () => {
 
       {/* HERO SECTION */}
       <section className="hero-section" ref={heroRef}>
-        <ParallaxLayer offset={60} className="parallax-fill">
-          <div className="hero-bg-blob blob-1" />
-        </ParallaxLayer>
-        <ParallaxLayer offset={-40} className="parallax-fill">
-          <div className="hero-bg-blob blob-2" />
-        </ParallaxLayer>
-
-        {profile.enable3D && (
-          <div className="hero-3d-layer">
-            <Suspense fallback={null}>
-              <Hero3DScene
-                butterflyCount={profile.butterflyCount}
-                crystalCount={profile.crystalCount}
-                petalCount={profile.petalCount}
-              />
-            </Suspense>
-          </div>
-        )}
-
         <div className="landing-container hero-inner">
           <motion.div
             className="hero-content"
@@ -518,9 +497,7 @@ const LandingPage: React.FC = () => {
               Kelajak sizning qo'lingizda
             </motion.div>
             <motion.h1 className="hero-title" variants={motionVariants.fadeUp}>
-              Kelajak <span className="highlight">ayol</span><br />
-              yetakchilarini<br />
-              tayyorlaymiz.
+              Kelajak <span className="highlight">ayol</span> yetakchilarini tayyorlaymiz.
             </motion.h1>
             <motion.p className="hero-desc" variants={motionVariants.fadeUp}>
               O'zbekistondagi eng yirik qizlar ta'lim platformasi. Sifatli kurslar,
@@ -533,9 +510,7 @@ const LandingPage: React.FC = () => {
                 onClick={openApp}
               >
                 <span>Kurslarni ko'rish</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <img src={LANDING_ASSETS.iconArrowRight} alt="" className="hero-cta-icon" width={20} height={20} />
               </button>
               <button
                 id="hero-more-btn"
@@ -547,12 +522,13 @@ const LandingPage: React.FC = () => {
             </motion.div>
             <motion.div className="hero-trust" variants={motionVariants.fadeUp}>
               <div className="trust-avatars">
-                {trustWomenAvatars.map((src, idx) => (
+                {trustStudentAvatars.map((src, idx) => (
                   <img key={src} src={src} alt={`student ${idx + 1}`} loading="lazy" />
                 ))}
               </div>
               <span className="trust-text">
-                <strong>{overview?.users ? `${overview.users.toLocaleString()}+` : '10,000+'}</strong> muvaffaqiyatli bitiruvchi
+                <span className="trust-stat-gradient">943,719+</span>
+                <span className="trust-stat-muted"> muvaffaqiyatli bitiruvchi</span>
               </span>
             </motion.div>
           </motion.div>
@@ -565,7 +541,7 @@ const LandingPage: React.FC = () => {
             whileHover={reduceMotion ? undefined : { y: -6 }}
           >
             <div className="hero-image-card">
-              {/* Slideshow: lending_images papkasidagi rasmlar */}
+              {/* Slideshow: /public/lending_images/aeroteach-*.jpg (Figma AeroTeach 43:41 @2x) */}
               <div className={`hero-slideshow ${isTransitioning ? 'is-transitioning' : ''}`}>
                 {/* Eski rasm (chiqib ketayotgan) */}
                 {prevSlide !== null && (
@@ -579,46 +555,19 @@ const LandingPage: React.FC = () => {
                   className={`hero-slide slide-next ${(prevSlide === null || isTransitioning) ? 'slide-active' : ''}`}
                   style={{ backgroundImage: `url(${heroImages[currentSlide]})` }}
                 />
-              </div>
 
-              {/* Dot indikatorlari */}
-              <div className="slideshow-dots">
-                {heroImages.map((_, i) => (
-                  <button
-                    key={i}
-                    className={`slide-dot ${i === currentSlide ? 'active' : ''}`}
-                    onClick={() => goToSlide(i)}
-                    aria-label={`Rasm ${i + 1}`}
-                  />
-                ))}
+                <div ref={heroDotsRef} className="slideshow-dots--hero-inner">
+                  {heroImages.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      className={`slide-dot ${i === currentSlide ? 'active' : ''}`}
+                      onClick={() => goToSlide(i)}
+                      aria-label={`Rasm ${i + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
-
-              <motion.div
-                className="floating-badge badge-top-right"
-                initial={reduceMotion ? false : { opacity: 0, x: 30, y: -10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={reduceMotion ? undefined : { scale: 1.06, rotate: 2 }}
-              >
-                <Star className="fb-icon" size={22} aria-hidden="true" />
-                <div>
-                  <strong>94%</strong>
-                  <span>Muvaffaqiyat darajasi</span>
-                </div>
-              </motion.div>
-              <motion.div
-                className="floating-badge badge-bottom-left"
-                initial={reduceMotion ? false : { opacity: 0, x: -30, y: 10 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={reduceMotion ? undefined : { scale: 1.06, rotate: -2 }}
-              >
-                <GraduationCap className="fb-icon" size={22} aria-hidden="true" />
-                <div>
-                  <strong>Sertifikat</strong>
-                  <span>Har bir kursda</span>
-                </div>
-              </motion.div>
             </div>
             <div className="hero-glow" />
           </motion.div>
@@ -632,9 +581,9 @@ const LandingPage: React.FC = () => {
       {/* STATS */}
       <section className="stats-section" id="about">
         <StaggerGroup className="landing-container stats-grid" margin="-40px" staggerChildren={0.14}>
-          {stats.map((stat, i) => (
+          {statRows.map((stat) => (
             <motion.div
-              key={i}
+              key={stat.key}
               className="stat-card"
               variants={motionVariants.scaleIn}
               whileHover={reduceMotion ? undefined : { y: -8, scale: 1.02 }}
@@ -665,14 +614,7 @@ const LandingPage: React.FC = () => {
             {courses.map((course, i) => (
               <motion.div
                 key={course.id}
-                className={[
-                  'course-card',
-                  course.isFeatured ? 'featured' : '',
-                  i === 0 ? 'bento bento-it' : '',
-                  i === 1 ? 'bento bento-design' : '',
-                  i === 2 ? 'bento bento-business' : '',
-                  i === 3 ? 'bento bento-growth' : '',
-                ].join(' ')}
+                className={['course-card', course.isFeatured ? 'featured' : '', 'bento', course.bentoClass].join(' ')}
                 onClick={openApp}
                 variants={motionVariants.rotateIn}
                 whileHover={
@@ -684,11 +626,7 @@ const LandingPage: React.FC = () => {
               >
                 <div className="course-content">
                   <div className="course-icon" aria-hidden="true">
-                    {React.createElement(course.icon as LucideIcon, {
-                      className: 'course-icon-svg',
-                      size: 28,
-                      strokeWidth: 2,
-                    })}
+                    <img src={course.iconSrc} alt="" className="course-icon-img" width={28} height={28} />
                   </div>
                   <h3 className="course-title">{course.title}</h3>
                   <p className="course-desc">{course.description}</p>
@@ -701,9 +639,13 @@ const LandingPage: React.FC = () => {
                 >
                   <span>{course.cta}</span>
                   {course.showArrow ? (
-                    <svg className="course-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M5 12h12M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <img
+                      className={`course-cta-arrow-img ${course.isFeatured ? 'course-cta-arrow-img-light' : ''}`}
+                      src={LANDING_ASSETS.iconArrowSmall}
+                      width={16}
+                      height={16}
+                      alt=""
+                    />
                   ) : null}
                 </button>
               </motion.div>
@@ -716,9 +658,11 @@ const LandingPage: React.FC = () => {
       <section className="advantages-section" id="advantages">
         <FloatingOrnamentLayer variant="lavender" />
         <div className="landing-container">
-          <FadeUp className="section-header">
-            <p className="section-eyebrow">Nima uchun biz?</p>
-            <h2 className="section-title">Akademiya afzalliklari</h2>
+          <FadeUp className="section-header section-header-advantages-figma">
+            <div className="section-heading-logo">
+              <img src="/logo_only.svg" alt="" width={47} height={55} />
+            </div>
+            <h2 className="section-title">Afzalliklari</h2>
             <div className="section-underline" />
           </FadeUp>
 
@@ -756,36 +700,88 @@ const LandingPage: React.FC = () => {
         <div className="landing-container">
           <FadeUp className="section-header">
             <p className="section-eyebrow">Bitiruvchilar fikri</p>
-            <h2 className="section-title">Kelajak ovozi</h2>
+            <h2 className="section-title">0 dan 1 ga natijalar gapirsin</h2>
           </FadeUp>
 
-          <StaggerGroup className="testimonials-grid" margin="-50px" staggerChildren={0.14}>
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                className="testimonial-card"
-                variants={motionVariants.fadeUp}
-                whileHover={
-                  reduceMotion ? undefined : { y: -10, scale: 1.015 }
+          <FadeUp className="testimonials-marquee-fade" margin="-40px">
+            <div
+              className={
+                reduceMotion
+                  ? 'testimonials-track-wrapper testimonials-track-wrapper--scrollable'
+                  : 'testimonials-track-wrapper'
+              }
+            >
+              <div
+                className={
+                  reduceMotion
+                    ? 'testimonials-track testimonials-track--static'
+                    : 'testimonials-track testimonials-track--marquee'
                 }
-                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
               >
-                <div className="testimonial-stars">
-                  {[0, 1, 2, 3, 4].map((j) => (
-                    <Star key={j} size={15} fill="#f59e0b" color="#f59e0b" aria-hidden="true" />
-                  ))}
-                </div>
-                <p className="testimonial-text">"{t.text}"</p>
-                <div className="testimonial-author">
-                  <img src={t.avatar} alt={t.name} className="testimonial-avatar" />
-                  <div>
-                    <strong className="author-name">{t.name}</strong>
-                    <span className="author-role">{t.role}</span>
+                {landingTestimonialsMarquee.map((t, i) => (
+                  <div
+                    key={`${t.youtubeId}-${i}`}
+                    className="testimonial-card testimonial-card-figma testimonial-card--marquee"
+                  >
+                    <TestimonialYoutubeEmbed youtubeId={t.youtubeId} title={t.title} />
+                    <div className="testimonial-author testimonial-author-figma">
+                      <div className="testimonial-author-copy">
+                        <strong className="author-name author-name--video-title">{t.title}</strong>
+                        <span className="author-role">{t.role}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </StaggerGroup>
+                ))}
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* TEAM */}
+      <section className="team-section" id="team">
+        <FloatingOrnamentLayer variant="mint" />
+        <div className="landing-container">
+          <FadeUp className="section-header team-section-header">
+            <p className="section-eyebrow">Bizning Jamoa</p>
+            <div className="team-title-row">
+              <img src={LANDING_ASSETS.teamHeadingIcon} alt="" className="team-title-icon" width={46} height={55} />
+              <h2 className="section-title">Jamoasi</h2>
+            </div>
+          </FadeUp>
+
+          <FadeUp className="team-marquee-fade" margin="-40px">
+            <div
+              className={
+                reduceMotion
+                  ? 'team-track-wrapper team-track-wrapper--scrollable'
+                  : 'team-track-wrapper'
+              }
+            >
+              <div
+                className={
+                  reduceMotion ? 'team-track team-track--static' : 'team-track team-track--marquee'
+                }
+              >
+                {landingTeamMarquee.map((m, i) => (
+                  <article key={`${m.id}-${i}`} className="team-card team-card--strip">
+                    <div className="team-photo-wrap">
+                      <img
+                        src={landingTeamMemberImageSrc(m)}
+                        alt={m.name}
+                        className="team-photo"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="team-meta">
+                      <strong className="team-name">{m.name}</strong>
+                      <span className="team-role">{m.role}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </FadeUp>
         </div>
       </section>
 
@@ -816,7 +812,7 @@ const LandingPage: React.FC = () => {
         <ScaleIn className="landing-container cta-inner" margin="-50px">
           <h2 className="cta-title">Bugun boshlang!</h2>
           <p className="cta-desc">
-            10,000+ ayollar allaqachon o'z kelajagini qurishmoqda. Siz ham ularga qo'shiling.
+            945 000 ayollar allaqachon o'z kelajagini qurishmoqda. Siz ham ularga qo'shiling.
           </p>
           <button
             id="cta-bottom-btn"
@@ -824,7 +820,7 @@ const LandingPage: React.FC = () => {
             onClick={openApp}
           >
             <span>Bepul ro'yxatdan o'tish</span>
-            <ArrowRight size={18} aria-hidden="true" />
+            <img src={LANDING_ASSETS.ctaArrow} alt="" width={18} height={18} />
           </button>
 
           <div className="store-badges store-badges-on-dark">
@@ -842,7 +838,7 @@ const LandingPage: React.FC = () => {
       <footer className="landing-footer">
         <div className="landing-container footer-inner">
           <RotateIn className="footer-brand" margin="-30px">
-            <a href="#" className="landing-logo">
+            <a href={appHref} target="_blank" rel="noopener noreferrer" className="landing-logo">
               <img className="logo-icon-img" src="/logo_only.svg" alt="Qizlar Akademiyasi" />
               <span className="logo-text">
                 Qizlar<span className="logo-accent">Akademiyasi</span>
@@ -854,30 +850,55 @@ const LandingPage: React.FC = () => {
           <FadeUp className="footer-links" margin="-40px">
             <div className="footer-col">
               <h4>Kurslar</h4>
-              <a href="#">IT va Dasturlash</a>
-              <a href="#">UI/UX Design</a>
-              <a href="#">Biznes</a>
-              <a href="#">Shaxsiy rivojlanish</a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                IT va Media
+              </a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Tadbirkorlik
+              </a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Hunarmandchilik
+              </a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Salomatlik
+              </a>
             </div>
             <div className="footer-col">
               <h4>Kompaniya</h4>
-              <a href="#">Biz haqimizda</a>
-              <a href="#">Mentorlar</a>
-              <a href="#">Sertifikatlar</a>
-              <a href="#">Blog</a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Biz haqimizda
+              </a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Mentorlar
+              </a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Sertifikatlar
+              </a>
+              <a href={appHref} target="_blank" rel="noopener noreferrer">
+                Blog
+              </a>
             </div>
-            <div className="footer-col">
+            <div className="footer-col footer-col-social">
               <h4>Aloqa</h4>
-              <a href="#">Telegram</a>
-              <a href="#">Instagram</a>
-              <a href="#">info@qizlarakademiyasi.uz</a>
+              <a className="footer-social-link" href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+                <img src={LANDING_ASSETS.socialYoutube} alt="" width={18} height={18} /> Youtube
+              </a>
+              <a className="footer-social-link" href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                <img src={LANDING_ASSETS.socialInstagram} alt="" width={18} height={18} /> Instagram
+              </a>
+              <a className="footer-social-link" href="https://t.me/" target="_blank" rel="noreferrer">
+                <img src={LANDING_ASSETS.socialTelegram} alt="" width={18} height={18} /> Telegram
+              </a>
+              <a className="footer-social-link" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
+                <img src={LANDING_ASSETS.socialLinkedin} alt="" width={18} height={18} /> Linked In
+              </a>
             </div>
           </FadeUp>
         </div>
 
         <div className="footer-bottom">
           <div className="landing-container footer-bottom-inner">
-            <span>© 2024 Qizlar Akademiyasi. Barcha huquqlar himoyalangan.</span>
+            <span>© 2026 Qizlar Akademiyasi. Barcha huquqlar himoyalangan.</span>
           </div>
         </div>
       </footer>

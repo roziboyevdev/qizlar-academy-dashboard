@@ -68,6 +68,58 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "flower-petal": {
+          "0%, 100%": {
+            transform: "scale(0.2, 0.26) translateY(6px)",
+            opacity: "0.45",
+          },
+          "34%": {
+            transform: "scale(1, 1) translateY(0)",
+            opacity: "1",
+          },
+          "48%": {
+            transform: "scale(1.06, 1.03) translateY(0)",
+            opacity: "1",
+          },
+          "60%": {
+            transform: "scale(0.98, 1) translateY(0)",
+            opacity: "1",
+          },
+          "78%": {
+            transform: "scale(0.32, 0.48) translateY(12px) rotate(16deg)",
+            opacity: "0.58",
+          },
+          "92%": {
+            transform: "scale(0.24, 0.34) translateY(9px) rotate(10deg)",
+            opacity: "0.5",
+          },
+        },
+        "flower-core": {
+          "0%, 100%": {
+            transform: "scale(0.4)",
+            opacity: "0.6",
+          },
+          "34%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+          "48%": {
+            transform: "scale(1.1)",
+            opacity: "1",
+          },
+          "60%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+          "78%": {
+            transform: "scale(0.48)",
+            opacity: "0.62",
+          },
+          "92%": {
+            transform: "scale(0.42)",
+            opacity: "0.6",
+          },
+        },
       },
       fontFamily: {
         'sans': ['Inter', 'sans-serif'],
@@ -75,6 +127,8 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "flower-petal": "flower-petal 3.4s ease-in-out infinite",
+        "flower-core": "flower-core 3.4s ease-in-out infinite",
       },
     },
   },
