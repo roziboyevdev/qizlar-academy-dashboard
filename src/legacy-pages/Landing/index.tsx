@@ -47,7 +47,8 @@ function getAppLink(): string {
   const params = new URLSearchParams(window.location.search);
   const ref = params.get('ref');
   if (!ref) return APP_LINK;
-  return `https://www.qizlarakademiyasi.uz/register?ref=${encodeURIComponent(ref)}`;
+  const separator = APP_LINK.includes('?') ? '&' : '?';
+  return `${APP_LINK}${separator}ref=${encodeURIComponent(ref)}`;
 }
 
 const openApp = () => window.open(getAppLink(), '_blank');
@@ -206,7 +207,7 @@ const LandingPage: React.FC = () => {
     if (!schemeUri) return;
     const timeout = setTimeout(() => {
       window.location.href = schemeUri;
-    }, 300);
+    }, 1);
     return () => clearTimeout(timeout);
   }, []);
 
